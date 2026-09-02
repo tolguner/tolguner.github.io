@@ -123,8 +123,21 @@ export default function Home({ repos, repoCount }: { repos: Repo[]; repoCount?: 
         gsap.to(".journey-line", { scaleX: 1, ease: "none", scrollTrigger: { trigger: sec, start: "top top", end: () => "+=" + dist(), scrub: 1 } });
       });
 
-      // Araştırma büyük sayı
-      gsap.from(".research-big", { scale: 0.8, opacity: 0, duration: 1.2, ease: "expo.out", scrollTrigger: { trigger: ".research-big", start: "top 85%" } });
+      // Araştırma mührü — ekrana damga vurulur gibi
+      if (reduce) {
+        gsap.set(".stamp", { opacity: 1 });
+      } else {
+        gsap.set(".stamp", { opacity: 0 });
+        gsap
+          .timeline({ scrollTrigger: { trigger: ".stamp", start: "top 80%", once: true } })
+          .fromTo(
+            ".stamp",
+            { scale: 2.9, opacity: 0, rotate: -26, filter: "blur(4px)" },
+            { scale: 1.06, opacity: 1, rotate: -7, filter: "blur(0px)", duration: 0.42, ease: "power4.in" }
+          )
+          .to(".stamp", { scale: 1, rotate: -8, duration: 0.2, ease: "power2.out" })
+          .to(".stamp", { rotate: -8.7, duration: 0.07, yoyo: true, repeat: 1 });
+      }
     }, root);
 
     ScrollTrigger.refresh();
@@ -358,11 +371,15 @@ export default function Home({ repos, repoCount }: { repos: Repo[]; repoCount?: 
           <div>
             <p className="text-[12px] font-semibold uppercase tracking-[0.22em] text-[#8fb0ff]" data-reveal>{t.research.kicker}</p>
             <h2 className="font-display mt-5 text-[clamp(1.9rem,4vw,3rem)] font-medium leading-[1.1] tracking-tight text-white" data-reveal>{t.research.headline}</h2>
+            <p className="mt-6 border-l-2 border-[#4f7cff]/50 pl-4 text-[14.5px] italic leading-relaxed text-white/70" data-reveal>“{t.research.quote}”</p>
             <p className="mt-6 text-[16px] leading-relaxed text-white/65" data-reveal>{t.research.text}</p>
             <p className="mt-4 text-[12.5px] text-white/40" data-reveal>{t.research.org}</p>
-            <div className="research-big mt-12 inline-flex flex-col gap-2 rounded-2xl border border-[#4f7cff]/40 bg-[#4f7cff]/[0.07] px-8 py-7">
-              <span className="font-display text-[clamp(2.2rem,5vw,3.4rem)] font-medium leading-none text-white">{t.research.highlight.title}</span>
-              <span className="text-[12.5px] uppercase tracking-[0.2em] text-[#8fb0ff]">{t.research.highlight.label}</span>
+            <div className="mt-14 flex justify-center md:justify-start">
+              <div className="stamp relative inline-flex rotate-[-8deg] flex-col items-center gap-2 rounded-lg border-[3px] border-[#6f9bff]/85 px-9 py-5 text-center">
+                <span aria-hidden className="pointer-events-none absolute inset-[4px] rounded-[5px] border border-[#6f9bff]/55" />
+                <span className="font-display text-[clamp(1.9rem,4.4vw,2.7rem)] font-semibold uppercase leading-none tracking-[0.1em] text-[#9dbcff]">{t.research.highlight.title}</span>
+                <span className="text-[10.5px] font-semibold uppercase tracking-[0.3em] text-[#9dbcff]/80">{t.research.highlight.label}</span>
+              </div>
             </div>
           </div>
           <ol className="grid gap-6 self-center sm:grid-cols-2">
