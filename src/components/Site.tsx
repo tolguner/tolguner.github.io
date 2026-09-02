@@ -129,7 +129,10 @@ export default function Site({ repos }: { repos: Repo[] }) {
       <SectionTitle>{t.sections.communities}</SectionTitle>
       <div className="space-y-3">
         {t.communities.map((c) => (
-          <Row key={c.title} title={<>{c.title} <span className="ml-1.5 text-[13.5px] font-normal text-muted">{c.org}</span></>} right={c.date} />
+          <div key={c.title}>
+            <Row title={<>{c.title} <span className="ml-1.5 text-[13.5px] font-normal text-muted">{c.org}</span></>} right={c.date} />
+            {c.note && <p className="mt-0.5 text-[13.5px] text-ink-soft">{c.note}</p>}
+          </div>
         ))}
       </div>
 
@@ -178,12 +181,13 @@ export default function Site({ repos }: { repos: Repo[] }) {
       {/* Yetkinlikler */}
       <SectionTitle id="skills">{t.sections.skills}</SectionTitle>
       <div className="grid gap-8 sm:grid-cols-2">
-        <div>
-          <div className="flex flex-wrap gap-2">
-            {t.skills.map((s) => (
-              <span key={s} className="rounded border border-line bg-paper-2 px-2.5 py-1 text-[13px] text-ink">{s}</span>
-            ))}
-          </div>
+        <div className="space-y-1.5">
+          {t.skills.map((g) => (
+            <div key={g.label} className="flex gap-3 text-[13.5px] leading-snug">
+              <span className="w-[5.5rem] shrink-0 text-muted">{g.label}</span>
+              <span className="text-ink">{g.items}</span>
+            </div>
+          ))}
         </div>
         <div>
           <div className="mb-2 text-[11px] font-bold uppercase tracking-[0.14em] text-muted">{t.sections.personal}</div>
