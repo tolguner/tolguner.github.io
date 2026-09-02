@@ -37,11 +37,10 @@ export const home: Record<Lang, HomeDict> = {
     ],
     about: {
       title: "Hakkımda",
-      p1: "Işık Üniversitesi Yönetim Bilişim Sistemleri son sınıf öğrencisiyim. Bitirme projemde dokuz mikroservisli bir kampüs platformu kurdum; ekip projelerinde koordinasyonu üstlendim; iki yıl IT&MIS Kulübü'nü yönettim.",
-      p2: "Kurumsal İletişim'de fuar, tören ve mezuniyet organizasyonlarında görevli öğrenci ekibini koordine ettim. Bugün TÜBİTAK 2209-A destekli bir araştırma projesinin yürütücüsüyüm. Kod yazmayı ve insanlarla çalışmayı ayrı işler olarak görmüyorum.",
+      p1: "Işık Üniversitesi Yönetim Bilişim Sistemleri son sınıf öğrencisiyim. Bitirme projemde mikroservis mimarili bütünleşik bir kampüs platformu kurdum; ekip projelerinde koordinasyonu üstlendim; iki yıl IT&MIS Kulübü başkanlığını yürüttüm.",
+      p2: "Kurumsal İletişim Daire Başkanlığı'nda üniversitenin düzenlediği etkinlik, organizasyon ve çalışmalarda görev aldım; görevli öğrenci ekibini koordine ettim. Bugün TÜBİTAK 2209-A destekli bir araştırma projesinin yürütücüsüyüm. Her yeni projede bir öncekinin eksiğini kapatmaya çalışıyorum; sahada öğrendiklerim, kodun kendisi kadar yol gösterici oluyor.",
       facts: [
-        { k: "Eğitim", v: "Işık Üniversitesi · YBS (2022–2026)" },
-        { k: "Odak", v: "Spring Boot · React · veri bilimi" },
+        { k: "Eğitim", v: "Işık Üniversitesi · YBS (2021–2026)" },
         { k: "Şu an", v: "TÜBİTAK 2209-A projesi ve staj dönemi" },
         { k: "Konum", v: "İstanbul / Bursa" },
         { k: "Diller", v: "Türkçe · İngilizce (B2) · Almanca (A1)" },
@@ -128,11 +127,10 @@ export const home: Record<Lang, HomeDict> = {
     ],
     about: {
       title: "About",
-      p1: "Final-year Management Information Systems student at Işık University. For my capstone I built a nine-microservice campus platform; I coordinated team projects; I ran the IT&MIS Club for two years.",
-      p2: "At Corporate Communications I coordinated the student staff team at fairs, ceremonies and graduation. Today I lead a TÜBİTAK 2209-A funded research project. I don't treat writing code and working with people as separate jobs.",
+      p1: "Final-year Management Information Systems student at Işık University. For my capstone I built an integrated campus platform on a microservice architecture; I took on coordination in team projects; I served as president of the IT&MIS Club for two years.",
+      p2: "At the Corporate Communications Directorate I worked on the events, organizations and projects the university runs and coordinated the student staff team. Today I lead a TÜBİTAK 2209-A funded research project. With every new project I try to close the gap the previous one left; what I learn in the field guides me as much as the code itself.",
       facts: [
-        { k: "Education", v: "Işık University · MIS (2022–2026)" },
-        { k: "Focus", v: "Spring Boot · React · data science" },
+        { k: "Education", v: "Işık University · MIS (2021–2026)" },
         { k: "Now", v: "TÜBİTAK 2209-A project and internships" },
         { k: "Location", v: "Istanbul / Bursa, Türkiye" },
         { k: "Languages", v: "Turkish · English (B2) · German (A1)" },
