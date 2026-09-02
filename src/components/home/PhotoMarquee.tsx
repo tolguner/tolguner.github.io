@@ -28,17 +28,17 @@ export default function PhotoMarquee({ photos, lang }: { photos: Photo[]; lang: 
     >
       <ul className="marquee-track flex w-max gap-4" style={{ ["--dur" as string]: `${duration}s` }}>
         {loop.map((p, i) => (
-          <li key={`${p.src}-${i}`} className="shrink-0" aria-hidden={i >= base.length}>
+          <li key={`${p.src}-${i}`} className="w-[clamp(8rem,17.33vh,13.34rem)] shrink-0" aria-hidden={i >= base.length}>
             <figure className="group">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={p.src}
                 alt={(lang === "tr" ? p.tr : p.en) || ""}
                 loading="lazy"
-                className="h-[clamp(6rem,13vh,10rem)] w-auto rounded-xl border border-white/10 object-cover transition group-hover:border-white/30"
+                className="h-[clamp(6rem,13vh,10rem)] w-full rounded-xl border border-white/10 object-cover transition group-hover:border-white/30"
               />
               {(lang === "tr" ? p.tr : p.en) && (
-                <figcaption className="mt-2 max-w-[16rem] text-[11.5px] leading-snug text-white/45 transition group-hover:text-white/70">
+                <figcaption title={(lang === "tr" ? p.tr : p.en) || undefined} className="mt-2 line-clamp-2 text-center text-[11.5px] leading-snug text-white/45 transition group-hover:text-white/70">
                   {lang === "tr" ? p.tr : p.en}
                 </figcaption>
               )}
