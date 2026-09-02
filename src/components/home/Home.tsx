@@ -194,9 +194,8 @@ export default function Home({ repos }: { repos: Repo[] }) {
             <a href="/cv/" className="rounded-full border border-white/20 px-6 py-3 text-[14px] font-semibold text-white transition hover:border-white/50">{t.hero.ctaCv}</a>
           </div>
         </div>
-        <div className="hero-fade absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-[11px] uppercase tracking-[0.25em] text-white/40">
-          <span className="mb-2 block text-center">{t.hero.scroll}</span>
-          <span className="mx-auto block h-9 w-px animate-pulse bg-gradient-to-b from-white/60 to-transparent" />
+        <div aria-hidden className="hero-fade absolute bottom-10 left-1/2 z-10 -translate-x-1/2">
+          <span className="block h-16 w-px animate-pulse bg-gradient-to-b from-white/55 to-transparent" />
         </div>
       </section>
 
