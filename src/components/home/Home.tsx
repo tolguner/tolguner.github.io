@@ -169,11 +169,12 @@ export default function Home({ repos, repoCount }: { repos: Repo[]; repoCount?: 
       <header className="fixed inset-x-0 top-0 z-30 border-b border-white/5 bg-[#070b12]/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
           <a href="#top" className="font-display text-lg font-semibold text-white">Tolga Olguner</a>
-          <nav className="hidden gap-7 text-[13px] text-white/60 md:flex">
+          <nav className="hidden gap-5 text-[12.5px] text-white/60 md:flex lg:gap-7 lg:text-[13px]">
             <a href="#about" className="transition hover:text-white">{t.nav.about}</a>
             <a href="#journey" className="transition hover:text-white">{t.nav.journey}</a>
             <a href="#projects" className="transition hover:text-white">{t.nav.projects}</a>
             <a href="#research" className="transition hover:text-white">{t.nav.research}</a>
+            <a href="#skills" className="transition hover:text-white">{t.nav.skills}</a>
             <a href="#contact" className="transition hover:text-white">{t.nav.contact}</a>
           </nav>
           <div className="flex items-center gap-3">
