@@ -395,17 +395,37 @@ export default function Home({ repos, repoCount }: { repos: Repo[]; repoCount?: 
       </section>
 
       {/* Yetkinlikler */}
-      <section className="mx-auto max-w-6xl px-5 pt-32 sm:px-8">
+      <section id="skills" className="mx-auto max-w-6xl px-5 pt-32 sm:px-8">
         <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.skills.title}</h2>
-        <div className="mt-10 grid gap-10 md:grid-cols-2">
-          {[{ label: t.skills.techLabel, items: t.skills.tech }, { label: t.skills.humanLabel, items: t.skills.human }].map((g) => (
-            <div key={g.label} data-reveal>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#8fb0ff]">{g.label}</div>
-              <div className="mt-4 flex flex-wrap gap-2">
+        <p className="mt-3 max-w-xl text-[15px] text-white/50" data-reveal>{t.skills.sub}</p>
+
+        <div className="mt-12 flex items-center gap-4" data-reveal>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8fb0ff]">{t.skills.techLabel}</span>
+          <span className="h-px flex-1 bg-gradient-to-r from-[#4f7cff]/40 to-transparent" />
+        </div>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {t.skills.groups.map((g) => (
+            <div key={g.label} className="rounded-2xl border border-white/10 bg-[#0b1119] p-5 transition-colors hover:border-white/25" data-reveal>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">{g.label}</div>
+              <div className="mt-3.5 flex flex-wrap gap-1.5">
                 {g.items.map((s) => (
-                  <span key={s} className="rounded-full border border-white/10 px-3.5 py-1.5 text-[13.5px] text-white/80 transition hover:border-[#4f7cff]/60 hover:text-white">{s}</span>
+                  <span key={s} className="rounded-md border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[12.5px] text-white/85">{s}</span>
                 ))}
               </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-14 flex items-center gap-4" data-reveal>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8fb0ff]">{t.skills.humanLabel}</span>
+          <span className="h-px flex-1 bg-gradient-to-r from-[#4f7cff]/40 to-transparent" />
+        </div>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          {t.skills.human.map((s) => (
+            <div key={s.title} className="relative rounded-2xl border border-white/10 p-5 pl-6 transition-colors hover:border-white/25" data-reveal>
+              <span aria-hidden className="absolute left-0 top-5 h-8 w-0.5 rounded-full bg-[#4f7cff]/70" />
+              <div className="text-[15.5px] font-semibold text-white">{s.title}</div>
+              <p className="mt-1.5 text-[13.5px] leading-relaxed text-white/55">{s.text}</p>
             </div>
           ))}
         </div>
