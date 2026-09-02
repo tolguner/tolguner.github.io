@@ -7,7 +7,7 @@ export type Step = { n: string; title: string; text: string };
 
 export type HomeDict = {
   nav: { about: string; journey: string; projects: string; research: string; contact: string; cv: string };
-  hero: { kicker: string; line1: string; line2: string; sub: string; ctaProjects: string; ctaCv: string; scroll: string };
+  hero: { kicker: string; line1: string; line2: string; sub: string; ctaProjects: string; ctaCv: string };
   stats: Stat[];
   about: { title: string; p1: string; p2: string; facts: { k: string; v: string }[]; badges: { k: string; v: string }[] };
   journey: { title: string; sub: string; rangeLabel: string; stops: Stop[] };
@@ -23,12 +23,11 @@ export const home: Record<Lang, HomeDict> = {
     nav: { about: "Hakkımda", journey: "Yolculuk", projects: "Projeler", research: "Araştırma", contact: "İletişim", cv: "CV" },
     hero: {
       kicker: "Yönetim Bilişim Sistemleri · Işık Üniversitesi",
-      line1: "Teknik bilgiyi insanlarla",
-      line2: "buluşturan sistemler kuruyorum.",
-      sub: "Spring Boot ve React ile web uygulamaları geliştiriyorum; TÜBİTAK 2209-A destekli bir araştırma projesini yürütüyorum. Kulüp başkanlığı ve kurumsal etkinlik organizasyonu bana kodun dışında da bir şey öğretti: insanları aynı hedefte tutmak.",
+      line1: "“Bir insan gelişir,",
+      line2: "dünya değişir.”",
+      sub: "Bu vizyonla çıktığım yolculuğu burada paylaşıyorum: Spring Boot ve React ile geliştirdiğim uygulamaları, TÜBİTAK 2209-A destekli araştırmamı ve bir kulübü iki yıl yönetirken öğrendiklerimi. Çünkü bir işi bitiren şey çoğu zaman tek başına teknik çözüm değil, doğru kurulmuş bir ekip oluyor.",
       ctaProjects: "Projelere bak",
       ctaCv: "CV'yi aç",
-      scroll: "Aşağı kaydır",
     },
     stats: [
       { value: 3.43, decimals: 2, label: "Genel not ortalaması / 4" },
@@ -115,12 +114,11 @@ export const home: Record<Lang, HomeDict> = {
     nav: { about: "About", journey: "Journey", projects: "Projects", research: "Research", contact: "Contact", cv: "CV" },
     hero: {
       kicker: "Management Information Systems · Işık University",
-      line1: "I build systems that bring",
-      line2: "technology and people together.",
-      sub: "I develop web applications with Spring Boot and React and lead a TÜBİTAK 2209-A funded research project. Running a student club and organizing corporate events taught me something beyond code: keeping people aligned on one goal.",
+      line1: "“When a person grows,",
+      line2: "the world changes.”",
+      sub: "This is the vision I set out with, and the journey I share here: the applications I build with Spring Boot and React, the TÜBİTAK 2209-A funded research I lead, and what two years of running a student club taught me — that what finishes a job is rarely the technical solution alone, but a team put together well.",
       ctaProjects: "See projects",
       ctaCv: "Open CV",
-      scroll: "Scroll",
     },
     stats: [
       { value: 3.43, decimals: 2, label: "GPA / 4" },
