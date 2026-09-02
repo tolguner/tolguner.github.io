@@ -1,7 +1,7 @@
 import type { Lang } from "@/content";
 
 export type Stat = { value: number; suffix?: string; decimals?: number; label: string };
-export type Stop = { year: string; title: string; text: string; tag: string };
+export type Stop = { year: string; period: string; title: string; text: string; tag: string; details?: string[] };
 export type Card = { title: string; status: string; statusKind: "capstone" | "team" | "research" | "live"; period: string; text: string; tech: string[]; url: string };
 export type Step = { n: string; title: string; text: string };
 
@@ -10,7 +10,7 @@ export type HomeDict = {
   hero: { kicker: string; line1: string; line2: string; sub: string; ctaProjects: string; ctaCv: string; scroll: string };
   stats: Stat[];
   about: { title: string; p1: string; p2: string; facts: { k: string; v: string }[]; badges: { k: string; v: string }[] };
-  journey: { title: string; sub: string; stops: Stop[] };
+  journey: { title: string; sub: string; rangeLabel: string; stops: Stop[] };
   projects: { title: string; sub: string; cards: Card[]; othersTitle: string; othersSub: string };
   research: { title: string; kicker: string; headline: string; text: string; big: { value: number; label: string }; steps: Step[]; org: string };
   skills: { title: string; tech: string[]; human: string[]; techLabel: string; humanLabel: string };
@@ -41,6 +41,7 @@ export const home: Record<Lang, HomeDict> = {
       p1: "Işık Üniversitesi Yönetim Bilişim Sistemleri son sınıf öğrencisiyim. Bitirme projemde dokuz mikroservisli bir kampüs platformu kurdum; ekip projelerinde koordinasyonu üstlendim; iki yıl IT&MIS Kulübü'nü yönettim.",
       p2: "Kurumsal İletişim'de fuar, tören ve mezuniyet organizasyonlarında görevli öğrenci ekibini koordine ettim. Bugün TÜBİTAK 2209-A destekli bir araştırma projesinin yürütücüsüyüm. Kod yazmayı ve insanlarla çalışmayı ayrı işler olarak görmüyorum.",
       facts: [
+        { k: "Eğitim", v: "Işık Üniversitesi · YBS (2022–2026)" },
         { k: "Odak", v: "Spring Boot · React · veri bilimi" },
         { k: "Şu an", v: "TÜBİTAK 2209-A projesi ve staj dönemi" },
         { k: "Konum", v: "İstanbul / Bursa" },
@@ -54,15 +55,19 @@ export const home: Record<Lang, HomeDict> = {
     journey: {
       title: "Yolculuk",
       sub: "2021'den bugüne — kaydırarak ilerle",
+      rangeLabel: "Zaman aralığı",
       stops: [
-        { year: "2021", title: "Işık Üniversitesi", text: "Yönetim Bilişim Sistemleri'ne giriş; bir yıl İngilizce hazırlık.", tag: "Eğitim" },
-        { year: "2024", title: "IT&MIS Kulübü Başkanı", text: "İki yıl boyunca kulübün yönetimi, etkinlik planlaması ve üye koordinasyonu.", tag: "Liderlik" },
-        { year: "2025", title: "Kurumsal İletişim", text: "Çalışma burslu öğrenci: fuar, tören, mezuniyet ve tanıtım günlerinde görevli ekibin koordinasyonu.", tag: "Deneyim" },
-        { year: "2025", title: "Veteriner Yönetim Sistemi", text: "Beş kişilik ekipte proje koordinatörü; Spring Boot REST API ve React arayüzü.", tag: "Ekip projesi" },
-        { year: "2025", title: "Veri bilimi", text: "153 katılımcılı anket verisinde regresyon ve aracılık analizi; 44 sayfalık rapor.", tag: "Araştırma" },
-        { year: "2026", title: "Işık CampusOS", text: "Dokuz mikroservis, Kafka, API Gateway — bitirme projesi.", tag: "Bitirme" },
-        { year: "2026", title: "TÜBİTAK 2209-A", text: "Dijital davranış ve akademik başarı üzerine 500 katılımcılı araştırmanın yürütücüsü.", tag: "Araştırma" },
-        { year: "2026", title: "Mezuniyet", text: "Dersler tamamlandı; staj dönemi ve sektöre geçiş.", tag: "Sırada" },
+        { year: "2021", period: "Eyl 2021 – Haz 2022", title: "İngilizce Hazırlık", text: "Işık Üniversitesi'nde bir yıl İngilizce hazırlık eğitimi.", tag: "Eğitim", details: ["EAQUALS akreditasyonlu program", "Akademik İngilizce ve sunum becerileri"] },
+        { year: "2022", period: "Eylül 2022", title: "Yönetim Bilişim Sistemleri", text: "Bölüme başlangıç: yazılımı, veriyi ve iş süreçlerini birlikte ele alan bir program.", tag: "Eğitim", details: ["Java, veritabanı ve sistem analizi temelleri", "Genel not ortalaması 3,43 / 4"] },
+        { year: "2024", period: "Oca 2024 – Haz 2026", title: "IT&MIS Kulübü Başkanı", text: "İki yıl boyunca kulübün yönetimi, etkinlik planlaması ve üye koordinasyonu.", tag: "Liderlik", details: ["Etkinlik ve söyleşi organizasyonu", "Yönetim kurulu ve üye koordinasyonu"] },
+        { year: "2025", period: "May 2025 – Ağu 2026", title: "Kurumsal İletişim", text: "Çalışma burslu öğrenci olarak üniversitenin kurumsal organizasyonlarında görevli öğrenci ekibinin koordinasyonu.", tag: "Deneyim", details: ["Fuar, tören ve mezuniyet organizasyonları", "2025 ve 2026 Tercih ve Tanıtım Günleri — Tanıtım Ekibi"] },
+        { year: "2025", period: "Eki 2025 – Tem 2026", title: "Unicourse", text: "Üniversite pazarlama temsilcisi: kampüste öğrenci topluluğuna yönelik pazarlama ve tanıtım.", tag: "Deneyim", details: ["Kampüs temsilciliği", "Öğrenci odaklı pazarlama faaliyetleri"] },
+        { year: "2025", period: "2025", title: "Veteriner Yönetim Sistemi", text: "Beş kişilik ekipte proje koordinatörü; klinik operasyonları için Spring Boot REST API ve React arayüzü.", tag: "Ekip projesi", details: ["Spring Boot · React · MySQL · JWT", "Ekip koordinasyonu ve planlama"] },
+        { year: "2025", period: "2025", title: "Veri bilimi projeleri", text: "Anket verisinde istatistiksel modelleme ve konut fiyatı tahmini üzerine iki dönem projesi.", tag: "Araştırma", details: ["Hızlı Kazanç Algısı — regresyon ve aracılık analizi, 44 sayfalık rapor", "İstanbul Konut Fiyat Tahmini — Random Forest"] },
+        { year: "2026", period: "2026", title: "Işık CampusOS", text: "Bitirme projesi: kampüs yaşamını tek kimlik altında toplayan mikroservis platformu.", tag: "Bitirme", details: ["9 mikroservis · Spring Boot · React", "Kafka, API Gateway, Docker Compose"] },
+        { year: "2026", period: "Nis 2026 – Haz 2026", title: "Işık Run Club", text: "Kulübün kuruluşunda kurucu yönetim kurulu üyesi olarak yer aldım.", tag: "Liderlik", details: ["Kuruluş süreci ve yönetim kurulu", "İlk etkinliklerin planlanması"] },
+        { year: "2026", period: "2026 – devam ediyor", title: "TÜBİTAK 2209-A", text: "Dijital davranış ve akademik başarı üzerine 500 katılımcılı araştırmanın yürütücüsü.", tag: "Araştırma", details: ["Dört kişilik ekip · danışman Dr. Habibe Aktay", "Çoklu regresyon, aracılık/moderasyon analizi"] },
+        { year: "2026", period: "2026", title: "Mezuniyet", text: "Dersler tamamlandı; staj dönemi ve sektöre geçiş.", tag: "Sırada" },
       ],
     },
     projects: {
@@ -128,6 +133,7 @@ export const home: Record<Lang, HomeDict> = {
       p1: "Final-year Management Information Systems student at Işık University. For my capstone I built a nine-microservice campus platform; I coordinated team projects; I ran the IT&MIS Club for two years.",
       p2: "At Corporate Communications I coordinated the student staff team at fairs, ceremonies and graduation. Today I lead a TÜBİTAK 2209-A funded research project. I don't treat writing code and working with people as separate jobs.",
       facts: [
+        { k: "Education", v: "Işık University · MIS (2022–2026)" },
         { k: "Focus", v: "Spring Boot · React · data science" },
         { k: "Now", v: "TÜBİTAK 2209-A project and internships" },
         { k: "Location", v: "Istanbul / Bursa, Türkiye" },
@@ -141,15 +147,19 @@ export const home: Record<Lang, HomeDict> = {
     journey: {
       title: "Journey",
       sub: "2021 to today — scroll to move",
+      rangeLabel: "Timeline",
       stops: [
-        { year: "2021", title: "Işık University", text: "Started Management Information Systems; one year of English prep.", tag: "Education" },
-        { year: "2024", title: "IT&MIS Club President", text: "Two years of running the club: management, event planning, member coordination.", tag: "Leadership" },
-        { year: "2025", title: "Corporate Communications", text: "Work-study student coordinating the staff team at fairs, ceremonies, graduation and promotion days.", tag: "Experience" },
-        { year: "2025", title: "Veterinary Management System", text: "Project coordinator in a five-person team; Spring Boot REST API and React front end.", tag: "Team project" },
-        { year: "2025", title: "Data science", text: "Regression and mediation analysis on survey data from 153 participants; 44-page report.", tag: "Research" },
-        { year: "2026", title: "Işık CampusOS", text: "Nine microservices, Kafka, API Gateway — the capstone project.", tag: "Capstone" },
-        { year: "2026", title: "TÜBİTAK 2209-A", text: "Leading a 500-participant study on digital behavior and academic achievement.", tag: "Research" },
-        { year: "2026", title: "Graduation", text: "Coursework complete; internships and the move into industry.", tag: "Next" },
+        { year: "2021", period: "Sep 2021 – Jun 2022", title: "English Preparatory Year", text: "One year of English preparation at Işık University.", tag: "Education", details: ["EAQUALS-accredited programme", "Academic English and presentation skills"] },
+        { year: "2022", period: "September 2022", title: "Management Information Systems", text: "Started the degree: a programme that treats software, data and business processes together.", tag: "Education", details: ["Java, databases and systems analysis foundations", "GPA 3.43 / 4"] },
+        { year: "2024", period: "Jan 2024 – Jun 2026", title: "IT&MIS Club President", text: "Two years of running the club: management, event planning and member coordination.", tag: "Leadership", details: ["Events and talks", "Board and member coordination"] },
+        { year: "2025", period: "May 2025 – Aug 2026", title: "Corporate Communications", text: "Work-study student coordinating the student staff team at the university's corporate events.", tag: "Experience", details: ["Fairs, ceremonies and graduation", "2025 and 2026 Preference and Promotion Days — Promotion Team"] },
+        { year: "2025", period: "Oct 2025 – Jul 2026", title: "Unicourse", text: "University marketing representative: on-campus marketing and outreach to the student community.", tag: "Experience", details: ["Campus representation", "Student-focused marketing"] },
+        { year: "2025", period: "2025", title: "Veterinary Management System", text: "Project coordinator in a five-person team; Spring Boot REST API and React front end for clinic operations.", tag: "Team project", details: ["Spring Boot · React · MySQL · JWT", "Team coordination and planning"] },
+        { year: "2025", period: "2025", title: "Data science projects", text: "Two term projects: statistical modelling on survey data and house-price prediction.", tag: "Research", details: ["Quick-gain perception — regression and mediation analysis, 44-page report", "Istanbul house prices — Random Forest"] },
+        { year: "2026", period: "2026", title: "Işık CampusOS", text: "Capstone: a microservice platform bringing campus life under one identity.", tag: "Capstone", details: ["9 microservices · Spring Boot · React", "Kafka, API Gateway, Docker Compose"] },
+        { year: "2026", period: "Apr 2026 – Jun 2026", title: "Işık Run Club", text: "Founding board member at the club's establishment.", tag: "Leadership", details: ["Founding process and board", "Planning the first events"] },
+        { year: "2026", period: "2026 – ongoing", title: "TÜBİTAK 2209-A", text: "Leading a 500-participant study on digital behavior and academic achievement.", tag: "Research", details: ["Four-person team · advisor Dr. Habibe Aktay", "Multiple regression, mediation/moderation analysis"] },
+        { year: "2026", period: "2026", title: "Graduation", text: "Coursework complete; internships and the move into industry.", tag: "Next" },
       ],
     },
     projects: {
