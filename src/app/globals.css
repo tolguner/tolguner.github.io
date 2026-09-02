@@ -26,3 +26,10 @@
 
 html { scroll-behavior: smooth; }
 body { background: var(--color-paper); color: var(--color-ink-soft); font-family: var(--font-sans); }
+
+/* Ana sayfa (koyu deneyim) */
+.home { font-family: var(--font-body), "Segoe UI", system-ui, sans-serif; }
+.home .font-display { font-family: var(--font-display), Cambria, Georgia, serif; font-variation-settings: "opsz" 144; }
+.home ::selection { background: #4f7cff; color: #fff; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
