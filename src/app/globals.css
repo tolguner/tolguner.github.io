@@ -34,11 +34,5 @@ body { background: var(--color-paper); color: var(--color-ink-soft); font-family
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 
-/* Yolculuk altındaki sonsuz fotoğraf şeridi */
-@keyframes marquee-x { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
-.marquee-track { animation: marquee-x var(--dur, 40s) linear infinite; will-change: transform; }
-.marquee:hover .marquee-track { animation-play-state: paused; }
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track { animation: none; }
-  .marquee { overflow-x: auto; }
-}
+/* Yolculuk altındaki fotoğraf şeridi — akış ve sürükleme JS ile yönetilir */
+.marquee { overscroll-behavior-x: contain; }
