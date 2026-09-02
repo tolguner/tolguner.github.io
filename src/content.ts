@@ -1,6 +1,7 @@
 export type Lang = "tr" | "en";
 
-type Entry = { title: string; org: string; date: string; items?: string[] };
+type Entry = { title: string; org: string; date: string; items?: string[]; note?: string };
+export type SkillGroup = { label: string; items: string };
 type Project = { title: string; kind: string; tech: string; note: string; items: string[]; url: string; urlLabel: string };
 
 export type Dict = {
@@ -12,7 +13,7 @@ export type Dict = {
   research: { title: string; org: string; date: string; topic: string; items: string[] };
   projects: Project[];
   otherReposNote: string;
-  skills: string[];
+  skills: SkillGroup[];
   personal: string[];
   education: { degree: string; school: string; date: string; meta: string };
   languages: string[];
@@ -58,12 +59,12 @@ export const content: Record<Lang, Dict> = {
         title: "Üniversite Pazarlama Temsilcisi",
         org: "Unicourse",
         date: "Eki 2025 – Tem 2026",
-        items: ["Kampüs temsilcisi olarak öğrenci topluluğuna yönelik pazarlama ve tanıtım faaliyetlerini yürüttü"],
+        items: ["Kampüs temsilcisi olarak öğrenci topluluğuna yönelik pazarlama ve tanıtım faaliyetlerini yürüttü", "Firmanın ihtiyaç duyduğu eğitim materyallerinin organizasyonunu üstlendi"],
       },
     ],
     communities: [
-      { title: "Kulüp Başkanı", org: "IT&MIS Kulübü, Işık Üniversitesi", date: "Oca 2024 – Haz 2026" },
-      { title: "Kurucu Yönetim Kurulu Üyesi", org: "Işık Run Club, Işık Üniversitesi", date: "Nis 2026 – Haz 2026" },
+      { title: "Kulüp Başkanı", org: "IT&MIS Kulübü, Işık Üniversitesi", date: "Oca 2024 – Haz 2026", note: "Söyleşi, zirve, hackathon, kariyer fuarı, şirket gezisi ve mülakat simülasyonu organizasyonları" },
+      { title: "Kurucu Yönetim Kurulu Üyesi", org: "Işık Run Club, Işık Üniversitesi", date: "Nis 2026 – Haz 2026", note: "Koşu, trekking ve sosyal etkinliklerin planlanması" },
     ],
     research: {
       title: "Proje Yürütücüsü",
@@ -72,8 +73,8 @@ export const content: Record<Lang, Dict> = {
       topic:
         "Üniversite Öğrencilerinin Dijital Davranışlarının Akademik Başarıları Üzerinde Etkisi: Ekran Süresi, Uyku, Stres ve Farkındalığın Rolünün Veri Bilimi Yaklaşımıyla İncelenmesi",
       items: [
-        "500 üniversite öğrencisinden PSQI, PSS-10 ve MAAS ölçekleri, cihaz ekran süresi raporları ve not ortalamasıyla toplanan verinin çoklu regresyon ve aracılık/moderasyon analiziyle incelenmesi",
-        "Çıktı: öğrencilerin kendi dijital alışkanlıklarını izleyebileceği bir “Farkındalık Gösterge Paneli” prototipi",
+        "TÜBİTAK tarafından kabul edildi ve 2209-A programı kapsamında hibe desteği almaya hak kazandı; şu an veri toplama aşamasında",
+        "PSQI, PSS-10 ve MAAS ölçekleri ile ekran süresi ve not ortalaması verisinin çoklu regresyon ve aracılık/moderasyon analiziyle incelenmesi; çıktı olarak “Farkındalık Gösterge Paneli” prototipi",
         "Dört kişilik ekip · danışman Dr. Habibe Aktay",
       ],
     },
@@ -108,7 +109,7 @@ export const content: Record<Lang, Dict> = {
       {
         title: "tolguner.me",
         kind: "Kişisel portfolyo sitesi · 2026",
-        tech: "Next.js · TypeScript · Tailwind CSS · GitHub Pages",
+        tech: "Next.js · TypeScript · Three.js · GSAP · GitHub Pages",
         note: "Bu site. Statik export ile GitHub Pages'te yayınlanıyor; depo listesi build sırasında GitHub API'den çekiliyor.",
         items: [],
         url: "https://github.com/tolguner/tolguner.github.io",
@@ -116,7 +117,14 @@ export const content: Record<Lang, Dict> = {
       },
     ],
     otherReposNote: "GitHub'daki diğer herkese açık depolar — çoğu ders projesi, o dönemki öğrenme seviyemi yansıtıyor.",
-    skills: ["Java · Spring Boot", "React · Next.js · TypeScript", "SQL · PostgreSQL / MySQL", "Python · pandas", "Docker · Git"],
+    skills: [
+      { label: "Diller", items: "Java · TypeScript · Python · SQL" },
+      { label: "Backend", items: "Spring Boot · REST API · JWT · Kafka" },
+      { label: "Frontend", items: "React · Next.js · Tailwind CSS · JavaFX" },
+      { label: "Veri ve analiz", items: "pandas · statsmodels · scikit-learn · Jupyter" },
+      { label: "Veritabanı", items: "PostgreSQL · MySQL · Prisma" },
+      { label: "Araçlar", items: "Docker · Git ve GitHub · Maven" },
+    ],
     personal: ["Ekip liderliği ve koordinasyon", "Etkinlik ve organizasyon yönetimi", "İletişim ve sunum", "Proje planlama"],
     education: { degree: "Yönetim Bilişim Sistemleri, Lisans", school: "Işık Üniversitesi, İstanbul", date: "2021 – 2026", meta: "Genel not ortalaması 3,43 / 4,00" },
     languages: ["Türkçe — anadil", "İngilizce — orta-ileri (B2)", "Almanca — başlangıç (A1)"],
@@ -160,12 +168,12 @@ export const content: Record<Lang, Dict> = {
         title: "University Marketing Representative",
         org: "Unicourse",
         date: "Oct 2025 – Jul 2026",
-        items: ["Ran on-campus marketing and outreach activities targeting the student community as campus representative"],
+        items: ["Ran on-campus marketing and outreach activities targeting the student community as campus representative", "Organized the training materials the company needed"],
       },
     ],
     communities: [
-      { title: "Club President", org: "IT&MIS Club, Işık University", date: "Jan 2024 – Jun 2026" },
-      { title: "Founding Board Member", org: "Işık Run Club, Işık University", date: "Apr 2026 – Jun 2026" },
+      { title: "Club President", org: "IT&MIS Club, Işık University", date: "Jan 2024 – Jun 2026", note: "Talks, summits, hackathons, career fairs, company visits and mock interviews" },
+      { title: "Founding Board Member", org: "Işık Run Club, Işık University", date: "Apr 2026 – Jun 2026", note: "Planning runs, trekking and social events" },
     ],
     research: {
       title: "Project Lead",
@@ -174,8 +182,8 @@ export const content: Record<Lang, Dict> = {
       topic:
         "The Effect of University Students' Digital Behaviors on Academic Achievement: Examining the Role of Screen Time, Sleep, Stress and Awareness through a Data Science Approach",
       items: [
-        "Data from 500 university students (PSQI, PSS-10 and MAAS scales, device screen-time reports, GPA) analysed with multiple regression and mediation/moderation analysis",
-        "Deliverable: an “Awareness Dashboard” prototype letting students track their own digital habits",
+        "Accepted by TÜBİTAK and awarded a grant under the 2209-A programme; currently in the data collection phase",
+        "Screen-time, GPA and PSQI, PSS-10, MAAS scale data to be analysed with multiple regression and mediation/moderation analysis, delivering an “Awareness Dashboard” prototype",
         "Four-person team · advisor Dr. Habibe Aktay",
       ],
     },
@@ -210,7 +218,7 @@ export const content: Record<Lang, Dict> = {
       {
         title: "tolguner.me",
         kind: "Personal portfolio site · 2026",
-        tech: "Next.js · TypeScript · Tailwind CSS · GitHub Pages",
+        tech: "Next.js · TypeScript · Three.js · GSAP · GitHub Pages",
         note: "This site. Statically exported to GitHub Pages; the repository list is fetched from the GitHub API at build time.",
         items: [],
         url: "https://github.com/tolguner/tolguner.github.io",
@@ -218,7 +226,14 @@ export const content: Record<Lang, Dict> = {
       },
     ],
     otherReposNote: "Other public repositories on GitHub — mostly course projects reflecting what I knew at the time. Most READMEs are in Turkish.",
-    skills: ["Java · Spring Boot", "React · Next.js · TypeScript", "SQL · PostgreSQL / MySQL", "Python · pandas", "Docker · Git"],
+    skills: [
+      { label: "Languages", items: "Java · TypeScript · Python · SQL" },
+      { label: "Backend", items: "Spring Boot · REST APIs · JWT · Kafka" },
+      { label: "Frontend", items: "React · Next.js · Tailwind CSS · JavaFX" },
+      { label: "Data & analysis", items: "pandas · statsmodels · scikit-learn · Jupyter" },
+      { label: "Databases", items: "PostgreSQL · MySQL · Prisma" },
+      { label: "Tools", items: "Docker · Git & GitHub · Maven" },
+    ],
     personal: ["Team leadership and coordination", "Event and organization management", "Communication and presentation", "Project planning"],
     education: { degree: "B.A. Management Information Systems", school: "Işık University, Istanbul", date: "2021 – 2026", meta: "GPA 3.43 / 4.00" },
     languages: ["Turkish — native", "English — upper-intermediate (B2)", "German — beginner (A1)"],
