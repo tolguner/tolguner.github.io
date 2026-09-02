@@ -262,17 +262,18 @@ export default function Home({ repos }: { repos: Repo[] }) {
         <div className="relative mt-8 md:mt-10 md:flex md:flex-1 md:items-center">
           <div ref={trackRef} className="flex flex-col gap-6 px-5 sm:px-8 md:w-max md:flex-row md:items-stretch md:gap-6 md:pl-[max(1.25rem,calc((100vw-72rem)/2+2rem))] md:pr-[14vw]">
             {t.journey.stops.map((s, i) => (
-              <article key={i} className="group relative flex w-full shrink-0 flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#0b1119] p-7 transition-colors hover:border-white/25 md:h-[58vh] md:w-[26rem] md:p-8" data-reveal>
-                <span aria-hidden className="font-display pointer-events-none absolute -right-3 -top-6 select-none text-[9rem] font-medium leading-none text-white/[0.035] md:text-[11rem]">{s.year}</span>
+              <article key={i} className={`group relative flex w-full shrink-0 flex-col overflow-hidden rounded-3xl border p-7 transition-colors md:aspect-[3/4] md:w-[25rem] md:p-8 ${s.featured ? "border-[#4f7cff]/45 bg-gradient-to-b from-[#111d33] to-[#0b1119] hover:border-[#4f7cff]/70" : "border-white/10 bg-[#0b1119] hover:border-white/25"}`} data-reveal>
+                {s.featured && <span aria-hidden className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.28),transparent_65%)]" />}
+                <span aria-hidden className={`font-display pointer-events-none absolute -right-3 -top-6 select-none text-[9rem] font-medium leading-none md:text-[11rem] ${s.featured ? "text-[#4f7cff]/[0.09]" : "text-white/[0.035]"}`}>{s.year}</span>
                 <div className="relative flex items-center gap-3">
                   <span className="font-display text-[26px] leading-none text-[#8fb0ff]">{s.year}</span>
-                  <span className="rounded-full border border-white/10 px-2.5 py-1 text-[10.5px] uppercase tracking-wider text-white/55">{s.tag}</span>
+                  <span className={`rounded-full border px-2.5 py-1 text-[10.5px] uppercase tracking-wider ${s.featured ? "border-[#4f7cff]/50 bg-[#4f7cff]/10 text-[#a9c4ff]" : "border-white/10 text-white/55"}`}>{s.tag}</span>
                 </div>
                 <div className="relative mt-1.5 text-[12px] text-white/40">{s.period}</div>
                 <h3 className="font-display relative mt-6 text-[26px] font-medium leading-tight text-white">{s.title}</h3>
                 <p className="relative mt-3 text-[14.5px] leading-relaxed text-white/60">{s.text}</p>
                 {s.details?.length ? (
-                  <ul className="relative mt-5 space-y-1.5 border-t border-white/10 pt-4 text-[13.5px] text-white/65">
+                  <ul className="relative mt-5 space-y-1.5 border-t border-white/10 pt-4 text-[13px] leading-snug text-white/65">
                     {s.details.map((d) => (
                       <li key={d} className="relative pl-3.5 before:absolute before:left-0 before:top-[0.6em] before:h-1 before:w-1 before:rounded-full before:bg-[#8fb0ff]">{d}</li>
                     ))}
