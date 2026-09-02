@@ -232,7 +232,7 @@ export default function Home({ repos }: { repos: Repo[] }) {
           <div className="relative mx-auto w-full max-w-sm md:mt-4" data-reveal>
             <div className="absolute -inset-6 rounded-[2rem] bg-[radial-gradient(circle_at_30%_20%,rgba(79,124,255,0.35),transparent_60%)] blur-2xl" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/foto.jpg" alt="Tolga Olguner" width={600} height={800} className="relative aspect-[3/4] w-full rounded-3xl border border-white/10 object-cover grayscale-[15%]" />
+            <img src="/portre.jpg" alt="Tolga Olguner" width={900} height={1200} className="relative aspect-[3/4] w-full rounded-3xl border border-white/10 object-cover" />
             {t.about.badges.map((b, i) => (
               <div key={b.k} className={`absolute rounded-xl border border-white/10 bg-[#0b1119]/90 px-4 py-3 shadow-2xl backdrop-blur ${i === 0 ? "-right-4 top-8" : "-left-4 bottom-10"}`}>
                 <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">{b.k}</div>
