@@ -12,7 +12,7 @@ export type HomeDict = {
   about: { title: string; p1: string; p2: string; facts: { k: string; v: string }[]; badges: { k: string; v: string }[] };
   journey: { title: string; sub: string; rangeLabel: string; stops: Stop[] };
   projects: { title: string; sub: string; cards: Card[]; othersTitle: string; othersSub: string };
-  research: { title: string; kicker: string; headline: string; text: string; highlight: { title: string; label: string }; steps: Step[]; org: string };
+  research: { title: string; kicker: string; headline: string; quote: string; text: string; highlight: { title: string; label: string }; steps: Step[]; org: string };
   skills: { title: string; tech: string[]; human: string[]; techLabel: string; humanLabel: string };
   contact: { title: string; text: string; email: string; cv: string };
   footer: { rights: string; built: string };
@@ -84,8 +84,9 @@ export const home: Record<Lang, HomeDict> = {
       title: "Araştırma",
       kicker: "TÜBİTAK 2209-A · Proje Yürütücüsü",
       headline: "Ekran süresi, uyku, stres ve farkındalık akademik başarıyı nasıl etkiliyor?",
+      quote: "Üniversite Öğrencilerinin Dijital Davranışlarının Akademik Başarıları Üzerinde Etkisi: Ekran Süresi, Uyku, Stres ve Farkındalığın Rolünün Veri Bilimi Yaklaşımıyla İncelenmesi",
       text: "Üniversite öğrencilerinin dijital davranışlarının akademik başarı üzerindeki etkisini veri bilimi yaklaşımıyla inceliyorum. Proje TÜBİTAK tarafından kabul edildi ve 2209-A programı kapsamında hibe desteği almaya hak kazandı; şu an veri toplama aşamasındayız. Dört kişilik ekibin yürütücüsüyüm, danışmanımız Dr. Habibe Aktay.",
-      highlight: { title: "Kabul Edildi", label: "TÜBİTAK 2209-A · Hibe destekli" },
+      highlight: { title: "Kabul Edildi", label: "TÜBİTAK 2209-A · Hibe Destekli" },
       steps: [
         { n: "01", title: "Ölçüm", text: "PSQI, PSS-10 ve MAAS ölçekleri, cihaz ekran süresi raporları ve not ortalaması." },
         { n: "02", title: "Model", text: "Uyku ve stres aracı, farkındalık düzenleyici değişken; sekiz hipotez." },
@@ -174,8 +175,9 @@ export const home: Record<Lang, HomeDict> = {
       title: "Research",
       kicker: "TÜBİTAK 2209-A · Project Lead",
       headline: "How do screen time, sleep, stress and awareness shape academic achievement?",
+      quote: "The Effect of University Students' Digital Behaviors on Academic Achievement: Examining the Role of Screen Time, Sleep, Stress and Awareness through a Data Science Approach",
       text: "I examine the effect of university students' digital behaviors on academic achievement through a data science approach. The project was accepted by TÜBİTAK and awarded a grant under the 2209-A programme; we are currently in the data collection phase. I lead the four-person team, and our advisor is Dr. Habibe Aktay.",
-      highlight: { title: "Accepted", label: "TÜBİTAK 2209-A · Grant-funded" },
+      highlight: { title: "Accepted", label: "TÜBİTAK 2209-A · Grant-Funded" },
       steps: [
         { n: "01", title: "Measure", text: "PSQI, PSS-10 and MAAS scales, device screen-time reports and GPA." },
         { n: "02", title: "Model", text: "Sleep and stress as mediators, awareness as moderator; eight hypotheses." },
