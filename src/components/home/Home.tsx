@@ -245,25 +245,52 @@ export default function Home({ repos }: { repos: Repo[] }) {
       </section>
 
       {/* Yolculuk */}
-      <section id="journey" ref={journeyRef} className="relative mt-32 scroll-mt-24 md:h-screen md:overflow-hidden">
-        <div className="mx-auto max-w-6xl px-5 pt-6 sm:px-8 md:pt-24">
-          <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.journey.title}</h2>
-          <p className="mt-2 text-[14px] text-white/45" data-reveal>{t.journey.sub}</p>
+      <section id="journey" ref={journeyRef} className="relative mt-32 scroll-mt-24 md:flex md:h-screen md:flex-col md:overflow-hidden">
+        <div className="mx-auto w-full max-w-6xl px-5 pt-6 sm:px-8 md:pt-24">
+          <div className="flex items-end justify-between gap-6">
+            <div>
+              <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.journey.title}</h2>
+              <p className="mt-2 text-[14px] text-white/45" data-reveal>{t.journey.sub}</p>
+            </div>
+            <div className="hidden text-right md:block" data-reveal>
+              <div className="text-[11px] uppercase tracking-[0.22em] text-white/40">{t.journey.rangeLabel}</div>
+              <div className="font-display text-[34px] leading-none text-white/80">2021 — 2026</div>
+            </div>
+          </div>
         </div>
-        <div className="relative mt-10 md:mt-16">
-          <div className="journey-line absolute left-0 top-[52px] hidden h-px w-full origin-left scale-x-0 bg-gradient-to-r from-[#4f7cff] via-[#8fb0ff] to-transparent md:block" />
-          <div ref={trackRef} className="flex flex-col gap-6 px-5 sm:px-8 md:w-max md:flex-row md:gap-8 md:pl-[max(1.25rem,calc((100vw-72rem)/2+2rem))] md:pr-[12vw]">
+
+        <div className="relative mt-8 md:mt-10 md:flex md:flex-1 md:items-center">
+          <div ref={trackRef} className="flex flex-col gap-6 px-5 sm:px-8 md:w-max md:flex-row md:items-stretch md:gap-6 md:pl-[max(1.25rem,calc((100vw-72rem)/2+2rem))] md:pr-[14vw]">
             {t.journey.stops.map((s, i) => (
-              <article key={i} className="relative w-full shrink-0 rounded-2xl border border-white/10 bg-[#0b1119] p-6 md:w-[22rem]" data-reveal>
-                <div className="mb-6 flex items-center gap-3 md:mb-8">
-                  <span className="font-display text-[30px] font-medium leading-none text-white">{s.year}</span>
+              <article key={i} className="group relative flex w-full shrink-0 flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#0b1119] p-7 transition-colors hover:border-white/25 md:h-[58vh] md:w-[26rem] md:p-8" data-reveal>
+                <span aria-hidden className="font-display pointer-events-none absolute -right-3 -top-6 select-none text-[9rem] font-medium leading-none text-white/[0.035] md:text-[11rem]">{s.year}</span>
+                <div className="relative flex items-center gap-3">
+                  <span className="font-display text-[26px] leading-none text-[#8fb0ff]">{s.year}</span>
                   <span className="rounded-full border border-white/10 px-2.5 py-1 text-[10.5px] uppercase tracking-wider text-white/55">{s.tag}</span>
                 </div>
-                <h3 className="text-[18px] font-semibold text-white">{s.title}</h3>
-                <p className="mt-2 text-[14.5px] leading-relaxed text-white/60">{s.text}</p>
-                <span className="absolute -top-[9px] left-8 hidden h-4 w-4 rounded-full border-2 border-[#070b12] bg-[#4f7cff] md:block" />
+                <div className="relative mt-1.5 text-[12px] text-white/40">{s.period}</div>
+                <h3 className="font-display relative mt-6 text-[26px] font-medium leading-tight text-white">{s.title}</h3>
+                <p className="relative mt-3 text-[14.5px] leading-relaxed text-white/60">{s.text}</p>
+                {s.details?.length ? (
+                  <ul className="relative mt-5 space-y-1.5 border-t border-white/10 pt-4 text-[13.5px] text-white/65">
+                    {s.details.map((d) => (
+                      <li key={d} className="relative pl-3.5 before:absolute before:left-0 before:top-[0.6em] before:h-1 before:w-1 before:rounded-full before:bg-[#8fb0ff]">{d}</li>
+                    ))}
+                  </ul>
+                ) : null}
+                <div className="relative mt-auto hidden pt-6 text-[11px] uppercase tracking-[0.2em] text-white/30 md:block">{String(i + 1).padStart(2, "0")} / {String(t.journey.stops.length).padStart(2, "0")}</div>
               </article>
             ))}
+          </div>
+        </div>
+
+        {/* İlerleme çubuğu */}
+        <div className="mx-auto hidden w-full max-w-6xl px-5 pb-10 sm:px-8 md:block">
+          <div className="relative h-px w-full bg-white/10">
+            <div className="journey-line absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-gradient-to-r from-[#4f7cff] to-[#8fb0ff]" />
+          </div>
+          <div className="mt-3 flex justify-between text-[11px] uppercase tracking-[0.18em] text-white/35">
+            {["2021", "2022", "2023", "2024", "2025", "2026"].map((y) => <span key={y}>{y}</span>)}
           </div>
         </div>
       </section>
