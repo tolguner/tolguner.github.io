@@ -4,6 +4,8 @@ export type Stat = { value: number; suffix?: string; decimals?: number; label: s
 export type Stop = { year: string; period: string; title: string; text: string; tag: string; details?: string[]; featured?: boolean };
 export type Card = { title: string; status: string; statusKind: "capstone" | "team" | "research" | "live"; period: string; text: string; tech: string[]; url: string };
 export type Step = { n: string; title: string; text: string };
+export type SkillGroup = { label: string; items: string[] };
+export type SoftSkill = { title: string; text: string };
 
 export type HomeDict = {
   nav: { about: string; journey: string; projects: string; research: string; contact: string; cv: string };
@@ -13,7 +15,7 @@ export type HomeDict = {
   journey: { title: string; sub: string; rangeLabel: string; stops: Stop[] };
   projects: { title: string; sub: string; cards: Card[]; othersTitle: string; othersSub: string };
   research: { title: string; kicker: string; headline: string; quote: string; text: string; highlight: { title: string; label: string }; steps: Step[]; org: string };
-  skills: { title: string; tech: string[]; human: string[]; techLabel: string; humanLabel: string };
+  skills: { title: string; sub: string; techLabel: string; humanLabel: string; groups: SkillGroup[]; human: SoftSkill[] };
   contact: { title: string; text: string; email: string; cv: string };
   footer: { rights: string; built: string };
 };
@@ -97,10 +99,23 @@ export const home: Record<Lang, HomeDict> = {
     },
     skills: {
       title: "Yetkinlikler",
+      sub: "Projelerde ve sahada gerçekten kullandığım araçlar ve beceriler.",
       techLabel: "Teknik",
-      humanLabel: "İnsan",
-      tech: ["Java", "Spring Boot", "React", "Next.js", "TypeScript", "PostgreSQL", "MySQL", "Python", "pandas", "Docker", "Git"],
-      human: ["Ekip liderliği", "Etkinlik organizasyonu", "Koordinasyon", "Sunum", "Proje planlama", "İletişim"],
+      humanLabel: "İnsan Tarafı",
+      groups: [
+        { label: "Diller", items: ["Java", "TypeScript", "Python", "SQL"] },
+        { label: "Backend", items: ["Spring Boot", "REST API", "JWT", "Apache Kafka"] },
+        { label: "Frontend", items: ["React", "Next.js", "Tailwind CSS", "JavaFX"] },
+        { label: "Veri ve Analiz", items: ["pandas", "statsmodels", "scikit-learn", "Jupyter"] },
+        { label: "Veritabanı", items: ["PostgreSQL", "MySQL", "Prisma"] },
+        { label: "Araçlar", items: ["Docker", "Git ve GitHub", "Maven"] },
+      ],
+      human: [
+        { title: "Ekip Liderliği", text: "İki yıl kulüp başkanlığı; ekip kurma, görev dağılımı ve takip." },
+        { title: "Organizasyon Yönetimi", text: "Üniversitenin etkinlik ve tanıtım süreçlerinde saha koordinasyonu." },
+        { title: "İletişim ve Sunum", text: "Farklı paydaşlarla çalışma, tanıtım ve bilgilendirme deneyimi." },
+        { title: "Proje Koordinasyonu", text: "Ekip projelerinde planlama, ilerleme takibi ve teslim sorumluluğu." },
+      ],
     },
     contact: {
       title: "Birlikte çalışalım.",
@@ -188,10 +203,23 @@ export const home: Record<Lang, HomeDict> = {
     },
     skills: {
       title: "Skills",
+      sub: "The tools and skills I actually use, in projects and on the ground.",
       techLabel: "Technical",
-      humanLabel: "Human",
-      tech: ["Java", "Spring Boot", "React", "Next.js", "TypeScript", "PostgreSQL", "MySQL", "Python", "pandas", "Docker", "Git"],
-      human: ["Team leadership", "Event organization", "Coordination", "Presentation", "Project planning", "Communication"],
+      humanLabel: "Human Side",
+      groups: [
+        { label: "Languages", items: ["Java", "TypeScript", "Python", "SQL"] },
+        { label: "Backend", items: ["Spring Boot", "REST APIs", "JWT", "Apache Kafka"] },
+        { label: "Frontend", items: ["React", "Next.js", "Tailwind CSS", "JavaFX"] },
+        { label: "Data & Analysis", items: ["pandas", "statsmodels", "scikit-learn", "Jupyter"] },
+        { label: "Databases", items: ["PostgreSQL", "MySQL", "Prisma"] },
+        { label: "Tools", items: ["Docker", "Git & GitHub", "Maven"] },
+      ],
+      human: [
+        { title: "Team Leadership", text: "Two years as club president: building teams, dividing work, following through." },
+        { title: "Organization Management", text: "On-site coordination across the university's events and promotion work." },
+        { title: "Communication & Presentation", text: "Working with different stakeholders; promotion and briefing experience." },
+        { title: "Project Coordination", text: "Planning, progress tracking and delivery in team projects." },
+      ],
     },
     contact: {
       title: "Let's work together.",
