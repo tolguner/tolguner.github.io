@@ -12,7 +12,7 @@ export type HomeDict = {
   about: { title: string; p1: string; p2: string; facts: { k: string; v: string }[]; badges: { k: string; v: string }[] };
   journey: { title: string; sub: string; rangeLabel: string; stops: Stop[] };
   projects: { title: string; sub: string; cards: Card[]; othersTitle: string; othersSub: string };
-  research: { title: string; kicker: string; headline: string; text: string; big: { value: number; label: string }; steps: Step[]; org: string };
+  research: { title: string; kicker: string; headline: string; text: string; highlight: { title: string; label: string }; steps: Step[]; org: string };
   skills: { title: string; tech: string[]; human: string[]; techLabel: string; humanLabel: string };
   contact: { title: string; text: string; email: string; cv: string };
   footer: { rights: string; built: string };
@@ -33,7 +33,7 @@ export const home: Record<Lang, HomeDict> = {
     stats: [
       { value: 3.43, decimals: 2, label: "Genel not ortalaması / 4" },
       { value: 2, suffix: "+", label: "Yıl kulüp başkanlığı" },
-      { value: 500, label: "Katılımcılı TÜBİTAK araştırması" },
+      { value: 1, label: "TÜBİTAK 2209-A destekli araştırma" },
       { value: 9, label: "Herkese açık GitHub deposu" },
     ],
     about: {
@@ -63,20 +63,20 @@ export const home: Record<Lang, HomeDict> = {
         { year: "2025", period: "May 2025 – Ağu 2026", title: "Çalışma Burslu Öğrenci", text: "Üniversitenin Kurumsal İletişim Daire Başkanlığı'nda görev aldım; tanıtımdan organizasyona kadar birçok sürecin farklı aşamalarında sorumluluk üstlendim.", tag: "Deneyim", details: ["Kurumsal etkinlik, tören ve fuar organizasyonları", "Tercih ve Tanıtım Günleri'nde görevli öğrenci ekibinin koordinasyonu"] },
         { year: "2025", period: "Eki 2025 – Tem 2026", title: "Üniversite Temsilcisi", text: "Unicourse'un üniversite tarafındaki tanıtım ve pazarlama ekibinde yer aldım; firmanın ihtiyaç duyduğu eğitim materyallerinin organizasyonunu yürüttüm.", tag: "Deneyim", details: ["Kampüste tanıtım ve pazarlama faaliyetleri", "Eğitim materyallerinin hazırlanması ve organizasyonu"] },
         { year: "2025", period: "2025", title: "Yazılım Projeleri", text: "Masaüstünden web'e uzanan projelerle kendimi geliştirdim: JavaFX uygulamalarından Spring Boot ve React ile kurulan tam yığın sistemlere geçtim.", tag: "Geliştirme", details: ["Veteriner Yönetim Sistemi — beş kişilik ekipte proje koordinatörü", "Otel Yönetim Sistemi ve SelfWorkout — JavaFX + ilişkisel veritabanı", "REST API, JWT ile yetkilendirme, rol bazlı arayüzler"] },
-        { year: "2025", period: "2025", title: "Veri Bilimi Projeleri", text: "Anket ve ilan verisi üzerinde iki dönem projesi yürüttüm; veriyi temizlemekten model kurmaya kadar süreci uçtan uca deneyimledim.", tag: "Araştırma", details: ["Şans oyunlarında hızlı kazanç algısı — güvenilirlik, regresyon ve aracılık analizi", "İstanbul konut fiyat tahmini — öznitelik mühendisliği ve Random Forest", "Python · pandas · statsmodels · scikit-learn"] },
+        { year: "2025", period: "2025", title: "Veri Bilimi Projeleri", text: "İki dönem projesinde anket ve ilan verisiyle çalıştım; veriyi temizlemekten model kurmaya kadar süreci uçtan uca deneyimledim.", tag: "Araştırma", details: ["Şans Oyunlarında Hızlı Kazanç Algısı ve Emek İlişkisi — güvenilirlik, regresyon ve aracılık analizi", "İstanbul Konut Fiyat Tahmini — öznitelik mühendisliği ve Random Forest", "Python · pandas · statsmodels · scikit-learn"] },
         { year: "2026", period: "2026", title: "Alan Projeleri", text: "Farklı alanlarda da üretmek için blokzincir ve IoT tarafında projeler geliştirdim.", tag: "Keşif", details: ["EventChain — cüzdanla giriş, QR yoklama ve NFT katılım sertifikası", "SiteDAO — apartman yönetimini zincire taşıyan merkeziyetsiz uygulama", "GuardPi — Raspberry Pi üzerinde sensör ve kamerayı tek panelde toplayan güvenlik sistemi"] },
-        { year: "2026", period: "2026 – devam ediyor", title: "TÜBİTAK 2209-A", text: "Hazırladığımız araştırma projesi TÜBİTAK tarafından kabul edildi ve 2209-A programı kapsamında hibe desteği almaya hak kazandı. Projenin yürütücüsüyüm.", tag: "Araştırma", details: ["Dijital davranışların akademik başarıya etkisi — 500 katılımcı", "Dört kişilik ekip · danışman Dr. Habibe Aktay", "Çoklu regresyon, aracılık ve moderasyon analizi"] },
+        { year: "2026", period: "2026 – devam ediyor", title: "TÜBİTAK 2209-A", text: "Hazırladığımız araştırma projesi TÜBİTAK tarafından kabul edildi ve 2209-A programı kapsamında hibe desteği almaya hak kazandı. Projenin yürütücüsüyüm.", tag: "Araştırma", details: ["TÜBİTAK tarafından kabul edildi, hibe desteği aldı", "Dört kişilik ekip · danışman Dr. Habibe Aktay", "Şu an veri toplama aşamasında"] },
         { year: "2026", period: "2026", title: "Işık CampusOS", text: "Bitirme projemde kampüs yaşamının dağınık süreçlerini tek kimlik altında toplayan mikroservis tabanlı bir platform kurdum.", tag: "Bitirme Projesi", featured: true, details: ["9 mikroservis · Spring Boot · React · PostgreSQL", "API Gateway'de merkezi JWT, Kafka ile olay güdümlü iletişim", "Docker Compose, Eureka servis keşfi, Zipkin ile izleme"] },
-        { year: "2026", period: "2026", title: "Mezuniyet", text: "Ders yükümlülüklerimi tamamladım; staj sürecinin ardından öğrendiklerimi sektörde uygulamaya başlıyorum.", tag: "Sırada", details: ["Genel not ortalaması 3,43 / 4,00", "Yönetim Bilişim Sistemleri, Işık Üniversitesi"] },
+        { year: "2026", period: "2026", title: "Mezuniyet", text: "Ders yükümlülüklerimi tamamladım; staj sürecini tamamladıktan sonra öğrendiklerimi sektörde uygulamaya başlayacağım.", tag: "Sırada", details: ["Genel not ortalaması 3,43 / 4,00", "Yönetim Bilişim Sistemleri, Işık Üniversitesi"] },
       ],
     },
     projects: {
       title: "Projeler",
       sub: "Ders projelerinden bitirme projesine — her biri o dönemki seviyemi dürüstçe yansıtıyor.",
       cards: [
-        { title: "Işık CampusOS", status: "Bitirme projesi", statusKind: "capstone", period: "2026", text: "Kampüs yaşamının dağınık süreçlerini tek kimlik altında topladım: kulüp ve etkinlikler, tesis rezervasyonu, yemek siparişi, paylaşımlı yolculuk. API Gateway'de merkezi JWT doğrulama kurdum, servisleri Kafka ile olay güdümlü hale getirdim, her servise kendi veritabanını verdim.", tech: ["Java", "Spring Boot", "React", "Kafka", "PostgreSQL", "Docker"], url: "https://github.com/tolguner/IsikCampusOS" },
-        { title: "Veteriner Yönetim Sistemi", status: "Ekip projesi · koordinatör", statusKind: "team", period: "2025", text: "Bir veteriner kliniğinin hasta, randevu ve tedavi kayıtlarını tek sistemde yönetmesini sağlayan uygulamayı, beş kişilik ekipte proje koordinatörü olarak yürüttüm.", tech: ["Spring Boot", "React", "MySQL", "JWT"], url: "https://github.com/tolguner/Veterinary-Management-System" },
-        { title: "Hızlı Kazanç Algısı ve Emek İlişkisi", status: "Veri bilimi", statusKind: "research", period: "2025", text: "Şans oyunlarında hızlı kazanç algısının emek inancıyla ilişkisini inceledim; 153 katılımcılı veride güvenilirlik, regresyon ve aracılık analizi yaptım.", tech: ["Python", "pandas", "statsmodels", "Jupyter"], url: "https://github.com/tolguner/Hizli-Kazanc-Algisi-Analizi" },
+        { title: "Işık CampusOS", status: "Bitirme Projesi", statusKind: "capstone", period: "2026", text: "Kampüs yaşamının dağınık süreçlerini tek kimlik altında topladım: kulüp ve etkinlikler, tesis rezervasyonu, yemek siparişi, paylaşımlı yolculuk. API Gateway'de merkezi JWT doğrulama kurdum, servisleri Kafka ile olay güdümlü hale getirdim, her servise kendi veritabanını verdim.", tech: ["Java", "Spring Boot", "React", "Kafka", "PostgreSQL", "Docker"], url: "https://github.com/tolguner/IsikCampusOS" },
+        { title: "Veteriner Yönetim Sistemi", status: "Ekip Projesi · Koordinatör", statusKind: "team", period: "2025", text: "Bir veteriner kliniğinin hasta, randevu ve tedavi kayıtlarını tek sistemde yönetmesini sağlayan uygulamayı, beş kişilik ekipte proje koordinatörü olarak yürüttüm.", tech: ["Spring Boot", "React", "MySQL", "JWT"], url: "https://github.com/tolguner/Veterinary-Management-System" },
+        { title: "Şans Oyunlarında Hızlı Kazanç Algısı ve Emek İlişkisi: İstatistiksel Bir Analiz ve Modelleme", status: "Veri Bilimi", statusKind: "research", period: "2025", text: "Şans oyunlarında hızlı kazanç algısının emek inancıyla ilişkisini inceledim; 153 katılımcılı veride güvenilirlik, regresyon ve aracılık analizi yaptım.", tech: ["Python", "pandas", "statsmodels", "Jupyter"], url: "https://github.com/tolguner/Hizli-Kazanc-Algisi-Analizi" },
         { title: "tolguner.me", status: "Canlı", statusKind: "live", period: "2026", text: "Bu site. Next.js, Three.js ve GSAP ile scroll'a bağlı bir deneyim kurdum; GitHub Pages üzerinde statik olarak yayınlanıyor.", tech: ["Next.js", "Three.js", "GSAP", "Tailwind"], url: "https://github.com/tolguner/tolguner.github.io" },
       ],
       othersTitle: "Diğer depolar",
@@ -86,8 +86,8 @@ export const home: Record<Lang, HomeDict> = {
       title: "Araştırma",
       kicker: "TÜBİTAK 2209-A · Proje Yürütücüsü",
       headline: "Ekran süresi, uyku, stres ve farkındalık akademik başarıyı nasıl etkiliyor?",
-      text: "Üniversite öğrencilerinin dijital davranışlarının akademik başarı üzerindeki etkisini veri bilimi yaklaşımıyla inceliyorum. Proje TÜBİTAK tarafından kabul edildi ve 2209-A programı kapsamında hibe desteği alıyor. Dört kişilik ekibin yürütücüsüyüm; danışmanımız Dr. Habibe Aktay.",
-      big: { value: 500, label: "katılımcı" },
+      text: "Üniversite öğrencilerinin dijital davranışlarının akademik başarı üzerindeki etkisini veri bilimi yaklaşımıyla inceliyorum. Proje TÜBİTAK tarafından kabul edildi ve 2209-A programı kapsamında hibe desteği almaya hak kazandı; şu an veri toplama aşamasındayız. Dört kişilik ekibin yürütücüsüyüm, danışmanımız Dr. Habibe Aktay.",
+      highlight: { title: "Kabul Edildi", label: "TÜBİTAK 2209-A · Hibe destekli" },
       steps: [
         { n: "01", title: "Ölçüm", text: "PSQI, PSS-10 ve MAAS ölçekleri, cihaz ekran süresi raporları ve not ortalaması." },
         { n: "02", title: "Model", text: "Uyku ve stres aracı, farkındalık düzenleyici değişken; sekiz hipotez." },
@@ -125,7 +125,7 @@ export const home: Record<Lang, HomeDict> = {
     stats: [
       { value: 3.43, decimals: 2, label: "GPA / 4" },
       { value: 2, suffix: "+", label: "Years as club president" },
-      { value: 500, label: "Participants in TÜBİTAK research" },
+      { value: 1, label: "TÜBİTAK 2209-A funded research" },
       { value: 9, label: "Public GitHub repositories" },
     ],
     about: {
@@ -155,11 +155,11 @@ export const home: Record<Lang, HomeDict> = {
         { year: "2025", period: "May 2025 – Aug 2026", title: "Work-Study Student", text: "I worked at the university's Corporate Communications Directorate, taking responsibility across many stages of promotion and organization.", tag: "Experience", details: ["Corporate events, ceremonies and fairs", "Coordinating the student staff team at Preference and Promotion Days"] },
         { year: "2025", period: "Oct 2025 – Jul 2026", title: "University Representative", text: "I worked on Unicourse's university-side promotion and marketing team and organized the training materials the company needed.", tag: "Experience", details: ["On-campus promotion and marketing", "Preparing and organizing training materials"] },
         { year: "2025", period: "2025", title: "Software Projects", text: "I grew through projects that ran from desktop to web: JavaFX applications first, then full-stack systems with Spring Boot and React.", tag: "Development", details: ["Veterinary Management System — project coordinator in a five-person team", "Hotel Management System and SelfWorkout — JavaFX + relational databases", "REST APIs, JWT authorization, role-based interfaces"] },
-        { year: "2025", period: "2025", title: "Data Science Projects", text: "I ran two term projects on survey and listing data, going end to end from cleaning to modelling.", tag: "Research", details: ["Quick-gain perception in games of chance — reliability, regression and mediation analysis", "Istanbul house prices — feature engineering and Random Forest", "Python · pandas · statsmodels · scikit-learn"] },
+        { year: "2025", period: "2025", title: "Data Science Projects", text: "I ran two term projects on survey and listing data, going end to end from cleaning to modelling.", tag: "Research", details: ["Quick-Gain Perception and Effort in Games of Chance — reliability, regression and mediation analysis", "Istanbul House Price Prediction — feature engineering and Random Forest", "Python · pandas · statsmodels · scikit-learn"] },
         { year: "2026", period: "2026", title: "Exploratory Projects", text: "To build outside my usual stack, I developed projects in blockchain and IoT.", tag: "Exploration", details: ["EventChain — wallet login, QR check-in and NFT attendance certificates", "SiteDAO — decentralized building management moved on-chain", "GuardPi — Raspberry Pi security system with sensors and camera in one dashboard"] },
-        { year: "2026", period: "2026 – ongoing", title: "TÜBİTAK 2209-A", text: "Our research proposal was accepted by TÜBİTAK and awarded a grant under the 2209-A programme. I lead the project.", tag: "Research", details: ["Effect of digital behavior on academic achievement — 500 participants", "Four-person team · advisor Dr. Habibe Aktay", "Multiple regression, mediation and moderation analysis"] },
+        { year: "2026", period: "2026 – ongoing", title: "TÜBİTAK 2209-A", text: "Our research proposal was accepted by TÜBİTAK and awarded a grant under the 2209-A programme. I lead the project.", tag: "Research", details: ["Accepted by TÜBİTAK and awarded a grant", "Four-person team · advisor Dr. Habibe Aktay", "Currently in the data collection phase"] },
         { year: "2026", period: "2026", title: "Işık CampusOS", text: "For my capstone I built a microservice platform that brings the scattered parts of campus life under a single identity.", tag: "Capstone", featured: true, details: ["9 microservices · Spring Boot · React · PostgreSQL", "Central JWT at the API gateway, event-driven communication over Kafka", "Docker Compose, Eureka service discovery, Zipkin tracing"] },
-        { year: "2026", period: "2026", title: "Graduation", text: "I completed my coursework; after the internship period I start applying what I learned in industry.", tag: "Next", details: ["GPA 3.43 / 4.00", "Management Information Systems, Işık University"] },
+        { year: "2026", period: "2026", title: "Graduation", text: "I have completed my coursework; once the internship period is done I will start applying what I learned in industry.", tag: "Next", details: ["GPA 3.43 / 4.00", "Management Information Systems, Işık University"] },
       ],
     },
     projects: {
@@ -167,8 +167,8 @@ export const home: Record<Lang, HomeDict> = {
       sub: "From course work to capstone — each one honestly reflects where I was at the time.",
       cards: [
         { title: "Işık CampusOS", status: "Capstone", statusKind: "capstone", period: "2026", text: "I brought the scattered parts of campus life under one identity: clubs and events, facility booking, food ordering, ride sharing. I set up central JWT validation at the API gateway, made services event-driven over Kafka and gave each service its own database.", tech: ["Java", "Spring Boot", "React", "Kafka", "PostgreSQL", "Docker"], url: "https://github.com/tolguner/IsikCampusOS" },
-        { title: "Veterinary Management System", status: "Team · coordinator", statusKind: "team", period: "2025", text: "I led the application that lets a veterinary clinic manage patient, appointment and treatment records in one system, as project coordinator in a five-person team.", tech: ["Spring Boot", "React", "MySQL", "JWT"], url: "https://github.com/tolguner/Veterinary-Management-System" },
-        { title: "Quick-Gain Perception and Effort", status: "Data science", statusKind: "research", period: "2025", text: "I examined how perceived quick gains in games of chance relate to belief in effort, running reliability, regression and mediation analysis on data from 153 participants.", tech: ["Python", "pandas", "statsmodels", "Jupyter"], url: "https://github.com/tolguner/Hizli-Kazanc-Algisi-Analizi" },
+        { title: "Veterinary Management System", status: "Team · Coordinator", statusKind: "team", period: "2025", text: "I led the application that lets a veterinary clinic manage patient, appointment and treatment records in one system, as project coordinator in a five-person team.", tech: ["Spring Boot", "React", "MySQL", "JWT"], url: "https://github.com/tolguner/Veterinary-Management-System" },
+        { title: "Quick-Gain Perception and Effort in Games of Chance: A Statistical Analysis and Modelling", status: "Data Science", statusKind: "research", period: "2025", text: "I examined how perceived quick gains in games of chance relate to belief in effort, running reliability, regression and mediation analysis on data from 153 participants.", tech: ["Python", "pandas", "statsmodels", "Jupyter"], url: "https://github.com/tolguner/Hizli-Kazanc-Algisi-Analizi" },
         { title: "tolguner.me", status: "Live", statusKind: "live", period: "2026", text: "This site. I built a scroll-driven experience with Next.js, Three.js and GSAP; it is hosted statically on GitHub Pages.", tech: ["Next.js", "Three.js", "GSAP", "Tailwind"], url: "https://github.com/tolguner/tolguner.github.io" },
       ],
       othersTitle: "Other repositories",
@@ -178,8 +178,8 @@ export const home: Record<Lang, HomeDict> = {
       title: "Research",
       kicker: "TÜBİTAK 2209-A · Project Lead",
       headline: "How do screen time, sleep, stress and awareness shape academic achievement?",
-      text: "I examine the effect of university students' digital behaviors on academic achievement through a data science approach. The project was accepted by TÜBİTAK and receives a grant under the 2209-A programme. I lead the four-person team; our advisor is Dr. Habibe Aktay.",
-      big: { value: 500, label: "participants" },
+      text: "I examine the effect of university students' digital behaviors on academic achievement through a data science approach. The project was accepted by TÜBİTAK and awarded a grant under the 2209-A programme; we are currently in the data collection phase. I lead the four-person team, and our advisor is Dr. Habibe Aktay.",
+      highlight: { title: "Accepted", label: "TÜBİTAK 2209-A · Grant-funded" },
       steps: [
         { n: "01", title: "Measure", text: "PSQI, PSS-10 and MAAS scales, device screen-time reports and GPA." },
         { n: "02", title: "Model", text: "Sleep and stress as mediators, awareness as moderator; eight hypotheses." },

@@ -361,9 +361,9 @@ export default function Home({ repos }: { repos: Repo[] }) {
             <h2 className="font-display mt-5 text-[clamp(1.9rem,4vw,3rem)] font-medium leading-[1.1] tracking-tight text-white" data-reveal>{t.research.headline}</h2>
             <p className="mt-6 text-[16px] leading-relaxed text-white/65" data-reveal>{t.research.text}</p>
             <p className="mt-4 text-[12.5px] text-white/40" data-reveal>{t.research.org}</p>
-            <div className="research-big mt-12 flex items-end gap-4">
-              <span className="font-display text-[clamp(4rem,10vw,7.5rem)] font-medium leading-none text-white" data-count={t.research.big.value}>0</span>
-              <span className="mb-3 text-[14px] uppercase tracking-[0.2em] text-white/50">{t.research.big.label}</span>
+            <div className="research-big mt-12 inline-flex flex-col gap-2 rounded-2xl border border-[#4f7cff]/40 bg-[#4f7cff]/[0.07] px-8 py-7">
+              <span className="font-display text-[clamp(2.2rem,5vw,3.4rem)] font-medium leading-none text-white">{t.research.highlight.title}</span>
+              <span className="text-[12.5px] uppercase tracking-[0.2em] text-[#8fb0ff]">{t.research.highlight.label}</span>
             </div>
           </div>
           <ol className="grid gap-6 self-center sm:grid-cols-2">
