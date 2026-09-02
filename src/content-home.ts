@@ -1,6 +1,6 @@
 import type { Lang } from "@/content";
 
-export type Stat = { value: number; suffix?: string; decimals?: number; label: string };
+export type Stat = { value: number; suffix?: string; decimals?: number; label: string; key?: "repos" };
 export type Stop = { year: string; period: string; title: string; text: string; tag: string; details?: string[]; featured?: boolean };
 export type Card = { title: string; status: string; statusKind: "capstone" | "team" | "research" | "live"; period: string; text: string; tech: string[]; url: string };
 export type Step = { n: string; title: string; text: string };
@@ -33,7 +33,7 @@ export const home: Record<Lang, HomeDict> = {
       { value: 3.43, decimals: 2, label: "Genel not ortalaması / 4" },
       { value: 2, suffix: "+", label: "Yıl kulüp başkanlığı" },
       { value: 1, label: "TÜBİTAK 2209-A destekli araştırma" },
-      { value: 9, label: "Herkese açık GitHub deposu" },
+      { value: 11, key: "repos", label: "Herkese açık GitHub deposu" },
     ],
     about: {
       title: "Hakkımda",
@@ -123,7 +123,7 @@ export const home: Record<Lang, HomeDict> = {
       { value: 3.43, decimals: 2, label: "GPA / 4" },
       { value: 2, suffix: "+", label: "Years as club president" },
       { value: 1, label: "TÜBİTAK 2209-A funded research" },
-      { value: 9, label: "Public GitHub repositories" },
+      { value: 11, key: "repos", label: "Public GitHub repositories" },
     ],
     about: {
       title: "About",

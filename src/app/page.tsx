@@ -1,7 +1,7 @@
 import Home from "@/components/home/Home";
-import { fetchRepos } from "@/lib/repos";
+import { fetchPublicRepoCount, fetchRepos } from "@/lib/repos";
 
 export default async function Page() {
-  const repos = await fetchRepos();
-  return <Home repos={repos} />;
+  const [repos, repoCount] = await Promise.all([fetchRepos(), fetchPublicRepoCount()]);
+  return <Home repos={repos} repoCount={repoCount} />;
 }

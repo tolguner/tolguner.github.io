@@ -30,7 +30,7 @@ function Words({ text, className }: { text: string; className?: string }) {
   );
 }
 
-export default function Home({ repos }: { repos: Repo[] }) {
+export default function Home({ repos, repoCount }: { repos: Repo[]; repoCount?: number }) {
   const [lang, setLang] = useState<Lang>("tr");
   const [mounted, setMounted] = useState(false);
   const root = useRef<HTMLDivElement>(null);
@@ -205,7 +205,7 @@ export default function Home({ repos }: { repos: Repo[] }) {
           {t.stats.map((s) => (
             <div key={s.label} className="bg-[#0b1119] px-6 py-7" data-reveal>
               <div className="font-display text-[38px] font-medium leading-none text-white">
-                <span data-count={s.value} data-decimals={s.decimals ?? 0} data-suffix={s.suffix ?? ""}>0</span>
+                <span data-count={s.key === "repos" && repoCount ? repoCount : s.value} data-decimals={s.decimals ?? 0} data-suffix={s.suffix ?? ""}>0</span>
               </div>
               <div className="mt-2 text-[12.5px] uppercase tracking-wider text-white/45">{s.label}</div>
             </div>
