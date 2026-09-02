@@ -1,7 +1,3 @@
 {
-  "_aciklama": "public/galeri/ içindeki her fotoğraf için alt başlık. Anahtar = dosya adı. 'tr' zorunlu; 'en' yoksa 'tr' kullanılır. Sıralama dosya adına göre yapılır, bu yüzden 01-, 02- gibi ön ek verin.",
-  "01-ornek.jpg": {
-    "tr": "Etkinliğin adı — kısa açıklama",
-    "en": "Event name — short description"
-  }
+  "_aciklama": "İsteğe bağlı. Alt başlık varsayılan olarak dosya adıdır; buraya dosya adıyla eşleşen kayıt yazarsanız (özellikle İngilizcesi için) o kullanılır."
 }

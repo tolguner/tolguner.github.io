@@ -6,9 +6,24 @@ export type Photo = { src: string; tr: string; en: string };
 type CaptionFile = Record<string, { tr?: string; en?: string }>;
 
 /**
- * `public/galeri/` klasöründeki fotoğrafları okur. Sıra dosya adına göredir
- * (01-, 02- gibi ön ek vermek sırayı belirlemenin en kolay yolu).
- * Alt başlıklar `src/galeri.json` dosyasından, dosya adıyla eşleşerek gelir.
+ * Dosya adından alt başlık üretir:
+ *   "01-IT&MIS Hackathon 2025.jpg"  ->  "IT&MIS Hackathon 2025"
+ * Baştaki sıra öneki (01-, 02_, "03 ") ve uzantı atılır; gerisi olduğu gibi kalır.
+ */
+function captionFromFilename(file: string): string {
+  return path
+    .basename(file, path.extname(file))
+    .replace(/^\d{1,3}\s*[-_.)]?\s*/, "")
+    .trim();
+}
+
+/**
+ * `public/galeri/` klasöründeki fotoğrafları okur. Sıra dosya adına göredir;
+ * 01-, 02- gibi ön ek vererek sıralamayı belirleyebilirsiniz.
+ *
+ * Alt başlık varsayılan olarak **dosya adıdır**. İstenirse `src/galeri.json`
+ * içinde dosya adıyla eşleşen bir kayıt yazılarak (özellikle İngilizcesi için)
+ * bu değer geçersiz kılınabilir.
  */
 export function getGallery(): Photo[] {
   const dir = path.join(process.cwd(), "public", "galeri");
@@ -29,7 +44,9 @@ export function getGallery(): Photo[] {
     .filter((f) => /\.(jpe?g|png|webp|avif)$/i.test(f))
     .sort((a, b) => a.localeCompare(b, "tr"))
     .map((file) => {
+      const fromName = captionFromFilename(file);
       const c = captions[file] ?? {};
-      return { src: `/galeri/${file}`, tr: c.tr ?? "", en: c.en ?? c.tr ?? "" };
+      const tr = c.tr ?? fromName;
+      return { src: `/galeri/${encodeURIComponent(file)}`, tr, en: c.en ?? tr };
     });
 }
