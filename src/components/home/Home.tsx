@@ -64,6 +64,17 @@ export default function Home({ repos }: { repos: Repo[] }) {
     gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
 
+    // Menü bağlantıları Lenis üzerinden kaysın (pinlenmiş bölümlerde doğru hedef)
+    const onAnchor = (e: MouseEvent) => {
+      const a = (e.target as HTMLElement).closest('a[href^="#"]') as HTMLAnchorElement | null;
+      if (!a) return;
+      const el = document.querySelector(a.getAttribute("href") || "");
+      if (!el) return;
+      e.preventDefault();
+      lenis.scrollTo(el as HTMLElement, { offset: -72, duration: 1.2 });
+    };
+    document.addEventListener("click", onAnchor);
+
     const mm = gsap.matchMedia();
     const ctx = gsap.context(() => {
       // Giriş
@@ -120,6 +131,7 @@ export default function Home({ repos }: { repos: Repo[] }) {
     return () => {
       ctx.revert();
       mm.revert();
+      document.removeEventListener("click", onAnchor);
       gsap.ticker.remove(raf);
       lenis.destroy();
     };
