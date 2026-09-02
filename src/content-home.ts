@@ -12,7 +12,7 @@ export type HomeDict = {
   hero: { kicker: string; line1: string; line2: string; sub: string; ctaProjects: string; ctaCv: string };
   stats: Stat[];
   about: { title: string; p1: string; p2: string; facts: { k: string; v: string }[]; badges: { k: string; v: string }[] };
-  journey: { title: string; sub: string; rangeLabel: string; stops: Stop[] };
+  journey: { title: string; sub: string; rangeLabel: string; galleryLabel: string; stops: Stop[] };
   projects: { title: string; sub: string; cards: Card[]; othersTitle: string; othersSub: string };
   research: { title: string; kicker: string; headline: string; quote: string; text: string; highlight: { title: string; label: string }; steps: Step[]; org: string };
   skills: { title: string; sub: string; techLabel: string; humanLabel: string; groups: SkillGroup[]; human: SoftSkill[] };
@@ -56,6 +56,7 @@ export const home: Record<Lang, HomeDict> = {
       title: "Yolculuk",
       sub: "2021'den bugüne — kaydırarak ilerle",
       rangeLabel: "Zaman aralığı",
+      galleryLabel: "Etkinlikler ve çalışmalar",
       stops: [
         { year: "2021", period: "Eyl 2021 – Haz 2022", title: "Işık Üniversitesi'ne Giriş", text: "Bir yıl İngilizce hazırlık eğitimi okudum.", tag: "Eğitim", details: ["EAQUALS akreditasyonlu program", "Akademik İngilizce ve dil pratiği becerileri"] },
         { year: "2022", period: "Eylül 2022", title: "Bölüme Başlangıç", text: "Yönetim Bilişim Sistemleri bölümüne başladım; yazılımı, veriyi ve iş süreçlerini birlikte okuyan bir programda ilerledim.", tag: "Eğitim", details: ["Yazılım geliştirme, veritabanı ve sistem analizi", "İş süreçleri, proje yönetimi ve veri analizi"] },
@@ -160,6 +161,7 @@ export const home: Record<Lang, HomeDict> = {
       title: "Journey",
       sub: "2021 to today — scroll to move",
       rangeLabel: "Timeline",
+      galleryLabel: "Events and activities",
       stops: [
         { year: "2021", period: "Sep 2021 – Jun 2022", title: "Starting at Işık University", text: "I spent a year in the English preparatory programme.", tag: "Education", details: ["EAQUALS-accredited programme", "Academic English and language practice"] },
         { year: "2022", period: "September 2022", title: "Starting the Degree", text: "I began Management Information Systems, a programme that reads software, data and business processes together.", tag: "Education", details: ["Software development, databases and systems analysis", "Business processes, project management and data analysis"] },

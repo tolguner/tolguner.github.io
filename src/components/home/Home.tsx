@@ -8,6 +8,8 @@ import Lenis from "lenis";
 import { home } from "@/content-home";
 import { links, type Lang } from "@/content";
 import type { Repo } from "@/components/Site";
+import type { Photo } from "@/lib/gallery";
+import PhotoMarquee from "./PhotoMarquee";
 
 const NodeSphere = dynamic(() => import("./NodeSphere"), { ssr: false });
 
@@ -30,7 +32,7 @@ function Words({ text, className }: { text: string; className?: string }) {
   );
 }
 
-export default function Home({ repos, repoCount }: { repos: Repo[]; repoCount?: number }) {
+export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[]; repoCount?: number; photos?: Photo[] }) {
   const [lang, setLang] = useState<Lang>("tr");
   const [mounted, setMounted] = useState(false);
   const root = useRef<HTMLDivElement>(null);
@@ -272,10 +274,10 @@ export default function Home({ repos, repoCount }: { repos: Repo[]; repoCount?: 
           </div>
         </div>
 
-        <div className="relative mt-8 md:mt-10 md:flex md:flex-1 md:items-center">
+        <div className="relative mt-8 md:flex md:min-w-0 md:flex-1 md:flex-col md:justify-center md:gap-8">
           <div ref={trackRef} className="flex flex-col gap-6 px-5 sm:px-8 md:w-max md:flex-row md:items-stretch md:gap-6 md:pl-[max(1.25rem,calc((100vw-72rem)/2+2rem))] md:pr-[14vw]">
             {t.journey.stops.map((s, i) => (
-              <article key={i} className={`group relative flex w-full shrink-0 flex-col overflow-hidden rounded-3xl border p-7 transition-colors md:aspect-[3/4] md:w-[25rem] md:p-8 ${s.featured ? "border-[#4f7cff]/45 bg-gradient-to-b from-[#111d33] to-[#0b1119] hover:border-[#4f7cff]/70" : "border-white/10 bg-[#0b1119] hover:border-white/25"}`} data-reveal>
+              <article key={i} className={`group relative flex w-full shrink-0 flex-col overflow-hidden rounded-3xl border p-7 transition-colors md:aspect-[3/4] md:w-auto md:p-8 ${photos.length ? "md:h-[min(50vh,31rem)]" : "md:h-[min(58vh,33rem)]"} ${s.featured ? "border-[#4f7cff]/45 bg-gradient-to-b from-[#111d33] to-[#0b1119] hover:border-[#4f7cff]/70" : "border-white/10 bg-[#0b1119] hover:border-white/25"}`} data-reveal>
                 {s.featured && <span aria-hidden className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.28),transparent_65%)]" />}
                 <span aria-hidden className={`font-display pointer-events-none absolute -right-3 -top-6 select-none text-[9rem] font-medium leading-none md:text-[11rem] ${s.featured ? "text-[#4f7cff]/[0.09]" : "text-white/[0.035]"}`}>{s.year}</span>
                 <div className="relative flex items-center gap-3">
@@ -296,6 +298,16 @@ export default function Home({ repos, repoCount }: { repos: Repo[]; repoCount?: 
               </article>
             ))}
           </div>
+
+          {photos.length > 0 && (
+            <div>
+              <div className="mx-auto mb-3 flex max-w-6xl items-center gap-3 px-5 sm:px-8">
+                <span className="text-[10.5px] font-semibold uppercase tracking-[0.22em] text-white/35">{t.journey.galleryLabel}</span>
+                <span className="h-px flex-1 bg-white/10" />
+              </div>
+              <PhotoMarquee photos={photos} lang={lang} />
+            </div>
+          )}
         </div>
 
         {/* İlerleme çubuğu */}
