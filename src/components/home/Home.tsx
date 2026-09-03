@@ -51,6 +51,8 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
   const girisRef = useRef<"yok" | "yazi" | "ucus" | "bitti">("yok");
   girisRef.current = giris;
   const isiltiRef = useRef<HTMLDivElement>(null);
+  const arastirmaRef = useRef<HTMLElement>(null);
+  const arastirmaIsiltiRef = useRef<HTMLDivElement>(null);
   const t = home[lang];
 
   // Sayfanın en arkasında fareyi izleyen mavi ışıltı — kartların ve metnin
@@ -69,9 +71,23 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     };
     window.addEventListener("pointermove", onMove, { passive: true });
 
+    // Araştırma'nın kendi ışıltısı: radial-gradient'in "at X Y"si o elemanın
+    // KENDİ kutusuna göredir (viewport'a göre değil), o yüzden imlecin
+    // ekrandaki konumunu bölümün üst-sol köşesine göre yeniden hesaplıyoruz.
+    const isikKonumUygula = (x: number, y: number) => {
+      el.style.setProperty("--gx", `${x}px`);
+      el.style.setProperty("--gy", `${y}px`);
+      const ar = arastirmaRef.current;
+      const arEl = arastirmaIsiltiRef.current;
+      if (ar && arEl) {
+        const r = ar.getBoundingClientRect();
+        arEl.style.setProperty("--rgx", `${x - r.left}px`);
+        arEl.style.setProperty("--rgy", `${y - r.top}px`);
+      }
+    };
+
     if (azalt) {
-      el.style.setProperty("--gx", `${hedef.x}px`);
-      el.style.setProperty("--gy", `${hedef.y}px`);
+      isikKonumUygula(hedef.x, hedef.y);
       return () => window.removeEventListener("pointermove", onMove);
     }
 
@@ -79,8 +95,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     const adim = () => {
       su.x += (hedef.x - su.x) * 0.055;
       su.y += (hedef.y - su.y) * 0.055;
-      el.style.setProperty("--gx", `${su.x}px`);
-      el.style.setProperty("--gy", `${su.y}px`);
+      isikKonumUygula(su.x, su.y);
       kare = requestAnimationFrame(adim);
     };
     kare = requestAnimationFrame(adim);
@@ -461,7 +476,17 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       </section>
 
       {/* Hakkımda */}
-      <section id="about" data-fit="screen" className="mx-auto flex max-w-6xl flex-col justify-center px-5 pt-32 sm:px-8 md:min-h-screen md:pb-[6vh] md:pt-[10vh] md:[@media(max-height:820px)]:pb-[4vh] md:[@media(max-height:820px)]:pt-[7vh]">
+      <section id="about" data-fit="screen" className="relative mx-auto flex max-w-6xl flex-col justify-center px-5 pt-32 sm:px-8 md:min-h-screen md:pb-[6vh] md:pt-[10vh] md:[@media(max-height:820px)]:pb-[4vh] md:[@media(max-height:820px)]:pt-[7vh]">
+        {/* Hero'nun taban geçişini buraya taşıyan köprü: Hero kendi
+            overflow-hidden'ı yüzünden sınırının dışına hiçbir şey çizemez.
+            Bu katman Hero'nun DIŞINDA (About'un içinde, negatif üstle Hero'nun
+            son pikselinin üstüne biner) olduğu için geçiş bölüm sınırında
+            aniden kesilmek yerine kesintisiz devam eder. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 -top-24 h-64 md:-top-32 md:h-80"
+          style={{ background: "linear-gradient(to bottom, rgba(7,11,18,0.92), transparent)" }}
+        />
         <div className="grid gap-14 md:grid-cols-[1.15fr_0.85fr] md:items-center md:sikisik:gap-10">
           <div>
             <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.about.title}</h2>
@@ -620,16 +645,28 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       </section>
 
       {/* Araştırma */}
-      <section id="research" data-fit="screen" className="relative mt-32 flex flex-col justify-center overflow-hidden py-28 md:min-h-screen md:sikisik:py-16 md:[@media(max-height:820px)]:pt-24 md:[@media(max-height:820px)]:pb-10">
-        {/* Yarı saydam lacivert film: paylaşılan mause ışıltısı altından hafifçe
-            sızar (hue kendiliğinden research'ün rengine kayar), kenarlarda
-            saydamlığa dönerek komşu bölümlerle sert bir kesim oluşturmaz. */}
+      <section id="research" ref={arastirmaRef} data-fit="screen" className="relative mt-32 flex flex-col justify-center overflow-hidden py-28 md:min-h-screen md:sikisik:py-16 md:[@media(max-height:820px)]:pt-24 md:[@media(max-height:820px)]:pb-10">
+        {/* Kendi lacivert kimliği: kenarlarda saydamlığa dönerek komşu
+            bölümlerle sert bir kesim oluşturmaz, ortada güçlü kalır. */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(11,17,25,0) 0%, rgba(11,17,25,0.28) 12%, rgba(11,17,25,0.28) 88%, rgba(11,17,25,0) 100%)",
+              "linear-gradient(to bottom, rgba(11,17,25,0) 0%, rgba(11,17,25,0.85) 14%, rgba(11,17,25,0.85) 86%, rgba(11,17,25,0) 100%)",
+          }}
+        />
+        {/* Araştırma'nın kendi mause-ışıltısı: bölümün lacivert filminin
+            üstünde durduğu için görünürlüğü filmin opaklığına bağlı değil;
+            rengi de sayfanın genel mavisinden ayrışıp research'ün kendi
+            vurgu tonuna (#8fb0ff) kayar. */}
+        <div
+          ref={arastirmaIsiltiRef}
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(34rem circle at var(--rgx, 70%) var(--rgy, 45%), rgba(143,176,255,0.24), rgba(143,176,255,0.08) 42%, transparent 68%)",
           }}
         />
         <div className="relative mx-auto grid w-full max-w-6xl gap-14 px-5 sm:px-8 md:grid-cols-[1fr_1fr] md:sikisik:gap-10">
