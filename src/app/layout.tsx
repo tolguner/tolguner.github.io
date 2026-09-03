@@ -24,6 +24,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="tr" className={`${display.variable} ${body.variable}`}>
+      <head>
+        {/* Boyamadan önce çalışır: açılış perdesi oynayacaksa hero'yu gizler.
+            JS kapalıysa sınıf hiç eklenmez, sayfa normal görünür. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(!sessionStorage.getItem('giris')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('giris-perde')}}catch(e){}",
+          }}
+        />
+      </head>
       <body className="min-h-screen antialiased">{children}</body>
     </html>
   );

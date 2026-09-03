@@ -59,11 +59,24 @@ function useWindowPointer() {
 
 // Fibonacci küresi üzerine dağıtılmış düğümler ve yakın komşular arasında çizgiler.
 function Nodes({ progress, count, giris }: { progress: MutableRefObject<number>; count: number; giris?: MutableRefObject<number> }) {
+  const konum = useRef<THREE.Group>(null); // sahnedeki yatay yerleşim
   const tilt = useRef<THREE.Group>(null); // fareye tepki veren dış grup
   const spin = useRef<THREE.Group>(null); // kendi ekseninde dönen iç grup
   const pointsMat = useRef<THREE.PointsMaterial>(null);
   const lineMat = useRef<THREE.LineBasicMaterial>(null);
   const pointer = useWindowPointer();
+  const { size } = useThree();
+
+  /**
+   * Tuval tüm ekranı kaplıyor; küre sahne içinde sağa kaydırılarak tasarımdaki
+   * yerine oturuyor. Böylece açılışta kamera içerideyken sol taraf da tuvalin
+   * içinde kalıyor, küre kenardan kesilmiyor.
+   */
+  const kaydirma = useMemo(() => {
+    const dunyaY = 2 * DIS_Z * Math.tan(((DIS_FOV / 2) * Math.PI) / 180);
+    const dunyaX = dunyaY * (size.width / Math.max(1, size.height));
+    return dunyaX * (size.width >= 768 ? 0.19 : 0.32);
+  }, [size.width, size.height]);
 
   const { positions, lines } = useMemo(() => {
     const pts: THREE.Vector3[] = [];
@@ -89,6 +102,8 @@ function Nodes({ progress, count, giris }: { progress: MutableRefObject<number>;
     const t = tilt.current;
     const s = spin.current;
     if (!t || !s) return;
+    // açılışta ekranın ortasında başlar, kamera çekilirken yerine kayar
+    if (konum.current) konum.current.position.x = kaydirma * (giris ? Math.min(1, Math.max(0, giris.current)) : 1);
     const p = progress.current; // 0 = hero başı, 1 = hero'dan çıkış
     const mx = pointer.current.x;
     const my = pointer.current.y;
@@ -119,22 +134,24 @@ function Nodes({ progress, count, giris }: { progress: MutableRefObject<number>;
   });
 
   return (
-    <group ref={tilt}>
-      <group ref={spin}>
-        <points>
-          <bufferGeometry>
-            <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-          </bufferGeometry>
-          <pointsMaterial ref={pointsMat} size={0.028} color="#9fc0ff" transparent opacity={0.95} sizeAttenuation depthWrite={false} />
-        </points>
-        <lineSegments>
-          <bufferGeometry>
-            <bufferAttribute attach="attributes-position" args={[lines, 3]} />
-          </bufferGeometry>
-          <lineBasicMaterial ref={lineMat} color="#4f7cff" transparent opacity={0.28} depthWrite={false} />
-        </lineSegments>
-        {/* iç çekirdek */}
-        <Core progress={progress} />
+    <group ref={konum}>
+      <group ref={tilt}>
+        <group ref={spin}>
+          <points>
+            <bufferGeometry>
+              <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+            </bufferGeometry>
+            <pointsMaterial ref={pointsMat} size={0.028} color="#9fc0ff" transparent opacity={0.95} sizeAttenuation depthWrite={false} />
+          </points>
+          <lineSegments>
+            <bufferGeometry>
+              <bufferAttribute attach="attributes-position" args={[lines, 3]} />
+            </bufferGeometry>
+            <lineBasicMaterial ref={lineMat} color="#4f7cff" transparent opacity={0.28} depthWrite={false} />
+          </lineSegments>
+          {/* iç çekirdek */}
+          <Core progress={progress} />
+        </group>
       </group>
     </group>
   );

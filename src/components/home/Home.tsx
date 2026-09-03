@@ -275,6 +275,11 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     if (girisRef.current === "bitti") heroAc(0.1);
   }, [lang, heroAc]);
 
+  // Perde devreye girene kadar hero'yu gizleyen sınıf, açılış başlayınca kalkar.
+  useEffect(() => {
+    if (giris === "ucus" || giris === "bitti") document.documentElement.classList.remove("giris-perde");
+  }, [giris]);
+
   useEffect(() => {
     if (menuAcik || giris !== "bitti") lenisRef.current?.stop();
     else lenisRef.current?.start();
@@ -305,7 +310,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       )}
 
       {/* Üst çubuk */}
-      <header className="fixed inset-x-0 top-0 z-30 border-b border-white/5 bg-[#070b12]/70 backdrop-blur-md">
+      <header className="giris-gizle fixed inset-x-0 top-0 z-30 border-b border-white/5 bg-[#070b12]/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
           <a href="#top" className="font-display text-lg font-semibold text-white">Tolga Olguner</a>
           <nav className="hidden gap-5 text-[12.5px] text-white/60 md:flex lg:gap-7 lg:text-[13px]">
@@ -376,15 +381,15 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       </div>
 
       {/* Hero */}
-      <section id="top" ref={heroRef} className="relative flex min-h-[100svh] items-center overflow-hidden">
+      <section id="top" ref={heroRef} className="giris-gizle relative flex min-h-[100svh] items-center overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute left-1/2 top-1/2 h-[80vmin] w-[80vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.22)_0%,rgba(79,124,255,0.06)_40%,transparent_70%)]" />
           <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_60%,#070b12_100%)]" />
         </div>
-        <div className="absolute inset-y-0 left-[44%] -right-[20%] md:left-[38%] md:right-0">
-          <div className="h-full w-full opacity-[0.7] md:opacity-90">
-            {mounted && <NodeSphere progress={progress} giris={girisIlerleme} />}
-          </div>
+        {/* Tuval tüm ekranı kaplar; kürenin sahnedeki yatay yeri NodeSphere içinde
+            ayarlanır, böylece açılışta sol kenardan kesilmez. */}
+        <div className="absolute inset-0 opacity-[0.7] md:opacity-90">
+          {mounted && <NodeSphere progress={progress} giris={girisIlerleme} />}
         </div>
         <div className="hero-content relative z-10 mx-auto w-full max-w-6xl px-5 pb-16 pt-28 sm:px-8">
           <p className="hero-fade mb-5 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#8fb0ff]">{t.hero.kicker}</p>
