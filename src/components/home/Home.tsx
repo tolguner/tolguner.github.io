@@ -45,7 +45,6 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
   const journeyRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const journeyBodyRef = useRef<HTMLDivElement>(null);
-  const journeyTitleRef = useRef<HTMLDivElement>(null);
   const cardZoneRef = useRef<HTMLDivElement>(null);
   const progress = useRef(0);
   const lenisRef = useRef<Lenis | null>(null);
@@ -256,9 +255,10 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           return;
         }
 
-        // "Yolculuk" başlığı da (top-16, 64px) sabit kalıyor; pinlenen alan
-        // başlığın hemen altından başlamalı ki üst üste binmesin.
-        const barOfset = () => 64 + (journeyTitleRef.current?.getBoundingClientRect().height ?? 0);
+        // Başlık artık pinlenen kutunun kendi içinde normal bir eleman (ayrı
+        // sticky yok) — pin başladığında başlıkla birlikte kayar, pin bittiğinde
+        // son kartla birlikte kaybolur.
+        const barOfset = () => (document.querySelector("header")?.getBoundingClientRect().height ?? 56) + 8;
         const dist = () => track.scrollHeight - zone.offsetHeight;
 
         gsap.set(track, { y: 0 });
@@ -566,21 +566,28 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
 
       {/* Yolculuk */}
       <section id="journey" data-fit="screen" ref={journeyRef} className="relative mt-32 md:flex md:h-screen md:flex-col md:overflow-hidden">
-        <div ref={journeyTitleRef} className="sticky top-16 z-10 pb-2 md:static md:pb-0">
-        <div className="mx-auto w-full max-w-6xl px-5 pt-6 sm:px-8 md:px-0 md:pt-[10vh]">
-          <div className="flex items-center justify-between gap-6">
-            <div>
-              <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.journey.title}</h2>
-            </div>
-            <div className="hidden text-right md:block">
-              <div className="text-[11px] uppercase tracking-[0.22em] text-white/40">{t.journey.rangeLabel}</div>
-              <div className="font-display text-[34px] leading-none text-white/80">2021 — 2026</div>
+        {/* Masaüstü başlığı: kendi satırında, kartların üstünde sabit üst boşluk. */}
+        <div className="hidden md:block">
+          <div className="mx-auto w-full max-w-6xl px-5 pt-6 sm:px-8 md:px-0 md:pt-[10vh]">
+            <div className="flex items-center justify-between gap-6">
+              <div>
+                <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.journey.title}</h2>
+              </div>
+              <div className="hidden text-right md:block">
+                <div className="text-[11px] uppercase tracking-[0.22em] text-white/40">{t.journey.rangeLabel}</div>
+                <div className="font-display text-[34px] leading-none text-white/80">2021 — 2026</div>
+              </div>
             </div>
           </div>
         </div>
-        </div>
 
         <div ref={journeyBodyRef} className="relative mt-8 md:mt-4 md:flex md:min-w-0 md:flex-1 md:flex-col md:justify-center md:gap-[3vh]">
+          {/* Mobil başlığı: pinlenen alanın içinde ilk eleman — kartlarla birlikte
+              pinlenir, pin bittiğinde son kartla birlikte kayıp gider, ayrıca
+              sticky tutmaya gerek yok. */}
+          <div className="px-5 pb-2 sm:px-8 md:hidden">
+            <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.journey.title}</h2>
+          </div>
           <div
             ref={cardZoneRef}
             className="relative h-[55vh] overflow-hidden px-5 sm:px-8 md:h-auto md:overflow-visible md:contents"
