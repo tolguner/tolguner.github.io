@@ -434,7 +434,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       <section id="top" ref={heroRef} className="giris-gizle relative flex min-h-[100svh] items-center overflow-hidden">
         {/* Ortadaki mavi parıltı kürenin sol yarısının arkasına düşüp noktaların
             kontrastını düşürüyordu; küre orada bitiyormuş gibi görünüyordu. */}
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_60%,#070b12_100%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_55%,rgba(7,11,18,0.55)_100%)]" />
         {/* Tuval tüm ekranı kaplar; kürenin sahnedeki yatay yeri NodeSphere içinde
             ayarlanır, böylece açılışta sol kenardan kesilmez. */}
         <div className="absolute inset-0 opacity-[0.7] md:opacity-90">
@@ -618,8 +618,18 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       </section>
 
       {/* Araştırma */}
-      <section id="research" data-fit="screen" className="relative mt-32 flex flex-col justify-center overflow-hidden border-y border-white/10 bg-[#0b1119] py-28 md:min-h-screen md:sikisik:py-16 md:[@media(max-height:820px)]:pt-24 md:[@media(max-height:820px)]:pb-10">
-        <div className="pointer-events-none absolute -right-40 top-1/2 h-[60rem] w-[60rem] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.14),transparent_60%)]" />
+      <section id="research" data-fit="screen" className="relative mt-32 flex flex-col justify-center overflow-hidden py-28 md:min-h-screen md:sikisik:py-16 md:[@media(max-height:820px)]:pt-24 md:[@media(max-height:820px)]:pb-10">
+        {/* Yarı saydam lacivert film: paylaşılan mause ışıltısı altından hafifçe
+            sızar (hue kendiliğinden research'ün rengine kayar), kenarlarda
+            saydamlığa dönerek komşu bölümlerle sert bir kesim oluşturmaz. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(11,17,25,0) 0%, rgba(11,17,25,0.82) 12%, rgba(11,17,25,0.82) 88%, rgba(11,17,25,0) 100%)",
+          }}
+        />
         <div className="relative mx-auto grid w-full max-w-6xl gap-14 px-5 sm:px-8 md:grid-cols-[1fr_1fr] md:sikisik:gap-10">
           <div>
             <p className="text-[12px] font-semibold uppercase tracking-[0.22em] text-[#8fb0ff]" data-reveal>{t.research.kicker}</p>
