@@ -199,10 +199,16 @@ export default function Site({ repos }: { repos: Repo[] }) {
       </div>
 
       <SectionTitle>{t.sections.languages}</SectionTitle>
-      <div className="flex flex-wrap gap-2">
-        {t.languages.map((l) => (
-          <span key={l} className="rounded-full border border-line bg-paper-2 px-3 py-1.5 text-[13px] text-ink-soft">{l}</span>
-        ))}
+      <div className="grid gap-3 sm:grid-cols-3">
+        {t.languages.map((l) => {
+          const [name, level] = l.split(" — ");
+          return (
+            <div key={l} className="rounded-lg border-l-2 border-accent bg-paper-2 py-2 pl-3.5 pr-3">
+              <div className="text-[14px] font-bold text-ink">{name}</div>
+              <div className="mt-0.5 text-[12px] text-muted">{level}</div>
+            </div>
+          );
+        })}
       </div>
 
       {/* İletişim */}

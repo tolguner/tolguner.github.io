@@ -76,13 +76,14 @@ export const content: Record<Lang, Dict> = {
       items: [
         "TÜBİTAK tarafından kabul edildi ve 2209-A programı kapsamında hibe desteği almaya hak kazandı; şu an veri toplama aşamasında",
         "PSQI, PSS-10 ve MAAS ölçekleri ile ekran süresi ve not ortalaması verisinin çoklu regresyon ve aracılık/moderasyon analiziyle incelenmesi; çıktı olarak “Farkındalık Gösterge Paneli” prototipi",
-        "Dört kişilik ekip · danışman Dr. Habibe Aktay",
+        "4 Kişilik Ekip Projesi",
+        "Danışman: Dr. Habibe Aktay",
       ],
     },
     projects: [
       {
         title: "Işık CampusOS",
-        kind: "Bitirme projesi · 2026",
+        kind: "Bitirme Projesi · 2026",
         tech: "Java · Spring Boot · React · Apache Kafka · PostgreSQL · Docker",
         note: "Kampüs yaşamının dağınık süreçlerini — kulüp ve etkinlikler, tesis rezervasyonu, yemek siparişi, paylaşımlı yolculuk — öğrencinin tek hesapla kullandığı bir platformda birleştirmeyi amaçlar.",
         items: ["Mikroservis mimarisi: API Gateway'de merkezi JWT doğrulama, Kafka ile olay güdümlü servis iletişimi, servis başına ayrı veritabanı"],
@@ -91,7 +92,7 @@ export const content: Record<Lang, Dict> = {
       },
       {
         title: "Veteriner Yönetim Sistemi",
-        kind: "Ekip projesi · proje koordinatörü · 2025",
+        kind: "Ekip Projesi · Proje Koordinatörü · 2025",
         tech: "Spring Boot · React · MySQL · JWT",
         note: "Bir veteriner kliniğinin hasta, randevu ve tedavi kayıtlarını tek sistemde yönetmesini sağlar.",
         items: ["Beş kişilik ekipte proje koordinatörü; JWT korumalı REST API ve React arayüzü"],
@@ -100,16 +101,16 @@ export const content: Record<Lang, Dict> = {
       },
       {
         title: "Şans Oyunlarında Hızlı Kazanç Algısı ve Emek İlişkisi: İstatistiksel Bir Analiz ve Modelleme",
-        kind: "Veri bilimi dönem projesi · 2025",
+        kind: "Veri Bilimi Dönem Projesi · 2025",
         tech: "Python · pandas · statsmodels · Jupyter",
         note: "Hızlı kazanç algısının emek inancıyla ilişkisini inceleyen anket temelli istatistiksel çalışma.",
-        items: ["153 katılımcılı veride güvenilirlik, regresyon ve aracılık analizi; dört kişilik ekip, 44 sayfalık araştırma raporu"],
+        items: ["153 katılımcılı veride güvenilirlik, regresyon ve aracılık analizi; dört kişilik ekip"],
         url: "https://github.com/tolguner/Hizli-Kazanc-Algisi-Analizi",
         urlLabel: "github.com/tolguner/Hizli-Kazanc-Algisi-Analizi",
       },
       {
         title: "tolguner.me",
-        kind: "Kişisel portfolyo sitesi · 2026",
+        kind: "Kişisel Portfolyo Sitesi · 2026",
         tech: "Next.js · TypeScript · Three.js · GSAP · GitHub Pages",
         note: "Bu site. Statik export ile GitHub Pages'te yayınlanıyor; depo listesi build sırasında GitHub API'den çekiliyor.",
         items: [],
@@ -186,13 +187,14 @@ export const content: Record<Lang, Dict> = {
       items: [
         "Accepted by TÜBİTAK and awarded a grant under the 2209-A programme; currently in the data collection phase",
         "Screen-time, GPA and PSQI, PSS-10, MAAS scale data to be analysed with multiple regression and mediation/moderation analysis, delivering an “Awareness Dashboard” prototype",
-        "Four-person team · advisor Dr. Habibe Aktay",
+        "4-Person Team Project",
+        "Advisor: Dr. Habibe Aktay",
       ],
     },
     projects: [
       {
         title: "Işık CampusOS",
-        kind: "Capstone project · 2026",
+        kind: "Capstone Project · 2026",
         tech: "Java · Spring Boot · React · Apache Kafka · PostgreSQL · Docker",
         note: "Aims to bring the scattered parts of campus life — clubs and events, facility booking, food ordering, ride sharing — into one platform students use with a single account.",
         items: ["Microservice architecture: centralized JWT validation at the API gateway, event-driven service communication via Kafka, database per service"],
@@ -201,7 +203,7 @@ export const content: Record<Lang, Dict> = {
       },
       {
         title: "Veterinary Management System",
-        kind: "Team project · project coordinator · 2025",
+        kind: "Team Project · Project Coordinator · 2025",
         tech: "Spring Boot · React · MySQL · JWT",
         note: "Lets a veterinary clinic manage patient, appointment and treatment records in one system.",
         items: ["Project coordinator in a five-person team; JWT-secured REST API and React interface"],
@@ -210,16 +212,16 @@ export const content: Record<Lang, Dict> = {
       },
       {
         title: "Quick-Gain Perception and Effort in Games of Chance: A Statistical Analysis and Modelling",
-        kind: "Data science term project · 2025",
+        kind: "Data Science Term Project · 2025",
         tech: "Python · pandas · statsmodels · Jupyter",
         note: "Survey-based statistical study of how perceived quick gains relate to belief in effort.",
-        items: ["Reliability, regression and mediation analysis on data from 153 participants; four-person team, 44-page research report"],
+        items: ["Reliability, regression and mediation analysis on data from 153 participants; four-person team"],
         url: "https://github.com/tolguner/Hizli-Kazanc-Algisi-Analizi",
         urlLabel: "github.com/tolguner/Hizli-Kazanc-Algisi-Analizi",
       },
       {
         title: "tolguner.me",
-        kind: "Personal portfolio site · 2026",
+        kind: "Personal Portfolio Site · 2026",
         tech: "Next.js · TypeScript · Three.js · GSAP · GitHub Pages",
         note: "This site. Statically exported to GitHub Pages; the repository list is fetched from the GitHub API at build time.",
         items: [],
