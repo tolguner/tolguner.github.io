@@ -115,7 +115,7 @@ export default function PhotoMarquee({ photos, lang }: { photos: Photo[]; lang: 
     >
       <ul ref={trackRef} className="flex w-max select-none gap-5 will-change-transform">
         {dongu.map((p, i) => (
-          <li key={`${p.src}-${i}`} className="w-[clamp(8rem,18.67vh,14.5rem)] shrink-0" aria-hidden={i >= taban.length}>
+          <li key={`${p.src}-${i}`} className="w-[clamp(8rem,17.33vh,13.47rem)] shrink-0" aria-hidden={i >= taban.length}>
             <figure className="group">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -123,7 +123,7 @@ export default function PhotoMarquee({ photos, lang }: { photos: Photo[]; lang: 
                 alt={(lang === "tr" ? p.tr : p.en) || ""}
                 loading="lazy"
                 draggable={false}
-                className="h-[clamp(6rem,14vh,10.875rem)] w-full rounded-xl border border-white/10 object-cover transition group-hover:border-white/30"
+                className="h-[clamp(6rem,13vh,10.1rem)] w-full rounded-xl border border-white/10 object-cover transition group-hover:border-white/30"
               />
               {(lang === "tr" ? p.tr : p.en) && (
                 <figcaption
