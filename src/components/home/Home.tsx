@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -10,6 +10,7 @@ import { links, type Lang } from "@/content";
 import type { Repo } from "@/components/Site";
 import type { Photo } from "@/lib/gallery";
 import PhotoMarquee from "./PhotoMarquee";
+import Intro from "./Intro";
 
 const NodeSphere = dynamic(() => import("./NodeSphere"), { ssr: false });
 
@@ -36,12 +37,18 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
   const [lang, setLang] = useState<Lang>("tr");
   const [mounted, setMounted] = useState(false);
   const [menuAcik, setMenuAcik] = useState(false);
+  /** yok: karar verilmedi · yazi: daktilo · ucus: kürenin yörüngesi · bitti */
+  const [giris, setGiris] = useState<"yok" | "yazi" | "ucus" | "bitti">("yok");
+  const [perde, setPerde] = useState(true);
   const root = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const journeyRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const progress = useRef(0);
   const lenisRef = useRef<Lenis | null>(null);
+  const kureRef = useRef<HTMLDivElement>(null);
+  const girisRef = useRef<"yok" | "yazi" | "ucus" | "bitti">("yok");
+  girisRef.current = giris;
   const t = home[lang];
 
   useEffect(() => {
@@ -50,6 +57,19 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       if (saved === "tr" || saved === "en") setLang(saved);
     } catch {}
     setMounted(true);
+
+    // Açılış yalnızca oturumun ilk ziyaretinde ve hareket kısıtlaması yokken oynar.
+    const azalt = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let gorulmus = false;
+    try { gorulmus = sessionStorage.getItem("giris") === "1"; } catch {}
+    if (azalt || gorulmus) {
+      setGiris("bitti");
+      setPerde(false);
+      heroAc(0.15);
+    } else {
+      window.scrollTo(0, 0);
+      setGiris("yazi");
+    }
   }, []);
 
   useEffect(() => {
@@ -112,11 +132,6 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     let gozlemci: IntersectionObserver | null = null;
     const mm = gsap.matchMedia();
     const ctx = gsap.context(() => {
-      // Giriş
-      if (!reduce) {
-        gsap.from(".hero-word", { yPercent: 110, duration: 1.1, ease: "power4.out", stagger: 0.05, delay: 0.15 });
-        gsap.from(".hero-fade", { y: 18, opacity: 0, duration: 0.9, ease: "power3.out", stagger: 0.12, delay: 0.7 });
-      }
       ScrollTrigger.create({
         trigger: heroRef.current,
         start: "top top",
@@ -210,14 +225,103 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     };
   }, [mounted, lang]);
 
+  // Küre, perde açılana kadar görünmez; uçuş başlayınca GSAP devralır.
+  useLayoutEffect(() => {
+    if (!mounted || !kureRef.current) return;
+    if (giris === "yazi") gsap.set(kureRef.current, { opacity: 0 });
+  }, [mounted, giris]);
+
+  /** Hero yazılarının açılışı — perde kalktıktan sonra oynar. */
+  const heroAc = useCallback((gecikme: number) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // fromTo: iki kez çağrılırsa "mevcut değer" 0 olarak okunup yazılar görünmez kalmasın
+    gsap.fromTo(".hero-word", { yPercent: 110 }, { yPercent: 0, duration: 1.1, ease: "power4.out", stagger: 0.05, delay: gecikme, overwrite: true });
+    gsap.fromTo(
+      ".hero-fade",
+      { y: 18, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.9, ease: "power3.out", stagger: 0.12, delay: gecikme + 0.35, overwrite: true }
+    );
+  }, []);
+
+  const bitir = useCallback(() => {
+    try { sessionStorage.setItem("giris", "1"); } catch {}
+    setGiris("bitti");
+    setTimeout(() => setPerde(false), 800);
+  }, []);
+
+  /** Perdeyi atla: küreyi yerine koy, hero'yu aç. */
+  const atla = useCallback(() => {
+    const kure = kureRef.current;
+    if (kure) {
+      gsap.killTweensOf(kure);
+      gsap.set(kure, { clearProps: "transform,opacity" });
+    }
+    heroAc(0.1);
+    bitir();
+  }, [heroAc, bitir]);
+
+  /**
+   * Küre, "O" harfinin merkezinde bir nokta olarak doğar; kavisli bir yörünge
+   * (ikinci dereceden Bézier) boyunca dönerek hero'daki yerine oturur.
+   */
+  const ucur = useCallback((harf: HTMLElement) => {
+    const kure = kureRef.current;
+    if (!kure) { atla(); return; }
+    setGiris("ucus");
+
+    const k = kure.getBoundingClientRect();
+    const o = harf.getBoundingClientRect();
+    const dx = o.left + o.width / 2 - (k.left + k.width / 2);
+    const dy = o.top + o.height / 2 - (k.top + k.height / 2);
+    const uzak = Math.hypot(dx, dy) || 1;
+    // kontrol noktası: yolun ortasından dışa doğru itilerek kayan yıldız kavisi
+    const kx = dx * 0.5 - (dy / uzak) * uzak * 0.38;
+    const ky = dy * 0.5 + (dx / uzak) * uzak * 0.38 - uzak * 0.16;
+
+    const buyume = gsap.parseEase("power2.inOut");
+    const donme = gsap.parseEase("power2.out");
+    const nesne = { p: 0 };
+
+    gsap.set(kure, { x: dx, y: dy, scale: 0.04, rotate: -38, opacity: 0 });
+    gsap.to(kure, { opacity: 1, duration: 0.4, ease: "power2.out" });
+    gsap.to(nesne, {
+      p: 1,
+      duration: 1.5,
+      ease: "power2.inOut",
+      onUpdate: () => {
+        const p = nesne.p;
+        const q = 1 - p;
+        gsap.set(kure, {
+          x: q * q * dx + 2 * q * p * kx,
+          y: q * q * dy + 2 * q * p * ky,
+          scale: 0.04 + 0.96 * buyume(p),
+          rotate: -38 * (1 - donme(p)),
+        });
+      },
+      onComplete: () => {
+        gsap.set(kure, { clearProps: "transform,opacity" });
+        bitir();
+      },
+    });
+
+    heroAc(0.85);
+  }, [atla, bitir, heroAc]);
+
+  // Dil değişiminde hero yazıları yeniden belirir (ilk yüklemede değil).
+  const ilkDil = useRef(true);
   useEffect(() => {
-    if (menuAcik) lenisRef.current?.stop();
+    if (ilkDil.current) { ilkDil.current = false; return; }
+    if (girisRef.current === "bitti") heroAc(0.1);
+  }, [lang, heroAc]);
+
+  useEffect(() => {
+    if (menuAcik || giris !== "bitti") lenisRef.current?.stop();
     else lenisRef.current?.start();
     const kapat = (e: KeyboardEvent) => { if (e.key === "Escape") setMenuAcik(false); };
     window.addEventListener("keydown", kapat);
     return () => window.removeEventListener("keydown", kapat);
     // lang/mounted: dil degisince Lenis yeniden kuruluyor, menu acikken tekrar durdurulmali
-  }, [menuAcik, lang, mounted]);
+  }, [menuAcik, giris, lang, mounted]);
 
   const tilt = (e: React.MouseEvent<HTMLElement>) => {
     const el = e.currentTarget;
@@ -234,6 +338,11 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
 
   return (
     <div ref={root} className="home relative min-h-screen overflow-x-clip bg-[#070b12] text-[#c9d3e0]">
+      {/* Açılış perdesi */}
+      {perde && giris !== "yok" && (
+        <Intro onYazimBitti={ucur} kapaniyor={giris !== "yazi"} atlaEtiketi={t.nav.skipIntro} onAtla={atla} />
+      )}
+
       {/* Üst çubuk */}
       <header className="fixed inset-x-0 top-0 z-30 border-b border-white/5 bg-[#070b12]/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
@@ -311,7 +420,9 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           <div className="absolute left-1/2 top-1/2 h-[80vmin] w-[80vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.22)_0%,rgba(79,124,255,0.06)_40%,transparent_70%)]" />
           <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_60%,#070b12_100%)]" />
         </div>
-        <div className="absolute inset-y-0 left-[44%] -right-[20%] opacity-[0.7] md:left-[38%] md:right-0 md:opacity-90">{mounted && <NodeSphere progress={progress} />}</div>
+        <div ref={kureRef} className={`absolute inset-y-0 left-[44%] -right-[20%] md:left-[38%] md:right-0 ${giris === "ucus" ? "z-50" : ""}`}>
+          <div className="h-full w-full opacity-[0.7] md:opacity-90">{mounted && <NodeSphere progress={progress} />}</div>
+        </div>
         <div className="hero-content relative z-10 mx-auto w-full max-w-6xl px-5 pb-16 pt-28 sm:px-8">
           <p className="hero-fade mb-5 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#8fb0ff]">{t.hero.kicker}</p>
           <h1 className="font-display max-w-4xl text-[clamp(2.4rem,6.2vw,5.2rem)] font-medium leading-[1.02] tracking-tight text-white">
