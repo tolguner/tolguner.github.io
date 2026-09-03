@@ -56,7 +56,7 @@ export const content: Record<Lang, Dict> = {
         ],
       },
       {
-        title: "Üniversite Temsilcisi",
+        title: "Üniversite Pazarlama Temsilcisi",
         org: "Unicourse",
         date: "Eki 2025 – Tem 2026",
         items: ["Kampüs temsilcisi olarak öğrenci topluluğuna yönelik pazarlama ve tanıtım faaliyetlerini yürüttü", "Firmanın ihtiyaç duyduğu eğitim materyallerinin organizasyonunu üstlendi"],
@@ -165,7 +165,7 @@ export const content: Record<Lang, Dict> = {
         ],
       },
       {
-        title: "University Representative",
+        title: "University Marketing Representative",
         org: "Unicourse",
         date: "Oct 2025 – Jul 2026",
         items: ["Ran on-campus marketing and outreach activities targeting the student community as campus representative", "Organized the training materials the company needed"],
