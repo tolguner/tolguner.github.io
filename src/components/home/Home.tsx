@@ -87,9 +87,11 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
 
     // Bölüm hedefini sabit barın altına dengeli oturtur.
     const kaydir = (el: HTMLElement, sure = 1.2) => {
-      const pinli = el.id === "journey" && window.matchMedia("(min-width: 900px)").matches;
+      // Tek ekrana kurgulanan bolumler (Hakkimda, pinlenen Yolculuk) tepeye yaslanir;
+      // digerlerinde hedefin ust ic boslugu dusulup baslik barin altina oturtulur.
+      const tamEkran = el.dataset.fit === "screen" && window.matchMedia("(min-width: 768px)").matches;
       const icBosluk = parseFloat(getComputedStyle(el).paddingTop) || 0;
-      const ofset = pinli ? 0 : icBosluk - barYuksekligi() - 20;
+      const ofset = tamEkran ? 0 : icBosluk - barYuksekligi() - 20;
       lenis.scrollTo(el, { offset: ofset, duration: sure });
     };
 
@@ -238,28 +240,14 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         </div>
       </section>
 
-      {/* İstatistikler */}
-      <section className="relative z-10 mx-auto max-w-6xl px-5 sm:px-8">
-        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-4">
-          {t.stats.map((s) => (
-            <div key={s.label} className="bg-[#0b1119] px-6 py-7" data-reveal>
-              <div className="font-display text-[38px] font-medium leading-none text-white">
-                <span data-count={s.key === "repos" && repoCount ? repoCount : s.value} data-decimals={s.decimals ?? 0} data-suffix={s.suffix ?? ""}>0</span>
-              </div>
-              <div className="mt-2 text-[12.5px] uppercase tracking-wider text-white/45">{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* Hakkımda */}
-      <section id="about" className="mx-auto max-w-6xl px-5 pt-32 sm:px-8">
-        <div className="grid gap-14 md:grid-cols-[1.15fr_0.85fr] md:items-start">
+      <section id="about" data-fit="screen" className="mx-auto flex max-w-6xl flex-col justify-center px-5 pt-32 sm:px-8 md:min-h-screen md:pb-[6vh] md:pt-[10vh]">
+        <div className="grid gap-14 md:grid-cols-[1.15fr_0.85fr] md:items-center md:[@media(max-height:1000px)]:gap-10">
           <div>
             <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.about.title}</h2>
-            <p className="mt-7 text-[17px] leading-relaxed text-white/70" data-reveal>{t.about.p1}</p>
-            <p className="mt-5 text-[17px] leading-relaxed text-white/70" data-reveal>{t.about.p2}</p>
-            <dl className="mt-10 grid gap-5 border-t border-white/10 pt-8 sm:grid-cols-2">
+            <p className="mt-7 text-[17px] leading-relaxed text-white/70 md:[@media(max-height:1000px)]:mt-5 md:[@media(max-height:1000px)]:text-[15.5px]" data-reveal>{t.about.p1}</p>
+            <p className="mt-5 text-[17px] leading-relaxed text-white/70 md:[@media(max-height:1000px)]:mt-4 md:[@media(max-height:1000px)]:text-[15.5px]" data-reveal>{t.about.p2}</p>
+            <dl className="mt-10 grid gap-5 border-t border-white/10 pt-8 sm:grid-cols-2 md:[@media(max-height:1000px)]:mt-6 md:[@media(max-height:1000px)]:gap-4 md:[@media(max-height:1000px)]:pt-5">
               {t.about.facts.map((f) => (
                 <div key={f.k} data-reveal>
                   <dt className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#8fb0ff]">{f.k}</dt>
@@ -268,7 +256,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
               ))}
             </dl>
           </div>
-          <div className="relative mx-auto w-full max-w-sm md:mt-4" data-reveal>
+          <div className="relative mx-auto w-full max-w-sm md:[@media(max-height:1000px)]:max-w-[19rem]" data-reveal>
             <div className="absolute -inset-6 rounded-[2rem] bg-[radial-gradient(circle_at_30%_20%,rgba(79,124,255,0.35),transparent_60%)] blur-2xl" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/portre.jpg" alt="Tolga Olguner" width={900} height={1200} className="relative aspect-[3/4] w-full rounded-3xl border border-white/10 object-cover" />
@@ -280,10 +268,22 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
             ))}
           </div>
         </div>
+
+        {/* Rakamlarla — hakkımda metnini karşılayan şerit */}
+        <div className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:mt-[5vh] md:grid-cols-4">
+          {t.stats.map((s) => (
+            <div key={s.label} className="bg-[#0b1119] px-6 py-7 md:[@media(max-height:1000px)]:py-5" data-reveal>
+              <div className="font-display text-[38px] font-medium leading-none text-white md:[@media(max-height:1000px)]:text-[32px]">
+                <span data-count={s.key === "repos" && repoCount ? repoCount : s.value} data-decimals={s.decimals ?? 0} data-suffix={s.suffix ?? ""}>0</span>
+              </div>
+              <div className="mt-2 text-[12.5px] uppercase tracking-wider text-white/45">{s.label}</div>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Yolculuk */}
-      <section id="journey" ref={journeyRef} className="relative mt-32 md:flex md:h-screen md:flex-col md:overflow-hidden">
+      <section id="journey" data-fit="screen" ref={journeyRef} className="relative mt-32 md:flex md:h-screen md:flex-col md:overflow-hidden">
         <div className="mx-auto w-full max-w-6xl px-5 pt-6 sm:px-8 md:pt-[10vh]">
           <div className="flex items-center justify-between gap-6">
             <div>

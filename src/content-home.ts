@@ -12,7 +12,7 @@ export type HomeDict = {
   hero: { kicker: string; line1: string; line2: string; sub: string; ctaProjects: string; ctaCv: string };
   stats: Stat[];
   about: { title: string; p1: string; p2: string; facts: { k: string; v: string }[]; badges: { k: string; v: string }[] };
-  journey: { title: string; sub: string; rangeLabel: string; galleryLabel: string; stops: Stop[] };
+  journey: { title: string; rangeLabel: string; galleryLabel: string; stops: Stop[] };
   projects: { title: string; sub: string; cards: Card[]; othersTitle: string; othersSub: string };
   research: { title: string; kicker: string; headline: string; quote: string; text: string; highlight: { title: string; label: string }; steps: Step[]; org: string };
   skills: { title: string; sub: string; techLabel: string; humanLabel: string; groups: SkillGroup[]; human: SoftSkill[] };
@@ -54,7 +54,6 @@ export const home: Record<Lang, HomeDict> = {
     },
     journey: {
       title: "Yolculuk",
-      sub: "2021'den bugüne — kaydırarak ilerle",
       rangeLabel: "Zaman aralığı",
       galleryLabel: "Etkinlikler ve çalışmalar",
       stops: [
@@ -159,7 +158,6 @@ export const home: Record<Lang, HomeDict> = {
     },
     journey: {
       title: "Journey",
-      sub: "2021 to today — scroll to move",
       rangeLabel: "Timeline",
       galleryLabel: "Events and activities",
       stops: [
