@@ -466,9 +466,13 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
             için mause-ışıltısı ansızın tam güce sıçramıyor. Hero'nun kendi
             kutusuna taşmıyor (üst boşluk yok) — üst üste binip bir önceki
             denemedeki gibi ayrı bir şerit oluşturmuyor. */}
+        {/* Bölüm mx-auto max-w-6xl ile kendi içeriğine daralıyor; "inset-x-0"
+            burada yalnızca o dar kutuyu kaplardı ve gradyan kenarlara
+            yaslanmazdı. left-1/2 + w-screen ile gerçek ekran genişliğine
+            taşıyoruz. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-40 md:h-56"
+          className="pointer-events-none absolute left-1/2 top-0 h-40 w-screen -translate-x-1/2 md:h-56"
           style={{ background: "linear-gradient(to bottom, rgba(3,10,22,0.55), transparent)" }}
         />
         <div className="grid gap-14 md:grid-cols-[1.15fr_0.85fr] md:items-center md:sikisik:gap-10">
