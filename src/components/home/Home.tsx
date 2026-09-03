@@ -196,7 +196,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           <div className="absolute left-1/2 top-1/2 h-[80vmin] w-[80vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.22)_0%,rgba(79,124,255,0.06)_40%,transparent_70%)]" />
           <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_60%,#070b12_100%)]" />
         </div>
-        <div className="absolute inset-0 opacity-90 md:left-[38%]">{mounted && <NodeSphere progress={progress} />}</div>
+        <div className="absolute inset-y-0 left-[44%] -right-[20%] opacity-[0.7] md:left-[38%] md:right-0 md:opacity-90">{mounted && <NodeSphere progress={progress} />}</div>
         <div className="hero-content relative z-10 mx-auto w-full max-w-6xl px-5 pb-16 pt-28 sm:px-8">
           <p className="hero-fade mb-5 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#8fb0ff]">{t.hero.kicker}</p>
           <h1 className="font-display max-w-4xl text-[clamp(2.4rem,6.2vw,5.2rem)] font-medium leading-[1.02] tracking-tight text-white">
