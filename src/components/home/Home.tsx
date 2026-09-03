@@ -443,7 +443,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
               </div>
             </div>
           </div>
-          <ol className="grid gap-6 self-center sm:grid-cols-2">
+          <ol className="grid gap-6 self-center lg:grid-cols-2">
             {t.research.steps.map((s) => (
               <li key={s.n} className="rounded-2xl border border-white/10 bg-[#070b12] p-6 md:[@media(max-height:820px)]:p-4" data-reveal>
                 <div className="font-display text-[22px] text-[#8fb0ff]">{s.n}</div>
