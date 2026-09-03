@@ -286,7 +286,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     gsap.to(kure, { opacity: 1, duration: 0.4, ease: "power2.out" });
     gsap.to(nesne, {
       p: 1,
-      duration: 1.5,
+      duration: 1.7,
       ease: "power2.inOut",
       onUpdate: () => {
         const p = nesne.p;
@@ -304,7 +304,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       },
     });
 
-    heroAc(0.85);
+    heroAc(0.95);
   }, [atla, bitir, heroAc]);
 
   // Dil değişiminde hero yazıları yeniden belirir (ilk yüklemede değil).
