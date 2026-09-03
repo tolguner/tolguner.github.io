@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -46,8 +46,8 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
   const trackRef = useRef<HTMLDivElement>(null);
   const progress = useRef(0);
   const lenisRef = useRef<Lenis | null>(null);
-  const kureRef = useRef<HTMLDivElement>(null);
-  const haleRef = useRef<HTMLDivElement>(null);
+  /** 0 = kamera kürenin içinde, 1 = yerleşik konum. */
+  const girisIlerleme = useRef(0);
   const girisRef = useRef<"yok" | "yazi" | "ucus" | "bitti">("yok");
   girisRef.current = giris;
   const t = home[lang];
@@ -64,6 +64,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     let gorulmus = false;
     try { gorulmus = sessionStorage.getItem("giris") === "1"; } catch {}
     if (azalt || gorulmus) {
+      girisIlerleme.current = 1;
       setGiris("bitti");
       setPerde(false);
       heroAc(0.15);
@@ -226,12 +227,6 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     };
   }, [mounted, lang]);
 
-  // Küre, perde açılana kadar görünmez; uçuş başlayınca GSAP devralır.
-  useLayoutEffect(() => {
-    if (!mounted || !kureRef.current) return;
-    if (giris === "yazi") gsap.set(kureRef.current, { opacity: 0 });
-  }, [mounted, giris]);
-
   /** Hero yazılarının açılışı — perde kalktıktan sonra oynar. */
   const heroAc = useCallback((gecikme: number) => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -250,83 +245,28 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     setTimeout(() => setPerde(false), 800);
   }, []);
 
-  /** Perdeyi atla: küreyi yerine koy, hero'yu aç. */
+  /** Perdeyi atla: kamerayı yerine koy, hero'yu aç. */
   const atla = useCallback(() => {
-    const kure = kureRef.current;
-    if (kure) {
-      gsap.killTweensOf(kure);
-      gsap.set(kure, { clearProps: "transform,opacity" });
-    }
+    gsap.killTweensOf(girisIlerleme);
+    girisIlerleme.current = 1;
     heroAc(0.1);
     bitir();
   }, [heroAc, bitir]);
 
   /**
-   * Küre, "O" harfinin merkezinde bir nokta olarak doğar; kavisli bir yörünge
-   * (ikinci dereceden Bézier) boyunca dönerek hero'daki yerine oturur.
+   * Perde açılırken kamera kürenin içinden dışarı çekilir: noktalar hızla
+   * yanımızdan geçer, görüş açısı daralır ve küre hero'daki yerine oturur.
    */
-  const ucur = useCallback((harf: HTMLElement) => {
-    const kure = kureRef.current;
-    if (!kure) { atla(); return; }
+  const ucur = useCallback(() => {
     setGiris("ucus");
-
-    const k = kure.getBoundingClientRect();
-    const o = harf.getBoundingClientRect();
-    const dx = o.left + o.width / 2 - (k.left + k.width / 2);
-    const dy = o.top + o.height / 2 - (k.top + k.height / 2);
-    const uzak = Math.hypot(dx, dy) || 1;
-    // kontrol noktası: yolun ortasından dışa doğru itilerek kayan yıldız kavisi
-    const kx = dx * 0.5 - (dy / uzak) * uzak * 0.55;
-    const ky = dy * 0.5 + (dx / uzak) * uzak * 0.55 - uzak * 0.24;
-    // hale, kürenin merkezini sayfa koordinatlarında izler
-    const mx = k.left + k.width / 2;
-    const my = k.top + k.height / 2;
-    const hale = haleRef.current;
-
-    const buyume = gsap.parseEase("power1.inOut");
-    const donme = gsap.parseEase("power2.out");
-    const nesne = { p: 0 };
-
-    gsap.set(kure, { x: dx, y: dy, scale: 0.04, rotate: -72, opacity: 0 });
-    gsap.to(kure, { opacity: 1, duration: 0.4, ease: "power2.out" });
-    gsap.to(nesne, {
-      p: 1,
+    gsap.to(girisIlerleme, {
+      current: 1,
       duration: 1.7,
       ease: "power2.inOut",
-      onUpdate: () => {
-        const p = nesne.p;
-        const q = 1 - p;
-        const nx = q * q * dx + 2 * q * p * kx;
-        const ny = q * q * dy + 2 * q * p * ky;
-        gsap.set(kure, {
-          x: nx,
-          y: ny,
-          scale: 0.04 + 0.96 * buyume(p),
-          rotate: -72 * (1 - donme(p)),
-        });
-        if (hale) {
-          gsap.set(hale, {
-            xPercent: -50,
-            yPercent: -50,
-            x: mx + nx,
-            y: my + ny,
-            scale: 0.35 + 0.75 * p,
-            opacity: Math.sin(Math.PI * p) * 0.6,
-          });
-        }
-      },
-      onComplete: () => {
-        // iniş: hafif bir esneme, sonra yerine oturur
-        gsap
-          .timeline({ onComplete: () => { gsap.set(kure, { clearProps: "transform,opacity" }); bitir(); } })
-          .to(kure, { scale: 1.055, duration: 0.16, ease: "power2.out" })
-          .to(kure, { scale: 1, duration: 0.42, ease: "elastic.out(1, 0.55)" });
-        if (hale) gsap.set(hale, { opacity: 0 });
-      },
+      onComplete: bitir,
     });
-
     heroAc(0.95);
-  }, [atla, bitir, heroAc]);
+  }, [bitir, heroAc]);
 
   // Dil değişiminde hero yazıları yeniden belirir (ilk yüklemede değil).
   const ilkDil = useRef(true);
@@ -441,15 +381,10 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           <div className="absolute left-1/2 top-1/2 h-[80vmin] w-[80vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.22)_0%,rgba(79,124,255,0.06)_40%,transparent_70%)]" />
           <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_60%,#070b12_100%)]" />
         </div>
-        {perde && giris !== "yok" && (
-          <div
-            ref={haleRef}
-            aria-hidden
-            className="pointer-events-none absolute left-0 top-0 z-50 h-[16rem] w-[16rem] rounded-full opacity-0 blur-2xl [background:radial-gradient(circle,rgba(110,150,255,0.55),transparent_65%)]"
-          />
-        )}
-        <div ref={kureRef} className={`absolute inset-y-0 left-[44%] -right-[20%] md:left-[38%] md:right-0 ${giris === "ucus" ? "z-50" : ""}`}>
-          <div className="h-full w-full opacity-[0.7] md:opacity-90">{mounted && <NodeSphere progress={progress} />}</div>
+        <div className="absolute inset-y-0 left-[44%] -right-[20%] md:left-[38%] md:right-0">
+          <div className="h-full w-full opacity-[0.7] md:opacity-90">
+            {mounted && <NodeSphere progress={progress} giris={girisIlerleme} />}
+          </div>
         </div>
         <div className="hero-content relative z-10 mx-auto w-full max-w-6xl px-5 pb-16 pt-28 sm:px-8">
           <p className="hero-fade mb-5 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#8fb0ff]">{t.hero.kicker}</p>

@@ -1,17 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const AD = "Tolga Olguner";
 const HARF_MS = 58;
 const ILK_GECIKME_MS = 260;
 const YAZIM_SONRASI_MS = 340;
-/** "Olguner"in O'su — kürenin içinden çıkacağı harf. */
-const ODAK = AD.indexOf("O", 1);
-
 type Props = {
-  /** Yazım bitince odak harfinin DOM düğümünü verir. */
-  onYazimBitti: (harf: HTMLElement) => void;
+  /** Yazım tamamlandığında çağrılır; küreyi Home açar. */
+  onYazimBitti: () => void;
   /** Uçuş başlayınca perde kapanır. */
   kapaniyor: boolean;
   atlaEtiketi: string;
@@ -19,8 +16,9 @@ type Props = {
 };
 
 /**
- * Açılış perdesi: ad daktilo gibi yazılır, ardından "O" harfinin merkezinden
- * küre doğar. Uçuşu Home yönetir; burada yalnızca yazım ve perde vardır.
+ * Açılış perdesi: ad daktilo gibi yazılır, ardından perde açılırken kamera
+ * kürenin içinden dışarı çekilir. Kamerayı Home yönetir; burada yazım ve
+ * perdeden başka bir şey yok.
  *
  * Harfler tek bir durum değişimiyle, her birine sabit `transition-delay`
  * verilerek açılır. Zincirlenmiş setTimeout ya da rAF sayacı kullanılmıyor:
@@ -28,7 +26,6 @@ type Props = {
  */
 export default function Intro({ onYazimBitti, kapaniyor, atlaEtiketi, onAtla }: Props) {
   const [basladi, setBasladi] = useState(false);
-  const odakRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const z = setTimeout(() => setBasladi(true), ILK_GECIKME_MS);
@@ -38,9 +35,7 @@ export default function Intro({ onYazimBitti, kapaniyor, atlaEtiketi, onAtla }: 
   useEffect(() => {
     if (!basladi) return;
     const sure = (AD.length - 1) * HARF_MS + YAZIM_SONRASI_MS;
-    const z = setTimeout(() => {
-      if (odakRef.current) onYazimBitti(odakRef.current);
-    }, sure);
+    const z = setTimeout(onYazimBitti, sure);
     return () => clearTimeout(z);
   }, [basladi, onYazimBitti]);
 
@@ -60,7 +55,6 @@ export default function Intro({ onYazimBitti, kapaniyor, atlaEtiketi, onAtla }: 
         {AD.split("").map((h, i) => (
           <span
             key={i}
-            ref={i === ODAK ? odakRef : undefined}
             style={{ transitionDelay: basladi ? `${i * HARF_MS}ms` : "0ms" }}
             className={`inline-block transition-opacity duration-100 ${basladi ? "opacity-100" : "opacity-0"}`}
           >

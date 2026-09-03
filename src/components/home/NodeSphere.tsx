@@ -1,11 +1,47 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, type MutableRefObject } from "react";
 import * as THREE from "three";
 import Core from "./Core";
 
-type Props = { progress: MutableRefObject<number>; count?: number };
+type Props = {
+  progress: MutableRefObject<number>;
+  count?: number;
+  /** Açılış: 0 = kamera kürenin içinde, 1 = normal konum. Yoksa kamera sabit. */
+  giris?: MutableRefObject<number>;
+};
+
+const IC_Z = 0.16; // kamera kürenin içindeyken
+const DIS_Z = 3.1; // yerleşik konum
+const IC_FOV = 104;
+const DIS_FOV = 48;
+
+/**
+ * Açılışta kamera kürenin içinden dışarı çekilir: noktalar hızla yanımızdan
+ * geçer, görüş açısı daralırken küre yerine oturur. `giris` 1'e ulaşınca
+ * kameraya bir daha dokunulmaz, kaydırma davranışı devralır.
+ */
+function Kamera({ giris }: { giris?: MutableRefObject<number> }) {
+  const { camera } = useThree();
+  const bittiMi = useRef(false);
+
+  useFrame(() => {
+    if (!giris || bittiMi.current) return;
+    const g = Math.min(1, Math.max(0, giris.current));
+    const k = camera as THREE.PerspectiveCamera;
+    k.position.z = IC_Z + (DIS_Z - IC_Z) * g;
+    k.fov = IC_FOV + (DIS_FOV - IC_FOV) * g;
+    k.rotation.z = (1 - g) * 0.5; // hafif yalpalama, çıkarken düzelir
+    k.updateProjectionMatrix();
+    if (g >= 1) {
+      k.rotation.z = 0;
+      bittiMi.current = true;
+    }
+  });
+
+  return null;
+}
 
 /** Fareyi pencere genelinde izler; imleç tuvalin dışındayken de küre tepki verir. */
 function useWindowPointer() {
@@ -22,7 +58,7 @@ function useWindowPointer() {
 }
 
 // Fibonacci küresi üzerine dağıtılmış düğümler ve yakın komşular arasında çizgiler.
-function Nodes({ progress, count }: Required<Props>) {
+function Nodes({ progress, count, giris }: { progress: MutableRefObject<number>; count: number; giris?: MutableRefObject<number> }) {
   const tilt = useRef<THREE.Group>(null); // fareye tepki veren dış grup
   const spin = useRef<THREE.Group>(null); // kendi ekseninde dönen iç grup
   const pointsMat = useRef<THREE.PointsMaterial>(null);
@@ -57,8 +93,10 @@ function Nodes({ progress, count }: Required<Props>) {
     const mx = pointer.current.x;
     const my = pointer.current.y;
 
-    // sürekli dönüş iç grupta — fare tepkisiyle çakışmaz
-    s.rotation.y += dt * 0.12;
+    // sürekli dönüş iç grupta — fare tepkisiyle çakışmaz.
+    // Açılışta hız duygusu için başta çok daha hızlı döner.
+    const g = giris ? Math.min(1, Math.max(0, giris.current)) : 1;
+    s.rotation.y += dt * (0.12 + (1 - g) * 2.2);
 
     // fareye göre eğilme: dış grupta, geniş genlikli
     const hedefX = my * 0.62 + p * 0.6;
@@ -102,7 +140,7 @@ function Nodes({ progress, count }: Required<Props>) {
   );
 }
 
-export default function NodeSphere({ progress, count = 220 }: Props) {
+export default function NodeSphere({ progress, count = 220, giris }: Props) {
   return (
     <Canvas
       dpr={[1, 1.6]}
@@ -110,7 +148,8 @@ export default function NodeSphere({ progress, count = 220 }: Props) {
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       style={{ position: "absolute", inset: 0 }}
     >
-      <Nodes progress={progress} count={count} />
+      <Kamera giris={giris} />
+      <Nodes progress={progress} count={count} giris={giris} />
     </Canvas>
   );
 }
