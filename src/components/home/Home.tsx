@@ -714,7 +714,8 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         />
         <div className="relative mx-auto grid w-full max-w-6xl gap-14 px-5 sm:px-8 md:grid-cols-[1fr_1fr] md:sikisik:gap-10">
           <div>
-            <p className="text-[12px] font-semibold uppercase tracking-[0.22em] text-[#8fb0ff]" data-reveal>{t.research.kicker}</p>
+            <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.nav.research}</h2>
+            <p className="mt-5 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#8fb0ff]" data-reveal>{t.research.kicker}</p>
             <h2 className="font-display mt-5 text-[clamp(1.9rem,4vw,3rem)] md:[@media(max-height:820px)]:text-[2.3rem] font-medium leading-[1.1] tracking-tight text-white" data-reveal>{t.research.headline}</h2>
             <p className="mt-6 border-l-2 border-[#4f7cff]/50 pl-4 text-[14.5px] italic leading-relaxed text-white/70 md:sikisik:mt-5 md:[@media(max-height:820px)]:text-[13.5px]" data-reveal>“{t.research.quote}”</p>
             <p className="mt-6 text-[16px] leading-relaxed text-white/65 md:sikisik:mt-5 md:[@media(max-height:820px)]:text-[15px]" data-reveal>{t.research.text}</p>
