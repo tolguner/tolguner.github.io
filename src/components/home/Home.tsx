@@ -66,15 +66,38 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
 
-    // Menü bağlantıları Lenis üzerinden kaysın (pinlenmiş bölümlerde doğru hedef)
+    // Menü bağlantıları Lenis üzerinden kaysın (pinlenmiş bölümlerde doğru hedef).
+    // Bölümlerin üst iç boşluğu büyük olduğu için ham bölüm üstüne gitmek başlığı
+    // ekranın çok altında bırakıyor; iç boşluğu düşüp başlığı sabit barın hemen
+    // altına oturtuyoruz. Pinlenen Yolculuk bölümü ise tam tepeye yaslanmalı.
+    const barYuksekligi = () => document.querySelector("header")?.getBoundingClientRect().height ?? 56;
     const onAnchor = (e: MouseEvent) => {
       const a = (e.target as HTMLElement).closest('a[href^="#"]') as HTMLAnchorElement | null;
       if (!a) return;
-      const el = document.querySelector(a.getAttribute("href") || "");
+      const hedefId = a.getAttribute("href") || "";
+      const el = document.querySelector(hedefId) as HTMLElement | null;
       if (!el) return;
       e.preventDefault();
-      lenis.scrollTo(el as HTMLElement, { offset: -72, duration: 1.2 });
+      if (hedefId === "#top") {
+        lenis.scrollTo(0, { duration: 1.2 });
+        return;
+      }
+      kaydir(el);
     };
+
+    // Bölüm hedefini sabit barın altına dengeli oturtur.
+    const kaydir = (el: HTMLElement, sure = 1.2) => {
+      const pinli = el.id === "journey" && window.matchMedia("(min-width: 900px)").matches;
+      const icBosluk = parseFloat(getComputedStyle(el).paddingTop) || 0;
+      const ofset = pinli ? 0 : icBosluk - barYuksekligi() - 20;
+      lenis.scrollTo(el, { offset: ofset, duration: sure });
+    };
+
+    // Adres çubuğundan #bolum ile gelindiğinde de aynı hizalama uygulansın
+    if (window.location.hash) {
+      const hedef = document.querySelector(window.location.hash) as HTMLElement | null;
+      if (hedef) requestAnimationFrame(() => kaydir(hedef, 0));
+    }
     document.addEventListener("click", onAnchor);
 
     const mm = gsap.matchMedia();
@@ -230,7 +253,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       </section>
 
       {/* Hakkımda */}
-      <section id="about" className="mx-auto max-w-6xl scroll-mt-24 px-5 pt-32 sm:px-8">
+      <section id="about" className="mx-auto max-w-6xl px-5 pt-32 sm:px-8">
         <div className="grid gap-14 md:grid-cols-[1.15fr_0.85fr] md:items-start">
           <div>
             <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.about.title}</h2>
@@ -260,7 +283,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       </section>
 
       {/* Yolculuk */}
-      <section id="journey" ref={journeyRef} className="relative mt-32 scroll-mt-24 md:flex md:h-screen md:flex-col md:overflow-hidden">
+      <section id="journey" ref={journeyRef} className="relative mt-32 md:flex md:h-screen md:flex-col md:overflow-hidden">
         <div className="mx-auto w-full max-w-6xl px-5 pt-6 sm:px-8 md:pt-[5vh]">
           <div className="flex items-end justify-between gap-6">
             <div>
@@ -322,7 +345,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       </section>
 
       {/* Projeler */}
-      <section id="projects" className="mx-auto max-w-6xl scroll-mt-24 px-5 pt-32 sm:px-8">
+      <section id="projects" className="mx-auto max-w-6xl px-5 pt-32 sm:px-8">
         <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.projects.title}</h2>
         <p className="mt-3 max-w-xl text-[15px] text-white/50" data-reveal>{t.projects.sub}</p>
         <div className="mt-12 grid gap-5 md:grid-cols-2">
@@ -378,7 +401,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       </section>
 
       {/* Araştırma */}
-      <section id="research" className="relative mt-32 scroll-mt-24 overflow-hidden border-y border-white/10 bg-[#0b1119] py-28">
+      <section id="research" className="relative mt-32 overflow-hidden border-y border-white/10 bg-[#0b1119] py-28">
         <div className="pointer-events-none absolute -right-40 top-1/2 h-[60rem] w-[60rem] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.14),transparent_60%)]" />
         <div className="relative mx-auto grid max-w-6xl gap-14 px-5 sm:px-8 md:grid-cols-[1fr_1fr]">
           <div>
@@ -445,7 +468,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       </section>
 
       {/* İletişim */}
-      <section id="contact" className="mx-auto max-w-6xl scroll-mt-24 px-5 pb-16 pt-36 sm:px-8">
+      <section id="contact" className="mx-auto max-w-6xl px-5 pb-16 pt-36 sm:px-8">
         <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b1119] px-7 py-16 text-center sm:px-12 sm:py-24" data-reveal>
           <div className="pointer-events-none absolute left-1/2 top-0 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.22),transparent_60%)]" />
           <h2 className="font-display relative text-[clamp(2.4rem,6vw,4.6rem)] font-medium tracking-tight text-white">{t.contact.title}</h2>
