@@ -382,10 +382,9 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
 
       {/* Hero */}
       <section id="top" ref={heroRef} className="giris-gizle relative flex min-h-[100svh] items-center overflow-hidden">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-1/2 top-1/2 h-[80vmin] w-[80vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.22)_0%,rgba(79,124,255,0.06)_40%,transparent_70%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_60%,#070b12_100%)]" />
-        </div>
+        {/* Ortadaki mavi parıltı kürenin sol yarısının arkasına düşüp noktaların
+            kontrastını düşürüyordu; küre orada bitiyormuş gibi görünüyordu. */}
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_60%,#070b12_100%)]" />
         {/* Tuval tüm ekranı kaplar; kürenin sahnedeki yatay yeri NodeSphere içinde
             ayarlanır, böylece açılışta sol kenardan kesilmez. */}
         <div className="absolute inset-0 opacity-[0.7] md:opacity-90">

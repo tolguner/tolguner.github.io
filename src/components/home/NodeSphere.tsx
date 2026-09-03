@@ -15,6 +15,7 @@ type Props = {
 const IC_Z = 0.16; // kamera kürenin içindeyken
 const DIS_Z = 3.1; // yerleşik konum
 const IC_FOV = 104;
+const TABAN_OLCEK = 0.86; // küre metnin üstüne fazla taşmasın diye biraz küçültüldü
 const DIS_FOV = 48;
 
 /**
@@ -68,14 +69,22 @@ function Nodes({ progress, count, giris }: { progress: MutableRefObject<number>;
   const { size } = useThree();
 
   /**
-   * Tuval tüm ekranı kaplıyor; küre sahne içinde sağa kaydırılarak tasarımdaki
-   * yerine oturuyor. Böylece açılışta kamera içerideyken sol taraf da tuvalin
-   * içinde kalıyor, küre kenardan kesilmiyor.
+   * Tuval tüm ekranı kaplıyor; kürenin yeri ve boyu sahne içinde ayarlanıyor.
+   * Böylece açılışta kamera içerideyken sol taraf da tuvalin içinde kalıyor.
+   *
+   * Boyut dikey görüş açısına bağlı olduğu için dar ve uzun ekranlarda küre
+   * genişliğe göre devleşiyordu; `enCok` ile çapı ekran genişliğinin belirli
+   * bir oranıyla sınırlıyoruz. Geniş ekranlarda sınır devreye girmez.
    */
-  const kaydirma = useMemo(() => {
+  const { olcek, kaydirma } = useMemo(() => {
     const dunyaY = 2 * DIS_Z * Math.tan(((DIS_FOV / 2) * Math.PI) / 180);
     const dunyaX = dunyaY * (size.width / Math.max(1, size.height));
-    return dunyaX * (size.width >= 768 ? 0.19 : 0.32);
+    const [capOrani, merkez] =
+      size.width >= 1024 ? [0.41, 0.69] : size.width >= 768 ? [0.44, 0.72] : [0.5, 0.74];
+    return {
+      olcek: Math.min(TABAN_OLCEK, (dunyaX * capOrani) / 2),
+      kaydirma: dunyaX * (merkez - 0.5),
+    };
   }, [size.width, size.height]);
 
   const { positions, lines } = useMemo(() => {
@@ -126,8 +135,7 @@ function Nodes({ progress, count, giris }: { progress: MutableRefObject<number>;
     t.position.x += (mx * 0.22 - t.position.x) * k;
     t.position.y += (my * 0.14 - t.position.y) * k;
 
-    const olcek = 1 + p * 0.9;
-    t.scale.setScalar(olcek);
+    t.scale.setScalar(olcek * (1 + p * 0.9));
 
     if (pointsMat.current) pointsMat.current.opacity = 0.95 * (1 - p * 0.9);
     if (lineMat.current) lineMat.current.opacity = 0.28 * (1 - p);
