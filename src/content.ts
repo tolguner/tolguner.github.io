@@ -7,7 +7,7 @@ type Project = { title: string; kind: string; tech: string; note: string; items:
 export type Dict = {
   nav: { about: string; experience: string; research: string; projects: string; skills: string; contact: string };
   hero: { tagline: string; intro: string; cv: string; cvFile: string; email: string };
-  sections: { experience: string; communities: string; research: string; projects: string; otherRepos: string; skills: string; personal: string; education: string; languages: string; contact: string };
+  sections: { experience: string; communities: string; research: string; projects: string; otherRepos: string; skills: string; technical: string; personal: string; education: string; languages: string; contact: string };
   experience: Entry[];
   communities: Entry[];
   research: { title: string; org: string; date: string; topic: string; items: string[] };
@@ -39,7 +39,8 @@ export const content: Record<Lang, Dict> = {
       research: "Araştırma",
       projects: "Seçili Projeler",
       otherRepos: "Diğer Depolar",
-      skills: "Teknik Yetkinlikler",
+      skills: "Yetkinlikler",
+      technical: "Teknik Yetkinlikler",
       personal: "Kişisel Yetkinlikler",
       education: "Eğitim",
       languages: "Diller",
@@ -148,7 +149,8 @@ export const content: Record<Lang, Dict> = {
       research: "Research",
       projects: "Selected Projects",
       otherRepos: "Other Repositories",
-      skills: "Technical Skills",
+      skills: "Skills",
+      technical: "Technical Skills",
       personal: "Personal Skills",
       education: "Education",
       languages: "Languages",

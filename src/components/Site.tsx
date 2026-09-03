@@ -181,13 +181,16 @@ export default function Site({ repos }: { repos: Repo[] }) {
       {/* Yetkinlikler */}
       <SectionTitle id="skills">{t.sections.skills}</SectionTitle>
       <div className="grid gap-8 sm:grid-cols-2">
-        <div className="space-y-1.5">
+        <div>
+          <div className="mb-2 text-[11px] font-bold uppercase tracking-[0.14em] text-muted">{t.sections.technical}</div>
+          <div className="space-y-1.5">
           {t.skills.map((g) => (
             <div key={g.label} className="flex gap-3 text-[13.5px] leading-snug">
               <span className="w-[5.5rem] shrink-0 text-muted">{g.label}</span>
               <span className="text-ink">{g.items}</span>
             </div>
           ))}
+          </div>
         </div>
         <div>
           <div className="mb-2 text-[11px] font-bold uppercase tracking-[0.14em] text-muted">{t.sections.personal}</div>
@@ -196,7 +199,11 @@ export default function Site({ repos }: { repos: Repo[] }) {
       </div>
 
       <SectionTitle>{t.sections.languages}</SectionTitle>
-      <p className="text-[14.5px]">{t.languages.join("  ·  ")}</p>
+      <div className="flex flex-wrap gap-2">
+        {t.languages.map((l) => (
+          <span key={l} className="rounded-full border border-line bg-paper-2 px-3 py-1.5 text-[13px] text-ink-soft">{l}</span>
+        ))}
+      </div>
 
       {/* İletişim */}
       <SectionTitle id="contact">{t.sections.contact}</SectionTitle>
