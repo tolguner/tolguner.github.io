@@ -436,10 +436,10 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
             <p className="mt-6 text-[16px] leading-relaxed text-white/65 md:sikisik:mt-5 md:[@media(max-height:820px)]:text-[15px]" data-reveal>{t.research.text}</p>
             <p className="mt-4 text-[12.5px] text-white/40" data-reveal>{t.research.org}</p>
             <div className="mt-[4.5rem] flex justify-center md:justify-start md:sikisik:mt-12 md:[@media(max-height:820px)]:mt-7">
-              <div className="stamp relative inline-flex rotate-[-8deg] flex-col items-center gap-2 rounded-lg border-[3px] border-[#6f9bff]/85 px-9 py-5 sikisik:px-7 sikisik:py-4 text-center">
+              <div className="stamp relative inline-flex rotate-[-8deg] flex-col items-center gap-2 rounded-lg border-[3px] border-[#6f9bff]/85 px-9 py-5 sikisik:px-7 sikisik:py-4 max-[400px]:px-5 max-[400px]:py-3.5 text-center">
                 <span aria-hidden className="pointer-events-none absolute inset-[4px] rounded-[5px] border border-[#6f9bff]/55" />
-                <span className="font-display text-[clamp(1.9rem,4.4vw,2.7rem)] font-semibold uppercase leading-none tracking-[0.1em] whitespace-nowrap text-[#9dbcff]">{t.research.highlight.title}</span>
-                <span className="text-[10.5px] font-semibold uppercase tracking-[0.3em] whitespace-nowrap text-[#9dbcff]/80 sikisik:tracking-[0.22em]">{t.research.highlight.label}</span>
+                <span className="font-display text-[clamp(1.9rem,4.4vw,2.7rem)] max-[400px]:text-[1.45rem] font-semibold uppercase leading-none tracking-[0.1em] whitespace-nowrap text-[#9dbcff]">{t.research.highlight.title}</span>
+                <span className="text-[10.5px] max-[400px]:text-[9px] font-semibold uppercase tracking-[0.3em] whitespace-nowrap text-[#9dbcff]/80 sikisik:tracking-[0.22em] max-[400px]:tracking-[0.16em]">{t.research.highlight.label}</span>
               </div>
             </div>
           </div>
