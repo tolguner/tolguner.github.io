@@ -47,6 +47,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
   const progress = useRef(0);
   const lenisRef = useRef<Lenis | null>(null);
   const kureRef = useRef<HTMLDivElement>(null);
+  const haleRef = useRef<HTMLDivElement>(null);
   const girisRef = useRef<"yok" | "yazi" | "ucus" | "bitti">("yok");
   girisRef.current = giris;
   const t = home[lang];
@@ -275,14 +276,18 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     const dy = o.top + o.height / 2 - (k.top + k.height / 2);
     const uzak = Math.hypot(dx, dy) || 1;
     // kontrol noktası: yolun ortasından dışa doğru itilerek kayan yıldız kavisi
-    const kx = dx * 0.5 - (dy / uzak) * uzak * 0.38;
-    const ky = dy * 0.5 + (dx / uzak) * uzak * 0.38 - uzak * 0.16;
+    const kx = dx * 0.5 - (dy / uzak) * uzak * 0.55;
+    const ky = dy * 0.5 + (dx / uzak) * uzak * 0.55 - uzak * 0.24;
+    // hale, kürenin merkezini sayfa koordinatlarında izler
+    const mx = k.left + k.width / 2;
+    const my = k.top + k.height / 2;
+    const hale = haleRef.current;
 
-    const buyume = gsap.parseEase("power2.inOut");
+    const buyume = gsap.parseEase("power1.inOut");
     const donme = gsap.parseEase("power2.out");
     const nesne = { p: 0 };
 
-    gsap.set(kure, { x: dx, y: dy, scale: 0.04, rotate: -38, opacity: 0 });
+    gsap.set(kure, { x: dx, y: dy, scale: 0.04, rotate: -72, opacity: 0 });
     gsap.to(kure, { opacity: 1, duration: 0.4, ease: "power2.out" });
     gsap.to(nesne, {
       p: 1,
@@ -291,16 +296,32 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       onUpdate: () => {
         const p = nesne.p;
         const q = 1 - p;
+        const nx = q * q * dx + 2 * q * p * kx;
+        const ny = q * q * dy + 2 * q * p * ky;
         gsap.set(kure, {
-          x: q * q * dx + 2 * q * p * kx,
-          y: q * q * dy + 2 * q * p * ky,
+          x: nx,
+          y: ny,
           scale: 0.04 + 0.96 * buyume(p),
-          rotate: -38 * (1 - donme(p)),
+          rotate: -72 * (1 - donme(p)),
         });
+        if (hale) {
+          gsap.set(hale, {
+            xPercent: -50,
+            yPercent: -50,
+            x: mx + nx,
+            y: my + ny,
+            scale: 0.35 + 0.75 * p,
+            opacity: Math.sin(Math.PI * p) * 0.6,
+          });
+        }
       },
       onComplete: () => {
-        gsap.set(kure, { clearProps: "transform,opacity" });
-        bitir();
+        // iniş: hafif bir esneme, sonra yerine oturur
+        gsap
+          .timeline({ onComplete: () => { gsap.set(kure, { clearProps: "transform,opacity" }); bitir(); } })
+          .to(kure, { scale: 1.055, duration: 0.16, ease: "power2.out" })
+          .to(kure, { scale: 1, duration: 0.42, ease: "elastic.out(1, 0.55)" });
+        if (hale) gsap.set(hale, { opacity: 0 });
       },
     });
 
@@ -420,6 +441,13 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           <div className="absolute left-1/2 top-1/2 h-[80vmin] w-[80vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.22)_0%,rgba(79,124,255,0.06)_40%,transparent_70%)]" />
           <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_60%,#070b12_100%)]" />
         </div>
+        {perde && giris !== "yok" && (
+          <div
+            ref={haleRef}
+            aria-hidden
+            className="pointer-events-none absolute left-0 top-0 z-50 h-[16rem] w-[16rem] rounded-full opacity-0 blur-2xl [background:radial-gradient(circle,rgba(110,150,255,0.55),transparent_65%)]"
+          />
+        )}
         <div ref={kureRef} className={`absolute inset-y-0 left-[44%] -right-[20%] md:left-[38%] md:right-0 ${giris === "ucus" ? "z-50" : ""}`}>
           <div className="h-full w-full opacity-[0.7] md:opacity-90">{mounted && <NodeSphere progress={progress} />}</div>
         </div>

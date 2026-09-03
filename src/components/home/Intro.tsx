@@ -40,8 +40,6 @@ export default function Intro({ onYazimBitti, kapaniyor, atlaEtiketi, onAtla }: 
     return () => clearTimeout(z);
   }, [n, onYazimBitti]);
 
-  const yazimBitti = n >= AD.length;
-
   return (
     <div
       aria-hidden
@@ -64,11 +62,6 @@ export default function Intro({ onYazimBitti, kapaniyor, atlaEtiketi, onAtla }: 
             {h === " " ? " " : h}
           </span>
         ))}
-        <span
-          className={`ml-1 inline-block h-[0.86em] w-[0.055em] translate-y-[0.06em] bg-[#8fb0ff] align-middle ${
-            yazimBitti ? "animate-pulse" : ""
-          }`}
-        />
       </p>
 
       <button
