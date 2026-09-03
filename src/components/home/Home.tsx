@@ -155,8 +155,17 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         gsap.set(".stamp", { opacity: 1 });
       } else {
         gsap.set(".stamp", { opacity: 0 });
+        // Masaustunde bolum tek ekrani kapladigi icin tetigi bolume bagliyoruz:
+        // damga, alan gercekten ekrana yerlestiginde vurulur. Mobilde bolum uzun
+        // oldugundan damganin kendisi tetikler.
+        const masaustu = window.matchMedia("(min-width: 768px)").matches;
         gsap
-          .timeline({ scrollTrigger: { trigger: ".stamp", start: "top 80%", once: true } })
+          .timeline({
+            delay: 0.2,
+            scrollTrigger: masaustu
+              ? { trigger: "#research", start: "top 25%", once: true }
+              : { trigger: ".stamp", start: "top 85%", once: true },
+          })
           .fromTo(
             ".stamp",
             { scale: 2.9, opacity: 0, rotate: -26, filter: "blur(4px)" },
@@ -409,7 +418,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
             <p className="mt-6 border-l-2 border-[#4f7cff]/50 pl-4 text-[14.5px] italic leading-relaxed text-white/70 md:[@media(max-height:1000px)]:mt-5 md:[@media(max-height:820px)]:text-[13.5px]" data-reveal>“{t.research.quote}”</p>
             <p className="mt-6 text-[16px] leading-relaxed text-white/65 md:[@media(max-height:1000px)]:mt-5 md:[@media(max-height:820px)]:text-[15px]" data-reveal>{t.research.text}</p>
             <p className="mt-4 text-[12.5px] text-white/40" data-reveal>{t.research.org}</p>
-            <div className="mt-14 flex justify-center md:justify-start md:[@media(max-height:1000px)]:mt-9 md:[@media(max-height:820px)]:mt-4">
+            <div className="mt-[4.5rem] flex justify-center md:justify-start md:[@media(max-height:1000px)]:mt-12 md:[@media(max-height:820px)]:mt-7">
               <div className="stamp relative inline-flex rotate-[-8deg] flex-col items-center gap-2 rounded-lg border-[3px] border-[#6f9bff]/85 px-9 py-5 text-center">
                 <span aria-hidden className="pointer-events-none absolute inset-[4px] rounded-[5px] border border-[#6f9bff]/55" />
                 <span className="font-display text-[clamp(1.9rem,4.4vw,2.7rem)] font-semibold uppercase leading-none tracking-[0.1em] text-[#9dbcff]">{t.research.highlight.title}</span>
