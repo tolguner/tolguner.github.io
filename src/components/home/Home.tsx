@@ -476,17 +476,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       </section>
 
       {/* Hakkımda */}
-      <section id="about" data-fit="screen" className="relative mx-auto flex max-w-6xl flex-col justify-center px-5 pt-32 sm:px-8 md:min-h-screen md:pb-[6vh] md:pt-[10vh] md:[@media(max-height:820px)]:pb-[4vh] md:[@media(max-height:820px)]:pt-[7vh]">
-        {/* Hero'nun taban geçişini buraya taşıyan köprü: Hero kendi
-            overflow-hidden'ı yüzünden sınırının dışına hiçbir şey çizemez.
-            Bu katman Hero'nun DIŞINDA (About'un içinde, negatif üstle Hero'nun
-            son pikselinin üstüne biner) olduğu için geçiş bölüm sınırında
-            aniden kesilmek yerine kesintisiz devam eder. */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 -top-24 h-64 md:-top-32 md:h-80"
-          style={{ background: "linear-gradient(to bottom, rgba(7,11,18,0.92), transparent)" }}
-        />
+      <section id="about" data-fit="screen" className="mx-auto flex max-w-6xl flex-col justify-center px-5 pt-32 sm:px-8 md:min-h-screen md:pb-[6vh] md:pt-[10vh] md:[@media(max-height:820px)]:pb-[4vh] md:[@media(max-height:820px)]:pt-[7vh]">
         <div className="grid gap-14 md:grid-cols-[1.15fr_0.85fr] md:items-center md:sikisik:gap-10">
           <div>
             <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.about.title}</h2>
