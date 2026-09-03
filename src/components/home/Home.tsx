@@ -585,8 +585,8 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
             ref={cardZoneRef}
             className="relative h-[55vh] overflow-hidden px-5 sm:px-8 md:h-auto md:overflow-visible md:contents"
             style={{
-              WebkitMaskImage: "linear-gradient(to bottom, transparent 0, black 44px, black calc(100% - 16px), transparent 100%)",
-              maskImage: "linear-gradient(to bottom, transparent 0, black 44px, black calc(100% - 16px), transparent 100%)",
+              WebkitMaskImage: "linear-gradient(to bottom, transparent 0, black 44px, black calc(100% - 44px), transparent 100%)",
+              maskImage: "linear-gradient(to bottom, transparent 0, black 44px, black calc(100% - 44px), transparent 100%)",
             }}
           >
             <div ref={trackRef} className="flex flex-col gap-4 md:flex md:h-auto md:w-max md:flex-row md:items-stretch md:gap-6 md:pl-[max(1.25rem,calc((100vw-72rem)/2+2rem))] md:pr-[14vw]">
