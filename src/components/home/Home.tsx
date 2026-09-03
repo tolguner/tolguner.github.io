@@ -526,7 +526,9 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         />
         <div className="grid gap-14 md:grid-cols-[1.15fr_0.85fr] md:items-center md:sikisik:gap-10">
           <div>
-            <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.about.title}</h2>
+            <div className="sticky top-16 z-10 -mx-5 bg-[#030a16]/85 px-5 pb-2 backdrop-blur-md sm:-mx-8 sm:px-8 md:static md:mx-0 md:bg-transparent md:px-0 md:pb-0 md:backdrop-blur-none">
+              <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.about.title}</h2>
+            </div>
             <p className="mt-7 text-[17px] leading-relaxed text-white/70 md:sikisik:mt-5 md:sikisik:text-[15.5px] md:[@media(max-height:820px)]:text-[14.5px]" data-reveal>{t.about.p1}</p>
             <p className="mt-5 text-[17px] leading-relaxed text-white/70 md:sikisik:mt-4 md:sikisik:text-[15.5px] md:[@media(max-height:820px)]:text-[14.5px]" data-reveal>{t.about.p2}</p>
             <dl className="mt-10 grid gap-5 border-t border-white/10 pt-8 sm:grid-cols-2 md:sikisik:mt-6 md:sikisik:gap-4 md:sikisik:pt-5 md:[@media(max-height:820px)]:mt-5 md:[@media(max-height:820px)]:gap-3 md:[@media(max-height:820px)]:pt-4">
@@ -645,7 +647,9 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
 
       {/* Projeler */}
       <section id="projects" className="mx-auto max-w-6xl px-5 pt-32 sm:px-8">
-        <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.projects.title}</h2>
+        <div className="sticky top-16 z-10 -mx-5 bg-[#030a16]/85 px-5 pb-2 backdrop-blur-md sm:-mx-8 sm:px-8 md:static md:mx-0 md:bg-transparent md:px-0 md:pb-0 md:backdrop-blur-none">
+          <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.projects.title}</h2>
+        </div>
         <p className="mt-3 max-w-xl text-[15px] text-white/50" data-reveal>{t.projects.sub}</p>
         <div className="mt-12 grid gap-5 md:grid-cols-2">
           {t.projects.cards.map((c) => (
@@ -741,7 +745,9 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
 
       {/* Yetkinlikler */}
       <section id="skills" className="mx-auto max-w-6xl px-5 pt-32 sm:px-8">
-        <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.skills.title}</h2>
+        <div className="sticky top-16 z-10 -mx-5 bg-[#030a16]/85 px-5 pb-2 backdrop-blur-md sm:-mx-8 sm:px-8 md:static md:mx-0 md:bg-transparent md:px-0 md:pb-0 md:backdrop-blur-none">
+          <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.skills.title}</h2>
+        </div>
         <p className="mt-3 max-w-xl text-[15px] text-white/50" data-reveal>{t.skills.sub}</p>
 
         <div className="mt-12 flex items-center gap-4" data-reveal>
