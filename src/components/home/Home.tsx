@@ -35,11 +35,13 @@ function Words({ text, className }: { text: string; className?: string }) {
 export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[]; repoCount?: number; photos?: Photo[] }) {
   const [lang, setLang] = useState<Lang>("tr");
   const [mounted, setMounted] = useState(false);
+  const [menuAcik, setMenuAcik] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const journeyRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const progress = useRef(0);
+  const lenisRef = useRef<Lenis | null>(null);
   const t = home[lang];
 
   useEffect(() => {
@@ -61,6 +63,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
+    lenisRef.current = lenis;
     lenis.on("scroll", ScrollTrigger.update);
     const raf = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(raf);
@@ -79,6 +82,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       if (!el) return;
       e.preventDefault();
       if (hedefId === "#top") {
+        lenis.start();
         lenis.scrollTo(0, { duration: 1.2 });
         return;
       }
@@ -87,6 +91,9 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
 
     // Bölüm hedefini sabit barın altına dengeli oturtur.
     const kaydir = (el: HTMLElement, sure = 1.2) => {
+      // Mobil menü açıkken Lenis durdurulmuş olabilir; menüden gelen tıklamada
+      // kaydırmanın çalışması için önce yeniden başlatıyoruz.
+      lenis.start();
       // Tek ekrana kurgulanan bolumler (Hakkimda, pinlenen Yolculuk) tepeye yaslanir;
       // digerlerinde hedefin ust ic boslugu dusulup baslik barin altina oturtulur.
       const tamEkran = el.dataset.fit === "screen" && window.matchMedia("(min-width: 768px)").matches;
@@ -203,6 +210,15 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     };
   }, [mounted, lang]);
 
+  useEffect(() => {
+    if (menuAcik) lenisRef.current?.stop();
+    else lenisRef.current?.start();
+    const kapat = (e: KeyboardEvent) => { if (e.key === "Escape") setMenuAcik(false); };
+    window.addEventListener("keydown", kapat);
+    return () => window.removeEventListener("keydown", kapat);
+    // lang/mounted: dil degisince Lenis yeniden kuruluyor, menu acikken tekrar durdurulmali
+  }, [menuAcik, lang, mounted]);
+
   const tilt = (e: React.MouseEvent<HTMLElement>) => {
     const el = e.currentTarget;
     const r = el.getBoundingClientRect();
@@ -236,10 +252,58 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
                 <button key={l} onClick={() => setLang(l)} aria-pressed={lang === l} className={`px-3 py-1.5 uppercase transition ${lang === l ? "bg-white text-[#070b12]" : "text-white/60 hover:text-white"}`}>{l}</button>
               ))}
             </div>
-            <a href="/cv/" className="rounded-full bg-[#4f7cff] px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:bg-[#6a90ff]">{t.nav.cv}</a>
+            <a href="/cv/" className="hidden rounded-full bg-[#4f7cff] px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:bg-[#6a90ff] md:inline-block">{t.nav.cv}</a>
+            <button
+              type="button"
+              onClick={() => setMenuAcik((a) => !a)}
+              aria-expanded={menuAcik}
+              aria-controls="mobil-menu"
+              aria-label={menuAcik ? t.nav.menuClose : t.nav.menu}
+              className="relative h-9 w-9 rounded-full border border-white/15 text-white transition hover:border-white/40 md:hidden"
+            >
+              <span aria-hidden className={`absolute left-1/2 top-1/2 h-px w-4 -translate-x-1/2 bg-current transition-transform duration-300 ${menuAcik ? "rotate-45" : "-translate-y-1.5"}`} />
+              <span aria-hidden className={`absolute left-1/2 top-1/2 h-px w-4 -translate-x-1/2 bg-current transition-opacity duration-200 ${menuAcik ? "opacity-0" : "opacity-100"}`} />
+              <span aria-hidden className={`absolute left-1/2 top-1/2 h-px w-4 -translate-x-1/2 bg-current transition-transform duration-300 ${menuAcik ? "-rotate-45" : "translate-y-1.5"}`} />
+            </button>
           </div>
         </div>
       </header>
+
+      {/* Mobil menü */}
+      <div
+        id="mobil-menu"
+        className={`fixed inset-0 z-20 flex flex-col justify-center bg-[#070b12]/97 px-8 pt-14 backdrop-blur-lg transition-[opacity,visibility] duration-300 md:hidden ${menuAcik ? "visible opacity-100" : "invisible opacity-0"}`}
+        onClick={() => setMenuAcik(false)}
+      >
+        <nav className="flex flex-col gap-1">
+          {([
+            ["#about", t.nav.about],
+            ["#journey", t.nav.journey],
+            ["#projects", t.nav.projects],
+            ["#research", t.nav.research],
+            ["#skills", t.nav.skills],
+            ["#contact", t.nav.contact],
+          ] as const).map(([href, etiket], i) => (
+            <a
+              key={href}
+              href={href}
+              tabIndex={menuAcik ? 0 : -1}
+              style={{ transitionDelay: menuAcik ? `${80 + i * 45}ms` : "0ms" }}
+              className={`font-display border-b border-white/5 py-4 text-[28px] font-medium tracking-tight text-white/85 max-[400px]:py-3 max-[400px]:text-[23px] [@media(max-height:700px)]:py-3 [@media(max-height:700px)]:text-[23px] transition-[opacity,transform] duration-500 active:text-white ${menuAcik ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
+            >
+              {etiket}
+            </a>
+          ))}
+        </nav>
+        <a
+          href="/cv/"
+          tabIndex={menuAcik ? 0 : -1}
+          style={{ transitionDelay: menuAcik ? "360ms" : "0ms" }}
+          className={`mt-10 rounded-full bg-[#4f7cff] py-3.5 text-center text-[15px] max-[400px]:mt-6 [@media(max-height:700px)]:mt-6 font-semibold text-white transition-[opacity,transform] duration-500 ${menuAcik ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
+        >
+          {t.nav.cv}
+        </a>
+      </div>
 
       {/* Hero */}
       <section id="top" ref={heroRef} className="relative flex min-h-[100svh] items-center overflow-hidden">

@@ -8,7 +8,7 @@ export type SkillGroup = { label: string; items: string[] };
 export type SoftSkill = { title: string; text: string };
 
 export type HomeDict = {
-  nav: { about: string; journey: string; projects: string; research: string; skills: string; contact: string; cv: string };
+  nav: { about: string; journey: string; projects: string; research: string; skills: string; contact: string; cv: string; menu: string; menuClose: string };
   hero: { kicker: string; line1: string; line2: string; sub: string; ctaProjects: string; ctaCv: string };
   stats: Stat[];
   about: { title: string; p1: string; p2: string; facts: { k: string; v: string }[]; badges: { k: string; v: string }[] };
@@ -22,7 +22,7 @@ export type HomeDict = {
 
 export const home: Record<Lang, HomeDict> = {
   tr: {
-    nav: { about: "Hakkımda", journey: "Yolculuk", projects: "Projeler", research: "Araştırma", skills: "Yetkinlikler", contact: "İletişim", cv: "CV" },
+    nav: { about: "Hakkımda", journey: "Yolculuk", projects: "Projeler", research: "Araştırma", skills: "Yetkinlikler", contact: "İletişim", cv: "CV", menu: "Menüyü aç", menuClose: "Menüyü kapat" },
     hero: {
       kicker: "Yönetim Bilişim Sistemleri · Işık Üniversitesi",
       line1: "“Bir insan gelişir,",
@@ -126,7 +126,7 @@ export const home: Record<Lang, HomeDict> = {
     footer: { rights: "Tolga Olguner", built: "Next.js · Three.js · GSAP ile yapıldı" },
   },
   en: {
-    nav: { about: "About", journey: "Journey", projects: "Projects", research: "Research", skills: "Skills", contact: "Contact", cv: "CV" },
+    nav: { about: "About", journey: "Journey", projects: "Projects", research: "Research", skills: "Skills", contact: "Contact", cv: "CV", menu: "Open menu", menuClose: "Close menu" },
     hero: {
       kicker: "Management Information Systems · Işık University",
       line1: "“When a person grows,",
