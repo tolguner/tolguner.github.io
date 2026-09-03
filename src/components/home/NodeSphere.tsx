@@ -1,17 +1,33 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useMemo, useRef, type MutableRefObject } from "react";
+import { useEffect, useMemo, useRef, type MutableRefObject } from "react";
 import * as THREE from "three";
 import Core from "./Core";
 
 type Props = { progress: MutableRefObject<number>; count?: number };
 
+/** Fareyi pencere genelinde izler; imleç tuvalin dışındayken de küre tepki verir. */
+function useWindowPointer() {
+  const p = useRef({ x: 0, y: 0 });
+  useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      p.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      p.current.y = -((e.clientY / window.innerHeight) * 2 - 1);
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, []);
+  return p;
+}
+
 // Fibonacci küresi üzerine dağıtılmış düğümler ve yakın komşular arasında çizgiler.
 function Nodes({ progress, count }: Required<Props>) {
-  const group = useRef<THREE.Group>(null);
+  const tilt = useRef<THREE.Group>(null); // fareye tepki veren dış grup
+  const spin = useRef<THREE.Group>(null); // kendi ekseninde dönen iç grup
   const pointsMat = useRef<THREE.PointsMaterial>(null);
   const lineMat = useRef<THREE.LineBasicMaterial>(null);
+  const pointer = useWindowPointer();
 
   const { positions, lines } = useMemo(() => {
     const pts: THREE.Vector3[] = [];
@@ -23,7 +39,7 @@ function Nodes({ progress, count }: Required<Props>) {
       pts.push(new THREE.Vector3(Math.cos(th) * r, y, Math.sin(th) * r));
     }
     const positions = new Float32Array(pts.flatMap((p) => [p.x, p.y, p.z]));
-    const threshold = Math.sqrt(4 * Math.PI / count) * 1.35; // ortalama komşu mesafesinin biraz üstü
+    const threshold = Math.sqrt((4 * Math.PI) / count) * 1.35; // ortalama komşu mesafesinin biraz üstü
     const seg: number[] = [];
     for (let i = 0; i < count; i++) {
       for (let j = i + 1; j < count; j++) {
@@ -33,37 +49,55 @@ function Nodes({ progress, count }: Required<Props>) {
     return { positions, lines: new Float32Array(seg) };
   }, [count]);
 
-  useFrame((state, dt) => {
-    const g = group.current;
-    if (!g) return;
+  useFrame((_, dt) => {
+    const t = tilt.current;
+    const s = spin.current;
+    if (!t || !s) return;
     const p = progress.current; // 0 = hero başı, 1 = hero'dan çıkış
-    g.rotation.y += dt * 0.12;
-    const tx = state.pointer.y * 0.35 + p * 0.6;
-    const tz = -state.pointer.x * 0.25;
-    g.rotation.x += (tx - g.rotation.x) * 0.05;
-    g.rotation.z += (tz - g.rotation.z) * 0.05;
-    const s = 1 + p * 0.9;
-    g.scale.setScalar(s);
+    const mx = pointer.current.x;
+    const my = pointer.current.y;
+
+    // sürekli dönüş iç grupta — fare tepkisiyle çakışmaz
+    s.rotation.y += dt * 0.12;
+
+    // fareye göre eğilme: dış grupta, geniş genlikli
+    const hedefX = my * 0.62 + p * 0.6;
+    const hedefY = mx * 0.55;
+    const hedefZ = -mx * 0.34;
+    const k = 1 - Math.pow(0.001, dt); // kare hızından bağımsız yumuşatma (~0.11/kare)
+    t.rotation.x += (hedefX - t.rotation.x) * k;
+    t.rotation.y += (hedefY - t.rotation.y) * k;
+    t.rotation.z += (hedefZ - t.rotation.z) * k;
+
+    // hafif paralaks: küre imleci takip ediyormuş gibi kayar
+    t.position.x += (mx * 0.22 - t.position.x) * k;
+    t.position.y += (my * 0.14 - t.position.y) * k;
+
+    const olcek = 1 + p * 0.9;
+    t.scale.setScalar(olcek);
+
     if (pointsMat.current) pointsMat.current.opacity = 0.95 * (1 - p * 0.9);
     if (lineMat.current) lineMat.current.opacity = 0.28 * (1 - p);
   });
 
   return (
-    <group ref={group}>
-      <points>
-        <bufferGeometry>
-          <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-        </bufferGeometry>
-        <pointsMaterial ref={pointsMat} size={0.028} color="#9fc0ff" transparent opacity={0.95} sizeAttenuation depthWrite={false} />
-      </points>
-      <lineSegments>
-        <bufferGeometry>
-          <bufferAttribute attach="attributes-position" args={[lines, 3]} />
-        </bufferGeometry>
-        <lineBasicMaterial ref={lineMat} color="#4f7cff" transparent opacity={0.28} depthWrite={false} />
-      </lineSegments>
-      {/* iç çekirdek */}
-      <Core progress={progress} />
+    <group ref={tilt}>
+      <group ref={spin}>
+        <points>
+          <bufferGeometry>
+            <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+          </bufferGeometry>
+          <pointsMaterial ref={pointsMat} size={0.028} color="#9fc0ff" transparent opacity={0.95} sizeAttenuation depthWrite={false} />
+        </points>
+        <lineSegments>
+          <bufferGeometry>
+            <bufferAttribute attach="attributes-position" args={[lines, 3]} />
+          </bufferGeometry>
+          <lineBasicMaterial ref={lineMat} color="#4f7cff" transparent opacity={0.28} depthWrite={false} />
+        </lineSegments>
+        {/* iç çekirdek */}
+        <Core progress={progress} />
+      </group>
     </group>
   );
 }
