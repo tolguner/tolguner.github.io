@@ -583,7 +583,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         <div ref={journeyBodyRef} className="relative mt-8 md:mt-4 md:flex md:min-w-0 md:flex-1 md:flex-col md:justify-center md:gap-[3vh]">
           <div
             ref={cardZoneRef}
-            className="relative h-[50vh] overflow-hidden px-5 sm:px-8 md:h-auto md:overflow-visible md:contents"
+            className="relative h-[55vh] overflow-hidden px-5 sm:px-8 md:h-auto md:overflow-visible md:contents"
             style={{
               WebkitMaskImage: "linear-gradient(to bottom, transparent 0, black 44px, black calc(100% - 16px), transparent 100%)",
               maskImage: "linear-gradient(to bottom, transparent 0, black 44px, black calc(100% - 16px), transparent 100%)",
@@ -591,7 +591,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           >
             <div ref={trackRef} className="flex flex-col gap-4 md:flex md:h-auto md:w-max md:flex-row md:items-stretch md:gap-6 md:pl-[max(1.25rem,calc((100vw-72rem)/2+2rem))] md:pr-[14vw]">
               {t.journey.stops.map((s, i) => (
-                <article key={i} className={`journey-card group relative h-[50vh] shrink-0 md:inset-auto flex w-full flex-col overflow-hidden rounded-3xl border p-7 shadow-2xl shadow-black/50 transition-colors md:aspect-[3/4] md:w-auto md:p-8 md:sikisik:p-6 md:[@media(max-height:820px)]:aspect-auto md:[@media(max-height:820px)]:w-[23rem] ${photos.length ? "md:h-[min(50vh,31rem)] md:[@media(max-height:820px)]:h-[43vh]" : "md:h-[min(58vh,33rem)]"} ${s.featured ? "border-[#4f7cff]/45 bg-gradient-to-b from-[#061736] to-[#06111f] hover:border-[#4f7cff]/70" : "border-white/10 bg-[#06111f] hover:border-white/25"}`} data-reveal>
+                <article key={i} className={`journey-card group relative h-[55vh] shrink-0 md:inset-auto flex w-full flex-col overflow-hidden rounded-3xl border p-7 shadow-2xl shadow-black/50 transition-colors md:aspect-[3/4] md:w-auto md:p-8 md:sikisik:p-6 md:[@media(max-height:820px)]:aspect-auto md:[@media(max-height:820px)]:w-[23rem] ${photos.length ? "md:h-[min(50vh,31rem)] md:[@media(max-height:820px)]:h-[43vh]" : "md:h-[min(58vh,33rem)]"} ${s.featured ? "border-[#4f7cff]/45 bg-gradient-to-b from-[#061736] to-[#06111f] hover:border-[#4f7cff]/70" : "border-white/10 bg-[#06111f] hover:border-white/25"}`} data-reveal>
                   {s.featured && <span aria-hidden className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.28),transparent_65%)]" />}
                   <span aria-hidden className={`font-display pointer-events-none absolute -right-3 -top-6 select-none text-[9rem] font-medium leading-none md:text-[11rem] ${s.featured ? "text-[#4f7cff]/[0.09]" : "text-white/[0.035]"}`}>{s.year}</span>
                   <div className="relative flex items-center gap-3">
