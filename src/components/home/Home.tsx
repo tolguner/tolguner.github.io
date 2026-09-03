@@ -526,21 +526,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         />
         <div className="grid gap-14 md:grid-cols-[1.15fr_0.85fr] md:items-center md:sikisik:gap-10">
           <div>
-            <div className="sticky top-16 z-10 -mx-5 px-5 pb-2 sm:-mx-8 sm:px-8 md:static md:mx-0 md:px-0 md:pb-0">
-              <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.about.title}</h2>
-              {/* Başlığın kendisi saydam; yalnızca altından geçen içerik için
-                  yumuşak bir bulanıklaşma geçişi — düz renkli bant yok. */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-x-0 top-full h-16 -z-10 md:hidden"
-                style={{
-                  backdropFilter: "blur(14px)",
-                  WebkitBackdropFilter: "blur(14px)",
-                  WebkitMaskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
-                  maskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
-                }}
-              />
-            </div>
+            <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.about.title}</h2>
             <p className="mt-7 text-[17px] leading-relaxed text-white/70 md:sikisik:mt-5 md:sikisik:text-[15.5px] md:[@media(max-height:820px)]:text-[14.5px]" data-reveal>{t.about.p1}</p>
             <p className="mt-5 text-[17px] leading-relaxed text-white/70 md:sikisik:mt-4 md:sikisik:text-[15.5px] md:[@media(max-height:820px)]:text-[14.5px]" data-reveal>{t.about.p2}</p>
             <dl className="mt-10 grid gap-5 border-t border-white/10 pt-8 sm:grid-cols-2 md:sikisik:mt-6 md:sikisik:gap-4 md:sikisik:pt-5 md:[@media(max-height:820px)]:mt-5 md:[@media(max-height:820px)]:gap-3 md:[@media(max-height:820px)]:pt-4">
@@ -659,19 +645,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
 
       {/* Projeler */}
       <section id="projects" className="mx-auto max-w-6xl px-5 pt-32 sm:px-8">
-        <div className="sticky top-16 z-10 -mx-5 px-5 pb-2 sm:-mx-8 sm:px-8 md:static md:mx-0 md:px-0 md:pb-0">
-          <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.projects.title}</h2>
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-full h-16 -z-10 md:hidden"
-            style={{
-              backdropFilter: "blur(14px)",
-              WebkitBackdropFilter: "blur(14px)",
-              WebkitMaskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
-              maskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
-            }}
-          />
-        </div>
+        <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.projects.title}</h2>
         <p className="mt-3 max-w-xl text-[15px] text-white/50" data-reveal>{t.projects.sub}</p>
         <div className="mt-12 grid gap-5 md:grid-cols-2">
           {t.projects.cards.map((c) => (
@@ -726,7 +700,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       </section>
 
       {/* Araştırma */}
-      <section id="research" data-fit="screen" className="relative mt-32 overflow-hidden py-28 md:flex md:min-h-screen md:flex-col md:justify-center md:sikisik:py-16 md:[@media(max-height:820px)]:pt-24 md:[@media(max-height:820px)]:pb-10">
+      <section id="research" data-fit="screen" className="relative mt-32 flex flex-col justify-center overflow-hidden py-28 md:min-h-screen md:sikisik:py-16 md:[@media(max-height:820px)]:pt-24 md:[@media(max-height:820px)]:pb-10">
         {/* Yarı saydam lacivert film: paylaşılan mause ışıltısı altından hafifçe
             sızar (hue kendiliğinden research'ün rengine kayar), kenarlarda
             saydamlığa dönerek komşu bölümlerle sert bir kesim oluşturmaz. */}
@@ -738,19 +712,6 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
               "linear-gradient(to bottom, rgba(6,17,31,0) 0%, rgba(6,17,31,0.82) 12%, rgba(6,17,31,0.82) 88%, rgba(6,17,31,0) 100%)",
           }}
         />
-        <div className="relative -mx-5 sticky top-16 z-10 px-5 pb-5 sm:-mx-8 sm:px-8 md:hidden">
-          <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white">{t.nav.research}</h2>
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-full h-16 -z-10"
-            style={{
-              backdropFilter: "blur(14px)",
-              WebkitBackdropFilter: "blur(14px)",
-              WebkitMaskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
-              maskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
-            }}
-          />
-        </div>
         <div className="relative mx-auto grid w-full max-w-6xl gap-14 px-5 sm:px-8 md:grid-cols-[1fr_1fr] md:sikisik:gap-10">
           <div>
             <p className="text-[12px] font-semibold uppercase tracking-[0.22em] text-[#8fb0ff]" data-reveal>{t.research.kicker}</p>
@@ -780,41 +741,24 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
 
       {/* Yetkinlikler */}
       <section id="skills" className="mx-auto max-w-6xl px-5 pt-32 sm:px-8">
-        {/* Başlık yalnızca teknik yetkinlikler bloğu boyunca sabit kalır;
-            kişisel yetkinlikler kısa olduğundan bu grup dışında bırakılıp
-            başlığın oraya kadar sürüklenmesi önlenir. */}
-        <div>
-          <div className="sticky top-16 z-10 -mx-5 px-5 pb-2 sm:-mx-8 sm:px-8 md:static md:mx-0 md:px-0 md:pb-0">
-            <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.skills.title}</h2>
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-x-0 top-full h-16 -z-10 md:hidden"
-              style={{
-                backdropFilter: "blur(14px)",
-                WebkitBackdropFilter: "blur(14px)",
-                WebkitMaskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
-                maskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
-              }}
-            />
-          </div>
-          <p className="mt-3 max-w-xl text-[15px] text-white/50" data-reveal>{t.skills.sub}</p>
+        <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.skills.title}</h2>
+        <p className="mt-3 max-w-xl text-[15px] text-white/50" data-reveal>{t.skills.sub}</p>
 
-          <div className="mt-12 flex items-center gap-4" data-reveal>
-            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8fb0ff]">{t.skills.techLabel}</span>
-            <span className="h-px flex-1 bg-gradient-to-r from-[#4f7cff]/40 to-transparent" />
-          </div>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {t.skills.groups.map((g) => (
-              <div key={g.label} className="rounded-2xl border border-white/10 bg-[#06111f] p-5 transition-colors hover:border-white/25" data-reveal>
-                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">{g.label}</div>
-                <div className="mt-3.5 flex flex-wrap gap-1.5">
-                  {g.items.map((s) => (
-                    <span key={s} className="rounded-md border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[12.5px] text-white/85">{s}</span>
-                  ))}
-                </div>
+        <div className="mt-12 flex items-center gap-4" data-reveal>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8fb0ff]">{t.skills.techLabel}</span>
+          <span className="h-px flex-1 bg-gradient-to-r from-[#4f7cff]/40 to-transparent" />
+        </div>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {t.skills.groups.map((g) => (
+            <div key={g.label} className="rounded-2xl border border-white/10 bg-[#06111f] p-5 transition-colors hover:border-white/25" data-reveal>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">{g.label}</div>
+              <div className="mt-3.5 flex flex-wrap gap-1.5">
+                {g.items.map((s) => (
+                  <span key={s} className="rounded-md border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[12.5px] text-white/85">{s}</span>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
 
         <div className="mt-14 flex items-center gap-4" data-reveal>
