@@ -102,6 +102,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     }
     document.addEventListener("click", onAnchor);
 
+    let gozlemci: IntersectionObserver | null = null;
     const mm = gsap.matchMedia();
     const ctx = gsap.context(() => {
       // Giriş
@@ -118,10 +119,25 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       });
       gsap.to(".hero-content", { yPercent: -18, opacity: 0.15, ease: "none", scrollTrigger: { trigger: heroRef.current, start: "top top", end: "bottom top", scrub: true } });
 
-      // Genel açılışlar
-      gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
-        gsap.from(el, { y: reduce ? 0 : 36, opacity: 0, duration: 0.9, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 86%" } });
-      });
+      // Genel açılışlar — aynı anda ekrana giren kartlar sırayla yukarı kayar.
+      // ScrollTrigger yerine IntersectionObserver: pinlenen Yolculuk bölümü
+      // yüzünden konumlar kayıp kartlar ekrana gelmeden açılmasın diye.
+      if (reduce) {
+        gsap.set("[data-reveal]", { opacity: 1, y: 0 });
+      } else {
+        const ogeler = gsap.utils.toArray<HTMLElement>("[data-reveal]");
+        gsap.set(ogeler, { opacity: 0, y: 44 });
+        gozlemci = new IntersectionObserver(
+          (girisler) => {
+            const gelenler = girisler.filter((g) => g.isIntersecting).map((g) => g.target as HTMLElement);
+            if (!gelenler.length) return;
+            gelenler.forEach((el) => gozlemci?.unobserve(el));
+            gsap.to(gelenler, { y: 0, opacity: 1, duration: 0.85, ease: "power3.out", stagger: 0.07, overwrite: true });
+          },
+          { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
+        );
+        ogeler.forEach((el) => gozlemci?.observe(el));
+      }
 
       // Sayaçlar
       gsap.utils.toArray<HTMLElement>("[data-count]").forEach((el) => {
@@ -137,7 +153,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       });
 
       // Yolculuk — masaüstünde yatay pinli kaydırma
-      mm.add("(min-width: 900px)", () => {
+      mm.add("(min-width: 768px)", () => {
         const track = trackRef.current;
         const sec = journeyRef.current;
         if (!track || !sec) return;
@@ -178,6 +194,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
 
     ScrollTrigger.refresh();
     return () => {
+      gozlemci?.disconnect();
       ctx.revert();
       mm.revert();
       document.removeEventListener("click", onAnchor);
@@ -298,7 +315,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
             <div>
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.journey.title}</h2>
             </div>
-            <div className="hidden text-right md:block" data-reveal>
+            <div className="hidden text-right md:block">
               <div className="text-[11px] uppercase tracking-[0.22em] text-white/40">{t.journey.rangeLabel}</div>
               <div className="font-display text-[34px] leading-none text-white/80">2021 — 2026</div>
             </div>
