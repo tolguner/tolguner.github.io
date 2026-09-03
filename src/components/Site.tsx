@@ -139,7 +139,6 @@ export default function Site({ repos }: { repos: Repo[] }) {
       {/* Araştırma */}
       <SectionTitle id="research">{t.sections.research}</SectionTitle>
       <Row title={<>{t.research.title} <span className="ml-1.5 text-[13.5px] font-normal text-muted">{t.research.role}</span></>} right={t.research.date} sub={t.research.org} />
-      <p className="mt-1.5 text-[13.5px] italic text-muted">{t.research.topic}</p>
       <Bullets items={t.research.items} />
 
       {/* Projeler */}

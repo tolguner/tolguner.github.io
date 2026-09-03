@@ -70,7 +70,7 @@ export const content: Record<Lang, Dict> = {
     research: {
       title: "TÜBİTAK 2209-A Araştırma Projesi",
       role: "Proje Yürütücüsü",
-      org: "TÜBİTAK 2209-A Araştırma Projesi · Başvuru No 1919B012534181",
+      org: "Üniversite Öğrencilerinin Dijital Davranışlarının Akademik Başarıları Üzerinde Etkisi: Ekran Süresi, Uyku, Stres ve Farkındalığın Rolünün Veri Bilimi Yaklaşımıyla İncelenmesi · Başvuru No 1919B012534181",
       date: "2026 – devam ediyor",
       topic:
         "Üniversite Öğrencilerinin Dijital Davranışlarının Akademik Başarıları Üzerinde Etkisi: Ekran Süresi, Uyku, Stres ve Farkındalığın Rolünün Veri Bilimi Yaklaşımıyla İncelenmesi",
@@ -113,7 +113,7 @@ export const content: Record<Lang, Dict> = {
         title: "tolguner.me",
         kind: "Kişisel Portfolyo Sitesi · 2026",
         tech: "Next.js · TypeScript · Three.js · GSAP · GitHub Pages",
-        note: "Bu site. Statik export ile GitHub Pages'te yayınlanıyor; depo listesi build sırasında GitHub API'den çekiliyor.",
+        note: "Scroll'a bağlı 3B bir deneyimle kişisel geçmişimi, projelerimi ve araştırmamı anlatan portfolyo sitesi; GitHub Pages'te statik export olarak yayınlanıyor, depo listesi build sırasında GitHub API'den çekiliyor.",
         items: [],
         url: "https://github.com/tolguner/tolguner.github.io",
         urlLabel: "github.com/tolguner/tolguner.github.io",
@@ -182,7 +182,7 @@ export const content: Record<Lang, Dict> = {
     research: {
       title: "TÜBİTAK 2209-A Research Project",
       role: "Project Lead",
-      org: "TÜBİTAK 2209-A Research Project · Application No 1919B012534181",
+      org: "The Effect of University Students' Digital Behaviors on Academic Achievement: Examining the Role of Screen Time, Sleep, Stress and Awareness through a Data Science Approach · Application No 1919B012534181",
       date: "2026 – ongoing",
       topic:
         "The Effect of University Students' Digital Behaviors on Academic Achievement: Examining the Role of Screen Time, Sleep, Stress and Awareness through a Data Science Approach",
@@ -225,7 +225,7 @@ export const content: Record<Lang, Dict> = {
         title: "tolguner.me",
         kind: "Personal Portfolio Site · 2026",
         tech: "Next.js · TypeScript · Three.js · GSAP · GitHub Pages",
-        note: "This site. Statically exported to GitHub Pages; the repository list is fetched from the GitHub API at build time.",
+        note: "Portfolio site presenting my background, projects and research through a scroll-driven 3D experience; statically exported and hosted on GitHub Pages, with the repository list fetched from the GitHub API at build time.",
         items: [],
         url: "https://github.com/tolguner/tolguner.github.io",
         urlLabel: "github.com/tolguner/tolguner.github.io",
