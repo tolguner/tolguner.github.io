@@ -43,7 +43,7 @@ export default function Intro({ onYazimBitti, kapaniyor, atlaEtiketi, onAtla }: 
     <div
       aria-hidden
       onClick={onAtla}
-      className={`fixed inset-0 z-40 flex items-center justify-center bg-[#070b12] transition-opacity duration-700 ${
+      className={`fixed inset-0 z-40 flex items-center justify-center bg-[#030a16] transition-opacity duration-700 ${
         kapaniyor ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >

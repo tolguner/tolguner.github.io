@@ -342,7 +342,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
   };
 
   return (
-    <div ref={root} className="home relative z-0 min-h-screen overflow-x-clip bg-[#070b12] text-[#c9d3e0]">
+    <div ref={root} className="home relative z-0 min-h-screen overflow-x-clip bg-[#030a16] text-[#c9d3e0]">
       {/* Fareyi izleyen ışıltı — en arka katman; kartlar ve metin (normal akış,
           bu elemandan sonra çiziliyor) hep önünde kalır. */}
       <div
@@ -360,7 +360,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       )}
 
       {/* Üst çubuk */}
-      <header className="giris-gizle fixed inset-x-0 top-0 z-30 border-b border-white/5 bg-[#070b12]/70 backdrop-blur-md">
+      <header className="giris-gizle fixed inset-x-0 top-0 z-30 border-b border-white/5 bg-[#030a16]/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
           <a href="#top" className="font-display text-lg font-semibold text-white">Tolga Olguner</a>
           <nav className="hidden gap-5 text-[12.5px] text-white/60 md:flex lg:gap-7 lg:text-[13px]">
@@ -374,7 +374,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           <div className="flex items-center gap-3">
             <div className="flex overflow-hidden rounded-full border border-white/10 text-[11.5px] font-semibold">
               {(["tr", "en"] as Lang[]).map((l) => (
-                <button key={l} onClick={() => setLang(l)} aria-pressed={lang === l} className={`px-3 py-1.5 uppercase transition ${lang === l ? "bg-white text-[#070b12]" : "text-white/60 hover:text-white"}`}>{l}</button>
+                <button key={l} onClick={() => setLang(l)} aria-pressed={lang === l} className={`px-3 py-1.5 uppercase transition ${lang === l ? "bg-white text-[#030a16]" : "text-white/60 hover:text-white"}`}>{l}</button>
               ))}
             </div>
             <a href="/cv/" className="hidden rounded-full bg-[#4f7cff] px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:bg-[#6a90ff] md:inline-block">{t.nav.cv}</a>
@@ -397,7 +397,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       {/* Mobil menü */}
       <div
         id="mobil-menu"
-        className={`fixed inset-0 z-20 flex flex-col justify-center bg-[#070b12]/97 px-8 pt-14 backdrop-blur-lg transition-[opacity,visibility] duration-300 md:hidden ${menuAcik ? "visible opacity-100" : "invisible opacity-0"}`}
+        className={`fixed inset-0 z-20 flex flex-col justify-center bg-[#030a16]/97 px-8 pt-14 backdrop-blur-lg transition-[opacity,visibility] duration-300 md:hidden ${menuAcik ? "visible opacity-100" : "invisible opacity-0"}`}
         onClick={() => setMenuAcik(false)}
       >
         <nav className="flex flex-col gap-1">
@@ -434,7 +434,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       <section id="top" ref={heroRef} className="giris-gizle relative flex min-h-[100svh] items-center overflow-hidden">
         {/* Ortadaki mavi parıltı kürenin sol yarısının arkasına düşüp noktaların
             kontrastını düşürüyordu; küre orada bitiyormuş gibi görünüyordu. */}
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_55%,rgba(7,11,18,0.55)_100%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_55%,rgba(3,10,22,0.55)_100%)]" />
         {/* Tuval tüm ekranı kaplar; kürenin sahnedeki yatay yeri NodeSphere içinde
             ayarlanır, böylece açılışta sol kenardan kesilmez. */}
         <div className="absolute inset-0 opacity-[0.7] md:opacity-90">
@@ -449,7 +449,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           </h1>
           <p className="hero-fade mt-7 max-w-xl text-[15.5px] leading-relaxed text-white/60 sm:text-[17px]">{t.hero.sub}</p>
           <div className="hero-fade mt-9 flex flex-wrap gap-3">
-            <a href="#projects" className="rounded-full bg-white px-6 py-3 text-[14px] font-semibold text-[#070b12] transition hover:bg-[#dfe7ff]">{t.hero.ctaProjects}</a>
+            <a href="#projects" className="rounded-full bg-white px-6 py-3 text-[14px] font-semibold text-[#030a16] transition hover:bg-[#dfe7ff]">{t.hero.ctaProjects}</a>
             <a href="/cv/" className="rounded-full border border-white/20 px-6 py-3 text-[14px] font-semibold text-white transition hover:border-white/50">{t.hero.ctaCv}</a>
           </div>
         </div>
@@ -459,7 +459,18 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       </section>
 
       {/* Hakkımda */}
-      <section id="about" data-fit="screen" className="mx-auto flex max-w-6xl flex-col justify-center px-5 pt-32 sm:px-8 md:min-h-screen md:pb-[6vh] md:pt-[10vh] md:[@media(max-height:820px)]:pb-[4vh] md:[@media(max-height:820px)]:pt-[7vh]">
+      <section id="about" data-fit="screen" className="relative mx-auto flex max-w-6xl flex-col justify-center px-5 pt-32 sm:px-8 md:min-h-screen md:pb-[6vh] md:pt-[10vh] md:[@media(max-height:820px)]:pb-[4vh] md:[@media(max-height:820px)]:pt-[7vh]">
+        {/* Hero'nun taban geçişi tam olarak burada (Hero'nun bittiği pikselde)
+            %55 alfa'ya ulaşıyor; bu katman AYNI renk ve alfa ile buradan
+            devam edip söner. Sınırda iki taraf da aynı değerde buluştuğu
+            için mause-ışıltısı ansızın tam güce sıçramıyor. Hero'nun kendi
+            kutusuna taşmıyor (üst boşluk yok) — üst üste binip bir önceki
+            denemedeki gibi ayrı bir şerit oluşturmuyor. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-40 md:h-56"
+          style={{ background: "linear-gradient(to bottom, rgba(3,10,22,0.55), transparent)" }}
+        />
         <div className="grid gap-14 md:grid-cols-[1.15fr_0.85fr] md:items-center md:sikisik:gap-10">
           <div>
             <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.about.title}</h2>
@@ -479,7 +490,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/portre.jpg" alt="Tolga Olguner" width={900} height={1200} className="relative aspect-[3/4] w-full rounded-3xl border border-white/10 object-cover" />
             {t.about.badges.map((b, i) => (
-              <div key={b.k} className={`absolute rounded-xl border border-white/10 bg-[#0b1119]/90 px-4 py-3 shadow-2xl backdrop-blur ${i === 0 ? "-right-4 top-8" : "-left-4 bottom-10"}`}>
+              <div key={b.k} className={`absolute rounded-xl border border-white/10 bg-[#06111f]/90 px-4 py-3 shadow-2xl backdrop-blur ${i === 0 ? "-right-4 top-8" : "-left-4 bottom-10"}`}>
                 <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">{b.k}</div>
                 <div className="mt-0.5 text-[14px] font-semibold text-white">{b.v}</div>
               </div>
@@ -490,7 +501,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         {/* Rakamlarla — hakkımda metnini karşılayan şerit */}
         <div className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:mt-[5vh] md:[@media(max-height:820px)]:mt-[3.5vh] md:grid-cols-4">
           {t.stats.map((s) => (
-            <div key={s.label} className="bg-[#0b1119] px-6 py-7 md:sikisik:py-5 md:[@media(max-height:820px)]:py-3.5" data-reveal>
+            <div key={s.label} className="bg-[#06111f] px-6 py-7 md:sikisik:py-5 md:[@media(max-height:820px)]:py-3.5" data-reveal>
               <div className="font-display text-[38px] font-medium leading-none text-white md:sikisik:text-[32px]">
                 <span data-count={s.key === "repos" && repoCount ? repoCount : s.value} data-decimals={s.decimals ?? 0} data-suffix={s.suffix ?? ""}>0</span>
               </div>
@@ -517,7 +528,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         <div className="relative mt-8 md:mt-4 md:flex md:min-w-0 md:flex-1 md:flex-col md:justify-center md:gap-[3vh]">
           <div ref={trackRef} className="flex flex-col gap-6 px-5 sm:px-8 md:w-max md:flex-row md:items-stretch md:gap-6 md:pl-[max(1.25rem,calc((100vw-72rem)/2+2rem))] md:pr-[14vw]">
             {t.journey.stops.map((s, i) => (
-              <article key={i} className={`group relative flex w-full shrink-0 flex-col overflow-hidden rounded-3xl border p-7 transition-colors md:aspect-[3/4] md:w-auto md:p-8 md:sikisik:p-6 md:[@media(max-height:820px)]:aspect-auto md:[@media(max-height:820px)]:w-[23rem] ${photos.length ? "md:h-[min(50vh,31rem)] md:[@media(max-height:820px)]:h-[43vh]" : "md:h-[min(58vh,33rem)]"} ${s.featured ? "border-[#4f7cff]/45 bg-gradient-to-b from-[#111d33] to-[#0b1119] hover:border-[#4f7cff]/70" : "border-white/10 bg-[#0b1119] hover:border-white/25"}`} data-reveal>
+              <article key={i} className={`group relative flex w-full shrink-0 flex-col overflow-hidden rounded-3xl border p-7 transition-colors md:aspect-[3/4] md:w-auto md:p-8 md:sikisik:p-6 md:[@media(max-height:820px)]:aspect-auto md:[@media(max-height:820px)]:w-[23rem] ${photos.length ? "md:h-[min(50vh,31rem)] md:[@media(max-height:820px)]:h-[43vh]" : "md:h-[min(58vh,33rem)]"} ${s.featured ? "border-[#4f7cff]/45 bg-gradient-to-b from-[#061736] to-[#06111f] hover:border-[#4f7cff]/70" : "border-white/10 bg-[#06111f] hover:border-white/25"}`} data-reveal>
                 {s.featured && <span aria-hidden className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.28),transparent_65%)]" />}
                 <span aria-hidden className={`font-display pointer-events-none absolute -right-3 -top-6 select-none text-[9rem] font-medium leading-none md:text-[11rem] ${s.featured ? "text-[#4f7cff]/[0.09]" : "text-white/[0.035]"}`}>{s.year}</span>
                 <div className="relative flex items-center gap-3">
@@ -573,7 +584,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
               onMouseMove={tilt}
               onMouseLeave={untilt}
               data-reveal
-              className="group relative rounded-2xl border border-white/10 bg-[#0b1119] p-7 transition-transform duration-200 [transform:perspective(900px)_rotateX(var(--rx,0deg))_rotateY(var(--ry,0deg))] hover:border-white/25"
+              className="group relative rounded-2xl border border-white/10 bg-[#06111f] p-7 transition-transform duration-200 [transform:perspective(900px)_rotateX(var(--rx,0deg))_rotateY(var(--ry,0deg))] hover:border-white/25"
             >
               <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_var(--mx,50%)_var(--my,50%),rgba(79,124,255,0.12),transparent_55%)] opacity-0 transition group-hover:opacity-100" />
               <div className="relative">
@@ -627,7 +638,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(11,17,25,0) 0%, rgba(11,17,25,0.82) 12%, rgba(11,17,25,0.82) 88%, rgba(11,17,25,0) 100%)",
+              "linear-gradient(to bottom, rgba(6,17,31,0) 0%, rgba(6,17,31,0.82) 12%, rgba(6,17,31,0.82) 88%, rgba(6,17,31,0) 100%)",
           }}
         />
         <div className="relative mx-auto grid w-full max-w-6xl gap-14 px-5 sm:px-8 md:grid-cols-[1fr_1fr] md:sikisik:gap-10">
@@ -647,7 +658,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           </div>
           <ol className="grid gap-6 self-center lg:grid-cols-2">
             {t.research.steps.map((s) => (
-              <li key={s.n} className="rounded-2xl border border-white/10 bg-[#070b12] p-6 md:[@media(max-height:820px)]:p-4" data-reveal>
+              <li key={s.n} className="rounded-2xl border border-white/10 bg-[#030a16] p-6 md:[@media(max-height:820px)]:p-4" data-reveal>
                 <div className="font-display text-[22px] text-[#8fb0ff]">{s.n}</div>
                 <div className="mt-3 text-[16px] font-semibold text-white">{s.title}</div>
                 <p className="mt-2 text-[13.5px] leading-relaxed text-white/60">{s.text}</p>
@@ -668,7 +679,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         </div>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {t.skills.groups.map((g) => (
-            <div key={g.label} className="rounded-2xl border border-white/10 bg-[#0b1119] p-5 transition-colors hover:border-white/25" data-reveal>
+            <div key={g.label} className="rounded-2xl border border-white/10 bg-[#06111f] p-5 transition-colors hover:border-white/25" data-reveal>
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">{g.label}</div>
               <div className="mt-3.5 flex flex-wrap gap-1.5">
                 {g.items.map((s) => (
@@ -696,12 +707,12 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
 
       {/* İletişim */}
       <section id="contact" className="mx-auto max-w-6xl px-5 pb-16 pt-36 sm:px-8">
-        <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b1119] px-7 py-16 text-center sm:px-12 sm:py-24" data-reveal>
+        <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#06111f] px-7 py-16 text-center sm:px-12 sm:py-24" data-reveal>
           <div className="pointer-events-none absolute left-1/2 top-0 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.22),transparent_60%)]" />
           <h2 className="font-display relative text-[clamp(2.4rem,6vw,4.6rem)] font-medium tracking-tight text-white">{t.contact.title}</h2>
           <p className="relative mt-5 text-[16px] text-white/60">{t.contact.text}</p>
           <div className="relative mt-9 flex flex-wrap justify-center gap-3">
-            <a href={`mailto:${links.email}`} className="rounded-full bg-white px-6 py-3 text-[14px] font-semibold text-[#070b12] transition hover:bg-[#dfe7ff]">{t.contact.email}</a>
+            <a href={`mailto:${links.email}`} className="rounded-full bg-white px-6 py-3 text-[14px] font-semibold text-[#030a16] transition hover:bg-[#dfe7ff]">{t.contact.email}</a>
             <a href="/cv/" className="rounded-full border border-white/20 px-6 py-3 text-[14px] font-semibold text-white transition hover:border-white/50">{t.contact.cv}</a>
           </div>
           <div className="relative mt-10 flex flex-wrap justify-center gap-x-7 gap-y-2 text-[13.5px] text-white/50">
