@@ -40,5 +40,8 @@
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3"
   },
-  "private": true
+  "private": true,
+  "overrides": {
+    "postcss": "^8.5.26"
+  }
 }
