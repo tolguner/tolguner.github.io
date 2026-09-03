@@ -51,8 +51,6 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
   const girisRef = useRef<"yok" | "yazi" | "ucus" | "bitti">("yok");
   girisRef.current = giris;
   const isiltiRef = useRef<HTMLDivElement>(null);
-  const arastirmaRef = useRef<HTMLElement>(null);
-  const arastirmaIsiltiRef = useRef<HTMLDivElement>(null);
   const t = home[lang];
 
   // Sayfanın en arkasında fareyi izleyen mavi ışıltı — kartların ve metnin
@@ -71,23 +69,9 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     };
     window.addEventListener("pointermove", onMove, { passive: true });
 
-    // Araştırma'nın kendi ışıltısı: radial-gradient'in "at X Y"si o elemanın
-    // KENDİ kutusuna göredir (viewport'a göre değil), o yüzden imlecin
-    // ekrandaki konumunu bölümün üst-sol köşesine göre yeniden hesaplıyoruz.
-    const isikKonumUygula = (x: number, y: number) => {
-      el.style.setProperty("--gx", `${x}px`);
-      el.style.setProperty("--gy", `${y}px`);
-      const ar = arastirmaRef.current;
-      const arEl = arastirmaIsiltiRef.current;
-      if (ar && arEl) {
-        const r = ar.getBoundingClientRect();
-        arEl.style.setProperty("--rgx", `${x - r.left}px`);
-        arEl.style.setProperty("--rgy", `${y - r.top}px`);
-      }
-    };
-
     if (azalt) {
-      isikKonumUygula(hedef.x, hedef.y);
+      el.style.setProperty("--gx", `${hedef.x}px`);
+      el.style.setProperty("--gy", `${hedef.y}px`);
       return () => window.removeEventListener("pointermove", onMove);
     }
 
@@ -95,7 +79,8 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     const adim = () => {
       su.x += (hedef.x - su.x) * 0.055;
       su.y += (hedef.y - su.y) * 0.055;
-      isikKonumUygula(su.x, su.y);
+      el.style.setProperty("--gx", `${su.x}px`);
+      el.style.setProperty("--gy", `${su.y}px`);
       kare = requestAnimationFrame(adim);
     };
     kare = requestAnimationFrame(adim);
@@ -447,16 +432,14 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
 
       {/* Hero */}
       <section id="top" ref={heroRef} className="giris-gizle relative flex min-h-[100svh] items-center overflow-hidden">
+        {/* Ortadaki mavi parıltı kürenin sol yarısının arkasına düşüp noktaların
+            kontrastını düşürüyordu; küre orada bitiyormuş gibi görünüyordu. */}
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_55%,rgba(7,11,18,0.55)_100%)]" />
         {/* Tuval tüm ekranı kaplar; kürenin sahnedeki yatay yeri NodeSphere içinde
             ayarlanır, böylece açılışta sol kenardan kesilmez. */}
         <div className="absolute inset-0 opacity-[0.7] md:opacity-90">
           {mounted && <NodeSphere progress={progress} giris={girisIlerleme} />}
         </div>
-        {/* Küreyi de kapsayan taban geçişi: bu katman tuvalin ÜSTÜNDE olduğu
-            için hem noktaları hem aradaki boşlukları birlikte karartır — aksi
-            halde geçiş yalnızca boşlukları etkiliyor, küre kendi sınırında
-            ansızın kesiliyormuş gibi görünüyordu. */}
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,transparent_38%,rgba(7,11,18,0.94)_100%)]" />
         <div className="hero-content relative z-10 mx-auto w-full max-w-6xl px-5 pb-16 pt-28 sm:px-8">
           <p className="hero-fade mb-5 text-[12px] font-semibold uppercase tracking-[0.22em] text-[#8fb0ff]">{t.hero.kicker}</p>
           <h1 className="font-display max-w-4xl text-[clamp(2.4rem,6.2vw,5.2rem)] font-medium leading-[1.02] tracking-tight text-white">
@@ -635,28 +618,16 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       </section>
 
       {/* Araştırma */}
-      <section id="research" ref={arastirmaRef} data-fit="screen" className="relative mt-32 flex flex-col justify-center overflow-hidden py-28 md:min-h-screen md:sikisik:py-16 md:[@media(max-height:820px)]:pt-24 md:[@media(max-height:820px)]:pb-10">
-        {/* Kendi lacivert kimliği: kenarlarda saydamlığa dönerek komşu
-            bölümlerle sert bir kesim oluşturmaz, ortada güçlü kalır. */}
+      <section id="research" data-fit="screen" className="relative mt-32 flex flex-col justify-center overflow-hidden py-28 md:min-h-screen md:sikisik:py-16 md:[@media(max-height:820px)]:pt-24 md:[@media(max-height:820px)]:pb-10">
+        {/* Yarı saydam lacivert film: paylaşılan mause ışıltısı altından hafifçe
+            sızar (hue kendiliğinden research'ün rengine kayar), kenarlarda
+            saydamlığa dönerek komşu bölümlerle sert bir kesim oluşturmaz. */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(11,17,25,0) 0%, rgba(11,17,25,0.85) 14%, rgba(11,17,25,0.85) 86%, rgba(11,17,25,0) 100%)",
-          }}
-        />
-        {/* Araştırma'nın kendi mause-ışıltısı: bölümün lacivert filminin
-            üstünde durduğu için görünürlüğü filmin opaklığına bağlı değil;
-            rengi de sayfanın genel mavisinden ayrışıp research'ün kendi
-            vurgu tonuna (#8fb0ff) kayar. */}
-        <div
-          ref={arastirmaIsiltiRef}
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(34rem circle at var(--rgx, 70%) var(--rgy, 45%), rgba(143,176,255,0.24), rgba(143,176,255,0.08) 42%, transparent 68%)",
+              "linear-gradient(to bottom, rgba(11,17,25,0) 0%, rgba(11,17,25,0.82) 12%, rgba(11,17,25,0.82) 88%, rgba(11,17,25,0) 100%)",
           }}
         />
         <div className="relative mx-auto grid w-full max-w-6xl gap-14 px-5 sm:px-8 md:grid-cols-[1fr_1fr] md:sikisik:gap-10">
