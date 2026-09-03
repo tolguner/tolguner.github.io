@@ -529,12 +529,9 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
             <div className="sticky top-16 z-10 -mx-5 px-5 pb-2 sm:-mx-8 sm:px-8 md:static md:mx-0 md:px-0 md:pb-0">
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 -top-6 -bottom-10 -z-10 md:hidden"
+            className="pointer-events-none absolute inset-x-0 -top-10 -bottom-16 -z-10 md:hidden"
             style={{
-              background: "#030a16",
-              WebkitMaskImage: "linear-gradient(to bottom, transparent 0, black 30%, black 70%, transparent 100%)",
-              maskImage: "linear-gradient(to bottom, transparent 0, black 30%, black 70%, transparent 100%)",
-              backdropFilter: "blur(10px)",
+              background: "linear-gradient(to bottom, transparent 0%, rgba(3,10,22,0.94) 32%, rgba(3,10,22,0.94) 60%, transparent 100%)",
             }}
           />
               <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.about.title}</h2>
@@ -660,12 +657,9 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         <div className="sticky top-16 z-10 -mx-5 px-5 pb-2 sm:-mx-8 sm:px-8 md:static md:mx-0 md:px-0 md:pb-0">
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 -top-6 -bottom-10 -z-10 md:hidden"
+            className="pointer-events-none absolute inset-x-0 -top-10 -bottom-16 -z-10 md:hidden"
             style={{
-              background: "#030a16",
-              WebkitMaskImage: "linear-gradient(to bottom, transparent 0, black 30%, black 70%, transparent 100%)",
-              maskImage: "linear-gradient(to bottom, transparent 0, black 30%, black 70%, transparent 100%)",
-              backdropFilter: "blur(10px)",
+              background: "linear-gradient(to bottom, transparent 0%, rgba(3,10,22,0.94) 32%, rgba(3,10,22,0.94) 60%, transparent 100%)",
             }}
           />
           <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.projects.title}</h2>
@@ -739,12 +733,9 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         <div className="relative -mx-5 sticky top-16 z-10 px-5 pb-5 sm:-mx-8 sm:px-8 md:hidden">
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 -top-6 -bottom-10 -z-10"
+            className="pointer-events-none absolute inset-x-0 -top-10 -bottom-16 -z-10"
             style={{
-              background: "#030a16",
-              WebkitMaskImage: "linear-gradient(to bottom, transparent 0, black 30%, black 70%, transparent 100%)",
-              maskImage: "linear-gradient(to bottom, transparent 0, black 30%, black 70%, transparent 100%)",
-              backdropFilter: "blur(10px)",
+              background: "linear-gradient(to bottom, transparent 0%, rgba(3,10,22,0.94) 32%, rgba(3,10,22,0.94) 60%, transparent 100%)",
             }}
           />
           <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white">{t.nav.research}</h2>
@@ -785,12 +776,9 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           <div className="sticky top-16 z-10 -mx-5 px-5 pb-2 sm:-mx-8 sm:px-8 md:static md:mx-0 md:px-0 md:pb-0">
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-x-0 -top-6 -bottom-10 -z-10 md:hidden"
+              className="pointer-events-none absolute inset-x-0 -top-10 -bottom-16 -z-10 md:hidden"
               style={{
-                background: "#030a16",
-                WebkitMaskImage: "linear-gradient(to bottom, transparent 0, black 30%, black 70%, transparent 100%)",
-                maskImage: "linear-gradient(to bottom, transparent 0, black 30%, black 70%, transparent 100%)",
-                backdropFilter: "blur(10px)",
+                background: "linear-gradient(to bottom, transparent 0%, rgba(3,10,22,0.94) 32%, rgba(3,10,22,0.94) 60%, transparent 100%)",
               }}
             />
             <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.skills.title}</h2>
