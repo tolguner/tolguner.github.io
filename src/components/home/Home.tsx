@@ -50,7 +50,46 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
   const girisIlerleme = useRef(0);
   const girisRef = useRef<"yok" | "yazi" | "ucus" | "bitti">("yok");
   girisRef.current = giris;
+  const isiltiRef = useRef<HTMLDivElement>(null);
   const t = home[lang];
+
+  // Sayfanın en arkasında fareyi izleyen mavi ışıltı — kartların ve metnin
+  // gerisinde kalır (kartlar zaten opak arka plana sahip), yalnızca boşluklarda
+  // görünür. Hafif gecikmeyle takip ederek kayan bir ışık hissi verir.
+  useEffect(() => {
+    const el = isiltiRef.current;
+    if (!el) return;
+    const azalt = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const hedef = { x: window.innerWidth / 2, y: window.innerHeight * 0.4 };
+    const su = { x: hedef.x, y: hedef.y };
+
+    const onMove = (e: PointerEvent) => {
+      hedef.x = e.clientX;
+      hedef.y = e.clientY;
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+
+    if (azalt) {
+      el.style.setProperty("--gx", `${hedef.x}px`);
+      el.style.setProperty("--gy", `${hedef.y}px`);
+      return () => window.removeEventListener("pointermove", onMove);
+    }
+
+    let kare = 0;
+    const adim = () => {
+      su.x += (hedef.x - su.x) * 0.055;
+      su.y += (hedef.y - su.y) * 0.055;
+      el.style.setProperty("--gx", `${su.x}px`);
+      el.style.setProperty("--gy", `${su.y}px`);
+      kare = requestAnimationFrame(adim);
+    };
+    kare = requestAnimationFrame(adim);
+
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      cancelAnimationFrame(kare);
+    };
+  }, []);
 
   useEffect(() => {
     try {
@@ -303,7 +342,18 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
   };
 
   return (
-    <div ref={root} className="home relative min-h-screen overflow-x-clip bg-[#070b12] text-[#c9d3e0]">
+    <div ref={root} className="home relative z-0 min-h-screen overflow-x-clip bg-[#070b12] text-[#c9d3e0]">
+      {/* Fareyi izleyen ışıltı — en arka katman; kartlar ve metin (normal akış,
+          bu elemandan sonra çiziliyor) hep önünde kalır. */}
+      <div
+        ref={isiltiRef}
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-[-1] opacity-70 md:opacity-90"
+        style={{
+          background:
+            "radial-gradient(38rem circle at var(--gx, 50%) var(--gy, 40%), rgba(79,124,255,0.16), rgba(79,124,255,0.05) 42%, transparent 68%)",
+        }}
+      />
       {/* Açılış perdesi */}
       {perde && giris !== "yok" && (
         <Intro onYazimBitti={ucur} kapaniyor={giris !== "yazi"} atlaEtiketi={t.nav.skipIntro} onAtla={atla} />
