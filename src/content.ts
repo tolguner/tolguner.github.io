@@ -64,8 +64,8 @@ export const content: Record<Lang, Dict> = {
       },
     ],
     communities: [
-      { title: "Kulüp Başkanı", org: "IT&MIS Kulübü, Işık Üniversitesi", date: "Oca 2024 – Haz 2026", note: "Söyleşi, zirve, hackathon, kariyer fuarı, şirket gezisi ve mülakat simülasyonu organizasyonları" },
-      { title: "Kurucu Yönetim Kurulu Üyesi", org: "Işık Run Club, Işık Üniversitesi", date: "Nis 2026 – Haz 2026", note: "Koşu, trekking, SUP board ve sosyal etkinliklerin planlanması" },
+      { title: "IT&MIS Kulübü, Işık Üniversitesi", org: "Kulüp Başkanı", date: "Oca 2024 – Haz 2026", note: "Söyleşi, zirve, hackathon, kariyer fuarı, şirket gezisi ve mülakat simülasyonu organizasyonları" },
+      { title: "Işık Run Club, Işık Üniversitesi", org: "Kurucu Yönetim Kurulu Üyesi", date: "Nis 2026 – Haz 2026", note: "Koşu, trekking, SUP board ve sosyal etkinliklerin planlanması" },
     ],
     research: {
       title: "TÜBİTAK 2209-A Araştırma Projesi",
@@ -176,8 +176,8 @@ export const content: Record<Lang, Dict> = {
       },
     ],
     communities: [
-      { title: "Club President", org: "IT&MIS Club, Işık University", date: "Jan 2024 – Jun 2026", note: "Talks, summits, hackathons, career fairs, company visits and mock interviews" },
-      { title: "Founding Board Member", org: "Işık Run Club, Işık University", date: "Apr 2026 – Jun 2026", note: "Planning runs, trekking, SUP boarding and social events" },
+      { title: "IT&MIS Club, Işık University", org: "Club President", date: "Jan 2024 – Jun 2026", note: "Talks, summits, hackathons, career fairs, company visits and mock interviews" },
+      { title: "Işık Run Club, Işık University", org: "Founding Board Member", date: "Apr 2026 – Jun 2026", note: "Planning runs, trekking, SUP boarding and social events" },
     ],
     research: {
       title: "TÜBİTAK 2209-A Research Project",
