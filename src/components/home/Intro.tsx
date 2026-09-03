@@ -21,24 +21,28 @@ type Props = {
 /**
  * Açılış perdesi: ad daktilo gibi yazılır, ardından "O" harfinin merkezinden
  * küre doğar. Uçuşu Home yönetir; burada yalnızca yazım ve perde vardır.
+ *
+ * Harfler tek bir durum değişimiyle, her birine sabit `transition-delay`
+ * verilerek açılır. Zincirlenmiş setTimeout ya da rAF sayacı kullanılmıyor:
+ * ikisinde de adımlar kare sınırlarına yuvarlanıp ritimde tökezleme yapıyordu.
  */
 export default function Intro({ onYazimBitti, kapaniyor, atlaEtiketi, onAtla }: Props) {
-  const [n, setN] = useState(0);
+  const [basladi, setBasladi] = useState(false);
   const odakRef = useRef<HTMLSpanElement>(null);
-  const haberVerildi = useRef(false);
 
   useEffect(() => {
-    if (n < AD.length) {
-      const z = setTimeout(() => setN((v) => v + 1), n === 0 ? ILK_GECIKME_MS : HARF_MS);
-      return () => clearTimeout(z);
-    }
-    if (haberVerildi.current) return;
-    haberVerildi.current = true;
+    const z = setTimeout(() => setBasladi(true), ILK_GECIKME_MS);
+    return () => clearTimeout(z);
+  }, []);
+
+  useEffect(() => {
+    if (!basladi) return;
+    const sure = (AD.length - 1) * HARF_MS + YAZIM_SONRASI_MS;
     const z = setTimeout(() => {
       if (odakRef.current) onYazimBitti(odakRef.current);
-    }, YAZIM_SONRASI_MS);
+    }, sure);
     return () => clearTimeout(z);
-  }, [n, onYazimBitti]);
+  }, [basladi, onYazimBitti]);
 
   return (
     <div
@@ -57,7 +61,8 @@ export default function Intro({ onYazimBitti, kapaniyor, atlaEtiketi, onAtla }: 
           <span
             key={i}
             ref={i === ODAK ? odakRef : undefined}
-            className={`inline-block transition-opacity duration-150 ${i < n ? "opacity-100" : "opacity-0"}`}
+            style={{ transitionDelay: basladi ? `${i * HARF_MS}ms` : "0ms" }}
+            className={`inline-block transition-opacity duration-100 ${basladi ? "opacity-100" : "opacity-0"}`}
           >
             {h === " " ? " " : h}
           </span>
