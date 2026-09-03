@@ -70,7 +70,7 @@ export const content: Record<Lang, Dict> = {
     research: {
       title: "TÜBİTAK 2209-A Araştırma Projesi",
       role: "Proje Yürütücüsü",
-      org: "Başvuru No 1919B012534181",
+      org: "TÜBİTAK 2209-A Araştırma Projesi · Başvuru No 1919B012534181",
       date: "2026 – devam ediyor",
       topic:
         "Üniversite Öğrencilerinin Dijital Davranışlarının Akademik Başarıları Üzerinde Etkisi: Ekran Süresi, Uyku, Stres ve Farkındalığın Rolünün Veri Bilimi Yaklaşımıyla İncelenmesi",
@@ -182,7 +182,7 @@ export const content: Record<Lang, Dict> = {
     research: {
       title: "TÜBİTAK 2209-A Research Project",
       role: "Project Lead",
-      org: "Application No 1919B012534181",
+      org: "TÜBİTAK 2209-A Research Project · Application No 1919B012534181",
       date: "2026 – ongoing",
       topic:
         "The Effect of University Students' Digital Behaviors on Academic Achievement: Examining the Role of Screen Time, Sleep, Stress and Awareness through a Data Science Approach",
