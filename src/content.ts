@@ -121,10 +121,10 @@ export const content: Record<Lang, Dict> = {
     ],
     otherReposNote: "GitHub'daki diğer herkese açık depolar — çoğu ders projesi, o dönemki öğrenme seviyemi yansıtıyor.",
     skills: [
-      { label: "Diller", items: "Java · TypeScript · Python · SQL" },
       { label: "Backend", items: "Spring Boot · REST API · JWT · Kafka" },
       { label: "Frontend", items: "React · Next.js · Tailwind CSS · JavaFX" },
       { label: "Veri ve analiz", items: "pandas · statsmodels · scikit-learn · Jupyter" },
+      { label: "Diller", items: "Java · TypeScript · Python · SQL" },
       { label: "Veritabanı", items: "PostgreSQL · MySQL · Prisma" },
       { label: "Araçlar", items: "Docker · Git ve GitHub · Maven" },
     ],
@@ -233,10 +233,10 @@ export const content: Record<Lang, Dict> = {
     ],
     otherReposNote: "Other public repositories on GitHub — mostly course projects reflecting what I knew at the time. Most READMEs are in Turkish.",
     skills: [
-      { label: "Languages", items: "Java · TypeScript · Python · SQL" },
       { label: "Backend", items: "Spring Boot · REST APIs · JWT · Kafka" },
       { label: "Frontend", items: "React · Next.js · Tailwind CSS · JavaFX" },
       { label: "Data & analysis", items: "pandas · statsmodels · scikit-learn · Jupyter" },
+      { label: "Languages", items: "Java · TypeScript · Python · SQL" },
       { label: "Databases", items: "PostgreSQL · MySQL · Prisma" },
       { label: "Tools", items: "Docker · Git & GitHub · Maven" },
     ],
