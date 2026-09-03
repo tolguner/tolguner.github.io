@@ -267,13 +267,13 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       </section>
 
       {/* Hakkımda */}
-      <section id="about" data-fit="screen" className="mx-auto flex max-w-6xl flex-col justify-center px-5 pt-32 sm:px-8 md:min-h-screen md:pb-[6vh] md:pt-[10vh]">
-        <div className="grid gap-14 md:grid-cols-[1.15fr_0.85fr] md:items-center md:[@media(max-height:1000px)]:gap-10">
+      <section id="about" data-fit="screen" className="mx-auto flex max-w-6xl flex-col justify-center px-5 pt-32 sm:px-8 md:min-h-screen md:pb-[6vh] md:pt-[10vh] md:[@media(max-height:820px)]:pb-[4vh] md:[@media(max-height:820px)]:pt-[7vh]">
+        <div className="grid gap-14 md:grid-cols-[1.15fr_0.85fr] md:items-center md:sikisik:gap-10">
           <div>
             <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.about.title}</h2>
-            <p className="mt-7 text-[17px] leading-relaxed text-white/70 md:[@media(max-height:1000px)]:mt-5 md:[@media(max-height:1000px)]:text-[15.5px]" data-reveal>{t.about.p1}</p>
-            <p className="mt-5 text-[17px] leading-relaxed text-white/70 md:[@media(max-height:1000px)]:mt-4 md:[@media(max-height:1000px)]:text-[15.5px]" data-reveal>{t.about.p2}</p>
-            <dl className="mt-10 grid gap-5 border-t border-white/10 pt-8 sm:grid-cols-2 md:[@media(max-height:1000px)]:mt-6 md:[@media(max-height:1000px)]:gap-4 md:[@media(max-height:1000px)]:pt-5">
+            <p className="mt-7 text-[17px] leading-relaxed text-white/70 md:sikisik:mt-5 md:sikisik:text-[15.5px] md:[@media(max-height:820px)]:text-[14.5px]" data-reveal>{t.about.p1}</p>
+            <p className="mt-5 text-[17px] leading-relaxed text-white/70 md:sikisik:mt-4 md:sikisik:text-[15.5px] md:[@media(max-height:820px)]:text-[14.5px]" data-reveal>{t.about.p2}</p>
+            <dl className="mt-10 grid gap-5 border-t border-white/10 pt-8 sm:grid-cols-2 md:sikisik:mt-6 md:sikisik:gap-4 md:sikisik:pt-5 md:[@media(max-height:820px)]:mt-5 md:[@media(max-height:820px)]:gap-3 md:[@media(max-height:820px)]:pt-4">
               {t.about.facts.map((f) => (
                 <div key={f.k} data-reveal>
                   <dt className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#8fb0ff]">{f.k}</dt>
@@ -282,7 +282,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
               ))}
             </dl>
           </div>
-          <div className="relative mx-auto w-full max-w-sm md:[@media(max-height:1000px)]:max-w-[19rem]" data-reveal>
+          <div className="relative mx-auto w-full max-w-sm md:sikisik:max-w-[19rem] md:[@media(max-height:820px)]:max-w-[17rem]" data-reveal>
             <div className="absolute -inset-6 rounded-[2rem] bg-[radial-gradient(circle_at_30%_20%,rgba(79,124,255,0.35),transparent_60%)] blur-2xl" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/portre.jpg" alt="Tolga Olguner" width={900} height={1200} className="relative aspect-[3/4] w-full rounded-3xl border border-white/10 object-cover" />
@@ -296,10 +296,10 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         </div>
 
         {/* Rakamlarla — hakkımda metnini karşılayan şerit */}
-        <div className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:mt-[5vh] md:grid-cols-4">
+        <div className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:mt-[5vh] md:[@media(max-height:820px)]:mt-[3.5vh] md:grid-cols-4">
           {t.stats.map((s) => (
-            <div key={s.label} className="bg-[#0b1119] px-6 py-7 md:[@media(max-height:1000px)]:py-5" data-reveal>
-              <div className="font-display text-[38px] font-medium leading-none text-white md:[@media(max-height:1000px)]:text-[32px]">
+            <div key={s.label} className="bg-[#0b1119] px-6 py-7 md:sikisik:py-5 md:[@media(max-height:820px)]:py-3.5" data-reveal>
+              <div className="font-display text-[38px] font-medium leading-none text-white md:sikisik:text-[32px]">
                 <span data-count={s.key === "repos" && repoCount ? repoCount : s.value} data-decimals={s.decimals ?? 0} data-suffix={s.suffix ?? ""}>0</span>
               </div>
               <div className="mt-2 text-[12.5px] uppercase tracking-wider text-white/45">{s.label}</div>
@@ -325,7 +325,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         <div className="relative mt-8 md:mt-4 md:flex md:min-w-0 md:flex-1 md:flex-col md:justify-center md:gap-[3vh]">
           <div ref={trackRef} className="flex flex-col gap-6 px-5 sm:px-8 md:w-max md:flex-row md:items-stretch md:gap-6 md:pl-[max(1.25rem,calc((100vw-72rem)/2+2rem))] md:pr-[14vw]">
             {t.journey.stops.map((s, i) => (
-              <article key={i} className={`group relative flex w-full shrink-0 flex-col overflow-hidden rounded-3xl border p-7 transition-colors md:aspect-[3/4] md:w-auto md:p-8 md:[@media(max-height:1000px)]:p-6 md:[@media(max-height:820px)]:aspect-auto md:[@media(max-height:820px)]:w-[23rem] ${photos.length ? "md:h-[min(50vh,31rem)] md:[@media(max-height:820px)]:h-[43vh]" : "md:h-[min(58vh,33rem)]"} ${s.featured ? "border-[#4f7cff]/45 bg-gradient-to-b from-[#111d33] to-[#0b1119] hover:border-[#4f7cff]/70" : "border-white/10 bg-[#0b1119] hover:border-white/25"}`} data-reveal>
+              <article key={i} className={`group relative flex w-full shrink-0 flex-col overflow-hidden rounded-3xl border p-7 transition-colors md:aspect-[3/4] md:w-auto md:p-8 md:sikisik:p-6 md:[@media(max-height:820px)]:aspect-auto md:[@media(max-height:820px)]:w-[23rem] ${photos.length ? "md:h-[min(50vh,31rem)] md:[@media(max-height:820px)]:h-[43vh]" : "md:h-[min(58vh,33rem)]"} ${s.featured ? "border-[#4f7cff]/45 bg-gradient-to-b from-[#111d33] to-[#0b1119] hover:border-[#4f7cff]/70" : "border-white/10 bg-[#0b1119] hover:border-white/25"}`} data-reveal>
                 {s.featured && <span aria-hidden className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.28),transparent_65%)]" />}
                 <span aria-hidden className={`font-display pointer-events-none absolute -right-3 -top-6 select-none text-[9rem] font-medium leading-none md:text-[11rem] ${s.featured ? "text-[#4f7cff]/[0.09]" : "text-white/[0.035]"}`}>{s.year}</span>
                 <div className="relative flex items-center gap-3">
@@ -333,16 +333,16 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
                   <span className={`rounded-full border px-2.5 py-1 text-[10.5px] uppercase tracking-wider ${s.featured ? "border-[#4f7cff]/50 bg-[#4f7cff]/10 text-[#a9c4ff]" : "border-white/10 text-white/55"}`}>{s.tag}</span>
                 </div>
                 <div className="relative mt-1.5 text-[12px] text-white/40">{s.period}</div>
-                <h3 className="font-display relative mt-6 text-[26px] font-medium leading-tight text-white md:[@media(max-height:1000px)]:mt-4 md:[@media(max-height:1000px)]:text-[22px]">{s.title}</h3>
-                <p className="relative mt-3 text-[14.5px] leading-relaxed text-white/60 md:[@media(max-height:1000px)]:mt-2 md:[@media(max-height:1000px)]:text-[13px] md:[@media(max-height:1000px)]:leading-snug">{s.text}</p>
+                <h3 className="font-display relative mt-6 text-[26px] font-medium leading-tight text-white md:sikisik:mt-4 md:sikisik:text-[22px]">{s.title}</h3>
+                <p className="relative mt-3 text-[14.5px] leading-relaxed text-white/60 md:sikisik:mt-2 md:sikisik:text-[13px] md:sikisik:leading-snug">{s.text}</p>
                 {s.details?.length ? (
-                  <ul className="relative mt-5 space-y-1.5 border-t border-white/10 pt-4 text-[13px] leading-snug text-white/65 md:[@media(max-height:1000px)]:mt-3 md:[@media(max-height:1000px)]:space-y-1 md:[@media(max-height:1000px)]:pt-3 md:[@media(max-height:1000px)]:text-[12px]">
+                  <ul className="relative mt-5 space-y-1.5 border-t border-white/10 pt-4 text-[13px] leading-snug text-white/65 md:sikisik:mt-3 md:sikisik:space-y-1 md:sikisik:pt-3 md:sikisik:text-[12px]">
                     {s.details.map((d) => (
                       <li key={d} className="relative pl-3.5 before:absolute before:left-0 before:top-[0.6em] before:h-1 before:w-1 before:rounded-full before:bg-[#8fb0ff]">{d}</li>
                     ))}
                   </ul>
                 ) : null}
-                <div className="relative mt-auto hidden pt-6 md:[@media(max-height:1000px)]:pt-3 text-[11px] uppercase tracking-[0.2em] text-white/30 md:block">{String(i + 1).padStart(2, "0")} / {String(t.journey.stops.length).padStart(2, "0")}</div>
+                <div className="relative mt-auto hidden pt-6 md:sikisik:pt-3 text-[11px] uppercase tracking-[0.2em] text-white/30 md:block">{String(i + 1).padStart(2, "0")} / {String(t.journey.stops.length).padStart(2, "0")}</div>
               </article>
             ))}
           </div>
@@ -426,20 +426,20 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       </section>
 
       {/* Araştırma */}
-      <section id="research" data-fit="screen" className="relative mt-32 flex flex-col justify-center overflow-hidden border-y border-white/10 bg-[#0b1119] py-28 md:min-h-screen md:[@media(max-height:1000px)]:py-16 md:[@media(max-height:820px)]:pt-24 md:[@media(max-height:820px)]:pb-10">
+      <section id="research" data-fit="screen" className="relative mt-32 flex flex-col justify-center overflow-hidden border-y border-white/10 bg-[#0b1119] py-28 md:min-h-screen md:sikisik:py-16 md:[@media(max-height:820px)]:pt-24 md:[@media(max-height:820px)]:pb-10">
         <div className="pointer-events-none absolute -right-40 top-1/2 h-[60rem] w-[60rem] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.14),transparent_60%)]" />
-        <div className="relative mx-auto grid w-full max-w-6xl gap-14 px-5 sm:px-8 md:grid-cols-[1fr_1fr] md:[@media(max-height:1000px)]:gap-10">
+        <div className="relative mx-auto grid w-full max-w-6xl gap-14 px-5 sm:px-8 md:grid-cols-[1fr_1fr] md:sikisik:gap-10">
           <div>
             <p className="text-[12px] font-semibold uppercase tracking-[0.22em] text-[#8fb0ff]" data-reveal>{t.research.kicker}</p>
             <h2 className="font-display mt-5 text-[clamp(1.9rem,4vw,3rem)] md:[@media(max-height:820px)]:text-[2.3rem] font-medium leading-[1.1] tracking-tight text-white" data-reveal>{t.research.headline}</h2>
-            <p className="mt-6 border-l-2 border-[#4f7cff]/50 pl-4 text-[14.5px] italic leading-relaxed text-white/70 md:[@media(max-height:1000px)]:mt-5 md:[@media(max-height:820px)]:text-[13.5px]" data-reveal>“{t.research.quote}”</p>
-            <p className="mt-6 text-[16px] leading-relaxed text-white/65 md:[@media(max-height:1000px)]:mt-5 md:[@media(max-height:820px)]:text-[15px]" data-reveal>{t.research.text}</p>
+            <p className="mt-6 border-l-2 border-[#4f7cff]/50 pl-4 text-[14.5px] italic leading-relaxed text-white/70 md:sikisik:mt-5 md:[@media(max-height:820px)]:text-[13.5px]" data-reveal>“{t.research.quote}”</p>
+            <p className="mt-6 text-[16px] leading-relaxed text-white/65 md:sikisik:mt-5 md:[@media(max-height:820px)]:text-[15px]" data-reveal>{t.research.text}</p>
             <p className="mt-4 text-[12.5px] text-white/40" data-reveal>{t.research.org}</p>
-            <div className="mt-[4.5rem] flex justify-center md:justify-start md:[@media(max-height:1000px)]:mt-12 md:[@media(max-height:820px)]:mt-7">
-              <div className="stamp relative inline-flex rotate-[-8deg] flex-col items-center gap-2 rounded-lg border-[3px] border-[#6f9bff]/85 px-9 py-5 text-center">
+            <div className="mt-[4.5rem] flex justify-center md:justify-start md:sikisik:mt-12 md:[@media(max-height:820px)]:mt-7">
+              <div className="stamp relative inline-flex rotate-[-8deg] flex-col items-center gap-2 rounded-lg border-[3px] border-[#6f9bff]/85 px-9 py-5 sikisik:px-7 sikisik:py-4 text-center">
                 <span aria-hidden className="pointer-events-none absolute inset-[4px] rounded-[5px] border border-[#6f9bff]/55" />
-                <span className="font-display text-[clamp(1.9rem,4.4vw,2.7rem)] font-semibold uppercase leading-none tracking-[0.1em] text-[#9dbcff]">{t.research.highlight.title}</span>
-                <span className="text-[10.5px] font-semibold uppercase tracking-[0.3em] text-[#9dbcff]/80">{t.research.highlight.label}</span>
+                <span className="font-display text-[clamp(1.9rem,4.4vw,2.7rem)] font-semibold uppercase leading-none tracking-[0.1em] whitespace-nowrap text-[#9dbcff]">{t.research.highlight.title}</span>
+                <span className="text-[10.5px] font-semibold uppercase tracking-[0.3em] whitespace-nowrap text-[#9dbcff]/80 sikisik:tracking-[0.22em]">{t.research.highlight.label}</span>
               </div>
             </div>
           </div>
