@@ -615,7 +615,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           </div>
 
           {photos.length > 0 && (
-            <div className="mt-10 md:mt-0">
+            <div className="mt-7 md:mt-0">
               <div className="mx-auto mb-2 flex max-w-6xl items-center gap-3 px-5 sm:px-8">
                 <span className="text-[10.5px] font-semibold uppercase tracking-[0.22em] text-white/35">{t.journey.galleryLabel}</span>
                 <span className="h-px flex-1 bg-white/10" />
