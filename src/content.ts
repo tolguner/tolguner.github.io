@@ -244,7 +244,7 @@ export const content: Record<Lang, Dict> = {
 };
 
 export const links = {
-  email: "tolgaolguner1@gmail.com",
+  email: "tolgaolguner@gmail.com",
   github: "https://github.com/tolguner",
   linkedin: "https://www.linkedin.com/in/tolguner/",
 };
