@@ -701,17 +701,6 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
 
       {/* Araştırma */}
       <section id="research" data-fit="screen" className="relative mt-32 flex flex-col justify-center overflow-hidden py-28 md:min-h-screen md:sikisik:py-16 md:[@media(max-height:820px)]:pt-24 md:[@media(max-height:820px)]:pb-10">
-        {/* Yarı saydam lacivert film: paylaşılan mause ışıltısı altından hafifçe
-            sızar (hue kendiliğinden research'ün rengine kayar), kenarlarda
-            saydamlığa dönerek komşu bölümlerle sert bir kesim oluşturmaz. */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(6,17,31,0) 0%, rgba(6,17,31,0.82) 12%, rgba(6,17,31,0.82) 88%, rgba(6,17,31,0) 100%)",
-          }}
-        />
         <div className="relative mx-auto grid w-full max-w-6xl gap-14 px-5 sm:px-8 md:grid-cols-[1fr_1fr] md:sikisik:gap-10">
           <div>
             <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-white" data-reveal>{t.nav.research}</h2>
@@ -730,7 +719,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           </div>
           <ol className="grid gap-6 self-center lg:grid-cols-2">
             {t.research.steps.map((s) => (
-              <li key={s.n} className="rounded-2xl border border-white/10 bg-[#030a16] p-6 md:[@media(max-height:820px)]:p-4" data-reveal>
+              <li key={s.n} className="rounded-2xl border border-white/10 bg-[#06111f] p-6 transition-colors hover:border-white/25 md:[@media(max-height:820px)]:p-4" data-reveal>
                 <div className="font-display text-[22px] text-[#8fb0ff]">{s.n}</div>
                 <div className="mt-3 text-[16px] font-semibold text-white">{s.title}</div>
                 <p className="mt-2 text-[13.5px] leading-relaxed text-white/60">{s.text}</p>
