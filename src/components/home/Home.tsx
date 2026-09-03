@@ -269,8 +269,12 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
             cards.forEach((card, i) => {
               const giris = gsap.utils.clamp(0, 1, raw - (i - 1));
               const cikis = gsap.utils.clamp(0, 1, raw - i);
+              // Opaklık, konum/ölçekten çok daha hızlı geçiş yapar: bir sonraki kart
+              // tam netleşmeden önceki kart görünmez olur, iki metin üst üste okunmaz.
+              const girisOpaklik = gsap.utils.clamp(0, 1, giris / 0.55);
+              const cikisOpaklik = gsap.utils.clamp(0, 1, cikis / 0.4);
               gsap.set(card, {
-                opacity: giris * (1 - cikis),
+                opacity: girisOpaklik * (1 - cikisOpaklik),
                 y: (1 - giris) * 40 - cikis * 44,
                 scale: 1 - cikis * 0.06,
                 zIndex: i,
