@@ -566,7 +566,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
 
       {/* Yolculuk */}
       <section id="journey" data-fit="screen" ref={journeyRef} className="relative mt-32 md:flex md:h-screen md:flex-col md:overflow-hidden">
-        <div ref={journeyTitleRef} className="sticky top-16 z-10 -mx-5 bg-[#030a16]/75 px-5 pb-2 backdrop-blur-md sm:-mx-8 sm:px-8 md:static md:mx-0 md:bg-transparent md:px-0 md:pb-0 md:backdrop-blur-none">
+        <div ref={journeyTitleRef} className="sticky top-16 z-10 pb-2 md:static md:pb-0">
         <div className="mx-auto w-full max-w-6xl px-5 pt-6 sm:px-8 md:px-0 md:pt-[10vh]">
           <div className="flex items-center justify-between gap-6">
             <div>
@@ -581,7 +581,14 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         </div>
 
         <div ref={journeyBodyRef} className="relative mt-8 md:mt-4 md:flex md:min-w-0 md:flex-1 md:flex-col md:justify-center md:gap-[3vh]">
-          <div ref={cardZoneRef} className="relative h-[50vh] overflow-hidden px-5 sm:px-8 md:h-auto md:overflow-visible md:contents">
+          <div
+            ref={cardZoneRef}
+            className="relative h-[50vh] overflow-hidden px-5 sm:px-8 md:h-auto md:overflow-visible md:contents"
+            style={{
+              WebkitMaskImage: "linear-gradient(to bottom, transparent 0, black 44px, black calc(100% - 44px), transparent 100%)",
+              maskImage: "linear-gradient(to bottom, transparent 0, black 44px, black calc(100% - 44px), transparent 100%)",
+            }}
+          >
             <div ref={trackRef} className="flex flex-col gap-4 md:flex md:h-auto md:w-max md:flex-row md:items-stretch md:gap-6 md:pl-[max(1.25rem,calc((100vw-72rem)/2+2rem))] md:pr-[14vw]">
               {t.journey.stops.map((s, i) => (
                 <article key={i} className={`journey-card group relative h-[50vh] shrink-0 md:inset-auto flex w-full flex-col overflow-hidden rounded-3xl border p-7 shadow-2xl shadow-black/50 transition-colors md:aspect-[3/4] md:w-auto md:p-8 md:sikisik:p-6 md:[@media(max-height:820px)]:aspect-auto md:[@media(max-height:820px)]:w-[23rem] ${photos.length ? "md:h-[min(50vh,31rem)] md:[@media(max-height:820px)]:h-[43vh]" : "md:h-[min(58vh,33rem)]"} ${s.featured ? "border-[#4f7cff]/45 bg-gradient-to-b from-[#061736] to-[#06111f] hover:border-[#4f7cff]/70" : "border-white/10 bg-[#06111f] hover:border-white/25"}`} data-reveal>
