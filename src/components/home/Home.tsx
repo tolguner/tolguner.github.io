@@ -566,7 +566,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
 
       {/* Yolculuk */}
       <section id="journey" data-fit="screen" ref={journeyRef} className="relative mt-32 md:flex md:h-screen md:flex-col md:overflow-hidden">
-        <div ref={journeyTitleRef} className="sticky top-16 z-10 -mx-5 bg-[#030a16] px-5 pb-2 sm:-mx-8 sm:px-8 md:static md:mx-0 md:bg-transparent md:px-0 md:pb-0">
+        <div ref={journeyTitleRef} className="sticky top-16 z-10 -mx-5 bg-[#030a16]/75 px-5 pb-2 backdrop-blur-md sm:-mx-8 sm:px-8 md:static md:mx-0 md:bg-transparent md:px-0 md:pb-0 md:backdrop-blur-none">
         <div className="mx-auto w-full max-w-6xl px-5 pt-6 sm:px-8 md:px-0 md:pt-[10vh]">
           <div className="flex items-center justify-between gap-6">
             <div>
