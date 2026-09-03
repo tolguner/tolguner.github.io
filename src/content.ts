@@ -10,7 +10,7 @@ export type Dict = {
   sections: { experience: string; communities: string; research: string; projects: string; otherRepos: string; skills: string; technical: string; personal: string; education: string; languages: string; contact: string };
   experience: Entry[];
   communities: Entry[];
-  research: { title: string; org: string; date: string; topic: string; items: string[] };
+  research: { title: string; role: string; org: string; date: string; topic: string; items: string[] };
   projects: Project[];
   otherReposNote: string;
   skills: SkillGroup[];
@@ -68,15 +68,16 @@ export const content: Record<Lang, Dict> = {
       { title: "Kurucu Yönetim Kurulu Üyesi", org: "Işık Run Club, Işık Üniversitesi", date: "Nis 2026 – Haz 2026", note: "Koşu, trekking, SUP board ve sosyal etkinliklerin planlanması" },
     ],
     research: {
-      title: "Proje Yürütücüsü",
-      org: "TÜBİTAK 2209-A Üniversite Öğrencileri Araştırma Projeleri Destekleme Programı · Başvuru No 1919B012534181",
+      title: "TÜBİTAK 2209-A Araştırma Projesi",
+      role: "Proje Yürütücüsü",
+      org: "Başvuru No 1919B012534181",
       date: "2026 – devam ediyor",
       topic:
         "Üniversite Öğrencilerinin Dijital Davranışlarının Akademik Başarıları Üzerinde Etkisi: Ekran Süresi, Uyku, Stres ve Farkındalığın Rolünün Veri Bilimi Yaklaşımıyla İncelenmesi",
       items: [
         "TÜBİTAK tarafından kabul edildi ve 2209-A programı kapsamında hibe desteği almaya hak kazandı; şu an veri toplama aşamasında",
         "PSQI, PSS-10 ve MAAS ölçekleri ile ekran süresi ve not ortalaması verisinin çoklu regresyon ve aracılık/moderasyon analiziyle incelenmesi; çıktı olarak “Farkındalık Gösterge Paneli” prototipi",
-        "4 Kişilik Ekip Projesi",
+        "4 Kişilik Ekip Projesi · Proje Yürütücüsü",
         "Danışman: Dr. Habibe Aktay",
       ],
     },
@@ -95,7 +96,7 @@ export const content: Record<Lang, Dict> = {
         kind: "Proje Koordinatörü · 2025",
         tech: "Spring Boot · React · MySQL · JWT",
         note: "Bir veteriner kliniğinin hasta, randevu ve tedavi kayıtlarını tek sistemde yönetmesini sağlar.",
-        items: ["Beş Kişilik Ekip Projesi · Proje Koordinatörü", "JWT korumalı REST API ve React arayüzü"],
+        items: ["5 Kişilik Ekip Projesi · Proje Koordinatörü", "JWT korumalı REST API ve React arayüzü"],
         url: "https://github.com/tolguner/Veterinary-Management-System",
         urlLabel: "github.com/tolguner/Veterinary-Management-System",
       },
@@ -104,7 +105,7 @@ export const content: Record<Lang, Dict> = {
         kind: "Proje Yürütücüsü · 2025",
         tech: "Python · pandas · statsmodels · Jupyter",
         note: "Hızlı kazanç algısının emek inancıyla ilişkisini inceleyen anket temelli istatistiksel çalışma.",
-        items: ["153 katılımcılı veride güvenilirlik, regresyon ve aracılık analizi", "Dört Kişilik Ekip Projesi · Proje Yürütücüsü"],
+        items: ["153 katılımcılı veride güvenilirlik, regresyon ve aracılık analizi", "4 Kişilik Ekip Projesi · Proje Yürütücüsü"],
         url: "https://github.com/tolguner/Hizli-Kazanc-Algisi-Analizi",
         urlLabel: "github.com/tolguner/Hizli-Kazanc-Algisi-Analizi",
       },
@@ -179,15 +180,16 @@ export const content: Record<Lang, Dict> = {
       { title: "Founding Board Member", org: "Işık Run Club, Işık University", date: "Apr 2026 – Jun 2026", note: "Planning runs, trekking, SUP boarding and social events" },
     ],
     research: {
-      title: "Project Lead",
-      org: "TÜBİTAK 2209-A Undergraduate Research Projects Support Program · Application No 1919B012534181",
+      title: "TÜBİTAK 2209-A Research Project",
+      role: "Project Lead",
+      org: "Application No 1919B012534181",
       date: "2026 – ongoing",
       topic:
         "The Effect of University Students' Digital Behaviors on Academic Achievement: Examining the Role of Screen Time, Sleep, Stress and Awareness through a Data Science Approach",
       items: [
         "Accepted by TÜBİTAK and awarded a grant under the 2209-A programme; currently in the data collection phase",
         "Screen-time, GPA and PSQI, PSS-10, MAAS scale data to be analysed with multiple regression and mediation/moderation analysis, delivering an “Awareness Dashboard” prototype",
-        "4-Person Team Project",
+        "4-Person Team Project · Project Lead",
         "Advisor: Dr. Habibe Aktay",
       ],
     },
@@ -206,7 +208,7 @@ export const content: Record<Lang, Dict> = {
         kind: "Project Coordinator · 2025",
         tech: "Spring Boot · React · MySQL · JWT",
         note: "Lets a veterinary clinic manage patient, appointment and treatment records in one system.",
-        items: ["Five-Person Team Project · Project Coordinator", "JWT-secured REST API and React interface"],
+        items: ["5-Person Team Project · Project Coordinator", "JWT-secured REST API and React interface"],
         url: "https://github.com/tolguner/Veterinary-Management-System",
         urlLabel: "github.com/tolguner/Veterinary-Management-System",
       },
@@ -215,7 +217,7 @@ export const content: Record<Lang, Dict> = {
         kind: "Project Lead · 2025",
         tech: "Python · pandas · statsmodels · Jupyter",
         note: "Survey-based statistical study of how perceived quick gains relate to belief in effort.",
-        items: ["Reliability, regression and mediation analysis on data from 153 participants", "Four-Person Team Project · Project Lead"],
+        items: ["Reliability, regression and mediation analysis on data from 153 participants", "4-Person Team Project · Project Lead"],
         url: "https://github.com/tolguner/Hizli-Kazanc-Algisi-Analizi",
         urlLabel: "github.com/tolguner/Hizli-Kazanc-Algisi-Analizi",
       },
