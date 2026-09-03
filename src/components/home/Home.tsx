@@ -44,6 +44,8 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
   const heroRef = useRef<HTMLElement>(null);
   const journeyRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const journeyBodyRef = useRef<HTMLDivElement>(null);
+  const cardZoneRef = useRef<HTMLDivElement>(null);
   const progress = useRef(0);
   const lenisRef = useRef<Lenis | null>(null);
   /** 0 = kamera kürenin içinde, 1 = yerleşik konum. */
@@ -227,6 +229,55 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           scrollTrigger: { trigger: sec, start: "top top", end: () => "+=" + dist(), pin: true, scrub: 1, invalidateOnRefresh: true, anticipatePin: 1 },
         });
         gsap.to(".journey-line", { scaleX: 1, ease: "none", scrollTrigger: { trigger: sec, start: "top top", end: () => "+=" + dist(), scrub: 1 } });
+      });
+
+      // Yolculuk — mobilde kart yığını sabit kalır, galeri altında hep görünür;
+      // kaydırdıkça bir önceki kart yukarı kayıp solarken bir sonraki üstüne biner.
+      mm.add("(max-width: 767.98px)", () => {
+        const wrap = journeyBodyRef.current;
+        const zone = cardZoneRef.current;
+        const cards = gsap.utils.toArray<HTMLElement>(".journey-card");
+        if (!wrap || !zone || !cards.length) return;
+        // Kartlar aynı konumda üst üste durduğundan genel reveal gözlemcisi
+        // hepsini aynı anda "göründü" sayar; mobilde kontrolü tamamen scrub'a bırakıyoruz.
+        cards.forEach((card) => gozlemci?.unobserve(card));
+
+        if (reduce) {
+          gsap.set(zone, { height: "auto" });
+          gsap.set(cards, { position: "static", opacity: 1, x: 0, y: 0, scale: 1, marginBottom: "1rem", boxShadow: "none" });
+          return;
+        }
+
+        const n = cards.length;
+        const barOfset = () => (document.querySelector("header")?.getBoundingClientRect().height ?? 56) + 8;
+        const adim = () => window.innerHeight * 0.62;
+        const dist = () => (n - 1) * adim();
+
+        gsap.set(cards, { opacity: 0, y: 40, scale: 1 });
+        gsap.set(cards[0], { opacity: 1, y: 0 });
+
+        ScrollTrigger.create({
+          trigger: wrap,
+          start: () => "top " + barOfset(),
+          end: () => "+=" + dist(),
+          pin: true,
+          scrub: 1,
+          invalidateOnRefresh: true,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            const raw = self.progress * (n - 1);
+            cards.forEach((card, i) => {
+              const giris = gsap.utils.clamp(0, 1, raw - (i - 1));
+              const cikis = gsap.utils.clamp(0, 1, raw - i);
+              gsap.set(card, {
+                opacity: giris * (1 - cikis),
+                y: (1 - giris) * 40 - cikis * 44,
+                scale: 1 - cikis * 0.06,
+                zIndex: i,
+              });
+            });
+          },
+        });
       });
 
       // Araştırma mührü — ekrana damga vurulur gibi
@@ -529,33 +580,35 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           </div>
         </div>
 
-        <div className="relative mt-8 md:mt-4 md:flex md:min-w-0 md:flex-1 md:flex-col md:justify-center md:gap-[3vh]">
-          <div ref={trackRef} className="flex flex-col gap-4 px-5 sm:px-8 md:w-max md:flex-row md:items-stretch md:gap-6 md:pl-[max(1.25rem,calc((100vw-72rem)/2+2rem))] md:pr-[14vw]">
-            {t.journey.stops.map((s, i) => (
-              <article key={i} style={{ zIndex: i + 1 }} className={`group sticky top-[4.5rem] md:relative md:top-auto flex w-full shrink-0 flex-col overflow-hidden rounded-3xl border p-7 transition-colors md:aspect-[3/4] md:w-auto md:p-8 md:sikisik:p-6 md:[@media(max-height:820px)]:aspect-auto md:[@media(max-height:820px)]:w-[23rem] ${photos.length ? "md:h-[min(50vh,31rem)] md:[@media(max-height:820px)]:h-[43vh]" : "md:h-[min(58vh,33rem)]"} ${s.featured ? "border-[#4f7cff]/45 bg-gradient-to-b from-[#061736] to-[#06111f] hover:border-[#4f7cff]/70" : "border-white/10 bg-[#06111f] hover:border-white/25"}`} data-reveal>
-                {s.featured && <span aria-hidden className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.28),transparent_65%)]" />}
-                <span aria-hidden className={`font-display pointer-events-none absolute -right-3 -top-6 select-none text-[9rem] font-medium leading-none md:text-[11rem] ${s.featured ? "text-[#4f7cff]/[0.09]" : "text-white/[0.035]"}`}>{s.year}</span>
-                <div className="relative flex items-center gap-3">
-                  <span className="font-display text-[26px] leading-none text-[#8fb0ff]">{s.year}</span>
-                  <span className={`rounded-full border px-2.5 py-1 text-[10.5px] uppercase tracking-wider ${s.featured ? "border-[#4f7cff]/50 bg-[#4f7cff]/10 text-[#a9c4ff]" : "border-white/10 text-white/55"}`}>{s.tag}</span>
-                </div>
-                <div className="relative mt-1.5 text-[12px] text-white/40">{s.period}</div>
-                <h3 className="font-display relative mt-6 text-[26px] font-medium leading-tight text-white md:sikisik:mt-4 md:sikisik:text-[22px]">{s.title}</h3>
-                <p className="relative mt-3 text-[14.5px] leading-relaxed text-white/60 md:sikisik:mt-2 md:sikisik:text-[13px] md:sikisik:leading-snug">{s.text}</p>
-                {s.details?.length ? (
-                  <ul className="relative mt-5 space-y-1.5 border-t border-white/10 pt-4 text-[13px] leading-snug text-white/65 md:sikisik:mt-3 md:sikisik:space-y-1 md:sikisik:pt-3 md:sikisik:text-[12px]">
-                    {s.details.map((d) => (
-                      <li key={d} className="relative pl-3.5 before:absolute before:left-0 before:top-[0.6em] before:h-1 before:w-1 before:rounded-full before:bg-[#8fb0ff]">{d}</li>
-                    ))}
-                  </ul>
-                ) : null}
-                <div className="relative mt-auto hidden pt-6 md:sikisik:pt-3 text-[11px] uppercase tracking-[0.2em] text-white/30 md:block">{String(i + 1).padStart(2, "0")} / {String(t.journey.stops.length).padStart(2, "0")}</div>
-              </article>
-            ))}
+        <div ref={journeyBodyRef} className="relative mt-8 md:mt-4 md:flex md:min-w-0 md:flex-1 md:flex-col md:justify-center md:gap-[3vh]">
+          <div ref={cardZoneRef} className="relative h-[50vh] px-5 sm:px-8 md:h-auto md:contents">
+            <div ref={trackRef} className="relative h-full md:flex md:h-auto md:w-max md:flex-row md:items-stretch md:gap-6 md:pl-[max(1.25rem,calc((100vw-72rem)/2+2rem))] md:pr-[14vw]">
+              {t.journey.stops.map((s, i) => (
+                <article key={i} style={{ zIndex: i + 1 }} className={`journey-card group absolute inset-0 md:relative md:inset-auto flex w-full shrink-0 flex-col overflow-hidden rounded-3xl border p-7 shadow-2xl shadow-black/50 transition-colors md:aspect-[3/4] md:w-auto md:p-8 md:sikisik:p-6 md:[@media(max-height:820px)]:aspect-auto md:[@media(max-height:820px)]:w-[23rem] ${photos.length ? "md:h-[min(50vh,31rem)] md:[@media(max-height:820px)]:h-[43vh]" : "md:h-[min(58vh,33rem)]"} ${s.featured ? "border-[#4f7cff]/45 bg-gradient-to-b from-[#061736] to-[#06111f] hover:border-[#4f7cff]/70" : "border-white/10 bg-[#06111f] hover:border-white/25"}`} data-reveal>
+                  {s.featured && <span aria-hidden className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.28),transparent_65%)]" />}
+                  <span aria-hidden className={`font-display pointer-events-none absolute -right-3 -top-6 select-none text-[9rem] font-medium leading-none md:text-[11rem] ${s.featured ? "text-[#4f7cff]/[0.09]" : "text-white/[0.035]"}`}>{s.year}</span>
+                  <div className="relative flex items-center gap-3">
+                    <span className="font-display text-[26px] leading-none text-[#8fb0ff]">{s.year}</span>
+                    <span className={`rounded-full border px-2.5 py-1 text-[10.5px] uppercase tracking-wider ${s.featured ? "border-[#4f7cff]/50 bg-[#4f7cff]/10 text-[#a9c4ff]" : "border-white/10 text-white/55"}`}>{s.tag}</span>
+                  </div>
+                  <div className="relative mt-1.5 text-[12px] text-white/40">{s.period}</div>
+                  <h3 className="font-display relative mt-6 text-[26px] font-medium leading-tight text-white md:sikisik:mt-4 md:sikisik:text-[22px]">{s.title}</h3>
+                  <p className="relative mt-3 text-[14.5px] leading-relaxed text-white/60 md:sikisik:mt-2 md:sikisik:text-[13px] md:sikisik:leading-snug">{s.text}</p>
+                  {s.details?.length ? (
+                    <ul className="relative mt-5 space-y-1.5 border-t border-white/10 pt-4 text-[13px] leading-snug text-white/65 md:sikisik:mt-3 md:sikisik:space-y-1 md:sikisik:pt-3 md:sikisik:text-[12px]">
+                      {s.details.map((d) => (
+                        <li key={d} className="relative pl-3.5 before:absolute before:left-0 before:top-[0.6em] before:h-1 before:w-1 before:rounded-full before:bg-[#8fb0ff]">{d}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                  <div className="relative mt-auto hidden pt-6 md:sikisik:pt-3 text-[11px] uppercase tracking-[0.2em] text-white/30 md:block">{String(i + 1).padStart(2, "0")} / {String(t.journey.stops.length).padStart(2, "0")}</div>
+                </article>
+              ))}
+            </div>
           </div>
 
           {photos.length > 0 && (
-            <div className="mt-12 md:mt-0">
+            <div className="mt-5 md:mt-0">
               <div className="mx-auto mb-2 flex max-w-6xl items-center gap-3 px-5 sm:px-8">
                 <span className="text-[10.5px] font-semibold uppercase tracking-[0.22em] text-white/35">{t.journey.galleryLabel}</span>
                 <span className="h-px flex-1 bg-white/10" />
