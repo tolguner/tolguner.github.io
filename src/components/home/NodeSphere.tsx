@@ -3,6 +3,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useMemo, useRef, type MutableRefObject } from "react";
 import * as THREE from "three";
+import Core from "./Core";
 
 type Props = { progress: MutableRefObject<number>; count?: number };
 
@@ -61,11 +62,8 @@ function Nodes({ progress, count }: Required<Props>) {
         </bufferGeometry>
         <lineBasicMaterial ref={lineMat} color="#4f7cff" transparent opacity={0.28} depthWrite={false} />
       </lineSegments>
-      {/* iç çekirdek — hafif parıltı */}
-      <mesh>
-        <sphereGeometry args={[0.35, 32, 32]} />
-        <meshBasicMaterial color="#1a3a8a" transparent opacity={0.35} />
-      </mesh>
+      {/* iç çekirdek */}
+      <Core progress={progress} />
     </group>
   );
 }
