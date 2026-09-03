@@ -231,55 +231,47 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         gsap.to(".journey-line", { scaleX: 1, ease: "none", scrollTrigger: { trigger: sec, start: "top top", end: () => "+=" + dist(), scrub: 1 } });
       });
 
-      // Yolculuk — mobilde kart yığını sabit kalır, galeri altında hep görünür;
-      // kaydırdıkça bir önceki kart yukarı kayıp solarken bir sonraki üstüne biner.
+      // Yolculuk — mobilde kart alanı (pencere) sabit kalır, galeri altında hep
+      // görünür; kartlar desktop'taki gibi arka arkaya dizilip tek bir şerit
+      // (track) halinde yukarı kayar — film şeridi gibi, iki kart asla aynı anda
+      // aynı çerçevede görünmez.
       mm.add("(max-width: 767.98px)", () => {
         const wrap = journeyBodyRef.current;
         const zone = cardZoneRef.current;
+        const track = trackRef.current;
         const cards = gsap.utils.toArray<HTMLElement>(".journey-card");
-        if (!wrap || !zone || !cards.length) return;
-        // Kartlar aynı konumda üst üste durduğundan genel reveal gözlemcisi
-        // hepsini aynı anda "göründü" sayar; mobilde kontrolü tamamen scrub'a bırakıyoruz.
+        if (!wrap || !zone || !track || !cards.length) return;
+        // Kartlar artık tek bir şeritte art arda dizili; genel reveal gözlemcisi
+        // bunları kontrol etmesin, şerit kaydırma tamamen scrub'a bağlı.
         cards.forEach((card) => gozlemci?.unobserve(card));
+        // Genel reveal başlangıç durumu (opacity:0, y:44) burada geçersiz kılınıyor —
+        // aksi halde gözlemci hiç tetiklenmediği için kartlar görünmez kalır.
+        gsap.set(cards, { opacity: 1, x: 0, y: 0 });
 
         if (reduce) {
-          gsap.set(zone, { height: "auto" });
-          gsap.set(cards, { position: "static", opacity: 1, x: 0, y: 0, scale: 1, marginBottom: "1rem", boxShadow: "none" });
+          gsap.set(zone, { height: "auto", overflow: "visible" });
+          gsap.set(track, { y: 0 });
+          gsap.set(cards, { position: "relative", height: "auto", marginBottom: "1rem", boxShadow: "none" });
           return;
         }
 
         const n = cards.length;
         const barOfset = () => (document.querySelector("header")?.getBoundingClientRect().height ?? 56) + 8;
-        const adim = () => window.innerHeight * 0.62;
-        const dist = () => (n - 1) * adim();
+        const dist = () => zone.offsetHeight * (n - 1);
 
-        gsap.set(cards, { opacity: 0, y: 40, scale: 1 });
-        gsap.set(cards[0], { opacity: 1, y: 0 });
+        gsap.set(track, { y: 0 });
 
-        ScrollTrigger.create({
-          trigger: wrap,
-          start: () => "top " + barOfset(),
-          end: () => "+=" + dist(),
-          pin: true,
-          scrub: 1,
-          invalidateOnRefresh: true,
-          anticipatePin: 1,
-          onUpdate: (self) => {
-            const raw = self.progress * (n - 1);
-            cards.forEach((card, i) => {
-              const giris = gsap.utils.clamp(0, 1, raw - (i - 1));
-              const cikis = gsap.utils.clamp(0, 1, raw - i);
-              // Opaklık, konum/ölçekten çok daha hızlı geçiş yapar: bir sonraki kart
-              // tam netleşmeden önceki kart görünmez olur, iki metin üst üste okunmaz.
-              const girisOpaklik = gsap.utils.clamp(0, 1, giris / 0.55);
-              const cikisOpaklik = gsap.utils.clamp(0, 1, cikis / 0.4);
-              gsap.set(card, {
-                opacity: girisOpaklik * (1 - cikisOpaklik),
-                y: (1 - giris) * 40 - cikis * 44,
-                scale: 1 - cikis * 0.06,
-                zIndex: i,
-              });
-            });
+        gsap.to(track, {
+          y: () => -dist(),
+          ease: "none",
+          scrollTrigger: {
+            trigger: wrap,
+            start: () => "top " + barOfset(),
+            end: () => "+=" + dist(),
+            pin: true,
+            scrub: 1,
+            invalidateOnRefresh: true,
+            anticipatePin: 1,
           },
         });
       });
@@ -585,10 +577,10 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         </div>
 
         <div ref={journeyBodyRef} className="relative mt-8 md:mt-4 md:flex md:min-w-0 md:flex-1 md:flex-col md:justify-center md:gap-[3vh]">
-          <div ref={cardZoneRef} className="relative h-[50vh] px-5 sm:px-8 md:h-auto md:contents">
-            <div ref={trackRef} className="relative h-full md:flex md:h-auto md:w-max md:flex-row md:items-stretch md:gap-6 md:pl-[max(1.25rem,calc((100vw-72rem)/2+2rem))] md:pr-[14vw]">
+          <div ref={cardZoneRef} className="relative h-[50vh] overflow-hidden px-5 sm:px-8 md:h-auto md:overflow-visible md:contents">
+            <div ref={trackRef} className="flex flex-col md:flex md:h-auto md:w-max md:flex-row md:items-stretch md:gap-6 md:pl-[max(1.25rem,calc((100vw-72rem)/2+2rem))] md:pr-[14vw]">
               {t.journey.stops.map((s, i) => (
-                <article key={i} style={{ zIndex: i + 1 }} className={`journey-card group absolute inset-0 md:relative md:inset-auto flex w-full shrink-0 flex-col overflow-hidden rounded-3xl border p-7 shadow-2xl shadow-black/50 transition-colors md:aspect-[3/4] md:w-auto md:p-8 md:sikisik:p-6 md:[@media(max-height:820px)]:aspect-auto md:[@media(max-height:820px)]:w-[23rem] ${photos.length ? "md:h-[min(50vh,31rem)] md:[@media(max-height:820px)]:h-[43vh]" : "md:h-[min(58vh,33rem)]"} ${s.featured ? "border-[#4f7cff]/45 bg-gradient-to-b from-[#061736] to-[#06111f] hover:border-[#4f7cff]/70" : "border-white/10 bg-[#06111f] hover:border-white/25"}`} data-reveal>
+                <article key={i} className={`journey-card group relative h-[50vh] shrink-0 md:inset-auto flex w-full flex-col overflow-hidden rounded-3xl border p-7 shadow-2xl shadow-black/50 transition-colors md:aspect-[3/4] md:w-auto md:p-8 md:sikisik:p-6 md:[@media(max-height:820px)]:aspect-auto md:[@media(max-height:820px)]:w-[23rem] ${photos.length ? "md:h-[min(50vh,31rem)] md:[@media(max-height:820px)]:h-[43vh]" : "md:h-[min(58vh,33rem)]"} ${s.featured ? "border-[#4f7cff]/45 bg-gradient-to-b from-[#061736] to-[#06111f] hover:border-[#4f7cff]/70" : "border-white/10 bg-[#06111f] hover:border-white/25"}`} data-reveal>
                   {s.featured && <span aria-hidden className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.28),transparent_65%)]" />}
                   <span aria-hidden className={`font-display pointer-events-none absolute -right-3 -top-6 select-none text-[9rem] font-medium leading-none md:text-[11rem] ${s.featured ? "text-[#4f7cff]/[0.09]" : "text-white/[0.035]"}`}>{s.year}</span>
                   <div className="relative flex items-center gap-3">
