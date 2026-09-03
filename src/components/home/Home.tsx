@@ -400,16 +400,16 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       </section>
 
       {/* Araştırma */}
-      <section id="research" className="relative mt-32 overflow-hidden border-y border-white/10 bg-[#0b1119] py-28">
+      <section id="research" data-fit="screen" className="relative mt-32 flex flex-col justify-center overflow-hidden border-y border-white/10 bg-[#0b1119] py-28 md:min-h-screen md:[@media(max-height:1000px)]:py-16 md:[@media(max-height:820px)]:pt-24 md:[@media(max-height:820px)]:pb-10">
         <div className="pointer-events-none absolute -right-40 top-1/2 h-[60rem] w-[60rem] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(79,124,255,0.14),transparent_60%)]" />
-        <div className="relative mx-auto grid max-w-6xl gap-14 px-5 sm:px-8 md:grid-cols-[1fr_1fr]">
+        <div className="relative mx-auto grid w-full max-w-6xl gap-14 px-5 sm:px-8 md:grid-cols-[1fr_1fr] md:[@media(max-height:1000px)]:gap-10">
           <div>
             <p className="text-[12px] font-semibold uppercase tracking-[0.22em] text-[#8fb0ff]" data-reveal>{t.research.kicker}</p>
-            <h2 className="font-display mt-5 text-[clamp(1.9rem,4vw,3rem)] font-medium leading-[1.1] tracking-tight text-white" data-reveal>{t.research.headline}</h2>
-            <p className="mt-6 border-l-2 border-[#4f7cff]/50 pl-4 text-[14.5px] italic leading-relaxed text-white/70" data-reveal>“{t.research.quote}”</p>
-            <p className="mt-6 text-[16px] leading-relaxed text-white/65" data-reveal>{t.research.text}</p>
+            <h2 className="font-display mt-5 text-[clamp(1.9rem,4vw,3rem)] md:[@media(max-height:820px)]:text-[2.3rem] font-medium leading-[1.1] tracking-tight text-white" data-reveal>{t.research.headline}</h2>
+            <p className="mt-6 border-l-2 border-[#4f7cff]/50 pl-4 text-[14.5px] italic leading-relaxed text-white/70 md:[@media(max-height:1000px)]:mt-5 md:[@media(max-height:820px)]:text-[13.5px]" data-reveal>“{t.research.quote}”</p>
+            <p className="mt-6 text-[16px] leading-relaxed text-white/65 md:[@media(max-height:1000px)]:mt-5 md:[@media(max-height:820px)]:text-[15px]" data-reveal>{t.research.text}</p>
             <p className="mt-4 text-[12.5px] text-white/40" data-reveal>{t.research.org}</p>
-            <div className="mt-14 flex justify-center md:justify-start">
+            <div className="mt-14 flex justify-center md:justify-start md:[@media(max-height:1000px)]:mt-9 md:[@media(max-height:820px)]:mt-4">
               <div className="stamp relative inline-flex rotate-[-8deg] flex-col items-center gap-2 rounded-lg border-[3px] border-[#6f9bff]/85 px-9 py-5 text-center">
                 <span aria-hidden className="pointer-events-none absolute inset-[4px] rounded-[5px] border border-[#6f9bff]/55" />
                 <span className="font-display text-[clamp(1.9rem,4.4vw,2.7rem)] font-semibold uppercase leading-none tracking-[0.1em] text-[#9dbcff]">{t.research.highlight.title}</span>
@@ -419,7 +419,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           </div>
           <ol className="grid gap-6 self-center sm:grid-cols-2">
             {t.research.steps.map((s) => (
-              <li key={s.n} className="rounded-2xl border border-white/10 bg-[#070b12] p-6" data-reveal>
+              <li key={s.n} className="rounded-2xl border border-white/10 bg-[#070b12] p-6 md:[@media(max-height:820px)]:p-4" data-reveal>
                 <div className="font-display text-[22px] text-[#8fb0ff]">{s.n}</div>
                 <div className="mt-3 text-[16px] font-semibold text-white">{s.title}</div>
                 <p className="mt-2 text-[13.5px] leading-relaxed text-white/60">{s.text}</p>
