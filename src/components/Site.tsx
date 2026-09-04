@@ -163,14 +163,17 @@ export default function Site() {
       </div>
 
       <SectionTitle>{t.sections.languages}</SectionTitle>
-      <p className="text-[14.5px] leading-relaxed text-ink-soft">
-        {t.languages.map((l, i) => (
-          <span key={l}>
-            {i > 0 && <span className="mx-2.5 text-muted">·</span>}
-            {l}
-          </span>
-        ))}
-      </p>
+      <div className="grid gap-x-6 gap-y-3 sm:grid-cols-3">
+        {t.languages.map((l) => {
+          const [name, level] = l.split(" — ");
+          return (
+            <div key={l}>
+              <div className="text-[14px] font-bold text-ink">{name}</div>
+              <div className="mt-0.5 text-[13px] text-muted">{level}</div>
+            </div>
+          );
+        })}
+      </div>
 
       <footer className="mt-16 flex flex-wrap justify-between gap-2 border-t border-line pt-4 text-[12px] text-muted">
         <span>© {new Date().getFullYear()} Tolga Olguner · {t.footer}</span>
