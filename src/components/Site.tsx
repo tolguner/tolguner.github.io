@@ -97,10 +97,10 @@ export default function Site() {
           <p className="mt-2 text-[16px] text-muted">{t.hero.tagline}</p>
           <p id="about" className="mt-5 max-w-xl scroll-mt-24 text-[15.5px] leading-relaxed">{t.hero.intro}</p>
           <div className="mt-6 flex flex-wrap gap-2.5 text-[13.5px] font-semibold">
-            <a href={t.hero.cvFile} className="rounded bg-ink px-3.5 py-2 text-paper transition hover:opacity-90">{t.hero.cv}</a>
-            <a href={links.github} className="rounded border border-line px-3.5 py-2 text-ink transition hover:bg-paper-2">GitHub</a>
-            <a href={links.linkedin} className="rounded border border-line px-3.5 py-2 text-ink transition hover:bg-paper-2">LinkedIn</a>
-            <a href={`mailto:${links.email}`} className="rounded border border-line px-3.5 py-2 text-ink transition hover:bg-paper-2">{t.hero.email}</a>
+            <a href={t.hero.cvFile} className="rounded-full bg-ink px-4 py-2 text-paper transition hover:opacity-90">{t.hero.cv}</a>
+            <a href={links.github} className="rounded-full border border-line px-4 py-2 text-ink transition hover:bg-paper-2">GitHub</a>
+            <a href={links.linkedin} className="rounded-full border border-line px-4 py-2 text-ink transition hover:bg-paper-2">LinkedIn</a>
+            <a href={`mailto:${links.email}`} className="rounded-full border border-line px-4 py-2 text-ink transition hover:bg-paper-2">{t.hero.email}</a>
           </div>
         </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
