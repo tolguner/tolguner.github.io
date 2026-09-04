@@ -33,6 +33,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "try{if(!sessionStorage.getItem('giris')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('giris-perde')}}catch(e){}",
           }}
         />
+        {/* Kayitli tema secimini ilk boyamadan once uygular; aksi halde
+            sayfa bir kare yanlis temada gorunup zipliyor. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var t=localStorage.getItem('tema');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t)}}catch(e){}",
+          }}
+        />
       </head>
       <body className="min-h-screen antialiased">{children}</body>
     </html>

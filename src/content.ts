@@ -5,7 +5,7 @@ export type SkillGroup = { label: string; items: string };
 type Project = { title: string; kind: string; tech: string; note: string; items: string[]; url: string; urlLabel: string };
 
 export type Dict = {
-  nav: { about: string; experience: string; research: string; projects: string; skills: string; portfolio: string };
+  nav: { about: string; experience: string; research: string; projects: string; skills: string; portfolio: string; temaAcik: string; temaKoyu: string };
   hero: { tagline: string; intro: string; cv: string; cvFile: string; email: string };
   sections: { experience: string; communities: string; research: string; projects: string; skills: string; technical: string; personal: string; education: string; languages: string };
   experience: Entry[];
@@ -22,7 +22,7 @@ export type Dict = {
 
 export const content: Record<Lang, Dict> = {
   tr: {
-    nav: { about: "Hakkımda", experience: "Deneyim", research: "Araştırma", projects: "Projeler", skills: "Yetkinlikler", portfolio: "Portfolyo" },
+    nav: { about: "Hakkımda", experience: "Deneyim", research: "Araştırma", projects: "Projeler", skills: "Yetkinlikler", portfolio: "Portfolyo", temaAcik: "Açık temaya geç", temaKoyu: "Koyu temaya geç" },
     hero: {
       tagline: "Yönetim Bilişim Sistemleri Öğrencisi · Işık Üniversitesi",
       intro:
@@ -130,7 +130,7 @@ export const content: Record<Lang, Dict> = {
     updated: "Son güncelleme",
   },
   en: {
-    nav: { about: "About", experience: "Experience", research: "Research", projects: "Projects", skills: "Skills", portfolio: "Portfolio" },
+    nav: { about: "About", experience: "Experience", research: "Research", projects: "Projects", skills: "Skills", portfolio: "Portfolio", temaAcik: "Switch to light theme", temaKoyu: "Switch to dark theme" },
     hero: {
       tagline: "Management Information Systems Student · Işık University",
       intro:

@@ -13,7 +13,18 @@ html.giris-perde .giris-gizle { opacity: 0 !important; }
   }
 }
 
+/* ------------------------------------------------------------------
+   Tema
+   Iki palet var:
+   - Belge (CV):  ink / ink-soft / muted / line / paper / paper-2 / accent
+   - Portfolyo:   space / surface / surface-2 / hero / brand / brand-soft
+   Secim sirasi:
+   1) <html data-theme="light|dark"> varsa o kazanir (manuel secim)
+   2) yoksa isletim sistemi tercihi (prefers-color-scheme)
+   Asagidaki @theme blogu acik tema degerleridir.
+   ------------------------------------------------------------------ */
 @theme {
+  /* Belge (CV) */
   --color-ink: #14293f;
   --color-ink-soft: #33404d;
   --color-muted: #6b7a89;
@@ -21,31 +32,92 @@ html.giris-perde .giris-gizle { opacity: 0 !important; }
   --color-paper: #ffffff;
   --color-paper-2: #f3f5f7;
   --color-accent: #1f4e79;
+
+  /* Portfolyo */
+  --color-space: #f4f7fb;      /* sayfa zemini */
+  --color-surface: #ffffff;    /* kart yuzeyi */
+  --color-surface-2: #eaf0fb;  /* one cikan kartin ust tonu */
+  --color-hero: #101f33;       /* birincil metin */
+  --color-brand: #2f5ce0;      /* vurgu mavisi */
+  --color-brand-soft: #3f63c4; /* ikincil vurgu (yil, etiket) */
+
+  /* Proje durum etiketleri */
+  --color-tag-capstone: #0369a1;
+  --color-tag-team: #047857;
+  --color-tag-research: #b45309;
+  --color-tag-live: #a21caf;
+
   --font-sans: "Segoe UI", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
   --font-serif: Cambria, Georgia, "Times New Roman", serif;
 }
 
+/* Degrade ve isilti gibi alfa gerektiren yerlerde kullanilan ham bilesenler */
+:root {
+  --space-rgb: 244 247 251;
+  --brand-rgb: 47 92 224;
+}
+
+/* Koyu tema — sistem tercihi (manuel "light" secimi bunu ezer) */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --color-ink: #e8edf3;
     --color-ink-soft: #c5cdd6;
     --color-muted: #8b98a6;
-    /* Koyu temada zemin ve kart renkleri ana sayfayla birebir ayni:
-       #030a16 sayfa zemini, #06111f kart yuzeyi. */
     --color-line: #1d2836;
     --color-paper: #030a16;
     --color-paper-2: #06111f;
     --color-accent: #7fb3e6;
+
+    --color-space: #030a16;
+    --color-surface: #06111f;
+    --color-surface-2: #061736;
+    --color-hero: #ffffff;
+    --color-brand: #4f7cff;
+    --color-brand-soft: #8fb0ff;
+
+    --color-tag-capstone: #7dd3fc;
+    --color-tag-team: #6ee7b7;
+    --color-tag-research: #fcd34d;
+    --color-tag-live: #f0abfc;
+
+    --space-rgb: 3 10 22;
+    --brand-rgb: 79 124 255;
   }
+}
+
+/* Koyu tema — manuel secim */
+:root[data-theme="dark"] {
+  --color-ink: #e8edf3;
+  --color-ink-soft: #c5cdd6;
+  --color-muted: #8b98a6;
+  --color-line: #1d2836;
+  --color-paper: #030a16;
+  --color-paper-2: #06111f;
+  --color-accent: #7fb3e6;
+
+  --color-space: #030a16;
+  --color-surface: #06111f;
+  --color-surface-2: #061736;
+  --color-hero: #ffffff;
+  --color-brand: #4f7cff;
+  --color-brand-soft: #8fb0ff;
+
+  --color-tag-capstone: #7dd3fc;
+  --color-tag-team: #6ee7b7;
+  --color-tag-research: #fcd34d;
+  --color-tag-live: #f0abfc;
+
+  --space-rgb: 3 10 22;
+  --brand-rgb: 79 124 255;
 }
 
 html { scroll-behavior: smooth; }
 body { background: var(--color-paper); color: var(--color-ink-soft); font-family: var(--font-sans); }
 
-/* Ana sayfa (koyu deneyim) */
+/* Ana sayfa (portfolyo) */
 .home { font-family: var(--font-body), "Segoe UI", system-ui, sans-serif; }
 .home .font-display { font-family: var(--font-display), Cambria, Georgia, serif; font-variation-settings: "opsz" 144; }
-.home ::selection { background: #4f7cff; color: #fff; }
+.home ::selection { background: var(--color-brand); color: #fff; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 

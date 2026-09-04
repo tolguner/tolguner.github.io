@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { content, links, type Lang } from "@/content";
+import TemaDugmesi from "@/components/TemaDugmesi";
 
 const BUILD_DATE = new Date().toISOString().slice(0, 10);
 
@@ -81,6 +82,10 @@ export default function Site() {
               </button>
             ))}
           </div>
+          <TemaDugmesi
+            etiket={{ light: t.nav.temaAcik, dark: t.nav.temaKoyu }}
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-line text-muted transition hover:text-ink"
+          />
           <a
             href="/"
             className="whitespace-nowrap rounded-full bg-accent px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90"

@@ -3,6 +3,7 @@
 import { useMemo, useRef, type MutableRefObject } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { useEtkinTema } from "@/lib/tema";
 
 const vertex = /* glsl */ `
   varying vec3 vN;
@@ -58,12 +59,15 @@ const haloFragment = /* glsl */ `
 `;
 
 export default function Core({ progress }: { progress: MutableRefObject<number> }) {
+  const { tema } = useEtkinTema();
   const core = useRef<THREE.Mesh>(null);
   const halo = useRef<THREE.Mesh>(null);
 
   const [coreMat, haloMat] = useMemo(() => {
-    const deep = new THREE.Color("#0d1b3d");
-    const rim = new THREE.Color("#4f7cff");
+    // Acik temada cekirdek koyu kalirsa beyaz zeminde lekeye donuyor;
+    // orada acik mavi bir cekirdek + doygun kenar isigi kullaniyoruz.
+    const deep = new THREE.Color(tema === "dark" ? "#0d1b3d" : "#dbe6ff");
+    const rim = new THREE.Color(tema === "dark" ? "#4f7cff" : "#2f5ce0");
     return [
       new THREE.ShaderMaterial({
         vertexShader: vertex,
@@ -87,7 +91,7 @@ export default function Core({ progress }: { progress: MutableRefObject<number> 
         blending: THREE.AdditiveBlending,
       }),
     ];
-  }, []);
+  }, [tema]);
 
   useFrame((state, dt) => {
     const t = state.clock.elapsedTime;

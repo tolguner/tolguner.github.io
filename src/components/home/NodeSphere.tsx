@@ -4,6 +4,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef, type MutableRefObject } from "react";
 import * as THREE from "three";
 import Core from "./Core";
+import { useEtkinTema } from "@/lib/tema";
 
 type Props = {
   progress: MutableRefObject<number>;
@@ -59,7 +60,17 @@ function useWindowPointer() {
 }
 
 // Fibonacci küresi üzerine dağıtılmış düğümler ve yakın komşular arasında çizgiler.
+/** Kure renkleri temaya gore: koyu zeminde acik mavi noktalar, acik
+    zeminde koyu mavi — aksi halde beyaz uzerinde neredeyse gorunmezler. */
+function kureRenkleri(tema: "light" | "dark") {
+  return tema === "dark"
+    ? { nokta: "#9fc0ff", cizgi: "#4f7cff", noktaOpaklik: 0.95, cizgiOpaklik: 0.28 }
+    : { nokta: "#2f5ce0", cizgi: "#5f83e8", noktaOpaklik: 0.8, cizgiOpaklik: 0.22 };
+}
+
 function Nodes({ progress, count, giris }: { progress: MutableRefObject<number>; count: number; giris?: MutableRefObject<number> }) {
+  const { tema } = useEtkinTema();
+  const renk = kureRenkleri(tema);
   const konum = useRef<THREE.Group>(null); // sahnedeki yatay yerleşim
   const tilt = useRef<THREE.Group>(null); // fareye tepki veren dış grup
   const spin = useRef<THREE.Group>(null); // kendi ekseninde dönen iç grup
@@ -137,8 +148,8 @@ function Nodes({ progress, count, giris }: { progress: MutableRefObject<number>;
 
     t.scale.setScalar(olcek * (1 + p * 0.9));
 
-    if (pointsMat.current) pointsMat.current.opacity = 0.95 * (1 - p * 0.9);
-    if (lineMat.current) lineMat.current.opacity = 0.28 * (1 - p);
+    if (pointsMat.current) pointsMat.current.opacity = renk.noktaOpaklik * (1 - p * 0.9);
+    if (lineMat.current) lineMat.current.opacity = renk.cizgiOpaklik * (1 - p);
   });
 
   return (
@@ -149,13 +160,13 @@ function Nodes({ progress, count, giris }: { progress: MutableRefObject<number>;
             <bufferGeometry>
               <bufferAttribute attach="attributes-position" args={[positions, 3]} />
             </bufferGeometry>
-            <pointsMaterial ref={pointsMat} size={0.028} color="#9fc0ff" transparent opacity={0.95} sizeAttenuation depthWrite={false} />
+            <pointsMaterial ref={pointsMat} size={0.028} color={renk.nokta} transparent opacity={renk.noktaOpaklik} sizeAttenuation depthWrite={false} />
           </points>
           <lineSegments>
             <bufferGeometry>
               <bufferAttribute attach="attributes-position" args={[lines, 3]} />
             </bufferGeometry>
-            <lineBasicMaterial ref={lineMat} color="#4f7cff" transparent opacity={0.28} depthWrite={false} />
+            <lineBasicMaterial ref={lineMat} color={renk.cizgi} transparent opacity={renk.cizgiOpaklik} depthWrite={false} />
           </lineSegments>
           {/* iç çekirdek */}
           <Core progress={progress} />
