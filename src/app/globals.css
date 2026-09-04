@@ -3,9 +3,11 @@
 /* Dar veya kisa gorunumler: tablet genisligi ve alcak masaustu ekranlarinda
    bolumlerin tek ekrana sigmasi icin tipografi ve bosluklar sikisir. */
 /* Açılış perdesi oynayacaksa, React devreye girene kadar hero görünmesin:
-   aksi halde ilk karede sayfa bir an görünüp sonra perde kapanıyor. Sınıfı
-   layout'taki satır içi betik ekler, JS yoksa hiç eklenmez. */
-html.giris-perde .giris-gizle { opacity: 0 !important; }
+   aksi halde ilk karede sayfa bir an görünüp sonra perde kapanıyor. Özniteliği
+   layout'taki satır içi betik ekler (class değil: className'i React
+   yönetiyor, sınıf eklemek hidrasyon uyuşmazlığı veriyordu). JS yoksa
+   hiç eklenmez. */
+html[data-giris="perde"] .giris-gizle { opacity: 0 !important; }
 
 @custom-variant sikisik {
   @media (max-height: 1000px), (max-width: 1023.98px) {

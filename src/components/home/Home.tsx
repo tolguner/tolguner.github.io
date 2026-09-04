@@ -369,7 +369,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
 
   // Perde devreye girene kadar hero'yu gizleyen sınıf, açılış başlayınca kalkar.
   useEffect(() => {
-    if (giris === "ucus" || giris === "bitti") document.documentElement.classList.remove("giris-perde");
+    if (giris === "ucus" || giris === "bitti") document.documentElement.removeAttribute("data-giris");
   }, [giris]);
 
   useEffect(() => {

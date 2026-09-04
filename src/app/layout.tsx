@@ -31,14 +31,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="tr" className={`${display.variable} ${body.variable}`}>
+    /* suppressHydrationWarning: asagidaki iki satir ici betik, React
+       hidrasyona baslamadan once <html> uzerine data-giris ve data-theme
+       ekliyor. Bu kasitli; React 19 kok ogedeki her ozniteligi
+       karsilastirdigi icin uyariyi burada susturuyoruz. */
+    <html lang="tr" suppressHydrationWarning className={`${display.variable} ${body.variable}`}>
       <head>
         {/* Boyamadan önce çalışır: açılış perdesi oynayacaksa hero'yu gizler.
             JS kapalıysa sınıf hiç eklenmez, sayfa normal görünür. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{if(!sessionStorage.getItem('giris')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('giris-perde')}}catch(e){}",
+              "try{if(!sessionStorage.getItem('giris')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.setAttribute('data-giris','perde')}}catch(e){}",
           }}
         />
         {/* Kayitli tema secimini ilk boyamadan once uygular; aksi halde
