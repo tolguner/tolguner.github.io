@@ -57,44 +57,61 @@ export default function Site() {
   const t = content[lang];
 
   return (
-    <div className="mx-auto max-w-3xl px-5 pb-16 pt-6 sm:px-8">
-      {/* Üst çubuk */}
-      <header className="sticky top-0 z-10 -mx-5 mb-8 flex items-center justify-between border-b border-line bg-paper/90 px-5 py-3 backdrop-blur sm:-mx-8 sm:px-8">
-        <a href="/" className="font-serif text-lg font-bold text-ink">Tolga Olguner</a>
-        <nav className="hidden gap-5 text-[13px] text-muted sm:flex">
-          <a href="#about" className="hover:text-ink">{t.nav.about}</a>
-          <a href="#experience" className="hover:text-ink">{t.nav.experience}</a>
-          <a href="#research" className="hover:text-ink">{t.nav.research}</a>
-          <a href="#projects" className="hover:text-ink">{t.nav.projects}</a>
-          <a href="#skills" className="hover:text-ink">{t.nav.skills}</a>
-        </nav>
-        {/* Ana sayfadakiyle ayni hap duzeni: dil secici + birincil buton */}
-        <div className="flex items-center gap-2">
-          <div className="flex overflow-hidden rounded-full border border-line text-[11.5px] font-semibold">
-            {(["tr", "en"] as Lang[]).map((l) => (
-              <button
-                key={l}
-                onClick={() => setLang(l)}
-                aria-pressed={lang === l}
-                className={`px-3 py-1.5 uppercase transition ${lang === l ? "bg-ink text-paper" : "text-muted hover:text-ink"}`}
-              >
-                {l}
-              </button>
-            ))}
+    <>
+      {/* Üst çubuk — ana sayfadakiyle ayni geometri: tam genislikte serit,
+          icinde max-w-6xl kapsayici. Boylece sayfa degistiginde logo, dil
+          secici, tema dugmesi ve birincil buton yerinden oynamiyor. */}
+      <header className="sticky top-0 z-30 border-b border-line bg-paper/80 backdrop-blur-md">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
+          <a href="/" className="font-display text-lg font-semibold text-ink">Tolga Olguner</a>
+          <nav className="hidden gap-5 text-[12.5px] text-muted md:flex lg:gap-7 lg:text-[13px]">
+            <a href="#about" className="transition hover:text-ink">{t.nav.about}</a>
+            <a href="#experience" className="transition hover:text-ink">{t.nav.experience}</a>
+            <a href="#research" className="transition hover:text-ink">{t.nav.research}</a>
+            <a href="#projects" className="transition hover:text-ink">{t.nav.projects}</a>
+            <a href="#skills" className="transition hover:text-ink">{t.nav.skills}</a>
+          </nav>
+          <div className="flex items-center gap-3">
+            <div className="flex overflow-hidden rounded-full border border-line text-[11.5px] font-semibold">
+              {(["tr", "en"] as Lang[]).map((l) => (
+                <button
+                  key={l}
+                  onClick={() => setLang(l)}
+                  aria-pressed={lang === l}
+                  className={`px-3 py-1.5 uppercase transition ${lang === l ? "bg-ink text-paper" : "text-muted hover:text-ink"}`}
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
+            <TemaDugmesi
+              etiket={{ light: t.nav.temaAcik, dark: t.nav.temaKoyu }}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-muted transition hover:text-ink"
+            />
+            {/* Masaustunde hap, mobilde 36px ikon: ana sayfada bu yuvada
+                hamburger var, ayni genislikte kalinca TR/EN ve tema dugmesi
+                sayfa degisiminde yerinden oynamiyor. */}
+            <a
+              href="/"
+              className="hidden min-w-[92px] justify-center whitespace-nowrap rounded-full bg-accent px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90 md:inline-flex"
+            >
+              {t.nav.portfolio}
+            </a>
+            <a
+              href="/"
+              aria-label={t.nav.portfolio}
+              title={t.nav.portfolio}
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-white transition hover:opacity-90 md:hidden"
+            >
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+            </a>
           </div>
-          <TemaDugmesi
-            etiket={{ light: t.nav.temaAcik, dark: t.nav.temaKoyu }}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-line text-muted transition hover:text-ink"
-          />
-          <a
-            href="/"
-            className="whitespace-nowrap rounded-full bg-accent px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90"
-          >
-            {t.nav.portfolio}
-          </a>
         </div>
       </header>
 
+      <div className="mx-auto max-w-3xl px-5 pb-16 pt-8 sm:px-8">
       {/* Giriş */}
       <section id="top" className="flex flex-col-reverse items-start gap-8 sm:flex-row sm:justify-between">
         <div className="min-w-0">
@@ -189,10 +206,11 @@ export default function Site() {
         })}
       </div>
 
-      <footer className="mt-16 flex flex-wrap justify-between gap-2 border-t border-line pt-4 text-[12px] text-muted">
-        <span>© {new Date().getFullYear()} Tolga Olguner · {t.footer}</span>
-        <span>{t.updated}: {BUILD_DATE}</span>
-      </footer>
-    </div>
+        <footer className="mt-16 flex flex-wrap justify-between gap-2 border-t border-line pt-4 text-[12px] text-muted">
+          <span>© {new Date().getFullYear()} Tolga Olguner · {t.footer}</span>
+          <span>{t.updated}: {BUILD_DATE}</span>
+        </footer>
+      </div>
+    </>
   );
 }

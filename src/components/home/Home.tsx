@@ -433,7 +433,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
               etiket={{ light: t.nav.temaAcik, dark: t.nav.temaKoyu }}
               className="flex h-9 w-9 items-center justify-center rounded-full border border-hero/15 text-hero-2 transition hover:border-hero/40 hover:text-hero"
             />
-            <a href="/cv/" className="hidden rounded-full bg-brand px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90 md:inline-block">{t.nav.cv}</a>
+            <a href="/cv/" className="hidden min-w-[92px] justify-center rounded-full bg-brand px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90 md:inline-flex">{t.nav.cv}</a>
             <button
               type="button"
               onClick={() => setMenuAcik((a) => !a)}

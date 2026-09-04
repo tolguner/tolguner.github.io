@@ -134,7 +134,9 @@ body { background: var(--color-paper); color: var(--color-ink-soft); font-family
 
 /* Ana sayfa (portfolyo) */
 .home { font-family: var(--font-body), "Segoe UI", system-ui, sans-serif; }
-.home .font-display { font-family: var(--font-display), Cambria, Georgia, serif; font-variation-settings: "opsz" 144; }
+/* Marka yazi tipi: iki sayfada da ayni gorunsun diye .home disina alindi
+   (ust cubuktaki isim her iki sayfada bu tipi kullaniyor). */
+.font-display { font-family: var(--font-display), Cambria, Georgia, serif; font-variation-settings: "opsz" 144; }
 .home ::selection { background: var(--color-brand); color: #fff; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
