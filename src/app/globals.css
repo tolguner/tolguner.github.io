@@ -30,9 +30,11 @@ html.giris-perde .giris-gizle { opacity: 0 !important; }
     --color-ink: #e8edf3;
     --color-ink-soft: #c5cdd6;
     --color-muted: #8b98a6;
-    --color-line: #2a3541;
-    --color-paper: #0f161e;
-    --color-paper-2: #161f29;
+    /* Koyu temada zemin ve kart renkleri ana sayfayla birebir ayni:
+       #030a16 sayfa zemini, #06111f kart yuzeyi. */
+    --color-line: #1d2836;
+    --color-paper: #030a16;
+    --color-paper-2: #06111f;
     --color-accent: #7fb3e6;
   }
 }
