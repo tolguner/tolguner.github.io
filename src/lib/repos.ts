@@ -1,6 +1,14 @@
-import type { Repo } from "@/components/Site";
+export type Repo = {
+  name: string;
+  description: string;
+  url: string;
+  language: string;
+  stars: number;
+  pushedAt: string;
+  topics: string[];
+};
 
-// CV'de öne çıkan depolar elle yazılıyor; bunlar otomatik listeden düşülür.
+// Ana sayfada öne çıkan depolar elle yazılıyor; bunlar otomatik listeden düşülür.
 const EXCLUDED = new Set([
   "tolguner",
   "tolguner.github.io",

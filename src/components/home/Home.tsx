@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { home } from "@/content-home";
 import { links, type Lang } from "@/content";
-import type { Repo } from "@/components/Site";
+import type { Repo } from "@/lib/repos";
 import type { Photo } from "@/lib/gallery";
 import PhotoMarquee from "./PhotoMarquee";
 import Intro from "./Intro";

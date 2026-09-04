@@ -3,16 +3,6 @@
 import { useEffect, useState } from "react";
 import { content, links, type Lang } from "@/content";
 
-export type Repo = {
-  name: string;
-  description: string;
-  url: string;
-  language: string;
-  stars: number;
-  pushedAt: string;
-  topics: string[];
-};
-
 const BUILD_DATE = new Date().toISOString().slice(0, 10);
 
 function SectionTitle({ id, children }: { id?: string; children: React.ReactNode }) {
@@ -48,7 +38,7 @@ function Bullets({ items }: { items?: string[] }) {
   );
 }
 
-export default function Site({ repos }: { repos: Repo[] }) {
+export default function Site() {
   const [lang, setLang] = useState<Lang>("tr");
 
   useEffect(() => {
@@ -64,8 +54,6 @@ export default function Site({ repos }: { repos: Repo[] }) {
   }, [lang]);
 
   const t = content[lang];
-  const fmtDate = (iso: string) =>
-    iso ? new Date(iso).toLocaleDateString(lang === "tr" ? "tr-TR" : "en-GB", { year: "numeric", month: "short" }) : "";
 
   return (
     <div className="mx-auto max-w-3xl px-5 pb-16 pt-6 sm:px-8">
@@ -78,7 +66,6 @@ export default function Site({ repos }: { repos: Repo[] }) {
           <a href="#research" className="hover:text-ink">{t.nav.research}</a>
           <a href="#projects" className="hover:text-ink">{t.nav.projects}</a>
           <a href="#skills" className="hover:text-ink">{t.nav.skills}</a>
-          <a href="#contact" className="hover:text-ink">{t.nav.contact}</a>
         </nav>
         <div className="flex overflow-hidden rounded border border-line text-[12px] font-semibold">
           {(["tr", "en"] as Lang[]).map((l) => (
@@ -155,28 +142,6 @@ export default function Site({ repos }: { repos: Repo[] }) {
         ))}
       </div>
 
-      {repos.length > 0 && (
-        <>
-          <SectionTitle>{t.sections.otherRepos}</SectionTitle>
-          <p className="mb-4 text-[13.5px] text-muted">{t.otherReposNote}</p>
-          <ul className="grid gap-3 sm:grid-cols-2">
-            {repos.map((r) => (
-              <li key={r.name} className="rounded-md border border-line bg-paper-2 p-3.5">
-                <div className="flex items-baseline justify-between gap-3">
-                  <a href={r.url} className="truncate text-[14px] font-bold text-ink hover:underline">{r.name}</a>
-                  <span className="shrink-0 text-[11.5px] text-muted">{fmtDate(r.pushedAt)}</span>
-                </div>
-                {r.description && <p className="mt-1 text-[13px] leading-snug text-ink-soft">{r.description}</p>}
-                <div className="mt-2 flex flex-wrap gap-x-3 text-[11.5px] text-muted">
-                  {r.language && <span>{r.language}</span>}
-                  {r.stars > 0 && <span>★ {r.stars}</span>}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-
       {/* Yetkinlikler */}
       <SectionTitle id="skills">{t.sections.skills}</SectionTitle>
       <div className="grid gap-8 sm:grid-cols-2">
@@ -208,15 +173,6 @@ export default function Site({ repos }: { repos: Repo[] }) {
             </div>
           );
         })}
-      </div>
-
-      {/* İletişim */}
-      <SectionTitle id="contact">{t.sections.contact}</SectionTitle>
-      <p className="text-[14.5px]">{t.contact.text}</p>
-      <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-[14px]">
-        <a href={`mailto:${links.email}`} className="text-accent hover:underline">{links.email}</a>
-        <a href={links.linkedin} className="text-accent hover:underline">linkedin.com/in/tolguner</a>
-        <a href={links.github} className="text-accent hover:underline">github.com/tolguner</a>
       </div>
 
       <footer className="mt-16 flex flex-wrap justify-between gap-2 border-t border-line pt-4 text-[12px] text-muted">

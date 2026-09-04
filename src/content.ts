@@ -5,26 +5,24 @@ export type SkillGroup = { label: string; items: string };
 type Project = { title: string; kind: string; tech: string; note: string; items: string[]; url: string; urlLabel: string };
 
 export type Dict = {
-  nav: { about: string; experience: string; research: string; projects: string; skills: string; contact: string };
+  nav: { about: string; experience: string; research: string; projects: string; skills: string };
   hero: { tagline: string; intro: string; cv: string; cvFile: string; email: string };
-  sections: { experience: string; communities: string; research: string; projects: string; otherRepos: string; skills: string; technical: string; personal: string; education: string; languages: string; contact: string };
+  sections: { experience: string; communities: string; research: string; projects: string; skills: string; technical: string; personal: string; education: string; languages: string };
   experience: Entry[];
   communities: Entry[];
   research: { title: string; role: string; org: string; date: string; topic: string; items: string[] };
   projects: Project[];
-  otherReposNote: string;
   skills: SkillGroup[];
   personal: string[];
   education: { degree: string; school: string; date: string; meta: string };
   languages: string[];
-  contact: { text: string };
   footer: string;
   updated: string;
 };
 
 export const content: Record<Lang, Dict> = {
   tr: {
-    nav: { about: "Hakkımda", experience: "Deneyim", research: "Araştırma", projects: "Projeler", skills: "Yetkinlikler", contact: "İletişim" },
+    nav: { about: "Hakkımda", experience: "Deneyim", research: "Araştırma", projects: "Projeler", skills: "Yetkinlikler" },
     hero: {
       tagline: "Yönetim Bilişim Sistemleri Öğrencisi · Işık Üniversitesi",
       intro:
@@ -38,13 +36,11 @@ export const content: Record<Lang, Dict> = {
       communities: "Öğrenci Toplulukları",
       research: "Araştırma",
       projects: "Seçili Projeler",
-      otherRepos: "Diğer Depolar",
       skills: "Yetkinlikler",
       technical: "Teknik Yetkinlikler",
       personal: "Kişisel Yetkinlikler",
       education: "Eğitim",
       languages: "Diller",
-      contact: "İletişim",
     },
     experience: [
       {
@@ -119,7 +115,6 @@ export const content: Record<Lang, Dict> = {
         urlLabel: "github.com/tolguner/Hizli-Kazanc-Algisi-Analizi",
       },
     ],
-    otherReposNote: "GitHub'daki diğer herkese açık depolar — çoğu ders projesi, o dönemki öğrenme seviyemi yansıtıyor.",
     skills: [
       { label: "Backend", items: "Spring Boot · REST API · JWT · Kafka" },
       { label: "Frontend", items: "React · Next.js · Tailwind CSS · JavaFX" },
@@ -131,12 +126,11 @@ export const content: Record<Lang, Dict> = {
     personal: ["Ekip liderliği ve koordinasyon", "Etkinlik ve organizasyon yönetimi", "İletişim ve sunum", "Proje planlama"],
     education: { degree: "Yönetim Bilişim Sistemleri, Lisans", school: "Işık Üniversitesi, İstanbul", date: "2021 – 2026", meta: "Genel not ortalaması 3,43 / 4,00" },
     languages: ["Türkçe — anadil", "İngilizce — orta-ileri (B2)", "Almanca — başlangıç (A1)"],
-    contact: { text: "İş birliği, staj ve iş fırsatları için e-posta ya da LinkedIn üzerinden ulaşabilirsiniz." },
     footer: "İstanbul / Bursa",
     updated: "Son güncelleme",
   },
   en: {
-    nav: { about: "About", experience: "Experience", research: "Research", projects: "Projects", skills: "Skills", contact: "Contact" },
+    nav: { about: "About", experience: "Experience", research: "Research", projects: "Projects", skills: "Skills" },
     hero: {
       tagline: "Management Information Systems Student · Işık University",
       intro:
@@ -150,13 +144,11 @@ export const content: Record<Lang, Dict> = {
       communities: "Student Organizations",
       research: "Research",
       projects: "Selected Projects",
-      otherRepos: "Other Repositories",
       skills: "Skills",
       technical: "Technical Skills",
       personal: "Personal Skills",
       education: "Education",
       languages: "Languages",
-      contact: "Contact",
     },
     experience: [
       {
@@ -231,7 +223,6 @@ export const content: Record<Lang, Dict> = {
         urlLabel: "github.com/tolguner/Hizli-Kazanc-Algisi-Analizi",
       },
     ],
-    otherReposNote: "Other public repositories on GitHub — mostly course projects reflecting what I knew at the time. Most READMEs are in Turkish.",
     skills: [
       { label: "Backend", items: "Spring Boot · REST APIs · JWT · Kafka" },
       { label: "Frontend", items: "React · Next.js · Tailwind CSS · JavaFX" },
@@ -243,7 +234,6 @@ export const content: Record<Lang, Dict> = {
     personal: ["Team leadership and coordination", "Event and organization management", "Communication and presentation", "Project planning"],
     education: { degree: "B.A. Management Information Systems", school: "Işık University, Istanbul", date: "2021 – 2026", meta: "GPA 3.43 / 4.00" },
     languages: ["Turkish — native", "English — upper-intermediate (B2)", "German — beginner (A1)"],
-    contact: { text: "Reach out by email or LinkedIn for collaboration, internship and job opportunities." },
     footer: "Istanbul / Bursa, Türkiye",
     updated: "Last updated",
   },
