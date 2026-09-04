@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     siteName: "tolguner.me",
     /* Paylasim kapagi: kaynak/og.html'den headless Chrome ile uretiliyor
        (1200x630, sosyal aglarin bekledigi yatay olcu). */
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Tolga Olguner — Yönetim Bilişim Sistemleri Öğrencisi, Işık Üniversitesi" }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Tolga Olguner — Yönetim Bilişim Sistemleri, Işık Üniversitesi" }],
     locale: "tr_TR",
     type: "website",
   },
