@@ -42,6 +42,7 @@ function Bullets({ items }: { items?: string[] }) {
 
 export default function Site() {
   const [lang, setLang] = useState<Lang>("tr");
+  const [menuAcik, setMenuAcik] = useState(false);
 
   useEffect(() => {
     try {
@@ -55,7 +56,22 @@ export default function Site() {
     try { localStorage.setItem("lang", lang); } catch {}
   }, [lang]);
 
+  // Menu acikken arkadaki sayfa kaymasin
+  useEffect(() => {
+    document.body.style.overflow = menuAcik ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuAcik]);
+
   const t = content[lang];
+
+  // Menudeki baglantilar: "Hakkimda" sayfanin en basi, digerleri bolum capasi
+  const menuOgeleri: [string, string][] = [
+    ["#top", t.nav.about],
+    ["#experience", t.nav.experience],
+    ["#research", t.nav.research],
+    ["#projects", t.nav.projects],
+    ["#skills", t.nav.skills],
+  ];
 
   return (
     <>
@@ -65,7 +81,7 @@ export default function Site() {
       <header className="sticky top-0 z-30 border-b border-ink/5 bg-paper/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
           <a href="/" className="font-display shrink-0 whitespace-nowrap text-lg font-semibold text-ink">Tolga Olguner</a>
-          <nav className="nav-display hidden gap-3.5 text-[12px] text-ink-soft md:flex lg:gap-7 lg:text-[13px]">
+          <nav className="nav-display hidden gap-3.5 text-[12px] text-ink-soft lg:flex lg:gap-7 lg:text-[13px]">
             <a
               href="#top"
               onClick={(ev) => {
@@ -100,19 +116,55 @@ export default function Site() {
             >
               {t.nav.portfolio}
             </a>
-            <a
-              href="/"
-              aria-label={t.nav.portfolio}
-              title={t.nav.portfolio}
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-white transition hover:opacity-90 lg:hidden"
+            <button
+              type="button"
+              onClick={() => setMenuAcik((a) => !a)}
+              aria-expanded={menuAcik}
+              aria-controls="mobil-menu"
+              aria-label={menuAcik ? t.nav.menuClose : t.nav.menu}
+              className="relative h-9 w-9 rounded-full border border-line text-ink transition hover:border-ink/40 lg:hidden"
             >
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                <path d="M19 12H5M12 19l-7-7 7-7" />
-              </svg>
-            </a>
+              <span aria-hidden className={`absolute left-1/2 top-1/2 h-px w-4 -translate-x-1/2 bg-current transition-transform duration-300 ${menuAcik ? "rotate-45" : "-translate-y-1.5"}`} />
+              <span aria-hidden className={`absolute left-1/2 top-1/2 h-px w-4 -translate-x-1/2 bg-current transition-opacity duration-200 ${menuAcik ? "opacity-0" : "opacity-100"}`} />
+              <span aria-hidden className={`absolute left-1/2 top-1/2 h-px w-4 -translate-x-1/2 bg-current transition-transform duration-300 ${menuAcik ? "-rotate-45" : "translate-y-1.5"}`} />
+            </button>
           </div>
         </div>
       </header>
+
+      {/* Mobil menü — ana sayfadakiyle ayni yapi, belge paletiyle */}
+      <div
+        id="mobil-menu"
+        className={`fixed inset-0 z-20 flex flex-col justify-center bg-paper/97 px-8 pt-14 backdrop-blur-lg transition-[opacity,visibility] duration-300 lg:hidden ${menuAcik ? "visible opacity-100" : "invisible opacity-0"}`}
+        onClick={() => setMenuAcik(false)}
+      >
+        <nav className="flex flex-col gap-1">
+          {menuOgeleri.map(([href, etiket], i) => (
+            <a
+              key={href}
+              href={href}
+              tabIndex={menuAcik ? 0 : -1}
+              onClick={(ev) => {
+                if (href !== "#top") return;
+                ev.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              style={{ transitionDelay: menuAcik ? `${80 + i * 45}ms` : "0ms" }}
+              className={`font-display border-b border-ink/5 py-4 text-[28px] font-medium tracking-tight text-ink max-[400px]:py-3 max-[400px]:text-[23px] [@media(max-height:700px)]:py-3 [@media(max-height:700px)]:text-[23px] transition-[opacity,transform] duration-500 ${menuAcik ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
+            >
+              {etiket}
+            </a>
+          ))}
+        </nav>
+        <a
+          href="/"
+          tabIndex={menuAcik ? 0 : -1}
+          style={{ transitionDelay: menuAcik ? "305ms" : "0ms" }}
+          className={`mt-10 rounded-full bg-accent py-3.5 text-center text-[15px] max-[400px]:mt-6 [@media(max-height:700px)]:mt-6 font-semibold text-white transition-[opacity,transform] duration-500 ${menuAcik ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
+        >
+          {t.nav.portfolio}
+        </a>
+      </div>
 
       <div className="mx-auto max-w-3xl px-5 pb-16 pt-8 sm:px-8">
       {/* Giriş */}
