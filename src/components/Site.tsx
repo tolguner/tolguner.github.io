@@ -66,7 +66,16 @@ export default function Site() {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
           <a href="/" className="font-display shrink-0 whitespace-nowrap text-lg font-semibold text-ink">Tolga Olguner</a>
           <nav className="nav-display hidden gap-3.5 text-[12px] text-ink-soft md:flex lg:gap-7 lg:text-[13px]">
-            <a href="#about" className="transition hover:text-ink">{t.nav.about}</a>
+            <a
+              href="#top"
+              onClick={(ev) => {
+                ev.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className="transition hover:text-ink"
+            >
+              {t.nav.about}
+            </a>
             <a href="#experience" className="transition hover:text-ink">{t.nav.experience}</a>
             <a href="#research" className="transition hover:text-ink">{t.nav.research}</a>
             <a href="#projects" className="transition hover:text-ink">{t.nav.projects}</a>
@@ -111,7 +120,7 @@ export default function Site() {
         <div className="min-w-0">
           <h1 className="font-serif text-[40px] font-bold leading-[1.05] tracking-tight text-ink sm:text-[46px]">Tolga Olguner</h1>
           <p className="mt-2 text-[16px] text-muted">{t.hero.tagline}</p>
-          <p id="about" className="mt-5 max-w-xl scroll-mt-24 text-[15.5px] leading-relaxed">{t.hero.intro}</p>
+          <p className="mt-5 max-w-xl text-[15.5px] leading-relaxed">{t.hero.intro}</p>
           <div className="mt-6 flex flex-wrap gap-2.5 text-[13.5px] font-semibold">
             <a href={t.hero.cvFile} className="rounded-full bg-ink px-4 py-2 text-paper transition hover:opacity-90">{t.hero.cv}</a>
             <a href={links.github} className="rounded-full border border-line px-4 py-2 text-ink transition hover:bg-paper-2">GitHub</a>
