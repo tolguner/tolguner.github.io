@@ -415,8 +415,8 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       {/* Üst çubuk */}
       <header className="giris-gizle fixed inset-x-0 top-0 z-30 border-b border-hero/5 bg-space/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
-          <a href="#top" className="font-display text-lg font-semibold text-hero">Tolga Olguner</a>
-          <nav className="hidden gap-5 text-[12.5px] text-hero-2 md:flex lg:gap-7 lg:text-[13px]">
+          <a href="#top" className="font-display shrink-0 whitespace-nowrap text-lg font-semibold text-hero">Tolga Olguner</a>
+          <nav className="nav-display hidden gap-3.5 text-[12px] text-hero-2 lg:flex lg:gap-7 lg:text-[13px]">
             <a href="#about" className="transition hover:text-hero">{t.nav.about}</a>
             <a href="#journey" className="transition hover:text-hero">{t.nav.journey}</a>
             <a href="#projects" className="transition hover:text-hero">{t.nav.projects}</a>
@@ -434,14 +434,14 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
               etiket={{ light: t.nav.temaAcik, dark: t.nav.temaKoyu }}
               className="flex h-9 w-9 items-center justify-center rounded-full border border-hero/15 text-hero-2 transition hover:border-hero/40 hover:text-hero"
             />
-            <a href="/cv/" className="hidden min-w-[92px] justify-center rounded-full bg-brand px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90 md:inline-flex">{t.nav.cv}</a>
+            <a href="/cv/" className="hidden min-w-[92px] justify-center rounded-full bg-brand px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90 lg:inline-flex">{t.nav.cv}</a>
             <button
               type="button"
               onClick={() => setMenuAcik((a) => !a)}
               aria-expanded={menuAcik}
               aria-controls="mobil-menu"
               aria-label={menuAcik ? t.nav.menuClose : t.nav.menu}
-              className="relative h-9 w-9 rounded-full border border-hero/15 text-hero transition hover:border-hero/40 md:hidden"
+              className="relative h-9 w-9 rounded-full border border-hero/15 text-hero transition hover:border-hero/40 lg:hidden"
             >
               <span aria-hidden className={`absolute left-1/2 top-1/2 h-px w-4 -translate-x-1/2 bg-current transition-transform duration-300 ${menuAcik ? "rotate-45" : "-translate-y-1.5"}`} />
               <span aria-hidden className={`absolute left-1/2 top-1/2 h-px w-4 -translate-x-1/2 bg-current transition-opacity duration-200 ${menuAcik ? "opacity-0" : "opacity-100"}`} />
@@ -454,7 +454,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       {/* Mobil menü */}
       <div
         id="mobil-menu"
-        className={`fixed inset-0 z-20 flex flex-col justify-center bg-space/97 px-8 pt-14 backdrop-blur-lg transition-[opacity,visibility] duration-300 md:hidden ${menuAcik ? "visible opacity-100" : "invisible opacity-0"}`}
+        className={`fixed inset-0 z-20 flex flex-col justify-center bg-space/97 px-8 pt-14 backdrop-blur-lg transition-[opacity,visibility] duration-300 lg:hidden ${menuAcik ? "visible opacity-100" : "invisible opacity-0"}`}
         onClick={() => setMenuAcik(false)}
       >
         <nav className="flex flex-col gap-1">

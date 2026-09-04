@@ -138,6 +138,9 @@ body { background: var(--color-paper); color: var(--color-ink-soft); font-family
 /* Marka yazi tipi: iki sayfada da ayni gorunsun diye .home disina alindi
    (ust cubuktaki isim her iki sayfada bu tipi kullaniyor). */
 .font-display { font-family: var(--font-display), Cambria, Georgia, serif; font-variation-settings: "opsz" 144; }
+/* Ust cubuktaki bolum baglantilari: marka yazisiyla ayni tip. Optik boyut
+   dusuk tutuluyor; opsz 144 buyuk basliklar icin, kucuk puntoda inceliyor. */
+.nav-display { font-family: var(--font-display), Cambria, Georgia, serif; font-variation-settings: "opsz" 16; }
 .home ::selection { background: var(--color-brand); color: #fff; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }

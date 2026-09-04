@@ -64,8 +64,8 @@ export default function Site() {
           secici, tema dugmesi ve birincil buton yerinden oynamiyor. */}
       <header className="sticky top-0 z-30 border-b border-line bg-paper/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
-          <a href="/" className="font-display text-lg font-semibold text-ink">Tolga Olguner</a>
-          <nav className="hidden gap-5 text-[12.5px] text-muted md:flex lg:gap-7 lg:text-[13px]">
+          <a href="/" className="font-display shrink-0 whitespace-nowrap text-lg font-semibold text-ink">Tolga Olguner</a>
+          <nav className="nav-display hidden gap-3.5 text-[12px] text-muted md:flex lg:gap-7 lg:text-[13px]">
             <a href="#about" className="transition hover:text-ink">{t.nav.about}</a>
             <a href="#experience" className="transition hover:text-ink">{t.nav.experience}</a>
             <a href="#research" className="transition hover:text-ink">{t.nav.research}</a>
@@ -82,12 +82,12 @@ export default function Site() {
               etiket={{ light: t.nav.temaAcik, dark: t.nav.temaKoyu }}
               className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-muted transition hover:text-ink"
             />
-            {/* Masaustunde hap, mobilde 36px ikon: ana sayfada bu yuvada
-                hamburger var, ayni genislikte kalinca TR/EN ve tema dugmesi
+            {/* Genis ekranda hap, altinda 36px ikon: ana sayfada ayni yuvada
+                hamburger var, ayni genislikte kalinca dil ve tema dugmesi
                 sayfa degisiminde yerinden oynamiyor. */}
             <a
               href="/"
-              className="hidden min-w-[92px] justify-center whitespace-nowrap rounded-full bg-accent px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90 md:inline-flex"
+              className="hidden min-w-[92px] justify-center whitespace-nowrap rounded-full bg-accent px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90 lg:inline-flex"
             >
               {t.nav.portfolio}
             </a>
@@ -95,7 +95,7 @@ export default function Site() {
               href="/"
               aria-label={t.nav.portfolio}
               title={t.nav.portfolio}
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-white transition hover:opacity-90 md:hidden"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-white transition hover:opacity-90 lg:hidden"
             >
               <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                 <path d="M19 12H5M12 19l-7-7 7-7" />
