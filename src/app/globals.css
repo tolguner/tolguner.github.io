@@ -55,6 +55,8 @@ html.giris-perde .giris-gizle { opacity: 0 !important; }
 
   /* Govde yazi tipi iki sayfada da ayni: Inter (layout.tsx) */
   --font-sans: var(--font-body), "Segoe UI", ui-sans-serif, system-ui, -apple-system, Arial, sans-serif;
+  /* Belge serifi: CV sayfasindaki isim basligi */
+  --font-serif: Cambria, Georgia, "Times New Roman", serif;
 }
 
 /* Degrade ve isilti gibi alfa gerektiren yerlerde kullanilan ham bilesenler */
