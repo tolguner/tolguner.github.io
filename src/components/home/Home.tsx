@@ -394,7 +394,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
   };
 
   return (
-    <div ref={root} className="home relative z-0 min-h-screen overflow-x-clip bg-space text-hero/80">
+    <div ref={root} className="home relative z-0 min-h-screen overflow-x-clip bg-space text-hero-2">
       {/* Fareyi izleyen ışıltı — en arka katman; kartlar ve metin (normal akış,
           bu elemandan sonra çiziliyor) hep önünde kalır. */}
       <div
@@ -403,7 +403,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         className="pointer-events-none fixed inset-0 z-[-1] opacity-70 md:opacity-90"
         style={{
           background:
-            "radial-gradient(38rem circle at var(--gx, 50%) var(--gy, 40%), rgb(var(--brand-rgb) / 0.16), rgb(var(--brand-rgb) / 0.05) 42%, transparent 68%)",
+            "radial-gradient(38rem circle at var(--gx, 50%) var(--gy, 40%), rgb(var(--brand-rgb) / var(--isilti-ic)), rgb(var(--brand-rgb) / var(--isilti-dis)) 42%, transparent 68%)",
         }}
       />
       {/* Açılış perdesi */}
@@ -415,7 +415,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       <header className="giris-gizle fixed inset-x-0 top-0 z-30 border-b border-hero/5 bg-space/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
           <a href="#top" className="font-display text-lg font-semibold text-hero">Tolga Olguner</a>
-          <nav className="hidden gap-5 text-[12.5px] text-hero/60 md:flex lg:gap-7 lg:text-[13px]">
+          <nav className="hidden gap-5 text-[12.5px] text-hero-2 md:flex lg:gap-7 lg:text-[13px]">
             <a href="#about" className="transition hover:text-hero">{t.nav.about}</a>
             <a href="#journey" className="transition hover:text-hero">{t.nav.journey}</a>
             <a href="#projects" className="transition hover:text-hero">{t.nav.projects}</a>
@@ -426,12 +426,12 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           <div className="flex items-center gap-3">
             <div className="flex overflow-hidden rounded-full border border-hero/10 text-[11.5px] font-semibold">
               {(["tr", "en"] as Lang[]).map((l) => (
-                <button key={l} onClick={() => setLang(l)} aria-pressed={lang === l} className={`px-3 py-1.5 uppercase transition ${lang === l ? "bg-hero text-space" : "text-hero/60 hover:text-hero"}`}>{l}</button>
+                <button key={l} onClick={() => setLang(l)} aria-pressed={lang === l} className={`px-3 py-1.5 uppercase transition ${lang === l ? "bg-hero text-space" : "text-hero-2 hover:text-hero"}`}>{l}</button>
               ))}
             </div>
             <TemaDugmesi
               etiket={{ light: t.nav.temaAcik, dark: t.nav.temaKoyu }}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-hero/15 text-hero/70 transition hover:border-hero/40 hover:text-hero"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-hero/15 text-hero-2 transition hover:border-hero/40 hover:text-hero"
             />
             <a href="/cv/" className="hidden rounded-full bg-brand px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90 md:inline-block">{t.nav.cv}</a>
             <button
@@ -470,7 +470,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
               href={href}
               tabIndex={menuAcik ? 0 : -1}
               style={{ transitionDelay: menuAcik ? `${80 + i * 45}ms` : "0ms" }}
-              className={`font-display border-b border-hero/5 py-4 text-[28px] font-medium tracking-tight text-hero/85 max-[400px]:py-3 max-[400px]:text-[23px] [@media(max-height:700px)]:py-3 [@media(max-height:700px)]:text-[23px] transition-[opacity,transform] duration-500 active:text-hero ${menuAcik ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
+              className={`font-display border-b border-hero/5 py-4 text-[28px] font-medium tracking-tight text-hero max-[400px]:py-3 max-[400px]:text-[23px] [@media(max-height:700px)]:py-3 [@media(max-height:700px)]:text-[23px] transition-[opacity,transform] duration-500 active:text-hero ${menuAcik ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
             >
               {etiket}
             </a>
@@ -501,9 +501,9 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           <h1 className="font-display max-w-4xl text-[clamp(2.4rem,6.2vw,5.2rem)] font-medium leading-[1.02] tracking-tight text-hero">
             <Words text={t.hero.line1} />
             <br />
-            <Words text={t.hero.line2} className="text-hero/85" />
+            <Words text={t.hero.line2} className="text-hero" />
           </h1>
-          <p className="hero-fade mt-7 max-w-xl text-[15.5px] leading-relaxed text-hero/60 sm:text-[17px]">{t.hero.sub}</p>
+          <p className="hero-fade mt-7 max-w-xl text-[15.5px] leading-relaxed text-hero-2 sm:text-[17px]">{t.hero.sub}</p>
           <div className="hero-fade mt-9 flex flex-wrap gap-3">
             <a href="#projects" className="rounded-full bg-hero px-6 py-3 text-[14px] font-semibold text-space transition hover:opacity-90">{t.hero.ctaProjects}</a>
             <a href="/cv/" className="rounded-full border border-hero/20 px-6 py-3 text-[14px] font-semibold text-hero transition hover:border-hero/50">{t.hero.ctaCv}</a>
@@ -534,13 +534,13 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         <div className="grid gap-14 md:grid-cols-[1.15fr_0.85fr] md:items-center md:sikisik:gap-10">
           <div>
             <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-hero" data-reveal>{t.about.title}</h2>
-            <p className="mt-7 text-[17px] leading-relaxed text-hero/70 md:sikisik:mt-5 md:sikisik:text-[15.5px] md:[@media(max-height:820px)]:text-[14.5px]" data-reveal>{t.about.p1}</p>
-            <p className="mt-5 text-[17px] leading-relaxed text-hero/70 md:sikisik:mt-4 md:sikisik:text-[15.5px] md:[@media(max-height:820px)]:text-[14.5px]" data-reveal>{t.about.p2}</p>
+            <p className="mt-7 text-[17px] leading-relaxed text-hero-2 md:sikisik:mt-5 md:sikisik:text-[15.5px] md:[@media(max-height:820px)]:text-[14.5px]" data-reveal>{t.about.p1}</p>
+            <p className="mt-5 text-[17px] leading-relaxed text-hero-2 md:sikisik:mt-4 md:sikisik:text-[15.5px] md:[@media(max-height:820px)]:text-[14.5px]" data-reveal>{t.about.p2}</p>
             <dl className="mt-10 grid gap-5 border-t border-hero/10 pt-8 sm:grid-cols-2 md:sikisik:mt-6 md:sikisik:gap-4 md:sikisik:pt-5 md:[@media(max-height:820px)]:mt-5 md:[@media(max-height:820px)]:gap-3 md:[@media(max-height:820px)]:pt-4">
               {t.about.facts.map((f) => (
                 <div key={f.k} data-reveal>
                   <dt className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-soft">{f.k}</dt>
-                  <dd className="mt-1.5 text-[15px] text-hero/85">{f.v}</dd>
+                  <dd className="mt-1.5 text-[15px] text-hero">{f.v}</dd>
                 </div>
               ))}
             </dl>
@@ -551,7 +551,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
             <img src="/portre.jpg" alt="Tolga Olguner" width={900} height={1200} className="relative aspect-[3/4] w-full rounded-3xl border border-hero/10 object-cover" />
             {t.about.badges.map((b, i) => (
               <div key={b.k} className={`absolute rounded-xl border border-hero/10 bg-surface/90 px-4 py-3 shadow-2xl backdrop-blur ${i === 0 ? "-right-4 top-8" : "-left-4 bottom-10"}`}>
-                <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-hero/45">{b.k}</div>
+                <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-hero-3">{b.k}</div>
                 <div className="mt-0.5 text-[14px] font-semibold text-hero">{b.v}</div>
               </div>
             ))}
@@ -565,7 +565,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
               <div className="font-display text-[22px] font-medium leading-none text-hero sm:text-[38px] md:sikisik:text-[32px]">
                 <span data-count={s.key === "repos" && repoCount ? repoCount : s.value} data-decimals={s.decimals ?? 0} data-suffix={s.suffix ?? ""}>0</span>
               </div>
-              <div className="mt-1.5 text-[9px] uppercase leading-snug tracking-wider text-hero/45 sm:mt-2 sm:text-[12.5px]">{s.label}</div>
+              <div className="mt-1.5 text-[9px] uppercase leading-snug tracking-wider text-hero-3 sm:mt-2 sm:text-[12.5px]">{s.label}</div>
             </div>
           ))}
         </div>
@@ -581,8 +581,8 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
                 <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-hero" data-reveal>{t.journey.title}</h2>
               </div>
               <div className="hidden text-right md:block">
-                <div className="text-[11px] uppercase tracking-[0.22em] text-hero/40">{t.journey.rangeLabel}</div>
-                <div className="font-display text-[34px] leading-none text-hero/80">2021 — 2026</div>
+                <div className="text-[11px] uppercase tracking-[0.22em] text-hero-3">{t.journey.rangeLabel}</div>
+                <div className="font-display text-[34px] leading-none text-hero-2">2021 — 2026</div>
               </div>
             </div>
           </div>
@@ -610,19 +610,19 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
                   <span aria-hidden className={`font-display pointer-events-none absolute -right-3 -top-6 select-none text-[9rem] font-medium leading-none md:text-[11rem] ${s.featured ? "text-brand/[0.09]" : "text-hero/[0.035]"}`}>{s.year}</span>
                   <div className="relative flex items-center gap-3">
                     <span className="font-display text-[26px] leading-none text-brand-soft">{s.year}</span>
-                    <span className={`rounded-full border px-2.5 py-1 text-[10.5px] uppercase tracking-wider ${s.featured ? "border-brand/50 bg-brand/10 text-brand-soft" : "border-hero/10 text-hero/55"}`}>{s.tag}</span>
+                    <span className={`rounded-full border px-2.5 py-1 text-[10.5px] uppercase tracking-wider ${s.featured ? "border-brand/50 bg-brand/10 text-brand-soft" : "border-hero/10 text-hero-2"}`}>{s.tag}</span>
                   </div>
-                  <div className="relative mt-1.5 text-[12px] text-hero/40">{s.period}</div>
+                  <div className="relative mt-1.5 text-[12px] text-hero-3">{s.period}</div>
                   <h3 className="font-display relative mt-6 text-[26px] font-medium leading-tight text-hero md:sikisik:mt-4 md:sikisik:text-[22px]">{s.title}</h3>
-                  <p className="relative mt-3 text-[14.5px] leading-relaxed text-hero/60 md:sikisik:mt-2 md:sikisik:text-[13px] md:sikisik:leading-snug">{s.text}</p>
+                  <p className="relative mt-3 text-[14.5px] leading-relaxed text-hero-2 md:sikisik:mt-2 md:sikisik:text-[13px] md:sikisik:leading-snug">{s.text}</p>
                   {s.details?.length ? (
-                    <ul className="relative mt-5 space-y-1.5 border-t border-hero/10 pt-4 text-[13px] leading-snug text-hero/65 md:sikisik:mt-3 md:sikisik:space-y-1 md:sikisik:pt-3 md:sikisik:text-[12px]">
+                    <ul className="relative mt-5 space-y-1.5 border-t border-hero/10 pt-4 text-[13px] leading-snug text-hero-2 md:sikisik:mt-3 md:sikisik:space-y-1 md:sikisik:pt-3 md:sikisik:text-[12px]">
                       {s.details.map((d) => (
                         <li key={d} className="relative pl-3.5 before:absolute before:left-0 before:top-[0.6em] before:h-1 before:w-1 before:rounded-full before:bg-brand-soft">{d}</li>
                       ))}
                     </ul>
                   ) : null}
-                  <div className="relative mt-auto hidden pt-6 md:sikisik:pt-3 text-[11px] uppercase tracking-[0.2em] text-hero/30 md:block">{String(i + 1).padStart(2, "0")} / {String(t.journey.stops.length).padStart(2, "0")}</div>
+                  <div className="relative mt-auto hidden pt-6 md:sikisik:pt-3 text-[11px] uppercase tracking-[0.2em] text-hero-3 md:block">{String(i + 1).padStart(2, "0")} / {String(t.journey.stops.length).padStart(2, "0")}</div>
                 </article>
               ))}
             </div>
@@ -631,7 +631,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           {photos.length > 0 && (
             <div className="mt-7 md:mt-0">
               <div className="mx-auto mb-2 flex max-w-6xl items-center gap-3 px-5 sm:px-8">
-                <span className="text-[10.5px] font-semibold uppercase tracking-[0.22em] text-hero/35">{t.journey.galleryLabel}</span>
+                <span className="text-[10.5px] font-semibold uppercase tracking-[0.22em] text-hero-3">{t.journey.galleryLabel}</span>
                 <span className="h-px flex-1 bg-hero/10" />
               </div>
               <PhotoMarquee photos={photos} lang={lang} />
@@ -644,7 +644,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           <div className="relative h-px w-full bg-hero/10">
             <div className="journey-line absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-gradient-to-r from-brand to-brand-soft" />
           </div>
-          <div className="mt-3 flex justify-between text-[11px] uppercase tracking-[0.18em] text-hero/35">
+          <div className="mt-3 flex justify-between text-[11px] uppercase tracking-[0.18em] text-hero-3">
             {["2021", "2022", "2023", "2024", "2025", "2026"].map((y) => <span key={y}>{y}</span>)}
           </div>
         </div>
@@ -653,7 +653,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       {/* Projeler */}
       <section id="projects" className="mx-auto max-w-6xl px-5 pt-32 sm:px-8">
         <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-hero" data-reveal>{t.projects.title}</h2>
-        <p className="mt-3 max-w-xl text-[15px] text-hero/50" data-reveal>{t.projects.sub}</p>
+        <p className="mt-3 max-w-xl text-[15px] text-hero-3" data-reveal>{t.projects.sub}</p>
         <div className="mt-12 grid gap-5 md:grid-cols-2">
           {t.projects.cards.map((c) => (
             <a
@@ -668,13 +668,13 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
               <div className="relative">
                 <div className="flex items-center justify-between gap-4">
                   <span className={`rounded-full border px-2.5 py-1 text-[10.5px] font-semibold uppercase tracking-wider ${STATUS[c.statusKind]}`}>{c.status}</span>
-                  <span className="text-[12px] text-hero/40">{c.period}</span>
+                  <span className="text-[12px] text-hero-3">{c.period}</span>
                 </div>
                 <h3 className="font-display mt-6 text-[26px] font-medium leading-tight text-hero">{c.title}</h3>
-                <p className="mt-3 text-[14.5px] leading-relaxed text-hero/60">{c.text}</p>
+                <p className="mt-3 text-[14.5px] leading-relaxed text-hero-2">{c.text}</p>
                 <div className="mt-6 flex flex-wrap gap-1.5">
                   {c.tech.map((x) => (
-                    <span key={x} className="rounded-md bg-hero/5 px-2 py-1 text-[11.5px] text-hero/65">{x}</span>
+                    <span key={x} className="rounded-md bg-hero/5 px-2 py-1 text-[11.5px] text-hero-2">{x}</span>
                   ))}
                 </div>
                 <div className="mt-6 text-[13px] font-semibold text-brand-soft transition group-hover:translate-x-1">GitHub →</div>
@@ -687,17 +687,17 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           <div className="mt-14" data-reveal>
             <div className="flex items-baseline justify-between">
               <h3 className="text-[15px] font-semibold text-hero">{t.projects.othersTitle}</h3>
-              <span className="text-[12.5px] text-hero/40">{t.projects.othersSub}</span>
+              <span className="text-[12.5px] text-hero-3">{t.projects.othersSub}</span>
             </div>
             <ul className="mt-4 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
               {repos.map((r) => (
                 <li key={r.name}>
                   <a href={r.url} className="block rounded-xl border border-hero/10 px-4 py-3 transition hover:border-hero/25 hover:bg-hero/[0.03]">
                     <div className="flex items-baseline justify-between gap-3">
-                      <span className="truncate text-[13.5px] font-semibold text-hero/90">{r.name}</span>
-                      {r.language && <span className="shrink-0 text-[11px] text-hero/40">{r.language}</span>}
+                      <span className="truncate text-[13.5px] font-semibold text-hero">{r.name}</span>
+                      {r.language && <span className="shrink-0 text-[11px] text-hero-3">{r.language}</span>}
                     </div>
-                    {r.description && <p className="mt-1 line-clamp-2 text-[12.5px] leading-snug text-hero/50">{r.description}</p>}
+                    {r.description && <p className="mt-1 line-clamp-2 text-[12.5px] leading-snug text-hero-3">{r.description}</p>}
                   </a>
                 </li>
               ))}
@@ -713,9 +713,9 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
             <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-hero" data-reveal>{t.nav.research}</h2>
             <p className="mt-5 text-[12px] font-semibold uppercase tracking-[0.22em] text-brand-soft" data-reveal>{t.research.kicker}</p>
             <h2 className="font-display mt-5 text-[clamp(1.9rem,4vw,3rem)] md:[@media(max-height:820px)]:text-[2.3rem] font-medium leading-[1.1] tracking-tight text-hero" data-reveal>{t.research.headline}</h2>
-            <p className="mt-6 border-l-2 border-brand/50 pl-4 text-[14.5px] italic leading-relaxed text-hero/70 md:sikisik:mt-5 md:[@media(max-height:820px)]:text-[13.5px]" data-reveal>“{t.research.quote}”</p>
-            <p className="mt-6 text-[16px] leading-relaxed text-hero/65 md:sikisik:mt-5 md:[@media(max-height:820px)]:text-[15px]" data-reveal>{t.research.text}</p>
-            <p className="mt-4 text-[12.5px] text-hero/40" data-reveal>{t.research.org}</p>
+            <p className="mt-6 border-l-2 border-brand/50 pl-4 text-[14.5px] italic leading-relaxed text-hero-2 md:sikisik:mt-5 md:[@media(max-height:820px)]:text-[13.5px]" data-reveal>“{t.research.quote}”</p>
+            <p className="mt-6 text-[16px] leading-relaxed text-hero-2 md:sikisik:mt-5 md:[@media(max-height:820px)]:text-[15px]" data-reveal>{t.research.text}</p>
+            <p className="mt-4 text-[12.5px] text-hero-3" data-reveal>{t.research.org}</p>
             <div className="mt-[4.5rem] flex justify-center md:justify-start md:sikisik:mt-12 md:[@media(max-height:820px)]:mt-7">
               <div className="stamp relative inline-flex rotate-[-8deg] flex-col items-center gap-2 rounded-lg border-[3px] border-brand-soft/85 px-9 py-5 sikisik:px-7 sikisik:py-4 max-[400px]:px-5 max-[400px]:py-3.5 text-center">
                 <span aria-hidden className="pointer-events-none absolute inset-[4px] rounded-[5px] border border-brand-soft/55" />
@@ -729,7 +729,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
               <li key={s.n} className="rounded-2xl border border-hero/10 bg-surface p-6 transition-colors hover:border-hero/25 md:[@media(max-height:820px)]:p-4" data-reveal>
                 <div className="font-display text-[22px] text-brand-soft">{s.n}</div>
                 <div className="mt-3 text-[16px] font-semibold text-hero">{s.title}</div>
-                <p className="mt-2 text-[13.5px] leading-relaxed text-hero/60">{s.text}</p>
+                <p className="mt-2 text-[13.5px] leading-relaxed text-hero-2">{s.text}</p>
               </li>
             ))}
           </ol>
@@ -739,7 +739,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       {/* Yetkinlikler */}
       <section id="skills" className="mx-auto max-w-6xl px-5 pt-32 sm:px-8">
         <h2 className="font-display text-[clamp(2rem,4.5vw,3.4rem)] font-medium tracking-tight text-hero" data-reveal>{t.skills.title}</h2>
-        <p className="mt-3 max-w-xl text-[15px] text-hero/50" data-reveal>{t.skills.sub}</p>
+        <p className="mt-3 max-w-xl text-[15px] text-hero-3" data-reveal>{t.skills.sub}</p>
 
         <div className="mt-12 flex items-center gap-4" data-reveal>
           <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-soft">{t.skills.techLabel}</span>
@@ -748,10 +748,10 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {t.skills.groups.map((g) => (
             <div key={g.label} className="rounded-2xl border border-hero/10 bg-surface p-5 transition-colors hover:border-hero/25" data-reveal>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-hero/45">{g.label}</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-hero-3">{g.label}</div>
               <div className="mt-3.5 flex flex-wrap gap-1.5">
                 {g.items.map((s) => (
-                  <span key={s} className="rounded-md border border-hero/10 bg-hero/[0.04] px-2.5 py-1 text-[12.5px] text-hero/85">{s}</span>
+                  <span key={s} className="rounded-md border border-hero/10 bg-hero/[0.04] px-2.5 py-1 text-[12.5px] text-hero">{s}</span>
                 ))}
               </div>
             </div>
@@ -767,7 +767,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
             <div key={s.title} className="relative rounded-2xl border border-hero/10 p-5 pl-6 transition-colors hover:border-hero/25" data-reveal>
               <span aria-hidden className="absolute left-0 top-5 h-8 w-0.5 rounded-full bg-brand/70" />
               <div className="text-[15.5px] font-semibold text-hero">{s.title}</div>
-              <p className="mt-1.5 text-[13.5px] leading-relaxed text-hero/55">{s.text}</p>
+              <p className="mt-1.5 text-[13.5px] leading-relaxed text-hero-2">{s.text}</p>
             </div>
           ))}
         </div>
@@ -778,18 +778,18 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         <div className="relative overflow-hidden rounded-[2rem] border border-hero/10 bg-surface px-7 py-16 text-center sm:px-12 sm:py-24" data-reveal>
           <div className="pointer-events-none absolute left-1/2 top-0 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgb(var(--brand-rgb)/0.22),transparent_60%)]" />
           <h2 className="font-display relative text-[clamp(2.4rem,6vw,4.6rem)] font-medium tracking-tight text-hero">{t.contact.title}</h2>
-          <p className="relative mt-5 text-[16px] text-hero/60">{t.contact.text}</p>
+          <p className="relative mt-5 text-[16px] text-hero-2">{t.contact.text}</p>
           <div className="relative mt-9 flex flex-wrap justify-center gap-3">
             <a href={`mailto:${links.email}`} className="rounded-full bg-hero px-6 py-3 text-[14px] font-semibold text-space transition hover:opacity-90">{t.contact.email}</a>
             <a href="/cv/" className="rounded-full border border-hero/20 px-6 py-3 text-[14px] font-semibold text-hero transition hover:border-hero/50">{t.contact.cv}</a>
           </div>
-          <div className="relative mt-10 flex flex-wrap justify-center gap-x-7 gap-y-2 text-[13.5px] text-hero/50">
+          <div className="relative mt-10 flex flex-wrap justify-center gap-x-7 gap-y-2 text-[13.5px] text-hero-3">
             <a href={`mailto:${links.email}`} className="hover:text-hero">{links.email}</a>
             <a href={links.linkedin} className="hover:text-hero">linkedin.com/in/tolguner</a>
             <a href={links.github} className="hover:text-hero">github.com/tolguner</a>
           </div>
         </div>
-        <footer className="mt-10 flex flex-wrap justify-between gap-2 text-[12px] text-hero/35">
+        <footer className="mt-10 flex flex-wrap justify-between gap-2 text-[12px] text-hero-3">
           <span>© {new Date().getFullYear()} {t.footer.rights}</span>
           <span>{t.footer.built}</span>
         </footer>

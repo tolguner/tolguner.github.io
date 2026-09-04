@@ -34,12 +34,18 @@ html.giris-perde .giris-gizle { opacity: 0 !important; }
   --color-accent: #1f4e79;
 
   /* Portfolyo */
-  --color-space: #f4f7fb;      /* sayfa zemini */
+  /* Zemin duz beyaz degil: kartlar (beyaz) uzerinde yukselsin diye
+     hafif maviye calan daha derin bir taban kullaniyoruz. */
+  --color-space: #e9eef7;      /* sayfa zemini */
   --color-surface: #ffffff;    /* kart yuzeyi */
-  --color-surface-2: #eaf0fb;  /* one cikan kartin ust tonu */
-  --color-hero: #101f33;       /* birincil metin */
+  --color-surface-2: #dce7fb;  /* one cikan kartin ust tonu */
+  /* Metin kademeleri: koyu temada alfa ile elde edilen hiyerarsi acik
+     temada soluk kaliyordu, bu yuzden ayri token'lar. */
+  --color-hero: #0b1524;       /* birincil metin */
+  --color-hero-2: #33455e;     /* ikincil metin */
+  --color-hero-3: #5d6d86;     /* ucuncul / kucuk etiketler */
   --color-brand: #2f5ce0;      /* vurgu mavisi */
-  --color-brand-soft: #3f63c4; /* ikincil vurgu (yil, etiket) */
+  --color-brand-soft: #2f4fa8; /* ikincil vurgu (yil, etiket) */
 
   /* Proje durum etiketleri */
   --color-tag-capstone: #0369a1;
@@ -53,8 +59,12 @@ html.giris-perde .giris-gizle { opacity: 0 !important; }
 
 /* Degrade ve isilti gibi alfa gerektiren yerlerde kullanilan ham bilesenler */
 :root {
-  --space-rgb: 244 247 251;
+  --space-rgb: 233 238 247;
   --brand-rgb: 47 92 224;
+  /* Fareyi izleyen isiltinin yogunlugu: acik zeminde ayni alfa daha
+     zayif okundugu icin biraz yukseltiliyor. */
+  --isilti-ic: 0.22;
+  --isilti-dis: 0.08;
 }
 
 /* Koyu tema — sistem tercihi (manuel "light" secimi bunu ezer) */
@@ -72,6 +82,8 @@ html.giris-perde .giris-gizle { opacity: 0 !important; }
     --color-surface: #06111f;
     --color-surface-2: #061736;
     --color-hero: #ffffff;
+    --color-hero-2: #c9d3e0;
+    --color-hero-3: #8b98a6;
     --color-brand: #4f7cff;
     --color-brand-soft: #8fb0ff;
 
@@ -82,6 +94,8 @@ html.giris-perde .giris-gizle { opacity: 0 !important; }
 
     --space-rgb: 3 10 22;
     --brand-rgb: 79 124 255;
+    --isilti-ic: 0.16;
+    --isilti-dis: 0.05;
   }
 }
 
@@ -99,6 +113,8 @@ html.giris-perde .giris-gizle { opacity: 0 !important; }
   --color-surface: #06111f;
   --color-surface-2: #061736;
   --color-hero: #ffffff;
+  --color-hero-2: #c9d3e0;
+  --color-hero-3: #8b98a6;
   --color-brand: #4f7cff;
   --color-brand-soft: #8fb0ff;
 
@@ -109,6 +125,8 @@ html.giris-perde .giris-gizle { opacity: 0 !important; }
 
   --space-rgb: 3 10 22;
   --brand-rgb: 79 124 255;
+  --isilti-ic: 0.16;
+  --isilti-dis: 0.05;
 }
 
 html { scroll-behavior: smooth; }
@@ -120,6 +138,17 @@ body { background: var(--color-paper); color: var(--color-ink-soft); font-family
 .home ::selection { background: var(--color-brand); color: #fff; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+/* Acik temada derinlik: koyu temada katmanlar parlaklik farkiyla
+   ayrisiyor, acik temada ayni ayrimi yumusak golge sagliyor. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .home .bg-surface {
+    box-shadow: 0 1px 2px rgb(11 21 36 / 0.05), 0 12px 30px -18px rgb(11 21 36 / 0.4);
+  }
+}
+:root[data-theme="light"] .home .bg-surface {
+  box-shadow: 0 1px 2px rgb(11 21 36 / 0.05), 0 12px 30px -18px rgb(11 21 36 / 0.4);
+}
 
 /* Yolculuk altındaki fotoğraf şeridi — akış ve sürükleme JS ile yönetilir */
 .marquee { overscroll-behavior-x: contain; }

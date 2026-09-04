@@ -65,7 +65,7 @@ function useWindowPointer() {
 function kureRenkleri(tema: "light" | "dark") {
   return tema === "dark"
     ? { nokta: "#9fc0ff", cizgi: "#4f7cff", noktaOpaklik: 0.95, cizgiOpaklik: 0.28 }
-    : { nokta: "#2f5ce0", cizgi: "#5f83e8", noktaOpaklik: 0.8, cizgiOpaklik: 0.22 };
+    : { nokta: "#2a4fc9", cizgi: "#4a6fd4", noktaOpaklik: 0.92, cizgiOpaklik: 0.34 };
 }
 
 function Nodes({ progress, count, giris }: { progress: MutableRefObject<number>; count: number; giris?: MutableRefObject<number> }) {

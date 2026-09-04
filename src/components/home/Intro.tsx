@@ -43,12 +43,12 @@ export default function Intro({ onYazimBitti, kapaniyor, atlaEtiketi, onAtla }: 
     <div
       aria-hidden
       onClick={onAtla}
-      className={`fixed inset-0 z-40 flex items-center justify-center bg-[#030a16] transition-opacity duration-700 ${
+      className={`fixed inset-0 z-40 flex items-center justify-center bg-space transition-opacity duration-700 ${
         kapaniyor ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
       <p
-        className={`font-display select-none px-6 text-center text-[clamp(2.1rem,8.5vw,5.5rem)] font-medium leading-none tracking-tight text-white transition-[opacity,filter,transform] duration-500 ${
+        className={`font-display select-none px-6 text-center text-[clamp(2.1rem,8.5vw,5.5rem)] font-medium leading-none tracking-tight text-hero transition-[opacity,filter,transform] duration-500 ${
           kapaniyor ? "scale-[1.04] opacity-0 blur-[3px]" : "opacity-100 blur-0"
         }`}
       >
@@ -66,7 +66,7 @@ export default function Intro({ onYazimBitti, kapaniyor, atlaEtiketi, onAtla }: 
       <button
         type="button"
         onClick={(e) => { e.stopPropagation(); onAtla(); }}
-        className={`absolute bottom-8 right-8 text-[11.5px] uppercase tracking-[0.22em] text-white/35 transition hover:text-white/70 ${
+        className={`absolute bottom-8 right-8 text-[11.5px] uppercase tracking-[0.22em] text-hero-3 transition hover:text-hero-2 ${
           kapaniyor ? "opacity-0" : "opacity-100"
         }`}
       >

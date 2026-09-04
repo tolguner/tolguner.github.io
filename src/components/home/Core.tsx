@@ -66,8 +66,11 @@ export default function Core({ progress }: { progress: MutableRefObject<number> 
   const [coreMat, haloMat] = useMemo(() => {
     // Acik temada cekirdek koyu kalirsa beyaz zeminde lekeye donuyor;
     // orada acik mavi bir cekirdek + doygun kenar isigi kullaniyoruz.
-    const deep = new THREE.Color(tema === "dark" ? "#0d1b3d" : "#dbe6ff");
-    const rim = new THREE.Color(tema === "dark" ? "#4f7cff" : "#2f5ce0");
+    // Gollendirici renkleri toplayarak calisiyor (col = deep + rim * f).
+    // Acik temada soluk bir "deep" secilirse kure zeminde kayboluyor;
+    // bu yuzden merkez derin indigo, kenar ise parlak mavi kaliyor.
+    const deep = new THREE.Color(tema === "dark" ? "#0d1b3d" : "#24387a");
+    const rim = new THREE.Color(tema === "dark" ? "#4f7cff" : "#4f7cff");
     return [
       new THREE.ShaderMaterial({
         vertexShader: vertex,
