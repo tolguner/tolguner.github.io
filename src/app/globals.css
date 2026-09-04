@@ -24,15 +24,6 @@ html.giris-perde .giris-gizle { opacity: 0 !important; }
    Asagidaki @theme blogu acik tema degerleridir.
    ------------------------------------------------------------------ */
 @theme {
-  /* Belge (CV) */
-  --color-ink: #14293f;
-  --color-ink-soft: #33404d;
-  --color-muted: #6b7a89;
-  --color-line: #d5dce3;
-  --color-paper: #ffffff;
-  --color-paper-2: #f3f5f7;
-  --color-accent: #1f4e79;
-
   /* Portfolyo */
   /* Zemin duz beyaz degil: kartlar (beyaz) uzerinde yukselsin diye
      hafif maviye calan daha derin bir taban kullaniyoruz. */
@@ -53,6 +44,16 @@ html.giris-perde .giris-gizle { opacity: 0 !important; }
   --color-tag-research: #b45309;
   --color-tag-live: #a21caf;
 
+  /* Belge (CV) paleti — yazi renkleri iki sayfada ayni olsun diye
+     portfolyo token'larina baglandi; sadece zemin ve cizgi kendine ait. */
+  --color-ink: var(--color-hero);
+  --color-ink-soft: var(--color-hero-2);
+  --color-muted: var(--color-hero-3);
+  --color-accent: var(--color-brand);
+  --color-paper: var(--color-space);
+  --color-paper-2: var(--color-surface);
+  --color-line: #d5dce3;
+
   /* Govde yazi tipi iki sayfada da ayni: Inter (layout.tsx) */
   --font-sans: var(--font-body), "Segoe UI", ui-sans-serif, system-ui, -apple-system, Arial, sans-serif;
   /* Belge serifi: CV sayfasindaki isim basligi */
@@ -72,13 +73,7 @@ html.giris-perde .giris-gizle { opacity: 0 !important; }
 /* Koyu tema — sistem tercihi (manuel "light" secimi bunu ezer) */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --color-ink: #e8edf3;
-    --color-ink-soft: #c5cdd6;
-    --color-muted: #8b98a6;
     --color-line: #1d2836;
-    --color-paper: #030a16;
-    --color-paper-2: #06111f;
-    --color-accent: #7fb3e6;
 
     --color-space: #030a16;
     --color-surface: #06111f;
@@ -103,13 +98,7 @@ html.giris-perde .giris-gizle { opacity: 0 !important; }
 
 /* Koyu tema — manuel secim */
 :root[data-theme="dark"] {
-  --color-ink: #e8edf3;
-  --color-ink-soft: #c5cdd6;
-  --color-muted: #8b98a6;
   --color-line: #1d2836;
-  --color-paper: #030a16;
-  --color-paper-2: #06111f;
-  --color-accent: #7fb3e6;
 
   --color-space: #030a16;
   --color-surface: #06111f;

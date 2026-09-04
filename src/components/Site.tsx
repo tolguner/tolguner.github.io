@@ -62,10 +62,10 @@ export default function Site() {
       {/* Üst çubuk — ana sayfadakiyle ayni geometri: tam genislikte serit,
           icinde max-w-6xl kapsayici. Boylece sayfa degistiginde logo, dil
           secici, tema dugmesi ve birincil buton yerinden oynamiyor. */}
-      <header className="sticky top-0 z-30 border-b border-line bg-paper/80 backdrop-blur-md">
+      <header className="sticky top-0 z-30 border-b border-ink/5 bg-paper/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
           <a href="/" className="font-display shrink-0 whitespace-nowrap text-lg font-semibold text-ink">Tolga Olguner</a>
-          <nav className="nav-display hidden gap-3.5 text-[12px] text-muted md:flex lg:gap-7 lg:text-[13px]">
+          <nav className="nav-display hidden gap-3.5 text-[12px] text-ink-soft md:flex lg:gap-7 lg:text-[13px]">
             <a href="#about" className="transition hover:text-ink">{t.nav.about}</a>
             <a href="#experience" className="transition hover:text-ink">{t.nav.experience}</a>
             <a href="#research" className="transition hover:text-ink">{t.nav.research}</a>
@@ -76,11 +76,11 @@ export default function Site() {
             <DilDugmesi
               lang={lang}
               setLang={setLang}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-muted transition hover:text-ink"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink-soft transition hover:text-ink"
             />
             <TemaDugmesi
               etiket={{ light: t.nav.temaAcik, dark: t.nav.temaKoyu }}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-muted transition hover:text-ink"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink-soft transition hover:text-ink"
             />
             {/* Genis ekranda hap, altinda 36px ikon: ana sayfada ayni yuvada
                 hamburger var, ayni genislikte kalinca dil ve tema dugmesi
