@@ -67,24 +67,26 @@ export default function Site() {
           <a href="#projects" className="hover:text-ink">{t.nav.projects}</a>
           <a href="#skills" className="hover:text-ink">{t.nav.skills}</a>
         </nav>
-        <div className="flex items-center gap-3">
-          {/* Portfolyoya (ana sayfaya) donus */}
-          <a href="/" className="flex items-center gap-1 whitespace-nowrap text-[13px] text-muted transition hover:text-ink">
-            <span aria-hidden>←</span>
-            {t.nav.portfolio}
-          </a>
-          <div className="flex overflow-hidden rounded border border-line text-[12px] font-semibold">
+        {/* Ana sayfadakiyle ayni hap duzeni: dil secici + birincil buton */}
+        <div className="flex items-center gap-2">
+          <div className="flex overflow-hidden rounded-full border border-line text-[11.5px] font-semibold">
             {(["tr", "en"] as Lang[]).map((l) => (
               <button
                 key={l}
                 onClick={() => setLang(l)}
                 aria-pressed={lang === l}
-                className={`px-2.5 py-1 uppercase transition ${lang === l ? "bg-ink text-paper" : "text-muted hover:text-ink"}`}
+                className={`px-3 py-1.5 uppercase transition ${lang === l ? "bg-ink text-paper" : "text-muted hover:text-ink"}`}
               >
                 {l}
               </button>
             ))}
           </div>
+          <a
+            href="/"
+            className="whitespace-nowrap rounded-full bg-accent px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90"
+          >
+            {t.nav.portfolio}
+          </a>
         </div>
       </header>
 
