@@ -15,11 +15,17 @@ export const metadata: Metadata = {
     description: "Yönetim Bilişim Sistemleri öğrencisi · Işık Üniversitesi",
     url: "https://tolguner.me",
     siteName: "tolguner.me",
-    /* Onizleme gorseli portfolyodaki portre; CV sayfasindaki kucuk
-       vesikalik degil. */
-    images: [{ url: "/portre.jpg", width: 900, height: 1200, alt: "Tolga Olguner" }],
+    /* Paylasim kapagi: kaynak/og.html'den headless Chrome ile uretiliyor
+       (1200x630, sosyal aglarin bekledigi yatay olcu). */
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Tolga Olguner — Yönetim Bilişim Sistemleri Öğrencisi, Işık Üniversitesi" }],
     locale: "tr_TR",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tolga Olguner",
+    description: "Yönetim Bilişim Sistemleri öğrencisi · Işık Üniversitesi",
+    images: ["/og.png"],
   },
 };
 
