@@ -8,6 +8,7 @@ const body = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-body" })
 export const metadata: Metadata = {
   metadataBase: new URL("https://tolguner.me"),
   title: "Tolga Olguner",
+  alternates: { canonical: "/" },
   description:
     "Yönetim Bilişim Sistemleri öğrencisi. Spring Boot ve React ile web uygulamaları; TÜBİTAK 2209-A araştırma projesi yürütücüsü.",
   openGraph: {
@@ -51,6 +52,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{
             __html:
               "try{var t=localStorage.getItem('tema');if(t==='light'||t==='dark'){document.documentElement.setAttribute('data-theme',t)}}catch(e){}",
+          }}
+        />
+        {/* Kim oldugumuzu makine okunur anlatir: ad, adres, unvan, okul ve
+            resmi profiller. Arama motorlari "Tolga Olguner" sorgusunda bu
+            sayfayi kisinin kendi sayfasi olarak eslestirebilsin diye. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Tolga Olguner",
+              url: "https://tolguner.me",
+              image: "https://tolguner.me/portre.jpg",
+              jobTitle: "Yönetim Bilişim Sistemleri Öğrencisi",
+              description:
+                "Yönetim Bilişim Sistemleri öğrencisi. Spring Boot ve React ile web uygulamaları; TÜBİTAK 2209-A araştırma projesi yürütücüsü.",
+              alumniOf: { "@type": "CollegeOrUniversity", name: "Işık Üniversitesi", url: "https://www.isikun.edu.tr" },
+              address: { "@type": "PostalAddress", addressLocality: "İstanbul", addressCountry: "TR" },
+              knowsLanguage: ["tr", "en", "de"],
+              sameAs: ["https://github.com/tolguner", "https://www.linkedin.com/in/tolguner/"],
+            }),
           }}
         />
       </head>
