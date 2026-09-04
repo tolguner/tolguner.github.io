@@ -15,7 +15,9 @@ export const metadata: Metadata = {
     description: "Yönetim Bilişim Sistemleri öğrencisi · Işık Üniversitesi",
     url: "https://tolguner.me",
     siteName: "tolguner.me",
-    images: [{ url: "/foto.jpg", width: 600, height: 800 }],
+    /* Onizleme gorseli portfolyodaki portre; CV sayfasindaki kucuk
+       vesikalik degil. */
+    images: [{ url: "/portre.jpg", width: 900, height: 1200, alt: "Tolga Olguner" }],
     locale: "tr_TR",
     type: "website",
   },
