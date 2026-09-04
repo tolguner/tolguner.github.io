@@ -12,6 +12,7 @@ import type { Photo } from "@/lib/gallery";
 import PhotoMarquee from "./PhotoMarquee";
 import Intro from "./Intro";
 import TemaDugmesi from "@/components/TemaDugmesi";
+import DilDugmesi from "@/components/DilDugmesi";
 
 const NodeSphere = dynamic(() => import("./NodeSphere"), { ssr: false });
 
@@ -424,11 +425,11 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
             <a href="#contact" className="transition hover:text-hero">{t.nav.contact}</a>
           </nav>
           <div className="flex items-center gap-3">
-            <div className="flex overflow-hidden rounded-full border border-hero/10 text-[11.5px] font-semibold">
-              {(["tr", "en"] as Lang[]).map((l) => (
-                <button key={l} onClick={() => setLang(l)} aria-pressed={lang === l} className={`px-3 py-1.5 uppercase transition ${lang === l ? "bg-hero text-space" : "text-hero-2 hover:text-hero"}`}>{l}</button>
-              ))}
-            </div>
+            <DilDugmesi
+              lang={lang}
+              setLang={setLang}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-hero/15 text-hero-2 transition hover:border-hero/40 hover:text-hero"
+            />
             <TemaDugmesi
               etiket={{ light: t.nav.temaAcik, dark: t.nav.temaKoyu }}
               className="flex h-9 w-9 items-center justify-center rounded-full border border-hero/15 text-hero-2 transition hover:border-hero/40 hover:text-hero"

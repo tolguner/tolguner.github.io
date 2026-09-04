@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { content, links, type Lang } from "@/content";
 import TemaDugmesi from "@/components/TemaDugmesi";
+import DilDugmesi from "@/components/DilDugmesi";
 
 const BUILD_DATE = new Date().toISOString().slice(0, 10);
 
@@ -72,18 +73,11 @@ export default function Site() {
             <a href="#skills" className="transition hover:text-ink">{t.nav.skills}</a>
           </nav>
           <div className="flex items-center gap-3">
-            <div className="flex overflow-hidden rounded-full border border-line text-[11.5px] font-semibold">
-              {(["tr", "en"] as Lang[]).map((l) => (
-                <button
-                  key={l}
-                  onClick={() => setLang(l)}
-                  aria-pressed={lang === l}
-                  className={`px-3 py-1.5 uppercase transition ${lang === l ? "bg-ink text-paper" : "text-muted hover:text-ink"}`}
-                >
-                  {l}
-                </button>
-              ))}
-            </div>
+            <DilDugmesi
+              lang={lang}
+              setLang={setLang}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-muted transition hover:text-ink"
+            />
             <TemaDugmesi
               etiket={{ light: t.nav.temaAcik, dark: t.nav.temaKoyu }}
               className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-muted transition hover:text-ink"
@@ -115,7 +109,7 @@ export default function Site() {
       {/* Giriş */}
       <section id="top" className="flex flex-col-reverse items-start gap-8 sm:flex-row sm:justify-between">
         <div className="min-w-0">
-          <h1 className="font-serif text-[40px] font-bold leading-[1.05] tracking-tight text-ink sm:text-[46px]">Tolga Olguner</h1>
+          <h1 className="font-display text-[40px] font-bold leading-[1.05] tracking-tight text-ink sm:text-[46px]">Tolga Olguner</h1>
           <p className="mt-2 text-[16px] text-muted">{t.hero.tagline}</p>
           <p id="about" className="mt-5 max-w-xl scroll-mt-24 text-[15.5px] leading-relaxed">{t.hero.intro}</p>
           <div className="mt-6 flex flex-wrap gap-2.5 text-[13.5px] font-semibold">

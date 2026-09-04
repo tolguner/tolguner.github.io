@@ -53,8 +53,8 @@ html.giris-perde .giris-gizle { opacity: 0 !important; }
   --color-tag-research: #b45309;
   --color-tag-live: #a21caf;
 
-  --font-sans: "Segoe UI", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
-  --font-serif: Cambria, Georgia, "Times New Roman", serif;
+  /* Govde yazi tipi iki sayfada da ayni: Inter (layout.tsx) */
+  --font-sans: var(--font-body), "Segoe UI", ui-sans-serif, system-ui, -apple-system, Arial, sans-serif;
 }
 
 /* Degrade ve isilti gibi alfa gerektiren yerlerde kullanilan ham bilesenler */
@@ -133,7 +133,6 @@ html { scroll-behavior: smooth; }
 body { background: var(--color-paper); color: var(--color-ink-soft); font-family: var(--font-sans); }
 
 /* Ana sayfa (portfolyo) */
-.home { font-family: var(--font-body), "Segoe UI", system-ui, sans-serif; }
 /* Marka yazi tipi: iki sayfada da ayni gorunsun diye .home disina alindi
    (ust cubuktaki isim her iki sayfada bu tipi kullaniyor). */
 .font-display { font-family: var(--font-display), Cambria, Georgia, serif; font-variation-settings: "opsz" 144; }
