@@ -39,7 +39,7 @@ export const home: Record<Lang, HomeDict> = {
     ],
     about: {
       title: "Hakkımda",
-      p1: "Işık Üniversitesi Yönetim Bilişim Sistemleri son sınıf öğrencisiyim. Bitirme projemde mikroservis mimarili bütünleşik bir kampüs platformu kurdum; ekip projelerinde koordinasyonu üstlendim; iki yıl IT&MIS Kulübü başkanlığını yürüttüm.",
+      p1: "Işık Üniversitesi Yönetim Bilişim Sistemleri son sınıf öğrencisiyim. Bitirme projemde mikroservis mimarili bütünleşik bir kampüs platformu kurdum; ekip projelerinde koordinasyonu üstlendim; üç yıl IT&MIS Kulübü başkanlığını yürüttüm.",
       p2: "Kurumsal İletişim Daire Başkanlığı'nda üniversitenin düzenlediği etkinlik, organizasyon ve çalışmalarda görev aldım; görevli öğrenci ekibini koordine ettim. Bugün TÜBİTAK 2209-A destekli bir araştırma projesinin yürütücüsüyüm. Her yeni projede bir öncekinin eksiğini kapatmaya çalışıyorum; sahada öğrendiklerim, kodun kendisi kadar yol gösterici oluyor.",
       facts: [
         { k: "Eğitim", v: "Işık Üniversitesi · YBS (2021–2026)" },
@@ -49,7 +49,7 @@ export const home: Record<Lang, HomeDict> = {
       ],
       badges: [
         { k: "TÜBİTAK 2209-A", v: "Proje Yürütücüsü" },
-        { k: "IT&MIS Kulübü", v: "Başkan · 2024–2026" },
+        { k: "IT&MIS Kulübü", v: "Başkan · 2023–2026" },
       ],
     },
     journey: {
@@ -59,7 +59,7 @@ export const home: Record<Lang, HomeDict> = {
       stops: [
         { year: "2021", period: "Eyl 2021 – Haz 2022", title: "Işık Üniversitesi'ne Giriş", text: "Bir yıl İngilizce hazırlık eğitimi okudum.", tag: "Eğitim", details: ["EAQUALS akreditasyonlu program", "Akademik İngilizce ve dil pratiği becerileri"] },
         { year: "2022", period: "Eylül 2022", title: "Bölüme Başlangıç", text: "Yönetim Bilişim Sistemleri bölümüne başladım; yazılımı, veriyi ve iş süreçlerini birlikte okuyan bir programda ilerledim.", tag: "Eğitim", details: ["Yazılım geliştirme, veritabanı ve sistem analizi", "İş süreçleri, proje yönetimi ve veri analizi"] },
-        { year: "2024", period: "Oca 2024 – Haz 2026", title: "Kulüpler", text: "IT&MIS Kulübü'nün başkanlığını iki yıl yürüttüm; etkinlikleri planlayıp ekipleri koordine ettim. 2026'da Işık Run Club'ın kurucuları arasında yer aldım.", tag: "Liderlik", details: ["IT&MIS Kulübü — Başkan: söyleşi, zirve, hackathon, kariyer fuarı, şirket gezileri ve mülakat simülasyonları", "Işık Run Club — kurucu üye: koşu, trekking, SUP board ve sosyal etkinlikler"] },
+        { year: "2023", period: "Eki 2023 – Haz 2026", title: "Kulüpler", text: "IT&MIS Kulübü'nün başkanlığını üç yıl yürüttüm; etkinlikleri planlayıp ekipleri koordine ettim. 2026'da Işık Run Club'ın kurucuları arasında yer aldım.", tag: "Liderlik", details: ["IT&MIS Kulübü — Başkan: söyleşi, zirve, hackathon, kariyer fuarı, şirket gezileri ve mülakat simülasyonları", "Işık Run Club — kurucu üye: koşu, trekking, doğa sporları ve sosyal etkinlikler"] },
         { year: "2025", period: "May 2025 – Ağu 2026", title: "Çalışma Burslu Öğrenci", text: "Üniversitenin Kurumsal İletişim Daire Başkanlığı'nda görev aldım; tanıtımdan organizasyona kadar birçok sürecin farklı aşamalarında sorumluluk üstlendim.", tag: "Deneyim", details: ["Kurumsal etkinlik, tören ve fuar organizasyonları", "Tercih ve Tanıtım Günleri'nde görevli öğrenci ekibinin koordinasyonu"] },
         { year: "2025", period: "Eki 2025 – Tem 2026", title: "Üniversite Pazarlama Temsilcisi", text: "Unicourse'un üniversite tarafındaki tanıtım ve pazarlama ekibinde yer aldım; firmanın ihtiyaç duyduğu eğitim materyallerinin organizasyonunu yürüttüm.", tag: "Deneyim", details: ["Kampüste tanıtım ve pazarlama faaliyetleri", "Eğitim materyallerinin hazırlanması ve organizasyonu"] },
         { year: "2025", period: "2025", title: "Yazılım Projeleri", text: "Masaüstünden web'e uzanan projelerle kendimi geliştirdim: JavaFX uygulamalarından Spring Boot ve React ile kurulan tam yığın sistemlere geçtim.", tag: "Geliştirme", details: ["Veteriner Yönetim Sistemi — beş kişilik ekipte proje koordinatörü", "Otel Yönetim Sistemi ve SelfWorkout — JavaFX + ilişkisel veritabanı", "REST API, JWT ile yetkilendirme, rol bazlı arayüzler"] },
@@ -111,7 +111,7 @@ export const home: Record<Lang, HomeDict> = {
         { label: "Araçlar", items: ["Docker", "Git ve GitHub", "Maven"] },
       ],
       human: [
-        { title: "Ekip Liderliği", text: "İki yıl kulüp başkanlığı; ekip kurma, görev dağılımı ve takip." },
+        { title: "Ekip Liderliği", text: "Üç yıl kulüp başkanlığı; ekip kurma, görev dağılımı ve takip." },
         { title: "Organizasyon Yönetimi", text: "Üniversitenin etkinlik ve tanıtım süreçlerinde saha koordinasyonu." },
         { title: "İletişim ve Sunum", text: "Farklı paydaşlarla çalışma, tanıtım ve bilgilendirme deneyimi." },
         { title: "Proje Koordinasyonu", text: "Ekip projelerinde planlama, ilerleme takibi ve teslim sorumluluğu." },
@@ -143,7 +143,7 @@ export const home: Record<Lang, HomeDict> = {
     ],
     about: {
       title: "About",
-      p1: "Final-year Management Information Systems student at Işık University. For my capstone I built an integrated campus platform on a microservice architecture; I took on coordination in team projects; I served as president of the IT&MIS Club for two years.",
+      p1: "Final-year Management Information Systems student at Işık University. For my capstone I built an integrated campus platform on a microservice architecture; I took on coordination in team projects; I served as president of the IT&MIS Club for three years.",
       p2: "At the Corporate Communications Directorate I worked on the events, organizations and projects the university runs and coordinated the student staff team. Today I lead a TÜBİTAK 2209-A funded research project. With every new project I try to close the gap the previous one left; what I learn in the field guides me as much as the code itself.",
       facts: [
         { k: "Education", v: "Işık University · MIS (2021–2026)" },
@@ -153,7 +153,7 @@ export const home: Record<Lang, HomeDict> = {
       ],
       badges: [
         { k: "TÜBİTAK 2209-A", v: "Project Lead" },
-        { k: "IT&MIS Club", v: "President · 2024–2026" },
+        { k: "IT&MIS Club", v: "President · 2023–2026" },
       ],
     },
     journey: {
@@ -163,7 +163,7 @@ export const home: Record<Lang, HomeDict> = {
       stops: [
         { year: "2021", period: "Sep 2021 – Jun 2022", title: "Starting at Işık University", text: "I spent a year in the English preparatory programme.", tag: "Education", details: ["EAQUALS-accredited programme", "Academic English and language practice"] },
         { year: "2022", period: "September 2022", title: "Starting the Degree", text: "I began Management Information Systems, a programme that reads software, data and business processes together.", tag: "Education", details: ["Software development, databases and systems analysis", "Business processes, project management and data analysis"] },
-        { year: "2024", period: "Jan 2024 – Jun 2026", title: "Student Clubs", text: "I served as president of the IT&MIS Club for two years, planning events and coordinating teams. In 2026 I became one of the founders of Işık Run Club.", tag: "Leadership", details: ["IT&MIS Club — President: talks, summits, hackathons, career fairs, company visits and mock interviews", "Işık Run Club — founding member: runs, trekking, SUP boarding and social events"] },
+        { year: "2023", period: "Oct 2023 – Jun 2026", title: "Student Clubs", text: "I served as president of the IT&MIS Club for three years, planning events and coordinating teams. In 2026 I became one of the founders of Işık Run Club.", tag: "Leadership", details: ["IT&MIS Club — President: talks, summits, hackathons, career fairs, company visits and mock interviews", "Işık Run Club — founding member: runs, trekking, doğa sporlarıing and social events"] },
         { year: "2025", period: "May 2025 – Aug 2026", title: "Work-Study Student", text: "I worked at the university's Corporate Communications Directorate, taking responsibility across many stages of promotion and organization.", tag: "Experience", details: ["Corporate events, ceremonies and fairs", "Coordinating the student staff team at Preference and Promotion Days"] },
         { year: "2025", period: "Oct 2025 – Jul 2026", title: "University Marketing Representative", text: "I worked on Unicourse's university-side promotion and marketing team and organized the training materials the company needed.", tag: "Experience", details: ["On-campus promotion and marketing", "Preparing and organizing training materials"] },
         { year: "2025", period: "2025", title: "Software Projects", text: "I grew through projects that ran from desktop to web: JavaFX applications first, then full-stack systems with Spring Boot and React.", tag: "Development", details: ["Veterinary Management System — project coordinator in a five-person team", "Hotel Management System and SelfWorkout — JavaFX + relational databases", "REST APIs, JWT authorization, role-based interfaces"] },
@@ -215,7 +215,7 @@ export const home: Record<Lang, HomeDict> = {
         { label: "Tools", items: ["Docker", "Git & GitHub", "Maven"] },
       ],
       human: [
-        { title: "Team Leadership", text: "Two years as club president: building teams, dividing work, following through." },
+        { title: "Team Leadership", text: "Three years as club president: building teams, dividing work, following through." },
         { title: "Organization Management", text: "On-site coordination across the university's events and promotion work." },
         { title: "Communication & Presentation", text: "Working with different stakeholders; promotion and briefing experience." },
         { title: "Project Coordination", text: "Planning, progress tracking and delivery in team projects." },

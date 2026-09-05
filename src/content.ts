@@ -26,7 +26,7 @@ export const content: Record<Lang, Dict> = {
     hero: {
       tagline: "Yönetim Bilişim Sistemleri Öğrencisi · Işık Üniversitesi",
       intro:
-        "Spring Boot ve React ile web uygulamaları geliştiriyorum; TÜBİTAK 2209-A destekli bir araştırma projesinin yürütücüsüyüm. İki yıllık kulüp başkanlığı ve kurumsal etkinlik organizasyonu deneyimiyle teknik bilgiyi iletişim, ekip koordinasyonu ve organizasyon becerisiyle birleştiriyorum.",
+        "Spring Boot ve React ile web uygulamaları geliştiriyorum; TÜBİTAK 2209-A destekli bir araştırma projesinin yürütücüsüyüm. Üç yıllık kulüp başkanlığı ve kurumsal etkinlik organizasyonu deneyimiyle teknik bilgiyi iletişim, ekip koordinasyonu ve organizasyon becerisiyle birleştiriyorum.",
       cv: "CV (PDF)",
       cvFile: "/cv/Tolga_Olguner_CV_TR.pdf",
       email: "E-posta",
@@ -60,8 +60,8 @@ export const content: Record<Lang, Dict> = {
       },
     ],
     communities: [
-      { title: "IT&MIS Kulübü, Işık Üniversitesi", org: "Kulüp Başkanı", date: "Oca 2024 – Haz 2026", note: "Söyleşi, zirve, hackathon, kariyer fuarı, şirket gezisi ve mülakat simülasyonu organizasyonları" },
-      { title: "Işık Run Club, Işık Üniversitesi", org: "Kurucu Yönetim Kurulu Üyesi", date: "Nis 2026 – Haz 2026", note: "Koşu, trekking, SUP board ve sosyal etkinliklerin planlanması" },
+      { title: "IT&MIS Kulübü, Işık Üniversitesi", org: "Kulüp Başkanı", date: "Eki 2023 – Haz 2026", note: "Söyleşi, zirve, hackathon, kariyer fuarı, şirket gezisi ve mülakat simülasyonu organizasyonları" },
+      { title: "Işık Run Club, Işık Üniversitesi", org: "Kurucu Yönetim Kurulu Üyesi", date: "Nis 2026 – Haz 2026", note: "Koşu, trekking, doğa sporları ve sosyal etkinliklerin planlanması" },
     ],
     research: {
       title: "TÜBİTAK 2209-A Araştırma Projesi",
@@ -134,7 +134,7 @@ export const content: Record<Lang, Dict> = {
     hero: {
       tagline: "Management Information Systems Student · Işık University",
       intro:
-        "I build web applications with Spring Boot and React and lead a TÜBİTAK 2209-A funded research project. Two years as a club president and hands-on corporate event organization combine technical skills with communication, team coordination and organizational ability.",
+        "I build web applications with Spring Boot and React and lead a TÜBİTAK 2209-A funded research project. Three years as a club president and hands-on corporate event organization combine technical skills with communication, team coordination and organizational ability.",
       cv: "CV (PDF)",
       cvFile: "/cv/Tolga_Olguner_CV_EN.pdf",
       email: "Email",
@@ -168,8 +168,8 @@ export const content: Record<Lang, Dict> = {
       },
     ],
     communities: [
-      { title: "IT&MIS Club, Işık University", org: "Club President", date: "Jan 2024 – Jun 2026", note: "Talks, summits, hackathons, career fairs, company visits and mock interviews" },
-      { title: "Işık Run Club, Işık University", org: "Founding Board Member", date: "Apr 2026 – Jun 2026", note: "Planning runs, trekking, SUP boarding and social events" },
+      { title: "IT&MIS Club, Işık University", org: "Club President", date: "Oct 2023 – Jun 2026", note: "Talks, summits, hackathons, career fairs, company visits and mock interviews" },
+      { title: "Işık Run Club, Işık University", org: "Founding Board Member", date: "Apr 2026 – Jun 2026", note: "Planning runs, trekking, doğa sporlarıing and social events" },
     ],
     research: {
       title: "TÜBİTAK 2209-A Research Project",
