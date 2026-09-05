@@ -126,7 +126,7 @@ export const content: Record<Lang, Dict> = {
     personal: ["Ekip liderliği ve koordinasyon", "Etkinlik ve organizasyon yönetimi", "İletişim ve sunum", "Proje planlama"],
     education: { degree: "Yönetim Bilişim Sistemleri, Lisans", school: "Işık Üniversitesi, İstanbul", date: "2021 – 2026", meta: "Genel not ortalaması 3,43 / 4,00" },
     languages: ["Türkçe — anadil", "İngilizce — orta-ileri (B2)", "Almanca — başlangıç (A1)"],
-    footer: "İstanbul / Bursa",
+    footer: "İstanbul / Bursa, Türkiye",
     updated: "Son güncelleme",
   },
   en: {
@@ -234,7 +234,7 @@ export const content: Record<Lang, Dict> = {
     personal: ["Team leadership and coordination", "Event and organization management", "Communication and presentation", "Project planning"],
     education: { degree: "B.A. Management Information Systems", school: "Işık University, Istanbul", date: "2021 – 2026", meta: "GPA 3.43 / 4.00" },
     languages: ["Turkish — native", "English — upper-intermediate (B2)", "German — beginner (A1)"],
-    footer: "Istanbul / Bursa, Türkiye",
+    footer: "Istanbul / Bursa, Turkey",
     updated: "Last updated",
   },
 };
