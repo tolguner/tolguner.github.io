@@ -500,6 +500,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         <div className="hero-content relative z-10 mx-auto w-full max-w-6xl px-5 pb-16 pt-28 sm:px-8">
           <p className="hero-fade mb-5 text-[12px] font-semibold uppercase tracking-[0.22em] text-brand-soft">{t.hero.kicker}</p>
           <h1 className="font-display max-w-4xl text-[clamp(2.4rem,6.2vw,5.2rem)] font-medium leading-[1.02] tracking-tight text-hero">
+            <span className="sr-only">Tolga Olguner — </span>
             <Words text={t.hero.line1} />
             <br />
             <Words text={t.hero.line2} className="text-hero" />
