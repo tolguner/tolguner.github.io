@@ -102,7 +102,9 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       const saved = localStorage.getItem("lang");
       if (saved === "tr" || saved === "en") setLang(saved);
     } catch {}
-    setMounted(true);
+    // Iki kare gecikme: 3B kure (agir WebGL init) ilk boyamayi bloklamasin,
+    // hero metni once ekrana gelsin (LCP icin).
+    requestAnimationFrame(() => requestAnimationFrame(() => setMounted(true)));
 
     // Açılış yalnızca oturumun ilk ziyaretinde ve hareket kısıtlaması yokken oynar.
     const azalt = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -550,7 +552,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
           <div className="relative mx-auto w-full max-w-sm md:sikisik:max-w-[19rem] md:[@media(max-height:820px)]:max-w-[17rem]" data-reveal>
             <div className="absolute -inset-6 rounded-[2rem] bg-[radial-gradient(circle_at_30%_20%,rgb(var(--brand-rgb)/0.35),transparent_60%)] blur-2xl" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/portre.jpg" alt="Tolga Olguner" width={900} height={1200} className="relative aspect-[3/4] w-full rounded-3xl border border-hero/10 object-cover" />
+            <img src="/portre.webp" alt="Tolga Olguner" width={900} height={1200} className="relative aspect-[3/4] w-full rounded-3xl border border-hero/10 object-cover" />
             {t.about.badges.map((b, i) => (
               <div key={b.k} className={`absolute rounded-xl border border-hero/10 bg-surface/90 px-4 py-3 shadow-2xl backdrop-blur ${i === 0 ? "-right-4 top-8" : "-left-4 bottom-10"}`}>
                 <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-hero-3">{b.k}</div>

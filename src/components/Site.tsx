@@ -181,7 +181,7 @@ export default function Site() {
           </div>
         </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/foto.jpg" alt="Tolga Olguner" width={600} height={800} className="h-40 w-[7.5rem] shrink-0 rounded-lg border border-line object-cover sm:h-48 sm:w-36" />
+        <img src="/foto.webp" alt="Tolga Olguner" width={600} height={800} className="h-40 w-[7.5rem] shrink-0 rounded-lg border border-line object-cover sm:h-48 sm:w-36" />
       </section>
 
       {/* Eğitim */}
