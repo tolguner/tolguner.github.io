@@ -107,7 +107,7 @@ export const home: Record<Lang, HomeDict> = {
         { label: "Backend", items: ["Spring Boot", "REST API", "JWT", "Apache Kafka"] },
         { label: "Frontend", items: ["React", "Next.js", "Tailwind CSS", "JavaFX"] },
         { label: "Veri ve Analiz", items: ["pandas", "statsmodels", "scikit-learn", "Jupyter"] },
-        { label: "Veritabanı", items: ["PostgreSQL", "MySQL", "Prisma"] },
+        { label: "Veritabanı", items: ["PostgreSQL", "MySQL", "MSSQL"] },
         { label: "Araçlar", items: ["Docker", "Git ve GitHub", "Maven"] },
       ],
       human: [
@@ -211,7 +211,7 @@ export const home: Record<Lang, HomeDict> = {
         { label: "Backend", items: ["Spring Boot", "REST APIs", "JWT", "Apache Kafka"] },
         { label: "Frontend", items: ["React", "Next.js", "Tailwind CSS", "JavaFX"] },
         { label: "Data & Analysis", items: ["pandas", "statsmodels", "scikit-learn", "Jupyter"] },
-        { label: "Databases", items: ["PostgreSQL", "MySQL", "Prisma"] },
+        { label: "Databases", items: ["PostgreSQL", "MySQL", "MSSQL"] },
         { label: "Tools", items: ["Docker", "Git & GitHub", "Maven"] },
       ],
       human: [
