@@ -65,7 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "@type": "Person",
               name: "Tolga Olguner",
               url: "https://tolguner.me",
-              image: "https://tolguner.me/portre.webp",
+              image: "https://tolguner.me/portre.jpg",
               jobTitle: "Yönetim Bilişim Sistemleri Öğrencisi",
               description:
                 "Yönetim Bilişim Sistemleri öğrencisi. Spring Boot ve React ile web uygulamaları; TÜBİTAK 2209-A araştırma projesi yürütücüsü.",
