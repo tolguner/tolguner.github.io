@@ -102,9 +102,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
       const saved = localStorage.getItem("lang");
       if (saved === "tr" || saved === "en") setLang(saved);
     } catch {}
-    // Iki kare gecikme: 3B kure (agir WebGL init) ilk boyamayi bloklamasin,
-    // hero metni once ekrana gelsin (LCP icin).
-    requestAnimationFrame(() => requestAnimationFrame(() => setMounted(true)));
+    setMounted(true);
 
     // Açılış yalnızca oturumun ilk ziyaretinde ve hareket kısıtlaması yokken oynar.
     const azalt = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
