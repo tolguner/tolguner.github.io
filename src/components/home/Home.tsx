@@ -40,6 +40,10 @@ function Words({ text, className }: { text: string; className?: string }) {
 export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[]; repoCount?: number; photos?: Photo[] }) {
   const [lang, setLang] = useState<Lang>("tr");
   const [mounted, setMounted] = useState(false);
+  /** Kure dugum sayisi: genislige ve cihaz gucune gore kademeli azalir. */
+  const [kureSayisi, setKureSayisi] = useState(220);
+  /** Kure sahnesi yalnizca hero gorunurken ve sekme aktifken calisir. */
+  const [sahneAktif, setSahneAktif] = useState(true);
   const [menuAcik, setMenuAcik] = useState(false);
   /** yok: karar verilmedi · yazi: daktilo · ucus: kürenin yörüngesi · bitti */
   const [giris, setGiris] = useState<"yok" | "yazi" | "ucus" | "bitti">("yok");
@@ -94,6 +98,49 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
     return () => {
       window.removeEventListener("pointermove", onMove);
       cancelAnimationFrame(kare);
+    };
+  }, []);
+
+  // Kure dugum sayisi: mobilde ve dusuk cekirdek sayili cihazlarda azaltilir
+  // (PageSpeed'de ana iş parçacığının en pahali kismi kurenin kare basi
+  // render maliyeti oldugu icin geometri kucultulerek GPU/CPU yuku dusurulur).
+  useEffect(() => {
+    const genislik = window.innerWidth;
+    const cekirdek = navigator.hardwareConcurrency || 8;
+    const dusukGuc = cekirdek <= 4;
+    let n = 220;
+    if (genislik < 768) n = dusukGuc ? 80 : 130;
+    else if (dusukGuc) n = 140;
+    setKureSayisi(n);
+  }, []);
+
+  // Kure sahnesi yalnizca hero ekranda gorunurken ve sekme aktifken
+  // calissin; aksi halde WebGL render dongusu tamamen durur.
+  useEffect(() => {
+    const azalt = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (azalt) {
+      setSahneAktif(false);
+      return;
+    }
+    const hero = heroRef.current;
+    let goruluyor = true;
+    const guncelle = () => setSahneAktif(goruluyor && !document.hidden);
+
+    const gozlemci = hero
+      ? new IntersectionObserver(
+          ([giris]) => {
+            goruluyor = giris.isIntersecting;
+            guncelle();
+          },
+          { threshold: 0.01 }
+        )
+      : null;
+    if (hero && gozlemci) gozlemci.observe(hero);
+
+    document.addEventListener("visibilitychange", guncelle);
+    return () => {
+      if (gozlemci) gozlemci.disconnect();
+      document.removeEventListener("visibilitychange", guncelle);
     };
   }, []);
 
@@ -495,7 +542,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
         {/* Tuval tüm ekranı kaplar; kürenin sahnedeki yatay yeri NodeSphere içinde
             ayarlanır, böylece açılışta sol kenardan kesilmez. */}
         <div className="absolute inset-0 opacity-[0.7] md:opacity-90">
-          {mounted && <NodeSphere progress={progress} giris={girisIlerleme} />}
+          {mounted && <NodeSphere progress={progress} giris={girisIlerleme} count={kureSayisi} aktif={sahneAktif} />}
         </div>
         <div className="hero-content relative z-10 mx-auto w-full max-w-6xl px-5 pb-16 pt-28 sm:px-8">
           <p className="hero-fade mb-5 text-[12px] font-semibold uppercase tracking-[0.22em] text-brand-soft">{t.hero.kicker}</p>

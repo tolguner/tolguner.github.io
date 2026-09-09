@@ -11,6 +11,8 @@ type Props = {
   count?: number;
   /** Açılış: 0 = kamera kürenin içinde, 1 = normal konum. Yoksa kamera sabit. */
   giris?: MutableRefObject<number>;
+  /** false ise render döngüsü tamamen durur (hero görünmüyor / sekme arka planda). */
+  aktif?: boolean;
 };
 
 const IC_Z = 0.16; // kamera kürenin içindeyken
@@ -176,10 +178,11 @@ function Nodes({ progress, count, giris }: { progress: MutableRefObject<number>;
   );
 }
 
-export default function NodeSphere({ progress, count = 220, giris }: Props) {
+export default function NodeSphere({ progress, count = 220, giris, aktif = true }: Props) {
   return (
     <Canvas
       dpr={[1, 1.6]}
+      frameloop={aktif ? "always" : "never"}
       camera={{ position: [0, 0, 3.1], fov: 48 }}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       style={{ position: "absolute", inset: 0 }}
