@@ -33,7 +33,7 @@ export const content: Record<Lang, Dict> = {
     },
     sections: {
       experience: "Deneyim",
-      communities: "Öğrenci Toplulukları",
+      communities: "Gönüllü Deneyim",
       research: "Araştırma",
       projects: "Seçili Projeler",
       skills: "Yetkinlikler",
