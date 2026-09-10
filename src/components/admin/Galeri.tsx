@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import {
   depodanSil,
@@ -67,8 +67,16 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
     zamanlayici: ReturnType<typeof setTimeout>;
   } | null>(null);
   const dosyaRef = useRef<HTMLInputElement>(null);
+  /** Suruklenen satirin sirasi (gorsel geri bildirim). */
+  const [suruklenen, setSuruklenen] = useState<number | null>(null);
+  const suruklenenRef = useRef<number | null>(null);
+  /** Olay isleyicileri en guncel listeyi gormeli; state kapanislari bayat kalir. */
+  const listeRef = useRef(fotograflar);
 
-  useEffect(() => setListe(fotograflar), [fotograflar]);
+  useEffect(() => {
+    setListe(fotograflar);
+    listeRef.current = fotograflar;
+  }, [fotograflar]);
 
   const yayimdaSayisi = liste.filter((f) => f.is_published).length;
   const taslakSayisi = liste.length - yayimdaSayisi;
@@ -144,7 +152,11 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
   }
 
   async function altBaslik(id: string, dil: "tr" | "en", deger: string) {
-    setListe((l) => l.map((f) => (f.id === id ? { ...f, [dil === "tr" ? "caption_tr" : "caption_en"]: deger } : f)));
+    setListe((l) => {
+      const y = l.map((f) => (f.id === id ? { ...f, [dil === "tr" ? "caption_tr" : "caption_en"]: deger } : f));
+      listeRef.current = y;
+      return y;
+    });
   }
 
   async function altBasligiKaydet(f: Foto) {
@@ -176,15 +188,66 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
     setNot(`${idler.length} fotoğraf yayımlandı.`);
   }
 
+  /** Guncel siralamayi yazar. Aralikli numaralandirma: araya fotograf eklemek
+      yeniden numaralandirma gerektirmesin diye 10'ar 10'ar. */
+  const siralamayiYaz = useCallback(async () => {
+    const sonuc = await siralamayiKaydet(listeRef.current.map((f, k) => ({ id: f.id, sort_order: (k + 1) * 10 })));
+    if (!sonuc.ok) setHata(sonuc.hata);
+  }, []);
+
+  /** Klavye ile tasima — surukleme fareye bagli kalmasin diye tutuluyor. */
   async function tasi(i: number, j: number) {
-    if (j < 0 || j >= liste.length) return;
-    const yeni = [...liste];
+    if (j < 0 || j >= listeRef.current.length) return;
+    const yeni = [...listeRef.current];
     [yeni[i], yeni[j]] = [yeni[j], yeni[i]];
     setListe(yeni);
-    // Aralikli numaralandirma: araya fotograf eklemek yeniden numaralandirma
-    // gerektirmesin diye 10'ar 10'ar.
-    const sonuc = await siralamayiKaydet(yeni.map((f, k) => ({ id: f.id, sort_order: (k + 1) * 10 })));
-    if (!sonuc.ok) setHata(sonuc.hata);
+    listeRef.current = yeni;
+    await siralamayiYaz();
+  }
+
+  /**
+   * Surukleyerek siralama.
+   *
+   * Imlecin altindaki satiri `elementFromPoint` ile buluyoruz; satir
+   * yuksekliklerini onceden olcmeye gore hem daha kisa hem de liste surukleme
+   * sirasinda degistigi icin daha dogru. Liste aninda yeniden diziliyor,
+   * birakinca veritabanina yaziliyor.
+   */
+  const surukleHareket = useCallback((e: PointerEvent) => {
+    const kaynak = suruklenenRef.current;
+    if (kaynak === null) return;
+    const oge = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement | null;
+    const satir = oge?.closest<HTMLElement>("[data-satir]");
+    if (!satir) return;
+    const hedef = Number(satir.dataset.satir);
+    if (Number.isNaN(hedef) || hedef === kaynak) return;
+
+    const yeni = [...listeRef.current];
+    const [tasinan] = yeni.splice(kaynak, 1);
+    yeni.splice(hedef, 0, tasinan);
+    listeRef.current = yeni;
+    setListe(yeni);
+    suruklenenRef.current = hedef;
+    setSuruklenen(hedef);
+  }, []);
+
+  const surukleBitir = useCallback(() => {
+    window.removeEventListener("pointermove", surukleHareket);
+    document.body.style.userSelect = "";
+    suruklenenRef.current = null;
+    setSuruklenen(null);
+    void siralamayiYaz();
+  }, [surukleHareket, siralamayiYaz]);
+
+  function surukleBasla(e: React.PointerEvent, i: number) {
+    // Metin secimini ve dokunmatikte sayfa kaydirmasini engelle.
+    e.preventDefault();
+    suruklenenRef.current = i;
+    setSuruklenen(i);
+    document.body.style.userSelect = "none";
+    window.addEventListener("pointermove", surukleHareket);
+    window.addEventListener("pointerup", surukleBitir, { once: true });
+    window.addEventListener("pointercancel", surukleBitir, { once: true });
   }
 
   /**
@@ -331,9 +394,10 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
         {liste.map((f, i) => (
           <div
             key={f.id}
-            className={`grid grid-cols-1 items-center gap-3 rounded-xl border p-3 lg:rounded-none lg:border-x-0 lg:border-t-0 ${IZGARA} ${
+            data-satir={i}
+            className={`grid grid-cols-1 items-center gap-3 rounded-xl border p-3 transition-shadow lg:rounded-none lg:border-x-0 lg:border-t-0 ${IZGARA} ${
               f.is_published ? "border-line bg-paper-2 lg:bg-transparent" : "border-accent/40 bg-accent/5"
-            }`}
+            } ${suruklenen === i ? "opacity-60 shadow-lg ring-1 ring-accent" : ""}`}
           >
               <button
                 type="button"
@@ -384,23 +448,26 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
               </span>
 
               <div className="flex items-center justify-end gap-1">
+                {/* Surukleme tutamagi. Klavye erisimi kaybolmasin diye ayni
+                    dugme ok tuslariyla da tasiyor. */}
                 <button
                   type="button"
-                  title="Yukarı"
-                  disabled={i === 0}
-                  onClick={() => void tasi(i, i - 1)}
-                  className="rounded-md border border-line px-2 py-1 text-[12px] text-muted transition hover:text-ink disabled:opacity-30"
+                  title="Sürükleyerek sırala (ok tuşlarıyla da taşınır)"
+                  aria-label={`Sırayı değiştir: ${f.caption_tr || "fotoğraf"}, ${i + 1}. sırada`}
+                  onPointerDown={(e) => surukleBasla(e, i)}
+                  onKeyDown={(e) => {
+                    if (e.key === "ArrowUp") {
+                      e.preventDefault();
+                      void tasi(i, i - 1);
+                    } else if (e.key === "ArrowDown") {
+                      e.preventDefault();
+                      void tasi(i, i + 1);
+                    }
+                  }}
+                  style={{ touchAction: "none" }}
+                  className="cursor-grab rounded-md border border-line px-2 py-1 text-[13px] leading-none text-muted transition hover:text-ink active:cursor-grabbing"
                 >
-                  ↑
-                </button>
-                <button
-                  type="button"
-                  title="Aşağı"
-                  disabled={i === liste.length - 1}
-                  onClick={() => void tasi(i, i + 1)}
-                  className="rounded-md border border-line px-2 py-1 text-[12px] text-muted transition hover:text-ink disabled:opacity-30"
-                >
-                  ↓
+                  ⠿
                 </button>
                 {silinecek === f.id ? (
                   <>
@@ -436,7 +503,8 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
       </div>
 
       <p className="mt-6 text-[11.5px] text-muted">
-        Yeni fotoğraflar <b>taslak</b> olarak eklenir; “taslak” rozetine basıp yayıma alana kadar
+        Sıralamak için <b>⠿</b> tutamağını basılı tutup sürükleyin (tutamak seçiliyken ok tuşları da
+        çalışır). Yeni fotoğraflar <b>taslak</b> olarak eklenir; “taslak” rozetine basıp yayıma alana kadar
         sitede görünmezler. Alt başlık, sıralama ve yayımdan çıkarma yayımdaki fotoğraflarda anında
         uygulanır.
       </p>
