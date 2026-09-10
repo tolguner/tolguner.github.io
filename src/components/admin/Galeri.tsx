@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import {
   depodanSil,
@@ -67,11 +67,14 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
     zamanlayici: ReturnType<typeof setTimeout>;
   } | null>(null);
   const dosyaRef = useRef<HTMLInputElement>(null);
-  /** Suruklenen satirin sirasi (gorsel geri bildirim). */
-  const [suruklenen, setSuruklenen] = useState<number | null>(null);
-  const suruklenenRef = useRef<number | null>(null);
+  /** Suruklenen satirin kimligi (gorsel geri bildirim). */
+  const [suruklenen, setSuruklenen] = useState<string | null>(null);
+  const suruklenenRef = useRef<string | null>(null);
   /** Olay isleyicileri en guncel listeyi gormeli; state kapanislari bayat kalir. */
   const listeRef = useRef(fotograflar);
+  /** FLIP animasyonu icin satir ogeleri ve onceki konumlari. */
+  const satirOgeleri = useRef(new Map<string, HTMLElement>());
+  const oncekiYerler = useRef(new Map<string, number>());
 
   useEffect(() => {
     setListe(fotograflar);
@@ -80,6 +83,40 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
 
   const yayimdaSayisi = liste.filter((f) => f.is_published).length;
   const taslakSayisi = liste.length - yayimdaSayisi;
+
+  /**
+   * Sira degisiminde FLIP animasyonu.
+   *
+   * Yeniden dizilim React tarafinda aninda oluyor; kartlar animasyonsuz
+   * zipliyordu ve neyin nereye gittigi anlasilmiyordu. Burada her yerlesim
+   * sonrasi satirlarin ESKI konumu geri veriliyor (ters donusum), sonraki
+   * karede sifira animasyonlaniyor — yani kartlar eski yerlerinden yenisine
+   * kayiyormus gibi gorunuyor.
+   *
+   * `offsetTop` kullaniliyor, `getBoundingClientRect().top` degil: ikincisi
+   * gorunume gore olctugu icin sayfa kaydiginda tum satirlar yer degistirmis
+   * gibi gorunur ve bosuna animasyon tetiklenirdi.
+   */
+  useLayoutEffect(() => {
+    const azalt = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const yeniYerler = new Map<string, number>();
+
+    for (const [id, el] of satirOgeleri.current) {
+      const ust = el.offsetTop;
+      yeniYerler.set(id, ust);
+      const onceki = oncekiYerler.current.get(id);
+      if (azalt || onceki === undefined || Math.abs(onceki - ust) < 1) continue;
+
+      el.style.transition = "none";
+      el.style.transform = `translateY(${onceki - ust}px)`;
+      requestAnimationFrame(() => {
+        el.style.transition = "transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1)";
+        el.style.transform = "";
+      });
+    }
+
+    oncekiYerler.current = yeniYerler;
+  }, [liste]);
 
   const adres = (yol: string) => `${depoKoku}/storage/v1/object/public/gallery/${yol}`;
 
@@ -214,21 +251,25 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
    * birakinca veritabanina yaziliyor.
    */
   const surukleHareket = useCallback((e: PointerEvent) => {
-    const kaynak = suruklenenRef.current;
-    if (kaynak === null) return;
+    const kaynakId = suruklenenRef.current;
+    if (!kaynakId) return;
     const oge = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement | null;
-    const satir = oge?.closest<HTMLElement>("[data-satir]");
-    if (!satir) return;
-    const hedef = Number(satir.dataset.satir);
-    if (Number.isNaN(hedef) || hedef === kaynak) return;
+    const hedefId = oge?.closest<HTMLElement>("[data-foto]")?.dataset.foto;
+    if (!hedefId || hedefId === kaynakId) return;
 
-    const yeni = [...listeRef.current];
+    // Sira DOM'dan degil listeden okunuyor: birden fazla pointermove React
+    // yeniden cizmeden ardarda gelirse DOM'daki index bayat kalir ve
+    // veritabanina ekranda gorunenden FARKLI bir sira yazilir.
+    const liste = listeRef.current;
+    const kaynak = liste.findIndex((f) => f.id === kaynakId);
+    const hedef = liste.findIndex((f) => f.id === hedefId);
+    if (kaynak < 0 || hedef < 0) return;
+
+    const yeni = [...liste];
     const [tasinan] = yeni.splice(kaynak, 1);
     yeni.splice(hedef, 0, tasinan);
     listeRef.current = yeni;
     setListe(yeni);
-    suruklenenRef.current = hedef;
-    setSuruklenen(hedef);
   }, []);
 
   const surukleBitir = useCallback(() => {
@@ -239,11 +280,11 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
     void siralamayiYaz();
   }, [surukleHareket, siralamayiYaz]);
 
-  function surukleBasla(e: React.PointerEvent, i: number) {
+  function surukleBasla(e: React.PointerEvent, id: string) {
     // Metin secimini ve dokunmatikte sayfa kaydirmasini engelle.
     e.preventDefault();
-    suruklenenRef.current = i;
-    setSuruklenen(i);
+    suruklenenRef.current = id;
+    setSuruklenen(id);
     document.body.style.userSelect = "none";
     window.addEventListener("pointermove", surukleHareket);
     window.addEventListener("pointerup", surukleBitir, { once: true });
@@ -394,10 +435,18 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
         {liste.map((f, i) => (
           <div
             key={f.id}
-            data-satir={i}
-            className={`grid grid-cols-1 items-center gap-3 rounded-xl border p-3 transition-shadow lg:rounded-none lg:border-x-0 lg:border-t-0 ${IZGARA} ${
+            data-foto={f.id}
+            ref={(el) => {
+              if (el) satirOgeleri.current.set(f.id, el);
+              else satirOgeleri.current.delete(f.id);
+            }}
+            className={`relative grid grid-cols-1 items-center gap-3 rounded-xl border p-3 lg:border-x-0 lg:border-t-0 ${IZGARA} ${
               f.is_published ? "border-line bg-paper-2 lg:bg-transparent" : "border-accent/40 bg-accent/5"
-            } ${suruklenen === i ? "opacity-60 shadow-lg ring-1 ring-accent" : ""}`}
+            } ${
+              suruklenen === f.id
+                ? "z-10 border-accent bg-surface shadow-[0_12px_28px_rgba(0,0,0,0.45)] ring-2 ring-accent/60"
+                : "lg:rounded-none"
+            }`}
           >
               <button
                 type="button"
@@ -454,7 +503,7 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
                   type="button"
                   title="Sürükleyerek sırala (ok tuşlarıyla da taşınır)"
                   aria-label={`Sırayı değiştir: ${f.caption_tr || "fotoğraf"}, ${i + 1}. sırada`}
-                  onPointerDown={(e) => surukleBasla(e, i)}
+                  onPointerDown={(e) => surukleBasla(e, f.id)}
                   onKeyDown={(e) => {
                     if (e.key === "ArrowUp") {
                       e.preventDefault();
