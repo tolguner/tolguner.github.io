@@ -164,21 +164,52 @@ export async function fotografGuncelle(id: string, alanlar: { caption_tr?: strin
 }
 
 /**
- * Fotografi siler. IKI ADIM: once satir, sonra storage objesi.
- * Satiri silmek objeyi silmez; atlanirsa kovada yetim dosya birikir.
+ * Fotograf SATIRINI siler ve satirin kopyasini dondurur.
+ *
+ * Depodaki dosya bilerek DOKUNULMADAN birakiliyor: kullaniciya "geri al"
+ * suresi taniyoruz ve geri alma ancak dosya yerinde durursa mumkun.
+ * Sure dolunca `depodanSil` cagriliyor.
  */
-export async function fotografSil(id: string, storagePath: string) {
+export async function fotografSil(id: string) {
   const db = await sunucuIstemcisi();
+
+  const { data: satir, error: okumaHatasi } = await db
+    .from("gallery_photos")
+    .select("id, storage_path, caption_tr, caption_en, width, height, sort_order, is_published")
+    .eq("id", id)
+    .single();
+  if (okumaHatasi) return { ok: false as const, hata: okumaHatasi.message };
 
   const { error } = await db.from("gallery_photos").delete().eq("id", id);
   if (error) return { ok: false as const, hata: error.message };
 
-  const { error: depoHatasi } = await db.storage.from("gallery").remove([storagePath]);
-  if (depoHatasi) {
-    // Satir gitti, dosya kaldi: site dogru gorunur ama kovada yetim var.
-    return { ok: true as const, uyari: `Kayıt silindi ama dosya kovada kaldı: ${depoHatasi.message}` };
-  }
+  galeriyiTazele();
+  return { ok: true as const, satir };
+}
 
+/** Geri alma suresi dolunca depodaki dosyayi da siler. */
+export async function depodanSil(storagePath: string) {
+  const db = await sunucuIstemcisi();
+  const { error } = await db.storage.from("gallery").remove([storagePath]);
+  // Satir zaten gitti; dosya kalirsa site dogru gorunur, yalnizca kovada
+  // yetim bir dosya olur. Sessizce yutmuyoruz ama akisi da durdurmuyoruz.
+  if (error) return { ok: false as const, hata: error.message };
+  return { ok: true as const };
+}
+
+/** Silinen satiri aynen geri koyar. */
+export async function fotografGeriAl(satir: {
+  storage_path: string;
+  caption_tr: string;
+  caption_en: string;
+  width: number | null;
+  height: number | null;
+  sort_order: number;
+  is_published: boolean;
+}) {
+  const db = await sunucuIstemcisi();
+  const { error } = await db.from("gallery_photos").insert(satir);
+  if (error) return { ok: false as const, hata: error.message };
   galeriyiTazele();
   return { ok: true as const };
 }

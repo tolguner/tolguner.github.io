@@ -2,7 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { fotografEkle, fotografGuncelle, fotografSil, siralamayiKaydet, yayimDurumu } from "@/app/admin/eylemler";
+import {
+  depodanSil,
+  fotografEkle,
+  fotografGeriAl,
+  fotografGuncelle,
+  fotografSil,
+  siralamayiKaydet,
+  yayimDurumu,
+} from "@/app/admin/eylemler";
 import { tarayiciIstemcisi } from "@/lib/supabase/tarayici";
 import Kirpici from "./Kirpici";
 import Buyutec from "@/components/Buyutec";
@@ -44,6 +52,13 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
   const [kuyruk, setKuyruk] = useState<File[]>([]);
   const [eklenen, setEklenen] = useState(0);
   const [buyutecSira, setBuyutecSira] = useState<number | null>(null);
+  /** Satir ici onay bekleyen fotograf. */
+  const [silinecek, setSilinecek] = useState<string | null>(null);
+  const [siliniyor, setSiliniyor] = useState<string | null>(null);
+  const [geriAlinabilir, setGeriAlinabilir] = useState<{
+    satir: Foto;
+    zamanlayici: ReturnType<typeof setTimeout>;
+  } | null>(null);
   const dosyaRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => setListe(fotograflar), [fotograflar]);
@@ -165,15 +180,49 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
     if (!sonuc.ok) setHata(sonuc.hata);
   }
 
-  async function sil(f: Foto) {
-    if (!confirm(`"${f.caption_tr || f.storage_path}" silinsin mi? Bu işlem geri alınamaz.`)) return;
-    const sonuc = await fotografSil(f.id, f.storage_path);
+  /**
+   * Silme iki asamali. Yerel `confirm()` KULLANILMIYOR: ortamlara gore
+   * otomatik reddedilebiliyor (bu projede oldu — dugmeye basiliyor, hicbir sey
+   * olmuyordu) ve panelin geri kalaniyla da tutarsiz.
+   *
+   * Once satir siliniyor, depodaki dosya duruyor; 10 saniye "geri al" hakki
+   * var. Sure dolunca dosya da siliniyor.
+   */
+  async function silOnayla(f: Foto) {
+    setSilinecek(null);
+    setSiliniyor(f.id);
+    setHata(null);
+
+    const sonuc = await fotografSil(f.id);
+    setSiliniyor(null);
     if (!sonuc.ok) {
-      setHata(sonuc.hata);
+      setHata(`Silinemedi: ${sonuc.hata}`);
       return;
     }
-    if ("uyari" in sonuc && sonuc.uyari) setNot(sonuc.uyari);
+
     setListe((l) => l.filter((x) => x.id !== f.id));
+
+    const zamanlayici = setTimeout(() => {
+      void depodanSil(sonuc.satir.storage_path);
+      setGeriAlinabilir((g) => (g?.satir.storage_path === sonuc.satir.storage_path ? null : g));
+    }, 10_000);
+
+    setGeriAlinabilir({ satir: sonuc.satir, zamanlayici });
+  }
+
+  async function geriAl() {
+    const g = geriAlinabilir;
+    if (!g) return;
+    clearTimeout(g.zamanlayici);
+    setGeriAlinabilir(null);
+
+    const { id: _atilan, ...alanlar } = g.satir;
+    const sonuc = await fotografGeriAl(alanlar);
+    if (!sonuc.ok) {
+      setHata(`Geri alınamadı: ${sonuc.hata}`);
+      return;
+    }
+    location.reload();
   }
 
   return (
@@ -211,6 +260,21 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
             className="rounded-full bg-accent px-3.5 py-1 text-[12.5px] font-semibold text-white transition hover:opacity-90"
           >
             Hepsini yayımla
+          </button>
+        </div>
+      )}
+
+      {geriAlinabilir && (
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-line bg-paper-2 px-3 py-2">
+          <span className="text-[13px] text-ink">
+            <b>{geriAlinabilir.satir.caption_tr || "Fotoğraf"}</b> silindi.
+          </span>
+          <button
+            type="button"
+            onClick={() => void geriAl()}
+            className="rounded-full border border-accent/50 px-3.5 py-1 text-[12.5px] font-semibold text-accent transition hover:bg-accent/10"
+          >
+            Geri al
           </button>
         </div>
       )}
@@ -318,14 +382,34 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
               >
                 ↓
               </button>
-              <button
-                type="button"
-                title="Sil"
-                onClick={() => void sil(f)}
-                className="rounded-md border border-line px-2 py-1 text-[12px] text-muted transition hover:text-red-400"
-              >
-                ✕
-              </button>
+              {silinecek === f.id ? (
+                <span className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => void silOnayla(f)}
+                    disabled={siliniyor === f.id}
+                    className="rounded-md border border-red-500/50 bg-red-500/15 px-2 py-1 text-[11.5px] font-semibold text-red-300 transition hover:bg-red-500/25 disabled:opacity-50"
+                  >
+                    {siliniyor === f.id ? "siliniyor…" : "sil"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSilinecek(null)}
+                    className="rounded-md border border-line px-2 py-1 text-[11.5px] text-muted transition hover:text-ink"
+                  >
+                    vazgeç
+                  </button>
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  title="Sil"
+                  onClick={() => setSilinecek(f.id)}
+                  className="rounded-md border border-line px-2 py-1 text-[12px] text-muted transition hover:border-red-500/50 hover:text-red-400"
+                >
+                  ✕
+                </button>
+              )}
             </div>
           </div>
         ))}
