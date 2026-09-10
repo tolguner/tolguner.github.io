@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { content, links, type Lang } from "@/content";
+import { links, type Dict, type Lang } from "@/content";
 import TemaDugmesi from "@/components/TemaDugmesi";
 import DilDugmesi from "@/components/DilDugmesi";
 
-const BUILD_DATE = new Date().toISOString().slice(0, 10);
 
 function SectionTitle({ id, children }: { id?: string; children: React.ReactNode }) {
   return (
@@ -40,7 +39,8 @@ function Bullets({ items }: { items?: string[] }) {
   );
 }
 
-export default function Site() {
+export default function Site({ icerik, guncellendi, yil }: { icerik: Record<Lang, Dict>; guncellendi: string; yil: number }) {
+  const BUILD_DATE = guncellendi;
   const [lang, setLang] = useState<Lang>("tr");
   const [menuAcik, setMenuAcik] = useState(false);
 
@@ -62,7 +62,7 @@ export default function Site() {
     return () => { document.body.style.overflow = ""; };
   }, [menuAcik]);
 
-  const t = content[lang];
+  const t = icerik[lang];
 
   // Menudeki baglantilar: "Hakkimda" sayfanin en basi, digerleri bolum capasi
   const menuOgeleri: [string, string][] = [
@@ -262,7 +262,7 @@ export default function Site() {
       </div>
 
         <footer className="mt-16 flex flex-wrap justify-between gap-2 border-t border-line pt-4 text-[12px] text-muted">
-          <span>© {new Date().getFullYear()} Tolga Olguner · {t.footer}</span>
+          <span>© {yil} Tolga Olguner · {t.footer}</span>
           <span>{t.updated}: {BUILD_DATE}</span>
         </footer>
       </div>

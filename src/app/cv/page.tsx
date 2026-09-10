@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import Site from "@/components/Site";
+import { localizeCv } from "@/lib/content/localize";
+import { getCvDoc, getCvDosyalari } from "@/lib/content/read";
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "CV — Tolga Olguner",
@@ -9,6 +13,17 @@ export const metadata: Metadata = {
   alternates: { canonical: "/cv/" },
 };
 
-export default function CvPage() {
-  return <Site />;
+export default async function CvPage() {
+  const [doc, cvDosyalari] = await Promise.all([getCvDoc(), getCvDosyalari()]);
+  // Onceden `new Date()` modul seviyesindeydi: sunucu ve istemci farkli gune
+  // duserse hidrasyon uyusmazligi olurdu. Artik tek yerde, sunucuda hesaplaniyor.
+  const simdi = new Date();
+
+  return (
+    <Site
+      icerik={{ tr: localizeCv(doc, "tr", cvDosyalari), en: localizeCv(doc, "en", cvDosyalari) }}
+      guncellendi={simdi.toISOString().slice(0, 10)}
+      yil={simdi.getUTCFullYear()}
+    />
+  );
 }

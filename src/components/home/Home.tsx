@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
-import { home } from "@/content-home";
+import type { HomeDict } from "@/content-home";
 import { links, type Lang } from "@/content";
 import type { Repo } from "@/lib/repos";
 import type { Photo } from "@/lib/gallery";
@@ -37,7 +37,7 @@ function Words({ text, className }: { text: string; className?: string }) {
   );
 }
 
-export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[]; repoCount?: number; photos?: Photo[] }) {
+export default function Home({ repos, repoCount, photos = [], icerik }: { repos: Repo[]; repoCount?: number; photos?: Photo[]; icerik: Record<Lang, HomeDict> }) {
   const [lang, setLang] = useState<Lang>("tr");
   const [mounted, setMounted] = useState(false);
   /** Kure dugum sayisi: genislige ve cihaz gucune gore kademeli azalir. */
@@ -61,7 +61,7 @@ export default function Home({ repos, repoCount, photos = [] }: { repos: Repo[];
   const girisRef = useRef<"yok" | "yazi" | "ucus" | "bitti">("yok");
   girisRef.current = giris;
   const isiltiRef = useRef<HTMLDivElement>(null);
-  const t = home[lang];
+  const t = icerik[lang];
 
   // Sayfanın en arkasında fareyi izleyen mavi ışıltı — kartların ve metnin
   // gerisinde kalır (kartlar zaten opak arka plana sahip), yalnızca boşluklarda
