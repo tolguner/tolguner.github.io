@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { fotografEkle, fotografGuncelle, fotografSil, siralamayiKaydet } from "@/app/admin/eylemler";
 import { tarayiciIstemcisi } from "@/lib/supabase/tarayici";
 import Kirpici from "./Kirpici";
+import Buyutec from "@/components/Buyutec";
 import { AZAMI_BAYT, type Cikti } from "@/lib/admin/gorsel";
 
 export type Foto = {
@@ -42,6 +43,7 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
   const [yukleniyor, setYukleniyor] = useState<string | null>(null);
   const [kuyruk, setKuyruk] = useState<File[]>([]);
   const [eklenen, setEklenen] = useState(0);
+  const [buyutecSira, setBuyutecSira] = useState<number | null>(null);
   const dosyaRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => setListe(fotograflar), [fotograflar]);
@@ -183,6 +185,13 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
         </p>
       )}
 
+      <Buyutec
+        fotograflar={liste.map((f) => ({ src: adres(f.storage_path), baslik: f.caption_tr }))}
+        sira={buyutecSira}
+        onKapat={() => setBuyutecSira(null)}
+        onSira={setBuyutecSira}
+      />
+
       {kuyruk.length > 0 && (
         <Kirpici
           key={`${kuyruk[0].name}-${kuyruk[0].lastModified}`}
@@ -196,13 +205,20 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
       <div className="mt-6 space-y-2">
         {liste.map((f, i) => (
           <div key={f.id} className="flex flex-wrap items-start gap-3 rounded-xl border border-line bg-paper-2 p-3">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={adres(f.storage_path)}
-              alt={f.caption_tr}
-              className="h-16 w-24 shrink-0 rounded-lg border border-line object-cover"
-              loading="lazy"
-            />
+            <button
+              type="button"
+              onClick={() => setBuyutecSira(i)}
+              title="Büyüt"
+              className="shrink-0 cursor-zoom-in rounded-lg"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={adres(f.storage_path)}
+                alt={f.caption_tr}
+                className="h-16 w-24 rounded-lg border border-line object-cover transition hover:border-accent"
+                loading="lazy"
+              />
+            </button>
 
             <div className="flex min-w-[16rem] flex-1 flex-col gap-2 md:flex-row">
               <input

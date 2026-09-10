@@ -14,13 +14,15 @@ const SURTUNME = 0.94; // bırakınca hızın sönümlenme katsayısı (60 fps b
  * hızıyla devam edip kendi akışına döner. `prefers-reduced-motion` açıksa
  * kendiliğinden akmaz, yalnızca sürüklenir.
  */
-export default function PhotoMarquee({ photos, lang }: { photos: Photo[]; lang: Lang }) {
+export default function PhotoMarquee({ photos, lang, onSec }: { photos: Photo[]; lang: Lang; onSec?: (sira: number) => void }) {
   const trackRef = useRef<HTMLUListElement>(null);
   const offset = useRef(0);
   const hiz = useRef(0); // sürükleme sonrası kalan hız (px/sn)
   const suruklu = useRef(false);
   const sonX = useRef(0);
   const sonT = useRef(0);
+  /** Serit suruklenebilir; tiklama ile surukleme ayirt edilmeli. */
+  const toplamKayma = useRef(0);
 
   const hepsi = photos.length;
 
@@ -62,6 +64,7 @@ export default function PhotoMarquee({ photos, lang }: { photos: Photo[]; lang: 
     hiz.current = 0;
     sonX.current = e.clientX;
     sonT.current = performance.now();
+    toplamKayma.current = 0;
     try {
       (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
     } catch {
@@ -75,6 +78,7 @@ export default function PhotoMarquee({ photos, lang }: { photos: Photo[]; lang: 
     const dx = e.clientX - sonX.current;
     const dt = simdi - sonT.current;
     offset.current += dx;
+    toplamKayma.current += Math.abs(dx);
     if (dt > 0) hiz.current = (dx / dt) * 1000; // px/sn
     sonX.current = e.clientX;
     sonT.current = simdi;
@@ -116,7 +120,25 @@ export default function PhotoMarquee({ photos, lang }: { photos: Photo[]; lang: 
       <ul ref={trackRef} className="flex w-max select-none gap-5 will-change-transform">
         {dongu.map((p, i) => (
           <li key={`${p.src}-${i}`} className="w-[clamp(8rem,17.33vh,13.47rem)] shrink-0" aria-hidden={i >= taban.length}>
-            <figure className="group">
+            <figure
+              className="group cursor-zoom-in rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-brand"
+              // Serit listeyi cogaltiyor; yalnizca ilk kopya odaklanabilir
+              // olsun, yoksa sekme sirasi ayni fotograflari iki kez dolasir.
+              role={onSec ? "button" : undefined}
+              tabIndex={onSec && i < taban.length ? 0 : -1}
+              aria-label={onSec ? `${(lang === "tr" ? p.tr : p.en) || "Fotoğraf"} — büyüt` : undefined}
+              onClick={() => {
+                // 5 pikselden az kayma "tiklama"; fazlasi surukleme sayilir,
+                // yoksa serit her kaydirildiginda buyutec aciliyordu.
+                if (toplamKayma.current < 5) onSec?.(i % taban.length % hepsi);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onSec?.(i % taban.length % hepsi);
+                }
+              }}
+            >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={p.src}
