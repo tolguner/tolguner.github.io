@@ -331,21 +331,25 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
               />
             </button>
 
+            {/* Iki alan ayni fotografin alt basligi: TR ve EN. Onceden yalnizca
+                yer tutucu vardi, o da alan BOSKEN gorundugu icin (dosya adindan
+                otomatik dolduruluyorlar) hangisinin hangi dil oldugu hic
+                gorunmuyordu. */}
             <div className="flex min-w-[16rem] flex-1 flex-col gap-2 md:flex-row">
-              <input
-                value={f.caption_tr}
-                onChange={(e) => void altBaslik(f.id, "tr", e.target.value)}
-                onBlur={() => void altBasligiKaydet(f)}
-                placeholder="Alt başlık (TR)"
-                className="w-full rounded-lg border border-line bg-paper px-2.5 py-1.5 text-[13.5px] text-ink outline-none transition focus:border-accent"
-              />
-              <input
-                value={f.caption_en}
-                onChange={(e) => void altBaslik(f.id, "en", e.target.value)}
-                onBlur={() => void altBasligiKaydet(f)}
-                placeholder="Caption (EN)"
-                className="w-full rounded-lg border border-line bg-paper px-2.5 py-1.5 text-[13.5px] text-ink outline-none transition focus:border-accent"
-              />
+              {(["tr", "en"] as const).map((dil) => (
+                <label key={dil} className="flex min-w-0 flex-1 items-center gap-2">
+                  <span className="w-5 shrink-0 text-[10.5px] font-bold uppercase tracking-[0.12em] text-muted">
+                    {dil}
+                  </span>
+                  <input
+                    value={dil === "tr" ? f.caption_tr : f.caption_en}
+                    onChange={(e) => void altBaslik(f.id, dil, e.target.value)}
+                    onBlur={() => void altBasligiKaydet(f)}
+                    placeholder={dil === "tr" ? "Alt başlık" : "Caption"}
+                    className="w-full min-w-0 rounded-lg border border-line bg-paper px-2.5 py-1.5 text-[13.5px] text-ink outline-none transition focus:border-accent"
+                  />
+                </label>
+              ))}
             </div>
 
             <div className="flex shrink-0 items-center gap-1">
@@ -416,7 +420,8 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
       </div>
 
       <p className="mt-6 text-[11.5px] text-muted">
-        Yeni fotoğraflar <b>taslak</b> olarak eklenir; “taslak” rozetine basıp yayıma alana kadar
+        <b>TR</b> ve <b>EN</b> alanları aynı fotoğrafın alt başlığıdır; şeritte fotoğrafın altında,
+        sitenin o anki diline göre görünür. Yeni fotoğraflar <b>taslak</b> olarak eklenir; “taslak” rozetine basıp yayıma alana kadar
         sitede görünmezler. Alt başlık, sıralama ve yayımdan çıkarma yayımdaki fotoğraflarda anında
         uygulanır.
       </p>
