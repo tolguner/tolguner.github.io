@@ -1,11 +1,10 @@
 import type { NextConfig } from "next";
 
-// GitHub Pages statik barındırma: HTML export, görsel optimizasyonu kapalı.
+// Vercel'de sunucu tarafi calisiyor: statik export yok, API route ve ISR kullanilabilir.
+// trailingSlash korunuyor cunku /cv/ baglantilari ve canonical sabit yazili.
 const nextConfig: NextConfig = {
-  output: "export",
   outputFileTracingRoot: __dirname,
   trailingSlash: true,
-  images: { unoptimized: true },
 };
 
 export default nextConfig;
