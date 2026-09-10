@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from "react";
 
 import { fotografEkle, fotografGuncelle, fotografSil, siralamayiKaydet } from "@/app/admin/eylemler";
 import { tarayiciIstemcisi } from "@/lib/supabase/tarayici";
-import { galeriyeHazirla, HEDEF } from "@/lib/admin/gorsel";
+import Kirpici from "./Kirpici";
+import { AZAMI_BAYT, type Cikti } from "@/lib/admin/gorsel";
 
 export type Foto = {
   id: string;
@@ -39,89 +40,80 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
   const [hata, setHata] = useState<string | null>(null);
   const [not, setNot] = useState<string | null>(null);
   const [yukleniyor, setYukleniyor] = useState<string | null>(null);
+  const [kuyruk, setKuyruk] = useState<File[]>([]);
+  const [eklenen, setEklenen] = useState(0);
   const dosyaRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => setListe(fotograflar), [fotograflar]);
 
   const adres = (yol: string) => `${depoKoku}/storage/v1/object/public/gallery/${yol}`;
 
-  async function yukle(dosyalar: FileList | null) {
+  /** Secilen dosyalar kirpma ekranindan tek tek geciyor. */
+  function kuyrugaAl(dosyalar: FileList | null) {
     if (!dosyalar?.length) return;
     setHata(null);
-    const db = tarayiciIstemcisi();
-    let eklenen = 0;
-    const uyarilar: string[] = [];
+    setNot(null);
 
-    for (const dosya of Array.from(dosyalar)) {
-      if (!IZINLI.includes(dosya.type)) {
-        setHata(`${dosya.name}: yalnızca JPEG, PNG, WebP ve AVIF yüklenebilir.`);
-        continue;
-      }
-      if (dosya.size > AZAMI) {
-        setHata(`${dosya.name}: dosya 10 MB sınırını aşıyor (${(dosya.size / 1048576).toFixed(1)} MB).`);
-        continue;
-      }
-      if (dosya.size === 0) {
-        setHata(`${dosya.name}: dosya boş.`);
-        continue;
-      }
-
-      setYukleniyor(dosya.name);
-
-      // Tum galeri tek olcude olsun diye 500x375'e kirpiliyor (bkz. gorsel.ts).
-      let islenmis;
-      try {
-        islenmis = await galeriyeHazirla(dosya);
-      } catch (e) {
-        setYukleniyor(null);
-        setHata(`${dosya.name}: görsel işlenemedi (${e instanceof Error ? e.message : "bilinmeyen hata"}).`);
-        continue;
-      }
-      if (islenmis.buyutuldu) {
-        uyarilar.push(
-          `${dosya.name} ${islenmis.kaynakEn}×${islenmis.kaynakBoy} idi, ${HEDEF.en}×${HEDEF.boy}’e büyütüldü — netliği düşmüş olabilir.`,
-        );
-      }
-
-      const hedef = await icerikAdi(islenmis.dosya);
-
-      // Tarayicidan DOGRUDAN Storage'a: Vercel'de server action govdesi 4,5 MB.
-      const { error } = await db.storage.from("gallery").upload(hedef, islenmis.dosya, {
-        contentType: "image/jpeg",
-        cacheControl: "31536000, immutable",
-        upsert: true,
-      });
-      if (error) {
-        setYukleniyor(null);
-        setHata(`${dosya.name}: ${error.message}`);
-        continue;
-      }
-
-      const baslik = adFromDosya(dosya.name);
-      const sonuc = await fotografEkle({
-        storagePath: hedef,
-        captionTr: baslik,
-        captionEn: baslik,
-        width: HEDEF.en,
-        height: HEDEF.boy,
-      });
-      setYukleniyor(null);
-      if (!sonuc.ok) {
-        setHata(`${dosya.name}: ${sonuc.hata}`);
-        continue;
-      }
-      eklenen += 1;
+    const kabul: File[] = [];
+    const red: string[] = [];
+    for (const d of Array.from(dosyalar)) {
+      if (!IZINLI.includes(d.type)) red.push(`${d.name}: yalnızca JPEG, PNG, WebP ve AVIF yüklenebilir.`);
+      else if (d.size === 0) red.push(`${d.name}: dosya boş.`);
+      else kabul.push(d);
     }
-
+    if (red.length) setHata(red.join(" "));
+    setKuyruk(kabul);
     if (dosyaRef.current) dosyaRef.current.value = "";
-    // Yeniden yukleme DONGUNUN DISINDA: icerideyken ilk dosyadan sonra sayfa
-    // yenilenip kalan dosyalar hic yuklenmiyordu.
-    if (uyarilar.length) setHata(uyarilar.join(" "));
-    if (eklenen > 0) {
-      setNot(`${eklenen} fotoğraf eklendi.`);
-      // Uyari varsa kullanici gorsun diye biraz bekle.
-      setTimeout(() => location.reload(), uyarilar.length ? 2500 : 0);
+  }
+
+  /** Kirpma onaylandi: dosya tarayicidan dogrudan Storage'a gider. */
+  async function kirpilaniYukle(cikti: Cikti) {
+    const dosya = cikti.dosya;
+    if (dosya.size > AZAMI_BAYT) {
+      setHata(`${dosya.name}: kırpılan görsel ${(dosya.size / 1048576).toFixed(1)} MB — 5 MB sınırını aşıyor.`);
+      return;
     }
+
+    setYukleniyor(dosya.name);
+    const hedef = await icerikAdi(dosya);
+
+    // Vercel'de server action govdesi 4,5 MB ile sinirli; dosya bu yuzden
+    // sunucudan degil, tarayicidan dogrudan Storage'a gidiyor.
+    const { error } = await tarayiciIstemcisi().storage.from("gallery").upload(hedef, dosya, {
+      contentType: "image/jpeg",
+      cacheControl: "31536000, immutable",
+      upsert: true,
+    });
+    if (error) {
+      setYukleniyor(null);
+      setHata(`${dosya.name}: ${error.message}`);
+      return;
+    }
+
+    const baslik = adFromDosya(dosya.name);
+    const sonuc = await fotografEkle({
+      storagePath: hedef,
+      captionTr: baslik,
+      captionEn: baslik,
+      width: cikti.en,
+      height: cikti.boy,
+    });
+    setYukleniyor(null);
+    if (!sonuc.ok) {
+      setHata(`${dosya.name}: ${sonuc.hata}`);
+      return;
+    }
+    setEklenen((n) => n + 1);
+    sonrakiKare();
+  }
+
+  function sonrakiKare() {
+    setKuyruk((k) => {
+      const kalan = k.slice(1);
+      // Kuyruk bitti: sayfayi bir kez tazele (yeni satirlar sunucudan gelsin).
+      if (!kalan.length) setTimeout(() => location.reload(), 300);
+      return kalan;
+    });
   }
 
   async function altBaslik(id: string, dil: "tr" | "en", deger: string) {
@@ -163,7 +155,7 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
           <h1 className="font-serif text-[24px] font-bold tracking-tight text-ink">Galeri</h1>
           <p className="mt-1 text-[13px] text-muted">
             {liste.length} fotoğraf · ana sayfada Yolculuk bölümünün altındaki şeritte akar ·
-            yüklenen her fotoğraf {HEDEF.en}×{HEDEF.boy} olacak şekilde merkezden kırpılır
+            her fotoğraf eklenmeden önce 4:3 oranında kırpılır
           </p>
         </div>
         <label className="cursor-pointer rounded-full bg-accent px-4 py-2 text-[13px] font-semibold text-white transition hover:opacity-90">
@@ -174,7 +166,7 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
             accept={IZINLI.join(",")}
             multiple
             hidden
-            onChange={(e) => void yukle(e.target.files)}
+            onChange={(e) => kuyrugaAl(e.target.files)}
           />
         </label>
       </div>
@@ -185,6 +177,21 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
         </p>
       )}
       {not && <p className="mt-4 rounded-lg border border-line bg-paper-2 px-3 py-2 text-[13px] text-muted">{not}</p>}
+      {eklenen > 0 && (
+        <p className="mt-4 rounded-lg border border-line bg-paper-2 px-3 py-2 text-[13px] text-muted">
+          {eklenen} fotoğraf eklendi.
+        </p>
+      )}
+
+      {kuyruk.length > 0 && (
+        <Kirpici
+          key={`${kuyruk[0].name}-${kuyruk[0].lastModified}`}
+          dosya={kuyruk[0]}
+          kalan={{ sira: eklenen + 1, toplam: eklenen + kuyruk.length }}
+          onIptal={sonrakiKare}
+          onOnay={kirpilaniYukle}
+        />
+      )}
 
       <div className="mt-6 space-y-2">
         {liste.map((f, i) => (
