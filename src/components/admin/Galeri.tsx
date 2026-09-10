@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { fotografEkle, fotografGuncelle, fotografSil, siralamayiKaydet } from "@/app/admin/eylemler";
+import { fotografEkle, fotografGuncelle, fotografSil, siralamayiKaydet, yayimDurumu } from "@/app/admin/eylemler";
 import { tarayiciIstemcisi } from "@/lib/supabase/tarayici";
 import Kirpici from "./Kirpici";
 import Buyutec from "@/components/Buyutec";
@@ -47,6 +47,9 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
   const dosyaRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => setListe(fotograflar), [fotograflar]);
+
+  const yayimdaSayisi = liste.filter((f) => f.is_published).length;
+  const taslakSayisi = liste.length - yayimdaSayisi;
 
   const adres = (yol: string) => `${depoKoku}/storage/v1/object/public/gallery/${yol}`;
 
@@ -128,6 +131,29 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
     else setNot("Alt başlık kaydedildi.");
   }
 
+  async function yayimiDegistir(f: Foto) {
+    const yeni = !f.is_published;
+    setListe((l) => l.map((x) => (x.id === f.id ? { ...x, is_published: yeni } : x)));
+    const sonuc = await yayimDurumu([f.id], yeni);
+    if (!sonuc.ok) {
+      setHata(sonuc.hata);
+      setListe((l) => l.map((x) => (x.id === f.id ? { ...x, is_published: f.is_published } : x)));
+    }
+  }
+
+  async function hepsiniYayimla() {
+    const idler = liste.filter((f) => !f.is_published).map((f) => f.id);
+    if (!idler.length) return;
+    setListe((l) => l.map((x) => ({ ...x, is_published: true })));
+    const sonuc = await yayimDurumu(idler, true);
+    if (!sonuc.ok) {
+      setHata(sonuc.hata);
+      location.reload();
+      return;
+    }
+    setNot(`${idler.length} fotoğraf yayımlandı.`);
+  }
+
   async function tasi(i: number, j: number) {
     if (j < 0 || j >= liste.length) return;
     const yeni = [...liste];
@@ -156,8 +182,9 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
         <div>
           <h1 className="font-serif text-[24px] font-bold tracking-tight text-ink">Galeri</h1>
           <p className="mt-1 text-[13px] text-muted">
-            {liste.length} fotoğraf · ana sayfada Yolculuk bölümünün altındaki şeritte akar ·
-            her fotoğraf eklenmeden önce 4:3 oranında kırpılır
+            {yayimdaSayisi} fotoğraf yayımda
+            {taslakSayisi > 0 && ` · ${taslakSayisi} taslakta`} · ana sayfada Yolculuk bölümünün
+            altındaki şeritte akar
           </p>
         </div>
         <label className="cursor-pointer rounded-full bg-accent px-4 py-2 text-[13px] font-semibold text-white transition hover:opacity-90">
@@ -172,6 +199,21 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
           />
         </label>
       </div>
+
+      {taslakSayisi > 0 && (
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-accent/40 bg-accent/10 px-3 py-2">
+          <span className="text-[13px] text-ink">
+            <b>{taslakSayisi}</b> fotoğraf taslakta — sitede görünmüyor.
+          </span>
+          <button
+            type="button"
+            onClick={() => void hepsiniYayimla()}
+            className="rounded-full bg-accent px-3.5 py-1 text-[12.5px] font-semibold text-white transition hover:opacity-90"
+          >
+            Hepsini yayımla
+          </button>
+        </div>
+      )}
 
       {hata && (
         <p role="alert" className="mt-4 rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2 text-[13px] text-ink">
@@ -204,7 +246,12 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
 
       <div className="mt-6 space-y-2">
         {liste.map((f, i) => (
-          <div key={f.id} className="flex flex-wrap items-start gap-3 rounded-xl border border-line bg-paper-2 p-3">
+          <div
+            key={f.id}
+            className={`flex flex-wrap items-start gap-3 rounded-xl border p-3 ${
+              f.is_published ? "border-line bg-paper-2" : "border-accent/40 bg-accent/5"
+            }`}
+          >
             <button
               type="button"
               onClick={() => setBuyutecSira(i)}
@@ -238,6 +285,18 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
             </div>
 
             <div className="flex shrink-0 items-center gap-1">
+              <button
+                type="button"
+                onClick={() => void yayimiDegistir(f)}
+                title={f.is_published ? "Yayımdan çıkar" : "Yayıma al"}
+                className={`mr-2 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold transition ${
+                  f.is_published
+                    ? "border-line text-muted hover:text-ink"
+                    : "border-accent/50 bg-accent/15 text-accent hover:bg-accent/25"
+                }`}
+              >
+                {f.is_published ? "yayımda" : "taslak"}
+              </button>
               <span className="mr-2 text-[11.5px] text-muted">
                 {f.width && f.height ? `${f.width}×${f.height}` : "—"}
               </span>
@@ -273,8 +332,9 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
       </div>
 
       <p className="mt-6 text-[11.5px] text-muted">
-        Alt başlıklar alandan çıkınca kaydedilir. Sıralama ve silme anında uygulanır — galeride
-        taslak/yayımla adımı yok.
+        Yeni fotoğraflar <b>taslak</b> olarak eklenir; “taslak” rozetine basıp yayıma alana kadar
+        sitede görünmezler. Alt başlık, sıralama ve yayımdan çıkarma yayımdaki fotoğraflarda anında
+        uygulanır.
       </p>
     </>
   );

@@ -145,6 +145,9 @@ export async function fotografEkle(girdi: {
     width: girdi.width,
     height: girdi.height,
     sort_order: (sonSira?.sort_order ?? 0) + 10,
+    // Yeni fotograf TASLAK gelir: kirpma dogru mu, alt baslik yazildi mi
+    // gorulmeden siteye dusmesin. Yayima almak ayri bir adim.
+    is_published: false,
   });
   if (error) return { ok: false as const, hata: error.message };
 
@@ -176,6 +179,16 @@ export async function fotografSil(id: string, storagePath: string) {
     return { ok: true as const, uyari: `Kayıt silindi ama dosya kovada kaldı: ${depoHatasi.message}` };
   }
 
+  galeriyiTazele();
+  return { ok: true as const };
+}
+
+/** Bir veya daha fazla fotografi yayima alir ya da yayimdan cikarir. */
+export async function yayimDurumu(idler: string[], yayimda: boolean) {
+  if (!idler.length) return { ok: true as const };
+  const db = await sunucuIstemcisi();
+  const { error } = await db.from("gallery_photos").update({ is_published: yayimda }).in("id", idler);
+  if (error) return { ok: false as const, hata: error.message };
   galeriyiTazele();
   return { ok: true as const };
 }
