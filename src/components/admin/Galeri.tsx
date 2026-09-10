@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { fotografEkle, fotografGuncelle, fotografSil, siralamayiKaydet } from "@/app/admin/eylemler";
 import { tarayiciIstemcisi } from "@/lib/supabase/tarayici";
+import { galeriyeHazirla, HEDEF } from "@/lib/admin/gorsel";
 
 export type Foto = {
   id: string;
@@ -19,23 +20,13 @@ export type Foto = {
 const IZINLI = ["image/jpeg", "image/png", "image/webp", "image/avif"];
 const AZAMI = 10 * 1024 * 1024;
 
-/** Icerik adresli ad: ayni dosya her zaman ayni yola gider, yukleme idempotent. */
-async function icerikAdi(dosya: File) {
+/**
+ * Icerik adresli ad. Ozet ISLENMIS dosyadan aliniyor: ayni kaynaktan ayni
+ * kirpma her zaman ayni yola gider, yukleme idempotent olur.
+ */
+async function icerikAdi(dosya: Blob) {
   const ozet = await crypto.subtle.digest("SHA-256", await dosya.arrayBuffer());
-  const hex = [...new Uint8Array(ozet)].map((b) => b.toString(16).padStart(2, "0")).join("");
-  const uzanti = { "image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp", "image/avif": ".avif" }[dosya.type];
-  return hex.slice(0, 32) + (uzanti ?? ".bin");
-}
-
-async function olcu(dosya: File) {
-  try {
-    const bmp = await createImageBitmap(dosya);
-    const d = { width: bmp.width, height: bmp.height };
-    bmp.close();
-    return d;
-  } catch {
-    return { width: null, height: null };
-  }
+  return [...new Uint8Array(ozet)].map((b) => b.toString(16).padStart(2, "0")).join("").slice(0, 32) + ".jpg";
 }
 
 /** Dosya adindan alt baslik: "01-IT&MIS Hackathon.jpg" -> "IT&MIS Hackathon" */
@@ -59,6 +50,7 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
     setHata(null);
     const db = tarayiciIstemcisi();
     let eklenen = 0;
+    const uyarilar: string[] = [];
 
     for (const dosya of Array.from(dosyalar)) {
       if (!IZINLI.includes(dosya.type)) {
@@ -75,12 +67,27 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
       }
 
       setYukleniyor(dosya.name);
-      const hedef = await icerikAdi(dosya);
-      const boyut = await olcu(dosya);
+
+      // Tum galeri tek olcude olsun diye 500x375'e kirpiliyor (bkz. gorsel.ts).
+      let islenmis;
+      try {
+        islenmis = await galeriyeHazirla(dosya);
+      } catch (e) {
+        setYukleniyor(null);
+        setHata(`${dosya.name}: görsel işlenemedi (${e instanceof Error ? e.message : "bilinmeyen hata"}).`);
+        continue;
+      }
+      if (islenmis.buyutuldu) {
+        uyarilar.push(
+          `${dosya.name} ${islenmis.kaynakEn}×${islenmis.kaynakBoy} idi, ${HEDEF.en}×${HEDEF.boy}’e büyütüldü — netliği düşmüş olabilir.`,
+        );
+      }
+
+      const hedef = await icerikAdi(islenmis.dosya);
 
       // Tarayicidan DOGRUDAN Storage'a: Vercel'de server action govdesi 4,5 MB.
-      const { error } = await db.storage.from("gallery").upload(hedef, dosya, {
-        contentType: dosya.type,
+      const { error } = await db.storage.from("gallery").upload(hedef, islenmis.dosya, {
+        contentType: "image/jpeg",
         cacheControl: "31536000, immutable",
         upsert: true,
       });
@@ -95,8 +102,8 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
         storagePath: hedef,
         captionTr: baslik,
         captionEn: baslik,
-        width: boyut.width,
-        height: boyut.height,
+        width: HEDEF.en,
+        height: HEDEF.boy,
       });
       setYukleniyor(null);
       if (!sonuc.ok) {
@@ -109,9 +116,11 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
     if (dosyaRef.current) dosyaRef.current.value = "";
     // Yeniden yukleme DONGUNUN DISINDA: icerideyken ilk dosyadan sonra sayfa
     // yenilenip kalan dosyalar hic yuklenmiyordu.
+    if (uyarilar.length) setHata(uyarilar.join(" "));
     if (eklenen > 0) {
       setNot(`${eklenen} fotoğraf eklendi.`);
-      location.reload();
+      // Uyari varsa kullanici gorsun diye biraz bekle.
+      setTimeout(() => location.reload(), uyarilar.length ? 2500 : 0);
     }
   }
 
@@ -153,7 +162,8 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
         <div>
           <h1 className="font-serif text-[24px] font-bold tracking-tight text-ink">Galeri</h1>
           <p className="mt-1 text-[13px] text-muted">
-            {liste.length} fotoğraf · ana sayfada Yolculuk bölümünün altındaki şeritte akar
+            {liste.length} fotoğraf · ana sayfada Yolculuk bölümünün altındaki şeritte akar ·
+            yüklenen her fotoğraf {HEDEF.en}×{HEDEF.boy} olacak şekilde merkezden kırpılır
           </p>
         </div>
         <label className="cursor-pointer rounded-full bg-accent px-4 py-2 text-[13px] font-semibold text-white transition hover:opacity-90">
