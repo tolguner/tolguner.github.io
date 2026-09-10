@@ -65,11 +65,17 @@ export default async function Panel() {
         })}
       </div>
 
-      <div className="mt-4 rounded-xl border border-line bg-paper-2 p-5">
-        <div className="text-[16px] font-bold text-ink">Galeri</div>
-        <p className="mt-1 text-[12.5px] text-muted">
-          {fotoSayisi ?? 0} yayımlanan fotoğraf. Yükleme ve sıralama bir sonraki adımda gelecek.
-        </p>
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <a href="/admin/galeri" className="rounded-xl border border-line bg-paper-2 p-5 transition hover:border-accent">
+          <div className="text-[16px] font-bold text-ink">Galeri</div>
+          <p className="mt-1 text-[12.5px] text-muted">
+            {fotoSayisi ?? 0} yayımlanan fotoğraf · yükle, sırala, alt başlık yaz
+          </p>
+        </a>
+        <a href="/admin/dosyalar" className="rounded-xl border border-line bg-paper-2 p-5 transition hover:border-accent">
+          <div className="text-[16px] font-bold text-ink">Dosyalar</div>
+          <p className="mt-1 text-[12.5px] text-muted">CV PDF’lerini değiştir</p>
+        </a>
       </div>
     </>
   );

@@ -111,3 +111,113 @@ export async function revizyonaDon(slug: Slug, id: string) {
 
   redirect(`/admin/icerik/${slug}`);
 }
+
+/* ------------------------------------------------------------- galeri */
+
+/**
+ * Yuklenen bir fotografi kaydeder.
+ *
+ * Dosyanin KENDISI buradan gecmiyor: tarayici dogrudan Storage'a yukluyor
+ * (kullanicinin oturumu + RLS ile). Vercel'de server action govdesi 4,5 MB ile
+ * sinirli; bugunku fotograflar ~29 KB ama telefondan gelen ham fotograf
+ * 4-8 MB olabiliyor.
+ */
+export async function fotografEkle(girdi: {
+  storagePath: string;
+  captionTr: string;
+  captionEn: string;
+  width: number | null;
+  height: number | null;
+}) {
+  const db = await sunucuIstemcisi();
+
+  const { data: sonSira } = await db
+    .from("gallery_photos")
+    .select("sort_order")
+    .order("sort_order", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  const { error } = await db.from("gallery_photos").insert({
+    storage_path: girdi.storagePath,
+    caption_tr: girdi.captionTr,
+    caption_en: girdi.captionEn,
+    width: girdi.width,
+    height: girdi.height,
+    sort_order: (sonSira?.sort_order ?? 0) + 10,
+  });
+  if (error) return { ok: false as const, hata: error.message };
+
+  galeriyiTazele();
+  return { ok: true as const };
+}
+
+export async function fotografGuncelle(id: string, alanlar: { caption_tr?: string; caption_en?: string; is_published?: boolean }) {
+  const db = await sunucuIstemcisi();
+  const { error } = await db.from("gallery_photos").update(alanlar).eq("id", id);
+  if (error) return { ok: false as const, hata: error.message };
+  galeriyiTazele();
+  return { ok: true as const };
+}
+
+/**
+ * Fotografi siler. IKI ADIM: once satir, sonra storage objesi.
+ * Satiri silmek objeyi silmez; atlanirsa kovada yetim dosya birikir.
+ */
+export async function fotografSil(id: string, storagePath: string) {
+  const db = await sunucuIstemcisi();
+
+  const { error } = await db.from("gallery_photos").delete().eq("id", id);
+  if (error) return { ok: false as const, hata: error.message };
+
+  const { error: depoHatasi } = await db.storage.from("gallery").remove([storagePath]);
+  if (depoHatasi) {
+    // Satir gitti, dosya kaldi: site dogru gorunur ama kovada yetim var.
+    return { ok: true as const, uyari: `Kayıt silindi ama dosya kovada kaldı: ${depoHatasi.message}` };
+  }
+
+  galeriyiTazele();
+  return { ok: true as const };
+}
+
+/** Siralamayi topluca yazar. */
+export async function siralamayiKaydet(sira: { id: string; sort_order: number }[]) {
+  const db = await sunucuIstemcisi();
+  for (const s of sira) {
+    const { error } = await db.from("gallery_photos").update({ sort_order: s.sort_order }).eq("id", s.id);
+    if (error) return { ok: false as const, hata: error.message };
+  }
+  galeriyiTazele();
+  return { ok: true as const };
+}
+
+/** Yeni CV PDF'ini kaydeder (dosya yine tarayicidan Storage'a gitti). */
+export async function medyayiGuncelle(key: "cv_tr" | "cv_en", storagePath: string, byteSize: number) {
+  const db = await sunucuIstemcisi();
+
+  const { data: eski } = await db.from("media_assets").select("storage_path, version").eq("key", key).maybeSingle();
+
+  const { error } = await db.from("media_assets").upsert(
+    {
+      key,
+      storage_path: storagePath,
+      mime_type: "application/pdf",
+      byte_size: byteSize,
+      version: (eski?.version ?? 0) + 1,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "key" },
+  );
+  if (error) return { ok: false as const, hata: error.message };
+
+  // Eski dosya BILEREK silinmiyor: kaydedilmis/paylasilmis PDF baglantilari
+  // kirilmasin. Dosyalar icerik adresli, yer kaplamasi onemsiz.
+  revalidateTag(ETIKET.medya);
+  revalidatePath("/cv");
+  return { ok: true as const, oncekiYol: eski?.storage_path ?? null };
+}
+
+function galeriyiTazele() {
+  revalidateTag(ETIKET.galeri);
+  revalidatePath("/");
+}
