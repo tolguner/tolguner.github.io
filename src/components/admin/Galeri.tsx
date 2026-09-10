@@ -58,6 +58,7 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
     if (!dosyalar?.length) return;
     setHata(null);
     const db = tarayiciIstemcisi();
+    let eklenen = 0;
 
     for (const dosya of Array.from(dosyalar)) {
       if (!IZINLI.includes(dosya.type)) {
@@ -102,10 +103,16 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
         setHata(`${dosya.name}: ${sonuc.hata}`);
         continue;
       }
-      setNot(`${dosya.name} eklendi.`);
+      eklenen += 1;
+    }
+
+    if (dosyaRef.current) dosyaRef.current.value = "";
+    // Yeniden yukleme DONGUNUN DISINDA: icerideyken ilk dosyadan sonra sayfa
+    // yenilenip kalan dosyalar hic yuklenmiyordu.
+    if (eklenen > 0) {
+      setNot(`${eklenen} fotoğraf eklendi.`);
       location.reload();
     }
-    if (dosyaRef.current) dosyaRef.current.value = "";
   }
 
   async function altBaslik(id: string, dil: "tr" | "en", deger: string) {
