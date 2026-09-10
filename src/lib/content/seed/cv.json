@@ -1,0 +1,667 @@
+{
+  "nav": {
+    "about": {
+      "tr": "Hakkımda",
+      "en": "About"
+    },
+    "experience": {
+      "tr": "Deneyim",
+      "en": "Experience"
+    },
+    "research": {
+      "tr": "Araştırma",
+      "en": "Research"
+    },
+    "projects": {
+      "tr": "Projeler",
+      "en": "Projects"
+    },
+    "skills": {
+      "tr": "Yetkinlikler",
+      "en": "Skills"
+    },
+    "portfolio": {
+      "tr": "Portfolyo",
+      "en": "Portfolio"
+    },
+    "menu": {
+      "tr": "Menüyü aç",
+      "en": "Open menu"
+    },
+    "menuClose": {
+      "tr": "Menüyü kapat",
+      "en": "Close menu"
+    },
+    "temaAcik": {
+      "tr": "Açık temaya geç",
+      "en": "Switch to light theme"
+    },
+    "temaKoyu": {
+      "tr": "Koyu temaya geç",
+      "en": "Switch to dark theme"
+    }
+  },
+  "sections": {
+    "experience": {
+      "tr": "Deneyim",
+      "en": "Experience"
+    },
+    "communities": {
+      "tr": "Gönüllü Deneyim",
+      "en": "Volunteer Experience"
+    },
+    "research": {
+      "tr": "Araştırma",
+      "en": "Research"
+    },
+    "projects": {
+      "tr": "Seçili Projeler",
+      "en": "Selected Projects"
+    },
+    "skills": {
+      "tr": "Yetkinlikler",
+      "en": "Skills"
+    },
+    "technical": {
+      "tr": "Teknik Yetkinlikler",
+      "en": "Technical Skills"
+    },
+    "personal": {
+      "tr": "Kişisel Yetkinlikler",
+      "en": "Personal Skills"
+    },
+    "education": {
+      "tr": "Eğitim",
+      "en": "Education"
+    },
+    "languages": {
+      "tr": "Diller",
+      "en": "Languages"
+    }
+  },
+  "hero": {
+    "tagline": {
+      "tr": "Yönetim Bilişim Sistemleri Öğrencisi · Işık Üniversitesi",
+      "en": "Management Information Systems Student · Işık University"
+    },
+    "intro": {
+      "tr": "Spring Boot ve React ile web uygulamaları geliştiriyorum; TÜBİTAK 2209-A destekli bir araştırma projesinin yürütücüsüyüm. Üç yıllık kulüp başkanlığı ve kurumsal etkinlik organizasyonu deneyimiyle teknik bilgiyi iletişim, ekip koordinasyonu ve organizasyon becerisiyle birleştiriyorum.",
+      "en": "I build web applications with Spring Boot and React and lead a TÜBİTAK 2209-A funded research project. Three years as a club president and hands-on corporate event organization combine technical skills with communication, team coordination and organizational ability."
+    },
+    "cv": {
+      "tr": "CV (PDF)",
+      "en": "CV (PDF)"
+    },
+    "email": {
+      "tr": "E-posta",
+      "en": "Email"
+    }
+  },
+  "experience": [
+    {
+      "id": "exp-1",
+      "title": {
+        "tr": "Çalışma Burslu Öğrenci",
+        "en": "Work-Study Student"
+      },
+      "org": {
+        "tr": "Kurumsal İletişim Daire Başkanlığı, Işık Üniversitesi",
+        "en": "Corporate Communications Directorate, Işık University"
+      },
+      "date": {
+        "tr": "May 2025 – Ağu 2026",
+        "en": "May 2025 – Aug 2026"
+      },
+      "items": [
+        {
+          "id": "exp-1-i-1",
+          "value": {
+            "tr": "Üniversitenin kurumsal organizasyonlarında görev aldım ve görevli öğrenci ekibinin koordinasyonunu yürüttüm",
+            "en": "Took part in the university's corporate events and coordinated the student staff team"
+          }
+        },
+        {
+          "id": "exp-1-i-2",
+          "value": {
+            "tr": "2025 ve 2026 Tercih ve Tanıtım Günleri'nde Tanıtım Ekibi bünyesinde çalıştım; ekibin ve organizasyonun yürütülmesinden sorumlu oldum",
+            "en": "Worked on the Promotion Team during the 2025 and 2026 Preference and Promotion Days; responsible for running the team and the event"
+          }
+        }
+      ]
+    },
+    {
+      "id": "exp-2",
+      "title": {
+        "tr": "Üniversite Pazarlama Temsilcisi",
+        "en": "University Marketing Representative"
+      },
+      "org": {
+        "tr": "Unicourse",
+        "en": "Unicourse"
+      },
+      "date": {
+        "tr": "Eki 2025 – Tem 2026",
+        "en": "Oct 2025 – Jul 2026"
+      },
+      "items": [
+        {
+          "id": "exp-2-i-1",
+          "value": {
+            "tr": "Kampüs temsilcisi olarak öğrenci topluluğuna yönelik pazarlama ve tanıtım faaliyetlerini yürüttüm",
+            "en": "Ran on-campus marketing and outreach activities targeting the student community as campus representative"
+          }
+        },
+        {
+          "id": "exp-2-i-2",
+          "value": {
+            "tr": "Firmanın ihtiyaç duyduğu eğitim materyallerinin organizasyonunu üstlendim",
+            "en": "Organized the training materials the company needed"
+          }
+        }
+      ]
+    }
+  ],
+  "communities": [
+    {
+      "id": "com-1",
+      "title": {
+        "tr": "Kulüp Başkanı",
+        "en": "Club President"
+      },
+      "org": {
+        "tr": "IT&MIS Kulübü, Işık Üniversitesi",
+        "en": "IT&MIS Club, Işık University"
+      },
+      "date": {
+        "tr": "Eki 2023 – Haz 2026",
+        "en": "Oct 2023 – Jun 2026"
+      },
+      "items": [],
+      "note": {
+        "tr": "Söyleşi, zirve, hackathon, kariyer fuarı, şirket gezisi ve mülakat simülasyonları düzenledim",
+        "en": "Organized talks, summits, hackathons, career fairs, company visits and mock interviews"
+      }
+    },
+    {
+      "id": "com-2",
+      "title": {
+        "tr": "Kurucu Yönetim Kurulu Üyesi",
+        "en": "Founding Board Member"
+      },
+      "org": {
+        "tr": "Işık Run Club, Işık Üniversitesi",
+        "en": "Işık Run Club, Işık University"
+      },
+      "date": {
+        "tr": "Nis 2026 – Haz 2026",
+        "en": "Apr 2026 – Jun 2026"
+      },
+      "items": [],
+      "note": {
+        "tr": "Koşu, trekking, doğa sporları ve sosyal etkinlikler organize ettim",
+        "en": "Planned runs, trekking, outdoor sports and social events"
+      }
+    }
+  ],
+  "research": {
+    "title": {
+      "tr": "TÜBİTAK 2209-A Araştırma Projesi",
+      "en": "TÜBİTAK 2209-A Research Project"
+    },
+    "role": {
+      "tr": "Proje Yürütücüsü · 4 Kişilik Ekip",
+      "en": "Project Lead · 4-Person Team"
+    },
+    "org": {
+      "tr": "Üniversite Öğrencilerinin Dijital Davranışlarının Akademik Başarıları Üzerinde Etkisi: Ekran Süresi, Uyku, Stres ve Farkındalığın Rolünün Veri Bilimi Yaklaşımıyla İncelenmesi · Başvuru No 1919B012534181",
+      "en": "The Effect of University Students' Digital Behaviors on Academic Achievement: Examining the Role of Screen Time, Sleep, Stress and Awareness through a Data Science Approach · Application No 1919B012534181"
+    },
+    "date": {
+      "tr": "2026 – devam ediyor",
+      "en": "2026 – ongoing"
+    },
+    "topic": {
+      "tr": "Üniversite Öğrencilerinin Dijital Davranışlarının Akademik Başarıları Üzerinde Etkisi: Ekran Süresi, Uyku, Stres ve Farkındalığın Rolünün Veri Bilimi Yaklaşımıyla İncelenmesi",
+      "en": "The Effect of University Students' Digital Behaviors on Academic Achievement: Examining the Role of Screen Time, Sleep, Stress and Awareness through a Data Science Approach"
+    },
+    "items": [
+      {
+        "id": "res-i-1",
+        "value": {
+          "tr": "TÜBİTAK tarafından kabul edildi ve 2209-A programı kapsamında hibe desteği almaya hak kazandı; şu an veri toplama aşamasında",
+          "en": "Accepted by TÜBİTAK and awarded a grant under the 2209-A programme; currently in the data collection phase"
+        }
+      },
+      {
+        "id": "res-i-2",
+        "value": {
+          "tr": "PSQI, PSS-10 ve MAAS ölçekleriyle toplanan ekran süresi ve not ortalaması verisini çoklu regresyon ve aracılık/moderasyon analiziyle inceliyor, çıktı olarak “Farkındalık Gösterge Paneli” prototipini hedefliyor",
+          "en": "Examines screen-time and GPA data collected via the PSQI, PSS-10 and MAAS scales through multiple regression and mediation/moderation analysis, targeting an “Awareness Dashboard” prototype as output"
+        }
+      },
+      {
+        "id": "res-i-3",
+        "value": {
+          "tr": "Danışman: Dr. Habibe Aktay",
+          "en": "Advisor: Dr. Habibe Aktay"
+        }
+      }
+    ]
+  },
+  "projects": [
+    {
+      "id": "proj-1",
+      "url": "https://github.com/tolguner/IsikCampusOS",
+      "urlLabel": "github.com/tolguner/IsikCampusOS",
+      "title": {
+        "tr": "Işık CampusOS",
+        "en": "Işık CampusOS"
+      },
+      "kind": {
+        "tr": "Bitirme Projesi · 2026",
+        "en": "Capstone Project · 2026"
+      },
+      "tech": {
+        "tr": "Java · Spring Boot · React · Apache Kafka · PostgreSQL · Docker",
+        "en": "Java · Spring Boot · React · Apache Kafka · PostgreSQL · Docker"
+      },
+      "note": {
+        "tr": "Kampüs yaşamının dağınık süreçlerini — kulüp ve etkinlikler, tesis rezervasyonu, yemek siparişi, paylaşımlı yolculuk — öğrencinin tek hesapla kullandığı bir platformda birleştirmeyi amaçlar.",
+        "en": "Aims to bring the scattered parts of campus life — clubs and events, facility booking, food ordering, ride sharing — into one platform students use with a single account."
+      },
+      "items": [
+        {
+          "id": "proj-1-i-1",
+          "value": {
+            "tr": "Mikroservis mimarisi: API Gateway'de merkezi JWT doğrulama, Kafka ile olay güdümlü servis iletişimi, servis başına ayrı veritabanı",
+            "en": "Microservice architecture: centralized JWT validation at the API gateway, event-driven service communication via Kafka, database per service"
+          }
+        }
+      ]
+    },
+    {
+      "id": "proj-2",
+      "url": "https://github.com/tolguner/tolguner.github.io",
+      "urlLabel": "github.com/tolguner/tolguner.github.io",
+      "title": {
+        "tr": "tolguner.me",
+        "en": "tolguner.me"
+      },
+      "kind": {
+        "tr": "Kişisel Portfolyo Sitesi · 2026",
+        "en": "Personal Portfolio Site · 2026"
+      },
+      "tech": {
+        "tr": "Next.js · TypeScript · Three.js · GSAP · Vercel",
+        "en": "Next.js · TypeScript · Three.js · GSAP · Vercel"
+      },
+      "note": {
+        "tr": "Kişisel geçmişimi, projelerimi ve araştırmamı scroll'a bağlı 3B bir deneyimle anlatır; Vercel'de yayınlanır, depo listesi GitHub API'den çekilir.",
+        "en": "Presents my background, projects and research through a scroll-driven 3D experience; deployed on Vercel, with the repository list fetched from the GitHub API."
+      },
+      "items": [
+        {
+          "id": "proj-2-i-1",
+          "value": {
+            "tr": "Three.js tabanlı özel 3B sahne ve GSAP ScrollTrigger ile senaryolu geçiş animasyonları",
+            "en": "Custom Three.js scene with GSAP ScrollTrigger-driven transition animations"
+          }
+        }
+      ]
+    },
+    {
+      "id": "proj-3",
+      "url": "https://github.com/tolguner/Veterinary-Management-System",
+      "urlLabel": "github.com/tolguner/Veterinary-Management-System",
+      "title": {
+        "tr": "Veteriner Yönetim Sistemi",
+        "en": "Veterinary Management System"
+      },
+      "kind": {
+        "tr": "Proje Yürütücüsü · 5 Kişilik Ekip · 2025",
+        "en": "Project Lead · 5-Person Team · 2025"
+      },
+      "tech": {
+        "tr": "Spring Boot · React · MySQL · JWT",
+        "en": "Spring Boot · React · MySQL · JWT"
+      },
+      "note": {
+        "tr": "Bir veteriner kliniğinin hasta, randevu ve tedavi kayıtlarını tek sistemde yönetmesini sağlar.",
+        "en": "Lets a veterinary clinic manage patient, appointment and treatment records in one system."
+      },
+      "items": [
+        {
+          "id": "proj-3-i-1",
+          "value": {
+            "tr": "JWT korumalı REST API ve React arayüzü",
+            "en": "JWT-secured REST API and React interface"
+          }
+        }
+      ]
+    },
+    {
+      "id": "proj-4",
+      "url": "https://github.com/tolguner/Hizli-Kazanc-Algisi-Analizi",
+      "urlLabel": "github.com/tolguner/Hizli-Kazanc-Algisi-Analizi",
+      "title": {
+        "tr": "Şans Oyunlarında Hızlı Kazanç Algısı ve Emek İlişkisi: İstatistiksel Bir Analiz ve Modelleme",
+        "en": "Quick-Gain Perception and Effort in Games of Chance: A Statistical Analysis and Modelling"
+      },
+      "kind": {
+        "tr": "Proje Yürütücüsü · 4 Kişilik Ekip · 2025",
+        "en": "Project Lead · 4-Person Team · 2025"
+      },
+      "tech": {
+        "tr": "Python · pandas · statsmodels · Jupyter",
+        "en": "Python · pandas · statsmodels · Jupyter"
+      },
+      "note": {
+        "tr": "Hızlı kazanç algısının emek inancıyla ilişkisini anket temelli istatistiksel yöntemlerle inceler.",
+        "en": "Examines the relationship between perceived quick gains and belief in effort using survey-based statistical methods."
+      },
+      "items": [
+        {
+          "id": "proj-4-i-1",
+          "value": {
+            "tr": "153 katılımcılı veride güvenilirlik, regresyon ve aracılık analizi",
+            "en": "Reliability, regression and mediation analysis on data from 153 participants"
+          }
+        }
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "cvskill-1",
+      "label": {
+        "tr": "Diller",
+        "en": "Languages"
+      },
+      "items": [
+        {
+          "id": "cvskill-1-i-1",
+          "value": {
+            "tr": "Java",
+            "en": "Java"
+          }
+        },
+        {
+          "id": "cvskill-1-i-2",
+          "value": {
+            "tr": "TypeScript",
+            "en": "TypeScript"
+          }
+        },
+        {
+          "id": "cvskill-1-i-3",
+          "value": {
+            "tr": "Python",
+            "en": "Python"
+          }
+        },
+        {
+          "id": "cvskill-1-i-4",
+          "value": {
+            "tr": "Move",
+            "en": "Move"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cvskill-2",
+      "label": {
+        "tr": "Backend",
+        "en": "Backend"
+      },
+      "items": [
+        {
+          "id": "cvskill-2-i-1",
+          "value": {
+            "tr": "Spring Boot",
+            "en": "Spring Boot"
+          }
+        },
+        {
+          "id": "cvskill-2-i-2",
+          "value": {
+            "tr": "REST API",
+            "en": "REST APIs"
+          }
+        },
+        {
+          "id": "cvskill-2-i-3",
+          "value": {
+            "tr": "JWT",
+            "en": "JWT"
+          }
+        },
+        {
+          "id": "cvskill-2-i-4",
+          "value": {
+            "tr": "Kafka",
+            "en": "Kafka"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cvskill-3",
+      "label": {
+        "tr": "Frontend",
+        "en": "Frontend"
+      },
+      "items": [
+        {
+          "id": "cvskill-3-i-1",
+          "value": {
+            "tr": "React",
+            "en": "React"
+          }
+        },
+        {
+          "id": "cvskill-3-i-2",
+          "value": {
+            "tr": "Next.js",
+            "en": "Next.js"
+          }
+        },
+        {
+          "id": "cvskill-3-i-3",
+          "value": {
+            "tr": "Tailwind CSS",
+            "en": "Tailwind CSS"
+          }
+        },
+        {
+          "id": "cvskill-3-i-4",
+          "value": {
+            "tr": "JavaFX",
+            "en": "JavaFX"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cvskill-4",
+      "label": {
+        "tr": "Veri ve analiz",
+        "en": "Data & analysis"
+      },
+      "items": [
+        {
+          "id": "cvskill-4-i-1",
+          "value": {
+            "tr": "pandas",
+            "en": "pandas"
+          }
+        },
+        {
+          "id": "cvskill-4-i-2",
+          "value": {
+            "tr": "NumPy",
+            "en": "NumPy"
+          }
+        },
+        {
+          "id": "cvskill-4-i-3",
+          "value": {
+            "tr": "statsmodels",
+            "en": "statsmodels"
+          }
+        },
+        {
+          "id": "cvskill-4-i-4",
+          "value": {
+            "tr": "Jupyter",
+            "en": "Jupyter"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cvskill-5",
+      "label": {
+        "tr": "Veritabanı",
+        "en": "Databases"
+      },
+      "items": [
+        {
+          "id": "cvskill-5-i-1",
+          "value": {
+            "tr": "PostgreSQL",
+            "en": "PostgreSQL"
+          }
+        },
+        {
+          "id": "cvskill-5-i-2",
+          "value": {
+            "tr": "MySQL",
+            "en": "MySQL"
+          }
+        },
+        {
+          "id": "cvskill-5-i-3",
+          "value": {
+            "tr": "MSSQL",
+            "en": "MSSQL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cvskill-6",
+      "label": {
+        "tr": "Araçlar",
+        "en": "Tools"
+      },
+      "items": [
+        {
+          "id": "cvskill-6-i-1",
+          "value": {
+            "tr": "Docker",
+            "en": "Docker"
+          }
+        },
+        {
+          "id": "cvskill-6-i-2",
+          "value": {
+            "tr": "Git ve GitHub",
+            "en": "Git & GitHub"
+          }
+        },
+        {
+          "id": "cvskill-6-i-3",
+          "value": {
+            "tr": "Maven",
+            "en": "Maven"
+          }
+        }
+      ]
+    }
+  ],
+  "personal": [
+    {
+      "id": "personal-1",
+      "value": {
+        "tr": "Ekip liderliği ve koordinasyon",
+        "en": "Team leadership and coordination"
+      }
+    },
+    {
+      "id": "personal-2",
+      "value": {
+        "tr": "Etkinlik ve organizasyon yönetimi",
+        "en": "Event and organization management"
+      }
+    },
+    {
+      "id": "personal-3",
+      "value": {
+        "tr": "İletişim ve sunum",
+        "en": "Communication and presentation"
+      }
+    },
+    {
+      "id": "personal-4",
+      "value": {
+        "tr": "Proje planlama",
+        "en": "Project planning"
+      }
+    }
+  ],
+  "education": {
+    "degree": {
+      "tr": "Yönetim Bilişim Sistemleri, Lisans",
+      "en": "B.A. Management Information Systems"
+    },
+    "school": {
+      "tr": "Işık Üniversitesi, İstanbul",
+      "en": "Işık University, Istanbul"
+    },
+    "date": {
+      "tr": "2021 – 2026",
+      "en": "2021 – 2026"
+    },
+    "meta": {
+      "tr": "Genel not ortalaması 3,43 / 4,00 · %100 burslu",
+      "en": "GPA 3.43 / 4.00 · Full scholarship (100%)"
+    }
+  },
+  "languages": [
+    {
+      "id": "lang-1",
+      "value": {
+        "tr": "Türkçe — anadil",
+        "en": "Turkish — native"
+      }
+    },
+    {
+      "id": "lang-2",
+      "value": {
+        "tr": "İngilizce — orta-ileri (B2)",
+        "en": "English — upper-intermediate (B2)"
+      }
+    },
+    {
+      "id": "lang-3",
+      "value": {
+        "tr": "Almanca — başlangıç (A1)",
+        "en": "German — beginner (A1)"
+      }
+    }
+  ],
+  "footer": {
+    "tr": "İstanbul / Bursa, Türkiye",
+    "en": "Istanbul / Bursa, Turkey"
+  },
+  "updated": {
+    "tr": "Son güncelleme",
+    "en": "Last updated"
+  },
+  "links": {
+    "email": "tolgaolguner@gmail.com",
+    "github": "https://github.com/tolguner",
+    "linkedin": "https://www.linkedin.com/in/tolguner/"
+  }
+}

@@ -1,15 +1,27 @@
 import Home from "@/components/home/Home";
-import { getGallery } from "@/lib/gallery";
+import { localizeHome } from "@/lib/content/localize";
+import { getHomeDoc, getPhotos } from "@/lib/content/read";
 import { fetchPublicRepoCount, fetchRepos } from "@/lib/repos";
 
-// getGallery() build sirasinda dosya sistemini okuyor. Sayfa istek aninda ya da
-// ISR ile yeniden uretilirse bu klasor serverless paketinde bulunmaz ve galeri
-// sessizce bosalir; bu yuzden sayfa yalnizca deploy aninda uretiliyor.
-// (Faz B'de galeri Supabase'e tasininca revalidate acilacak.)
-export const dynamic = "force-static";
-export const revalidate = false;
+// Icerik ve galeri artik Supabase'ten geliyor; okuma yolu `unstable_cache` ile
+// saatlik yenileniyor ve yayimlamada `revalidateTag` ile aninda tazeleniyor.
+// Bu yuzden Faz A'daki `force-static` kisiti kalkti.
+export const revalidate = 3600;
 
 export default async function Page() {
-  const [repos, repoCount] = await Promise.all([fetchRepos(), fetchPublicRepoCount()]);
-  return <Home repos={repos} repoCount={repoCount} photos={getGallery()} />;
+  const [doc, photos, repos, repoCount] = await Promise.all([
+    getHomeDoc(),
+    getPhotos(),
+    fetchRepos(),
+    fetchPublicRepoCount(),
+  ]);
+
+  return (
+    <Home
+      repos={repos}
+      repoCount={repoCount}
+      photos={photos}
+      icerik={{ tr: localizeHome(doc, "tr"), en: localizeHome(doc, "en") }}
+    />
+  );
 }

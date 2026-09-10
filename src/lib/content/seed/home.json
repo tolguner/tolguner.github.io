@@ -1,0 +1,1152 @@
+{
+  "nav": {
+    "about": {
+      "tr": "Hakkımda",
+      "en": "About"
+    },
+    "journey": {
+      "tr": "Yolculuk",
+      "en": "Journey"
+    },
+    "projects": {
+      "tr": "Projeler",
+      "en": "Projects"
+    },
+    "research": {
+      "tr": "Araştırma",
+      "en": "Research"
+    },
+    "skills": {
+      "tr": "Yetkinlikler",
+      "en": "Skills"
+    },
+    "contact": {
+      "tr": "İletişim",
+      "en": "Contact"
+    },
+    "cv": {
+      "tr": "CV",
+      "en": "CV"
+    },
+    "menu": {
+      "tr": "Menüyü aç",
+      "en": "Open menu"
+    },
+    "menuClose": {
+      "tr": "Menüyü kapat",
+      "en": "Close menu"
+    },
+    "skipIntro": {
+      "tr": "Geç",
+      "en": "Skip"
+    },
+    "temaAcik": {
+      "tr": "Açık temaya geç",
+      "en": "Switch to light theme"
+    },
+    "temaKoyu": {
+      "tr": "Koyu temaya geç",
+      "en": "Switch to dark theme"
+    }
+  },
+  "hero": {
+    "kicker": {
+      "tr": "Yönetim Bilişim Sistemleri · Işık Üniversitesi",
+      "en": "Management Information Systems · Işık University"
+    },
+    "line1": {
+      "tr": "“Bir insan gelişir,",
+      "en": "“When a person grows,"
+    },
+    "line2": {
+      "tr": "dünya değişir.”",
+      "en": "the world changes.”"
+    },
+    "sub": {
+      "tr": "Bu vizyonla çıktığım yolculukta akademik ve kişisel gelişimimi sizlerle paylaşıyorum. Öğrendiğim her şeyin önce beni, sonra birlikte çalıştığım insanları ve ortaya çıkan işi değiştirdiğine inanıyorum.",
+      "en": "On the journey I set out on with this vision, I share my academic and personal growth here. I believe everything I learn changes me first, then the people I work with and the work we produce."
+    },
+    "ctaProjects": {
+      "tr": "Projelere bak",
+      "en": "See projects"
+    },
+    "ctaCv": {
+      "tr": "CV'yi aç",
+      "en": "Open CV"
+    }
+  },
+  "contact": {
+    "title": {
+      "tr": "Birlikte çalışalım.",
+      "en": "Let's work together."
+    },
+    "text": {
+      "tr": "Staj, iş ve iş birliği fırsatları için bir e-posta yeter.",
+      "en": "For internships, roles and collaborations, one email is enough."
+    },
+    "email": {
+      "tr": "E-posta gönder",
+      "en": "Send an email"
+    },
+    "cv": {
+      "tr": "CV'yi görüntüle",
+      "en": "View CV"
+    }
+  },
+  "stats": [
+    {
+      "id": "stat-1",
+      "value": 3.43,
+      "label": {
+        "tr": "Genel not ortalaması / 4",
+        "en": "GPA / 4"
+      },
+      "decimals": 2
+    },
+    {
+      "id": "stat-2",
+      "value": 3,
+      "label": {
+        "tr": "Yıl kulüp başkanlığı",
+        "en": "Years as club president"
+      }
+    },
+    {
+      "id": "stat-3",
+      "value": 1,
+      "label": {
+        "tr": "TÜBİTAK 2209-A destekli araştırma",
+        "en": "TÜBİTAK 2209-A funded research"
+      }
+    },
+    {
+      "id": "stat-4",
+      "value": 11,
+      "label": {
+        "tr": "Herkese açık GitHub deposu",
+        "en": "Public GitHub repositories"
+      },
+      "key": "repos"
+    }
+  ],
+  "about": {
+    "title": {
+      "tr": "Hakkımda",
+      "en": "About"
+    },
+    "p1": {
+      "tr": "Işık Üniversitesi Yönetim Bilişim Sistemleri son sınıf öğrencisiyim. Bitirme projemde mikroservis mimarili bütünleşik bir kampüs platformu kurdum; ekip projelerinde koordinasyonu üstlendim; üç yıl IT&MIS Kulübü başkanlığını yürüttüm.",
+      "en": "Final-year Management Information Systems student at Işık University. For my capstone I built an integrated campus platform on a microservice architecture; I took on coordination in team projects; I served as president of the IT&MIS Club for three years."
+    },
+    "p2": {
+      "tr": "Kurumsal İletişim Daire Başkanlığı'nda üniversitenin düzenlediği etkinlik, organizasyon ve çalışmalarda görev aldım; görevli öğrenci ekibini koordine ettim. Bugün TÜBİTAK 2209-A destekli bir araştırma projesinin yürütücüsüyüm. Her yeni projede bir öncekinin eksiğini kapatmaya çalışıyorum; sahada öğrendiklerim, kodun kendisi kadar yol gösterici oluyor.",
+      "en": "At the Corporate Communications Directorate I worked on the events, organizations and projects the university runs and coordinated the student staff team. Today I lead a TÜBİTAK 2209-A funded research project. With every new project I try to close the gap the previous one left; what I learn in the field guides me as much as the code itself."
+    },
+    "facts": [
+      {
+        "id": "fact-1",
+        "k": {
+          "tr": "Eğitim",
+          "en": "Education"
+        },
+        "v": {
+          "tr": "Işık Üniversitesi · YBS (2021–2026)",
+          "en": "Işık University · MIS (2021–2026)"
+        }
+      },
+      {
+        "id": "fact-2",
+        "k": {
+          "tr": "Şu an",
+          "en": "Now"
+        },
+        "v": {
+          "tr": "TÜBİTAK 2209-A projesi ve staj dönemi",
+          "en": "TÜBİTAK 2209-A project and internships"
+        }
+      },
+      {
+        "id": "fact-3",
+        "k": {
+          "tr": "Konum",
+          "en": "Location"
+        },
+        "v": {
+          "tr": "İstanbul / Bursa, Türkiye",
+          "en": "Istanbul / Bursa, Turkey"
+        }
+      },
+      {
+        "id": "fact-4",
+        "k": {
+          "tr": "Diller",
+          "en": "Languages"
+        },
+        "v": {
+          "tr": "Türkçe · İngilizce (B2) · Almanca (A1)",
+          "en": "Turkish · English (B2) · German (A1)"
+        }
+      }
+    ],
+    "badges": [
+      {
+        "id": "badge-1",
+        "k": {
+          "tr": "TÜBİTAK 2209-A",
+          "en": "TÜBİTAK 2209-A"
+        },
+        "v": {
+          "tr": "Proje Yürütücüsü",
+          "en": "Project Lead"
+        }
+      },
+      {
+        "id": "badge-2",
+        "k": {
+          "tr": "IT&MIS Kulübü",
+          "en": "IT&MIS Club"
+        },
+        "v": {
+          "tr": "Başkan · 2023–2026",
+          "en": "President · 2023–2026"
+        }
+      }
+    ]
+  },
+  "journey": {
+    "title": {
+      "tr": "Yolculuk",
+      "en": "Journey"
+    },
+    "rangeLabel": {
+      "tr": "Zaman aralığı",
+      "en": "Timeline"
+    },
+    "galleryLabel": {
+      "tr": "Etkinlikler ve çalışmalar",
+      "en": "Events and activities"
+    },
+    "stops": [
+      {
+        "id": "stop-1",
+        "year": "2021",
+        "period": {
+          "tr": "Eyl 2021 – Haz 2022",
+          "en": "Sep 2021 – Jun 2022"
+        },
+        "tag": {
+          "tr": "Eğitim",
+          "en": "Education"
+        },
+        "title": {
+          "tr": "Işık Üniversitesi'ne Giriş",
+          "en": "Starting at Işık University"
+        },
+        "text": {
+          "tr": "Bir yıl İngilizce hazırlık eğitimi okudum.",
+          "en": "I spent a year in the English preparatory programme."
+        },
+        "details": [
+          {
+            "id": "stop-1-d-1",
+            "value": {
+              "tr": "EAQUALS akreditasyonlu program",
+              "en": "EAQUALS-accredited programme"
+            }
+          },
+          {
+            "id": "stop-1-d-2",
+            "value": {
+              "tr": "Akademik İngilizce ve dil pratiği becerileri",
+              "en": "Academic English and language practice"
+            }
+          }
+        ]
+      },
+      {
+        "id": "stop-2",
+        "year": "2022",
+        "period": {
+          "tr": "Eylül 2022",
+          "en": "September 2022"
+        },
+        "tag": {
+          "tr": "Eğitim",
+          "en": "Education"
+        },
+        "title": {
+          "tr": "Bölüme Başlangıç",
+          "en": "Starting the Degree"
+        },
+        "text": {
+          "tr": "Yönetim Bilişim Sistemleri bölümüne başladım; yazılımı, veriyi ve iş süreçlerini birlikte okuyan bir programda ilerledim.",
+          "en": "I began Management Information Systems, a programme that reads software, data and business processes together."
+        },
+        "details": [
+          {
+            "id": "stop-2-d-1",
+            "value": {
+              "tr": "Yazılım geliştirme, veritabanı ve sistem analizi",
+              "en": "Software development, databases and systems analysis"
+            }
+          },
+          {
+            "id": "stop-2-d-2",
+            "value": {
+              "tr": "İş süreçleri, proje yönetimi ve veri analizi",
+              "en": "Business processes, project management and data analysis"
+            }
+          }
+        ]
+      },
+      {
+        "id": "stop-3",
+        "year": "2023",
+        "period": {
+          "tr": "Eki 2023 – Haz 2026",
+          "en": "Oct 2023 – Jun 2026"
+        },
+        "tag": {
+          "tr": "Liderlik",
+          "en": "Leadership"
+        },
+        "title": {
+          "tr": "Kulüpler",
+          "en": "Student Clubs"
+        },
+        "text": {
+          "tr": "IT&MIS Kulübü'nün başkanlığını üç yıl yürüttüm; etkinlikleri planlayıp ekipleri koordine ettim. 2026'da Işık Run Club'ın kurucuları arasında yer aldım.",
+          "en": "I served as president of the IT&MIS Club for three years, planning events and coordinating teams. In 2026 I became one of the founders of Işık Run Club."
+        },
+        "details": [
+          {
+            "id": "stop-3-d-1",
+            "value": {
+              "tr": "IT&MIS Kulübü — Başkan: söyleşi, zirve, hackathon, kariyer fuarı, şirket gezileri ve mülakat simülasyonları",
+              "en": "IT&MIS Club — President: talks, summits, hackathons, career fairs, company visits and mock interviews"
+            }
+          },
+          {
+            "id": "stop-3-d-2",
+            "value": {
+              "tr": "Işık Run Club — kurucu üye: koşu, trekking, doğa sporları ve sosyal etkinlikler",
+              "en": "Işık Run Club — founding member: runs, trekking, outdoor sports and social events"
+            }
+          }
+        ]
+      },
+      {
+        "id": "stop-4",
+        "year": "2025",
+        "period": {
+          "tr": "May 2025 – Ağu 2026",
+          "en": "May 2025 – Aug 2026"
+        },
+        "tag": {
+          "tr": "Deneyim",
+          "en": "Experience"
+        },
+        "title": {
+          "tr": "Çalışma Burslu Öğrenci",
+          "en": "Work-Study Student"
+        },
+        "text": {
+          "tr": "Üniversitenin Kurumsal İletişim Daire Başkanlığı'nda görev aldım; tanıtımdan organizasyona kadar birçok sürecin farklı aşamalarında sorumluluk üstlendim.",
+          "en": "I worked at the university's Corporate Communications Directorate, taking responsibility across many stages of promotion and organization."
+        },
+        "details": [
+          {
+            "id": "stop-4-d-1",
+            "value": {
+              "tr": "Kurumsal etkinlik, tören ve fuar organizasyonları",
+              "en": "Corporate events, ceremonies and fairs"
+            }
+          },
+          {
+            "id": "stop-4-d-2",
+            "value": {
+              "tr": "Tercih ve Tanıtım Günleri'nde görevli öğrenci ekibinin koordinasyonu",
+              "en": "Coordinating the student staff team at Preference and Promotion Days"
+            }
+          }
+        ]
+      },
+      {
+        "id": "stop-5",
+        "year": "2025",
+        "period": {
+          "tr": "Eki 2025 – Tem 2026",
+          "en": "Oct 2025 – Jul 2026"
+        },
+        "tag": {
+          "tr": "Deneyim",
+          "en": "Experience"
+        },
+        "title": {
+          "tr": "Üniversite Pazarlama Temsilcisi",
+          "en": "University Marketing Representative"
+        },
+        "text": {
+          "tr": "Unicourse'un üniversite tarafındaki tanıtım ve pazarlama ekibinde yer aldım; firmanın ihtiyaç duyduğu eğitim materyallerinin organizasyonunu yürüttüm.",
+          "en": "I worked on Unicourse's university-side promotion and marketing team and organized the training materials the company needed."
+        },
+        "details": [
+          {
+            "id": "stop-5-d-1",
+            "value": {
+              "tr": "Kampüste tanıtım ve pazarlama faaliyetleri",
+              "en": "On-campus promotion and marketing"
+            }
+          },
+          {
+            "id": "stop-5-d-2",
+            "value": {
+              "tr": "Eğitim materyallerinin hazırlanması ve organizasyonu",
+              "en": "Preparing and organizing training materials"
+            }
+          }
+        ]
+      },
+      {
+        "id": "stop-6",
+        "year": "2025",
+        "period": {
+          "tr": "2025",
+          "en": "2025"
+        },
+        "tag": {
+          "tr": "Geliştirme",
+          "en": "Development"
+        },
+        "title": {
+          "tr": "Yazılım Projeleri",
+          "en": "Software Projects"
+        },
+        "text": {
+          "tr": "Masaüstünden web'e uzanan projelerle kendimi geliştirdim: JavaFX uygulamalarından Spring Boot ve React ile kurulan tam yığın sistemlere geçtim.",
+          "en": "I grew through projects that ran from desktop to web: JavaFX applications first, then full-stack systems with Spring Boot and React."
+        },
+        "details": [
+          {
+            "id": "stop-6-d-1",
+            "value": {
+              "tr": "Veteriner Yönetim Sistemi — beş kişilik ekipte proje yürütücüsü",
+              "en": "Veterinary Management System — project lead in a five-person team"
+            }
+          },
+          {
+            "id": "stop-6-d-2",
+            "value": {
+              "tr": "Otel Yönetim Sistemi ve SelfWorkout — JavaFX + ilişkisel veritabanı",
+              "en": "Hotel Management System and SelfWorkout — JavaFX + relational databases"
+            }
+          },
+          {
+            "id": "stop-6-d-3",
+            "value": {
+              "tr": "REST API, JWT ile yetkilendirme, rol bazlı arayüzler",
+              "en": "REST APIs, JWT authorization, role-based interfaces"
+            }
+          }
+        ]
+      },
+      {
+        "id": "stop-7",
+        "year": "2025",
+        "period": {
+          "tr": "2025",
+          "en": "2025"
+        },
+        "tag": {
+          "tr": "Araştırma",
+          "en": "Research"
+        },
+        "title": {
+          "tr": "Veri Bilimi Projeleri",
+          "en": "Data Science Projects"
+        },
+        "text": {
+          "tr": "İki dönem projesinde anket ve ilan verisiyle çalıştım; veriyi temizlemekten model kurmaya kadar süreci uçtan uca deneyimledim.",
+          "en": "I ran two term projects on survey and listing data, going end to end from cleaning to modelling."
+        },
+        "details": [
+          {
+            "id": "stop-7-d-1",
+            "value": {
+              "tr": "Şans Oyunlarında Hızlı Kazanç Algısı ve Emek İlişkisi — güvenilirlik, regresyon ve aracılık analizi",
+              "en": "Quick-Gain Perception and Effort in Games of Chance — reliability, regression and mediation analysis"
+            }
+          },
+          {
+            "id": "stop-7-d-2",
+            "value": {
+              "tr": "İstanbul Konut Fiyat Tahmini — öznitelik mühendisliği ve Random Forest",
+              "en": "Istanbul House Price Prediction — feature engineering and Random Forest"
+            }
+          },
+          {
+            "id": "stop-7-d-3",
+            "value": {
+              "tr": "Python · pandas · statsmodels · scikit-learn",
+              "en": "Python · pandas · statsmodels · scikit-learn"
+            }
+          }
+        ]
+      },
+      {
+        "id": "stop-8",
+        "year": "2026",
+        "period": {
+          "tr": "2026",
+          "en": "2026"
+        },
+        "tag": {
+          "tr": "Keşif",
+          "en": "Exploration"
+        },
+        "title": {
+          "tr": "Alan Projeleri",
+          "en": "Exploratory Projects"
+        },
+        "text": {
+          "tr": "Farklı alanlarda da üretmek için blokzincir ve IoT tarafında projeler geliştirdim.",
+          "en": "To build outside my usual stack, I developed projects in blockchain and IoT."
+        },
+        "details": [
+          {
+            "id": "stop-8-d-1",
+            "value": {
+              "tr": "EventChain — cüzdanla giriş, QR yoklama ve NFT katılım sertifikası",
+              "en": "EventChain — wallet login, QR check-in and NFT attendance certificates"
+            }
+          },
+          {
+            "id": "stop-8-d-2",
+            "value": {
+              "tr": "SiteDAO — apartman yönetimini zincire taşıyan merkeziyetsiz uygulama",
+              "en": "SiteDAO — decentralized building management moved on-chain"
+            }
+          },
+          {
+            "id": "stop-8-d-3",
+            "value": {
+              "tr": "GuardPi — Raspberry Pi üzerinde sensör ve kamerayı tek panelde toplayan güvenlik sistemi",
+              "en": "GuardPi — Raspberry Pi security system with sensors and camera in one dashboard"
+            }
+          }
+        ]
+      },
+      {
+        "id": "stop-9",
+        "year": "2026",
+        "period": {
+          "tr": "2026 – devam ediyor",
+          "en": "2026 – ongoing"
+        },
+        "tag": {
+          "tr": "Araştırma",
+          "en": "Research"
+        },
+        "title": {
+          "tr": "TÜBİTAK 2209-A",
+          "en": "TÜBİTAK 2209-A"
+        },
+        "text": {
+          "tr": "Hazırladığımız araştırma projesi TÜBİTAK tarafından kabul edildi ve 2209-A programı kapsamında hibe desteği almaya hak kazandı. Projenin yürütücüsüyüm.",
+          "en": "Our research proposal was accepted by TÜBİTAK and awarded a grant under the 2209-A programme. I lead the project."
+        },
+        "details": [
+          {
+            "id": "stop-9-d-1",
+            "value": {
+              "tr": "TÜBİTAK tarafından kabul edildi, hibe desteği aldı",
+              "en": "Accepted by TÜBİTAK and awarded a grant"
+            }
+          },
+          {
+            "id": "stop-9-d-2",
+            "value": {
+              "tr": "Dört kişilik ekip · danışman Dr. Habibe Aktay",
+              "en": "Four-person team · advisor Dr. Habibe Aktay"
+            }
+          },
+          {
+            "id": "stop-9-d-3",
+            "value": {
+              "tr": "Şu an veri toplama aşamasında",
+              "en": "Currently in the data collection phase"
+            }
+          }
+        ]
+      },
+      {
+        "id": "stop-10",
+        "year": "2026",
+        "period": {
+          "tr": "2026",
+          "en": "2026"
+        },
+        "tag": {
+          "tr": "Bitirme Projesi",
+          "en": "Capstone"
+        },
+        "title": {
+          "tr": "Işık CampusOS",
+          "en": "Işık CampusOS"
+        },
+        "text": {
+          "tr": "Bitirme projemde kampüs yaşamının dağınık süreçlerini tek kimlik altında toplayan mikroservis tabanlı bir platform kurdum.",
+          "en": "For my capstone I built a microservice platform that brings the scattered parts of campus life under a single identity."
+        },
+        "details": [
+          {
+            "id": "stop-10-d-1",
+            "value": {
+              "tr": "9 mikroservis · Spring Boot · React · PostgreSQL",
+              "en": "9 microservices · Spring Boot · React · PostgreSQL"
+            }
+          },
+          {
+            "id": "stop-10-d-2",
+            "value": {
+              "tr": "API Gateway'de merkezi JWT, Kafka ile olay güdümlü iletişim",
+              "en": "Central JWT at the API gateway, event-driven communication over Kafka"
+            }
+          },
+          {
+            "id": "stop-10-d-3",
+            "value": {
+              "tr": "Docker Compose, Eureka servis keşfi, Zipkin ile izleme",
+              "en": "Docker Compose, Eureka service discovery, Zipkin tracing"
+            }
+          }
+        ],
+        "featured": true
+      },
+      {
+        "id": "stop-11",
+        "year": "2026",
+        "period": {
+          "tr": "2026",
+          "en": "2026"
+        },
+        "tag": {
+          "tr": "Sırada",
+          "en": "Next"
+        },
+        "title": {
+          "tr": "Mezuniyet",
+          "en": "Graduation"
+        },
+        "text": {
+          "tr": "Ders yükümlülüklerimi tamamladım; staj sürecini tamamladıktan sonra öğrendiklerimi sektörde uygulamaya başlayacağım.",
+          "en": "I have completed my coursework; once the internship period is done I will start applying what I learned in industry."
+        },
+        "details": [
+          {
+            "id": "stop-11-d-1",
+            "value": {
+              "tr": "Genel not ortalaması 3,43 / 4,00",
+              "en": "GPA 3.43 / 4.00"
+            }
+          },
+          {
+            "id": "stop-11-d-2",
+            "value": {
+              "tr": "Yönetim Bilişim Sistemleri, Işık Üniversitesi",
+              "en": "Management Information Systems, Işık University"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "projects": {
+    "title": {
+      "tr": "Projeler",
+      "en": "Projects"
+    },
+    "sub": {
+      "tr": "Ders projelerinden bitirme projesine — her biri o dönemki seviyemi dürüstçe yansıtıyor.",
+      "en": "From course work to capstone — each one honestly reflects where I was at the time."
+    },
+    "othersTitle": {
+      "tr": "Diğer depolar",
+      "en": "Other repositories"
+    },
+    "othersSub": {
+      "tr": "GitHub'daki diğer herkese açık çalışmalar",
+      "en": "More public work on GitHub"
+    },
+    "cards": [
+      {
+        "id": "card-1",
+        "statusKind": "capstone",
+        "period": "2026",
+        "url": "https://github.com/tolguner/IsikCampusOS",
+        "tech": [
+          "Java",
+          "Spring Boot",
+          "React",
+          "Kafka",
+          "PostgreSQL",
+          "Docker"
+        ],
+        "title": {
+          "tr": "Işık CampusOS",
+          "en": "Işık CampusOS"
+        },
+        "status": {
+          "tr": "Bitirme Projesi",
+          "en": "Capstone"
+        },
+        "text": {
+          "tr": "Kampüs yaşamının dağınık süreçlerini tek kimlik altında topladım: kulüp ve etkinlikler, tesis rezervasyonu, yemek siparişi, paylaşımlı yolculuk. API Gateway'de merkezi JWT doğrulama kurdum, servisleri Kafka ile olay güdümlü hale getirdim, her servise kendi veritabanını verdim.",
+          "en": "I brought the scattered parts of campus life under one identity: clubs and events, facility booking, food ordering, ride sharing. I set up central JWT validation at the API gateway, made services event-driven over Kafka and gave each service its own database."
+        }
+      },
+      {
+        "id": "card-2",
+        "statusKind": "team",
+        "period": "2025",
+        "url": "https://github.com/tolguner/Veterinary-Management-System",
+        "tech": [
+          "Spring Boot",
+          "React",
+          "MySQL",
+          "JWT"
+        ],
+        "title": {
+          "tr": "Veteriner Yönetim Sistemi",
+          "en": "Veterinary Management System"
+        },
+        "status": {
+          "tr": "Ekip Projesi · Yürütücü",
+          "en": "Team · Lead"
+        },
+        "text": {
+          "tr": "Bir veteriner kliniğinin hasta, randevu ve tedavi kayıtlarını tek sistemde yönetmesini sağlayan uygulamayı, beş kişilik ekipte proje yürütücüsü olarak yürüttüm.",
+          "en": "I led the application that lets a veterinary clinic manage patient, appointment and treatment records in one system, as project lead in a five-person team."
+        }
+      },
+      {
+        "id": "card-3",
+        "statusKind": "research",
+        "period": "2025",
+        "url": "https://github.com/tolguner/Hizli-Kazanc-Algisi-Analizi",
+        "tech": [
+          "Python",
+          "pandas",
+          "statsmodels",
+          "Jupyter"
+        ],
+        "title": {
+          "tr": "Şans Oyunlarında Hızlı Kazanç Algısı ve Emek İlişkisi: İstatistiksel Bir Analiz ve Modelleme",
+          "en": "Quick-Gain Perception and Effort in Games of Chance: A Statistical Analysis and Modelling"
+        },
+        "status": {
+          "tr": "Veri Bilimi",
+          "en": "Data Science"
+        },
+        "text": {
+          "tr": "Şans oyunlarında hızlı kazanç algısının emek inancıyla ilişkisini inceledim; 153 katılımcılı veride güvenilirlik, regresyon ve aracılık analizi yaptım.",
+          "en": "I examined how perceived quick gains in games of chance relate to belief in effort, running reliability, regression and mediation analysis on data from 153 participants."
+        }
+      },
+      {
+        "id": "card-4",
+        "statusKind": "live",
+        "period": "2026",
+        "url": "https://github.com/tolguner/tolguner.github.io",
+        "tech": [
+          "Next.js",
+          "Three.js",
+          "GSAP",
+          "Tailwind"
+        ],
+        "title": {
+          "tr": "tolguner.me",
+          "en": "tolguner.me"
+        },
+        "status": {
+          "tr": "Canlı",
+          "en": "Live"
+        },
+        "text": {
+          "tr": "Bu site. Next.js, Three.js ve GSAP ile scroll'a bağlı bir deneyim kurdum; Vercel üzerinde yayınlanıyor.",
+          "en": "This site. I built a scroll-driven experience with Next.js, Three.js and GSAP; it is hosted on Vercel."
+        }
+      }
+    ]
+  },
+  "research": {
+    "title": {
+      "tr": "Araştırma",
+      "en": "Research"
+    },
+    "kicker": {
+      "tr": "TÜBİTAK 2209-A · Proje Yürütücüsü",
+      "en": "TÜBİTAK 2209-A · Project Lead"
+    },
+    "headline": {
+      "tr": "Ekran süresi, uyku, stres ve farkındalık akademik başarıyı nasıl etkiliyor?",
+      "en": "How do screen time, sleep, stress and awareness shape academic achievement?"
+    },
+    "quote": {
+      "tr": "Üniversite Öğrencilerinin Dijital Davranışlarının Akademik Başarıları Üzerinde Etkisi: Ekran Süresi, Uyku, Stres ve Farkındalığın Rolünün Veri Bilimi Yaklaşımıyla İncelenmesi",
+      "en": "The Effect of University Students' Digital Behaviors on Academic Achievement: Examining the Role of Screen Time, Sleep, Stress and Awareness through a Data Science Approach"
+    },
+    "text": {
+      "tr": "Üniversite öğrencilerinin dijital davranışlarının akademik başarı üzerindeki etkisini veri bilimi yaklaşımıyla inceliyorum. Proje TÜBİTAK tarafından kabul edildi ve 2209-A programı kapsamında hibe desteği almaya hak kazandı; şu an veri toplama aşamasındayız. Dört kişilik ekibin yürütücüsüyüm, danışmanımız Dr. Habibe Aktay.",
+      "en": "I examine the effect of university students' digital behaviors on academic achievement through a data science approach. The project was accepted by TÜBİTAK and awarded a grant under the 2209-A programme; we are currently in the data collection phase. I lead the four-person team, and our advisor is Dr. Habibe Aktay."
+    },
+    "highlight": {
+      "title": {
+        "tr": "Kabul Edildi",
+        "en": "Accepted"
+      },
+      "label": {
+        "tr": "TÜBİTAK 2209-A · Hibe Destekli",
+        "en": "TÜBİTAK 2209-A · Grant-Funded"
+      }
+    },
+    "org": {
+      "tr": "Başvuru No 1919B012534181 · 2026 – devam ediyor",
+      "en": "Application No 1919B012534181 · 2026 – ongoing"
+    },
+    "steps": [
+      {
+        "id": "step-1",
+        "n": "01",
+        "title": {
+          "tr": "Ölçüm",
+          "en": "Measure"
+        },
+        "text": {
+          "tr": "PSQI, PSS-10 ve MAAS ölçekleri, cihaz ekran süresi raporları ve not ortalaması.",
+          "en": "PSQI, PSS-10 and MAAS scales, device screen-time reports and GPA."
+        }
+      },
+      {
+        "id": "step-2",
+        "n": "02",
+        "title": {
+          "tr": "Model",
+          "en": "Model"
+        },
+        "text": {
+          "tr": "Uyku ve stres aracı, farkındalık düzenleyici değişken; sekiz hipotez.",
+          "en": "Sleep and stress as mediators, awareness as moderator; eight hypotheses."
+        }
+      },
+      {
+        "id": "step-3",
+        "n": "03",
+        "title": {
+          "tr": "Analiz",
+          "en": "Analyse"
+        },
+        "text": {
+          "tr": "Çoklu regresyon ve aracılık/moderasyon analizi.",
+          "en": "Multiple regression and mediation/moderation analysis."
+        }
+      },
+      {
+        "id": "step-4",
+        "n": "04",
+        "title": {
+          "tr": "Çıktı",
+          "en": "Deliver"
+        },
+        "text": {
+          "tr": "Öğrencilerin kendi dijital alışkanlıklarını izlediği “Farkındalık Gösterge Paneli” prototipi.",
+          "en": "An “Awareness Dashboard” prototype where students track their own digital habits."
+        }
+      }
+    ]
+  },
+  "skills": {
+    "title": {
+      "tr": "Yetkinlikler",
+      "en": "Skills"
+    },
+    "sub": {
+      "tr": "Projelerde ve sahada gerçekten kullandığım araçlar ve beceriler.",
+      "en": "The tools and skills I actually use, in projects and on the ground."
+    },
+    "techLabel": {
+      "tr": "Teknik",
+      "en": "Technical"
+    },
+    "humanLabel": {
+      "tr": "İnsan Tarafı",
+      "en": "Human Side"
+    },
+    "groups": [
+      {
+        "id": "sgroup-1",
+        "label": {
+          "tr": "Diller",
+          "en": "Languages"
+        },
+        "items": [
+          {
+            "id": "sgroup-1-i-1",
+            "value": {
+              "tr": "Java",
+              "en": "Java"
+            }
+          },
+          {
+            "id": "sgroup-1-i-2",
+            "value": {
+              "tr": "TypeScript",
+              "en": "TypeScript"
+            }
+          },
+          {
+            "id": "sgroup-1-i-3",
+            "value": {
+              "tr": "Python",
+              "en": "Python"
+            }
+          },
+          {
+            "id": "sgroup-1-i-4",
+            "value": {
+              "tr": "Move",
+              "en": "Move"
+            }
+          }
+        ]
+      },
+      {
+        "id": "sgroup-2",
+        "label": {
+          "tr": "Backend",
+          "en": "Backend"
+        },
+        "items": [
+          {
+            "id": "sgroup-2-i-1",
+            "value": {
+              "tr": "Spring Boot",
+              "en": "Spring Boot"
+            }
+          },
+          {
+            "id": "sgroup-2-i-2",
+            "value": {
+              "tr": "REST API",
+              "en": "REST APIs"
+            }
+          },
+          {
+            "id": "sgroup-2-i-3",
+            "value": {
+              "tr": "JWT",
+              "en": "JWT"
+            }
+          },
+          {
+            "id": "sgroup-2-i-4",
+            "value": {
+              "tr": "Apache Kafka",
+              "en": "Apache Kafka"
+            }
+          }
+        ]
+      },
+      {
+        "id": "sgroup-3",
+        "label": {
+          "tr": "Frontend",
+          "en": "Frontend"
+        },
+        "items": [
+          {
+            "id": "sgroup-3-i-1",
+            "value": {
+              "tr": "React",
+              "en": "React"
+            }
+          },
+          {
+            "id": "sgroup-3-i-2",
+            "value": {
+              "tr": "Next.js",
+              "en": "Next.js"
+            }
+          },
+          {
+            "id": "sgroup-3-i-3",
+            "value": {
+              "tr": "Tailwind CSS",
+              "en": "Tailwind CSS"
+            }
+          },
+          {
+            "id": "sgroup-3-i-4",
+            "value": {
+              "tr": "JavaFX",
+              "en": "JavaFX"
+            }
+          }
+        ]
+      },
+      {
+        "id": "sgroup-4",
+        "label": {
+          "tr": "Veri ve Analiz",
+          "en": "Data & Analysis"
+        },
+        "items": [
+          {
+            "id": "sgroup-4-i-1",
+            "value": {
+              "tr": "pandas",
+              "en": "pandas"
+            }
+          },
+          {
+            "id": "sgroup-4-i-2",
+            "value": {
+              "tr": "NumPy",
+              "en": "NumPy"
+            }
+          },
+          {
+            "id": "sgroup-4-i-3",
+            "value": {
+              "tr": "statsmodels",
+              "en": "statsmodels"
+            }
+          },
+          {
+            "id": "sgroup-4-i-4",
+            "value": {
+              "tr": "Jupyter",
+              "en": "Jupyter"
+            }
+          }
+        ]
+      },
+      {
+        "id": "sgroup-5",
+        "label": {
+          "tr": "Veritabanı",
+          "en": "Databases"
+        },
+        "items": [
+          {
+            "id": "sgroup-5-i-1",
+            "value": {
+              "tr": "PostgreSQL",
+              "en": "PostgreSQL"
+            }
+          },
+          {
+            "id": "sgroup-5-i-2",
+            "value": {
+              "tr": "MySQL",
+              "en": "MySQL"
+            }
+          },
+          {
+            "id": "sgroup-5-i-3",
+            "value": {
+              "tr": "MSSQL",
+              "en": "MSSQL"
+            }
+          }
+        ]
+      },
+      {
+        "id": "sgroup-6",
+        "label": {
+          "tr": "Araçlar",
+          "en": "Tools"
+        },
+        "items": [
+          {
+            "id": "sgroup-6-i-1",
+            "value": {
+              "tr": "Docker",
+              "en": "Docker"
+            }
+          },
+          {
+            "id": "sgroup-6-i-2",
+            "value": {
+              "tr": "Git ve GitHub",
+              "en": "Git & GitHub"
+            }
+          },
+          {
+            "id": "sgroup-6-i-3",
+            "value": {
+              "tr": "Maven",
+              "en": "Maven"
+            }
+          }
+        ]
+      }
+    ],
+    "human": [
+      {
+        "id": "human-1",
+        "title": {
+          "tr": "Ekip Liderliği",
+          "en": "Team Leadership"
+        },
+        "text": {
+          "tr": "Üç yıl kulüp başkanlığı; ekip kurma, görev dağılımı ve takip.",
+          "en": "Three years as club president: building teams, dividing work, following through."
+        }
+      },
+      {
+        "id": "human-2",
+        "title": {
+          "tr": "Organizasyon Yönetimi",
+          "en": "Organization Management"
+        },
+        "text": {
+          "tr": "Üniversitenin etkinlik ve tanıtım süreçlerinde saha koordinasyonu.",
+          "en": "On-site coordination across the university's events and promotion work."
+        }
+      },
+      {
+        "id": "human-3",
+        "title": {
+          "tr": "İletişim ve Sunum",
+          "en": "Communication & Presentation"
+        },
+        "text": {
+          "tr": "Farklı paydaşlarla çalışma, tanıtım ve bilgilendirme deneyimi.",
+          "en": "Working with different stakeholders; promotion and briefing experience."
+        }
+      },
+      {
+        "id": "human-4",
+        "title": {
+          "tr": "Proje Koordinasyonu",
+          "en": "Project Coordination"
+        },
+        "text": {
+          "tr": "Ekip projelerinde planlama, ilerleme takibi ve teslim sorumluluğu.",
+          "en": "Planning, progress tracking and delivery in team projects."
+        }
+      }
+    ]
+  },
+  "footer": {
+    "rights": {
+      "tr": "Tolga Olguner",
+      "en": "Tolga Olguner"
+    },
+    "built": {
+      "tr": "Next.js · Three.js · GSAP ile yapıldı",
+      "en": "Built with Next.js · Three.js · GSAP"
+    }
+  }
+}
