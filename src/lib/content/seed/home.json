@@ -773,8 +773,8 @@
           "en": "Live"
         },
         "text": {
-          "tr": "Bu site. Next.js, Three.js ve GSAP ile scroll'a bağlı bir deneyim kurdum; GitHub Pages üzerinde statik olarak yayınlanıyor.",
-          "en": "This site. I built a scroll-driven experience with Next.js, Three.js and GSAP; it is hosted statically on GitHub Pages."
+          "tr": "Bu site. Next.js, Three.js ve GSAP ile scroll'a bağlı bir deneyim kurdum; Vercel üzerinde yayınlanıyor.",
+          "en": "This site. I built a scroll-driven experience with Next.js, Three.js and GSAP; it is hosted on Vercel."
         }
       }
     ]

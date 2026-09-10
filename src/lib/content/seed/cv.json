@@ -292,12 +292,12 @@
         "en": "Personal Portfolio Site · 2026"
       },
       "tech": {
-        "tr": "Next.js · TypeScript · Three.js · GSAP · GitHub Pages",
-        "en": "Next.js · TypeScript · Three.js · GSAP · GitHub Pages"
+        "tr": "Next.js · TypeScript · Three.js · GSAP · Vercel",
+        "en": "Next.js · TypeScript · Three.js · GSAP · Vercel"
       },
       "note": {
-        "tr": "Kişisel geçmişimi, projelerimi ve araştırmamı scroll'a bağlı 3B bir deneyimle anlatır; GitHub Pages'te statik export olarak yayınlanır, depo listesi build sırasında GitHub API'den çekilir.",
-        "en": "Presents my background, projects and research through a scroll-driven 3D experience; deploys as a static export on GitHub Pages, with the repository list fetched from the GitHub API at build time."
+        "tr": "Kişisel geçmişimi, projelerimi ve araştırmamı scroll'a bağlı 3B bir deneyimle anlatır; Vercel'de yayınlanır, depo listesi GitHub API'den çekilir.",
+        "en": "Presents my background, projects and research through a scroll-driven 3D experience; deployed on Vercel, with the repository list fetched from the GitHub API."
       },
       "items": [
         {

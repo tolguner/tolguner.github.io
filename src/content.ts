@@ -89,8 +89,8 @@ export const content: Record<Lang, Dict> = {
       {
         title: "tolguner.me",
         kind: "Kişisel Portfolyo Sitesi · 2026",
-        tech: "Next.js · TypeScript · Three.js · GSAP · GitHub Pages",
-        note: "Kişisel geçmişimi, projelerimi ve araştırmamı scroll'a bağlı 3B bir deneyimle anlatır; GitHub Pages'te statik export olarak yayınlanır, depo listesi build sırasında GitHub API'den çekilir.",
+        tech: "Next.js · TypeScript · Three.js · GSAP · Vercel",
+        note: "Kişisel geçmişimi, projelerimi ve araştırmamı scroll'a bağlı 3B bir deneyimle anlatır; Vercel'de yayınlanır, depo listesi GitHub API'den çekilir.",
         items: ["Three.js tabanlı özel 3B sahne ve GSAP ScrollTrigger ile senaryolu geçiş animasyonları"],
         url: "https://github.com/tolguner/tolguner.github.io",
         urlLabel: "github.com/tolguner/tolguner.github.io",
@@ -196,8 +196,8 @@ export const content: Record<Lang, Dict> = {
       {
         title: "tolguner.me",
         kind: "Personal Portfolio Site · 2026",
-        tech: "Next.js · TypeScript · Three.js · GSAP · GitHub Pages",
-        note: "Presents my background, projects and research through a scroll-driven 3D experience; deploys as a static export on GitHub Pages, with the repository list fetched from the GitHub API at build time.",
+        tech: "Next.js · TypeScript · Three.js · GSAP · Vercel",
+        note: "Presents my background, projects and research through a scroll-driven 3D experience; deployed on Vercel, with the repository list fetched from the GitHub API.",
         items: ["Custom Three.js scene with GSAP ScrollTrigger-driven transition animations"],
         url: "https://github.com/tolguner/tolguner.github.io",
         urlLabel: "github.com/tolguner/tolguner.github.io",
