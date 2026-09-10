@@ -7,6 +7,19 @@ export type Step = { n: string; title: string; text: string };
 export type SkillGroup = { label: string; items: string[] };
 export type SoftSkill = { title: string; text: string };
 
+/** Duz adresler: iki dilde ayni, cevrilmez. Menu capalari (#about vb.) burada
+    YOK — onlar isaretlemedeki id'lerle eslesmek zorunda. */
+export type Baglantilar = {
+  email: string;
+  github: string;
+  linkedin: string;
+  githubEtiket: string;
+  linkedinEtiket: string;
+  heroProjeler: string;
+  heroCv: string;
+  iletisimCv: string;
+};
+
 export type HomeDict = {
   nav: { about: string; journey: string; projects: string; research: string; skills: string; contact: string; cv: string; menu: string; menuClose: string; skipIntro: string; temaAcik: string; temaKoyu: string };
   hero: { kicker: string; line1: string; line2: string; sub: string; ctaProjects: string; ctaCv: string };
@@ -18,6 +31,7 @@ export type HomeDict = {
   skills: { title: string; sub: string; techLabel: string; humanLabel: string; groups: SkillGroup[]; human: SoftSkill[] };
   contact: { title: string; text: string; email: string; cv: string };
   footer: { rights: string; built: string };
+  baglantilar: Baglantilar;
 };
 
 export const home: Record<Lang, HomeDict> = {
@@ -124,6 +138,16 @@ export const home: Record<Lang, HomeDict> = {
       cv: "CV'yi görüntüle",
     },
     footer: { rights: "Tolga Olguner", built: "Next.js · Three.js · GSAP ile yapıldı" },
+    baglantilar: {
+      email: "tolgaolguner@gmail.com",
+      github: "https://github.com/tolguner",
+      linkedin: "https://www.linkedin.com/in/tolguner/",
+      githubEtiket: "github.com/tolguner",
+      linkedinEtiket: "linkedin.com/in/tolguner",
+      heroProjeler: "#projects",
+      heroCv: "/cv/",
+      iletisimCv: "/cv/",
+    },
   },
   en: {
     nav: { about: "About", journey: "Journey", projects: "Projects", research: "Research", skills: "Skills", contact: "Contact", cv: "CV", menu: "Open menu", menuClose: "Close menu", skipIntro: "Skip", temaAcik: "Switch to light theme", temaKoyu: "Switch to dark theme" },
@@ -228,5 +252,15 @@ export const home: Record<Lang, HomeDict> = {
       cv: "View CV",
     },
     footer: { rights: "Tolga Olguner", built: "Built with Next.js · Three.js · GSAP" },
+    baglantilar: {
+      email: "tolgaolguner@gmail.com",
+      github: "https://github.com/tolguner",
+      linkedin: "https://www.linkedin.com/in/tolguner/",
+      githubEtiket: "github.com/tolguner",
+      linkedinEtiket: "linkedin.com/in/tolguner",
+      heroProjeler: "#projects",
+      heroCv: "/cv/",
+      iletisimCv: "/cv/",
+    },
   },
 };

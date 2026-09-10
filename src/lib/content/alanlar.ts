@@ -66,6 +66,7 @@ export const CV_ALANLARI: Alan[] = [
       { tur: "duz", yol: "links.email", etiket: "E-posta" },
       { tur: "duz", yol: "links.github", etiket: "GitHub", girdi: "url" },
       { tur: "duz", yol: "links.linkedin", etiket: "LinkedIn", girdi: "url" },
+      { tur: "duz", yol: "links.portfolyo", etiket: "“Portfolyo” düğmesinin hedefi" },
     ],
   },
   {
@@ -417,6 +418,22 @@ export const HOME_ALANLARI: Alan[] = [
       { tur: "metin", yol: "contact.cv", etiket: "CV düğmesi" },
       { tur: "metin", yol: "footer.rights", etiket: "Alt bilgi — ad" },
       { tur: "metin", yol: "footer.built", etiket: "Alt bilgi — teknoloji" },
+    ],
+  },
+  {
+    tur: "grup",
+    baslik: "Bağlantılar",
+    aciklama:
+      "İki dilde de aynı; çevrilmez. Menü çapaları (#about, #journey…) burada yok — işaretlemedeki bölüm id’leriyle eşleşmek zorundalar.",
+    alanlar: [
+      { tur: "duz", yol: "baglantilar.heroProjeler", etiket: "Giriş — birincil düğmenin hedefi" },
+      { tur: "duz", yol: "baglantilar.heroCv", etiket: "Giriş — CV düğmesinin hedefi" },
+      { tur: "duz", yol: "baglantilar.iletisimCv", etiket: "İletişim — CV düğmesinin hedefi" },
+      { tur: "duz", yol: "baglantilar.email", etiket: "E-posta adresi (mailto: kod tarafında eklenir)" },
+      { tur: "duz", yol: "baglantilar.github", etiket: "GitHub adresi", girdi: "url" },
+      { tur: "duz", yol: "baglantilar.githubEtiket", etiket: "GitHub — görünen yazı" },
+      { tur: "duz", yol: "baglantilar.linkedin", etiket: "LinkedIn adresi", girdi: "url" },
+      { tur: "duz", yol: "baglantilar.linkedinEtiket", etiket: "LinkedIn — görünen yazı" },
     ],
   },
   {

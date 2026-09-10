@@ -18,6 +18,8 @@ export type Dict = {
   languages: string[];
   footer: string;
   updated: string;
+  /** Duz adresler; iki dilde ayni. */
+  links: { email: string; github: string; linkedin: string; portfolyo: string };
 };
 
 export const content: Record<Lang, Dict> = {
@@ -127,6 +129,12 @@ export const content: Record<Lang, Dict> = {
     languages: ["Türkçe — anadil", "İngilizce — orta-ileri (B2)", "Almanca — başlangıç (A1)"],
     footer: "İstanbul / Bursa, Türkiye",
     updated: "Son güncelleme",
+    links: {
+      email: "tolgaolguner@gmail.com",
+      github: "https://github.com/tolguner",
+      linkedin: "https://www.linkedin.com/in/tolguner/",
+      portfolyo: "/",
+    },
   },
   en: {
     nav: { about: "About", experience: "Experience", research: "Research", projects: "Projects", skills: "Skills", portfolio: "Portfolio", menu: "Open menu", menuClose: "Close menu", temaAcik: "Switch to light theme", temaKoyu: "Switch to dark theme" },
@@ -234,11 +242,11 @@ export const content: Record<Lang, Dict> = {
     languages: ["Turkish — native", "English — upper-intermediate (B2)", "German — beginner (A1)"],
     footer: "Istanbul / Bursa, Turkey",
     updated: "Last updated",
+    links: {
+      email: "tolgaolguner@gmail.com",
+      github: "https://github.com/tolguner",
+      linkedin: "https://www.linkedin.com/in/tolguner/",
+      portfolyo: "/",
+    },
   },
-};
-
-export const links = {
-  email: "tolgaolguner@gmail.com",
-  github: "https://github.com/tolguner",
-  linkedin: "https://www.linkedin.com/in/tolguner/",
 };

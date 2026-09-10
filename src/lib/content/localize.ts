@@ -106,6 +106,7 @@ export function localizeHome(doc: HomeDoc, lang: Lang): HomeDict {
     },
     contact: ceviriMap(doc.contact),
     footer: { rights: c(doc.footer.rights, lang), built: c(doc.footer.built, lang) },
+    baglantilar: { ...doc.baglantilar },
   };
 }
 
@@ -171,5 +172,6 @@ export function localizeCv(doc: CvDoc, lang: Lang, cvDosyalari?: Record<Lang, st
     languages: liste(doc.languages, lang),
     footer: c(doc.footer, lang),
     updated: c(doc.updated, lang),
+    links: { ...doc.links },
   };
 }
