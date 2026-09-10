@@ -72,3 +72,11 @@ export async function onizlemeyiKapat() {
   (await draftMode()).disable();
   redirect("/admin");
 }
+
+/** Taslagin veritabanindaki guncel surumu — yayimlamada surum tazeleme icin. */
+export async function taslakSurumu(slug: Slug) {
+  const db = await sunucuIstemcisi();
+  const { data, error } = await db.from("content_drafts").select("lock_version").eq("slug", slug).single();
+  if (error) return { ok: false as const, hata: error.message };
+  return { ok: true as const, lockVersion: data.lock_version as number };
+}

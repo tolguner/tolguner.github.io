@@ -33,6 +33,42 @@ type Yazar = (yol: string, deger: unknown) => void;
  * Bu bilesen tek basina "iki dili yan yana duzenleme" gereksinimini karsiliyor:
  * form satiri dogrudan depolama dugumu.
  */
+/**
+ * MODUL SEVIYESINDE tanimli olmasi sart. Onceden `CiftDilli`nin govdesinde
+ * tanimliydi: her tus vurusunda yeni bir bilesen TURU olusuyordu, React de
+ * bunu farkli bir bilesen sayip <input>u soküp yeniden takiyordu. Sonuc:
+ * her karakterden sonra odak ve imlec konumu kayboluyordu.
+ */
+function DilKutusu({
+  dil,
+  deger,
+  yol,
+  yazarak,
+  satir,
+}: {
+  dil: "tr" | "en";
+  deger: Ceviri;
+  yol: string;
+  yazarak: Yazar;
+  satir?: number;
+}) {
+  const ortak = {
+    value: deger?.[dil] ?? "",
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      yazarak(`${yol}.${dil}`, e.target.value),
+  };
+  return (
+    <div className="min-w-0 flex-1">
+      <div className="mb-1 text-[10.5px] font-bold uppercase tracking-[0.12em] text-muted">{dil}</div>
+      {satir ? (
+        <textarea rows={satir} {...ortak} className={`${girdiSinifi} resize-y leading-relaxed`} />
+      ) : (
+        <input type="text" {...ortak} className={girdiSinifi} />
+      )}
+    </div>
+  );
+}
+
 function CiftDilli({
   etiket,
   deger,
@@ -46,33 +82,12 @@ function CiftDilli({
   yazarak: Yazar;
   satir?: number;
 }) {
-  const Etiketli = ({ dil }: { dil: "tr" | "en" }) => (
-    <div className="min-w-0 flex-1">
-      <div className="mb-1 text-[10.5px] font-bold uppercase tracking-[0.12em] text-muted">{dil}</div>
-      {satir ? (
-        <textarea
-          rows={satir}
-          value={deger?.[dil] ?? ""}
-          onChange={(e) => yazarak(`${yol}.${dil}`, e.target.value)}
-          className={`${girdiSinifi} resize-y leading-relaxed`}
-        />
-      ) : (
-        <input
-          type="text"
-          value={deger?.[dil] ?? ""}
-          onChange={(e) => yazarak(`${yol}.${dil}`, e.target.value)}
-          className={girdiSinifi}
-        />
-      )}
-    </div>
-  );
-
   return (
     <div className="py-2.5">
       <div className="mb-1.5 text-[12.5px] font-semibold text-ink-soft">{etiket}</div>
       <div className="flex flex-col gap-2.5 md:flex-row">
-        <Etiketli dil="tr" />
-        <Etiketli dil="en" />
+        <DilKutusu dil="tr" deger={deger} yol={yol} yazarak={yazarak} satir={satir} />
+        <DilKutusu dil="en" deger={deger} yol={yol} yazarak={yazarak} satir={satir} />
       </div>
     </div>
   );

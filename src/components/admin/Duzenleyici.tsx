@@ -1,10 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { AlanCiz, yaz } from "./alanlar";
 import { ALANLAR } from "@/lib/content/alanlar";
-import { onizlemeyiAc, taslagiKaydet, yayimla } from "@/app/admin/eylemler";
+import { onizlemeyiAc, taslagiKaydet, taslakSurumu, yayimla } from "@/app/admin/eylemler";
 
 type Slug = "home" | "cv";
 type Belge = Record<string, unknown>;
@@ -43,6 +44,8 @@ function farkSayisi(a: unknown, b: unknown): number {
 
 const SAAT = new Intl.DateTimeFormat("tr-TR", { timeStyle: "medium", timeZone: "Europe/Istanbul" });
 
+type KayitDurumu = "temiz" | "bekliyor" | "kaydediliyor" | "kaydedildi" | "yayimlandi";
+
 export default function Duzenleyici({
   slug,
   baslik,
@@ -58,44 +61,67 @@ export default function Duzenleyici({
   lockVersion: number;
   yayimliSurum: number;
 }) {
+  const router = useRouter();
   const [durum, gonder] = useReducer(indirge, { veri: taslak, kirli: false });
-  const [surum, setSurum] = useState(lockVersion);
-  const [not, setNot] = useState<string | null>(null);
+  const [kayit, setKayit] = useState<KayitDurumu>("temiz");
+  const [zaman, setZaman] = useState<string | null>(null);
   const [hata, setHata] = useState<string | null>(null);
-  const [mesgul, setMesgul] = useState(false);
+  const [yayimMesguL, setYayimMesgul] = useState(false);
+  const [onay, setOnay] = useState(false);
 
-  const surumRef = useRef(surum);
-  surumRef.current = surum;
+  /**
+   * Surum SADECE ref'te tutuluyor ve yalnizca kaydet() icinde guncelleniyor.
+   * Onceden render sirasinda `surumRef.current = surum` yaziliyordu; kaydetme
+   * hemen ardindan yayimlanirsa React henuz yeniden render etmedigi icin
+   * RPC'ye BAYAT surum gidiyor ve yayimlama sessizce surum uyusmazligina
+   * dusuyordu. (Yayimlama hic calismamasinin sebebi buydu.)
+   */
+  const surumRef = useRef(lockVersion);
+  const [surum, setSurum] = useState(lockVersion);
 
   const yazarak = useCallback((yol: string, deger: unknown) => gonder({ tip: "yaz", yol, deger }), []);
 
   const kaydet = useCallback(
-    async (veri: Belge) => {
-      setMesgul(true);
+    async (veri: Belge): Promise<number | null> => {
+      setKayit("kaydediliyor");
       setHata(null);
       const sonuc = await taslagiKaydet(slug, veri, surumRef.current);
-      setMesgul(false);
       if (!sonuc.ok) {
+        setKayit("bekliyor");
         setHata(sonuc.hata);
-        return false;
+        return null;
       }
+      surumRef.current = sonuc.lockVersion;
       setSurum(sonuc.lockVersion);
-      setNot(`Taslak kaydedildi · ${SAAT.format(new Date(sonuc.kaydedildi))}`);
+      setZaman(SAAT.format(new Date(sonuc.kaydedildi)));
+      setKayit("kaydedildi");
       gonder({ tip: "temizlendi" });
-      return true;
+      return sonuc.lockVersion;
     },
     [slug],
   );
 
-  // 2 sn bosta otomatik taslak kaydi. Tum dokuman yaziliyor (~80 KB, tek
-  // yazar); bu sayede lock_version ile catisma tespiti onemsiz dogru oluyor.
+  // Yazarken degil, yazmaya ARA VERINCE kaydeder. Odak kaybi artik yok
+  // (bkz. alanlar.tsx / DilKutusu), bu yuzden yazmayi kesmiyor.
   useEffect(() => {
     if (!durum.kirli) return;
-    const z = setTimeout(() => void kaydet(durum.veri), 2000);
+    setKayit("bekliyor");
+    const z = setTimeout(() => void kaydet(durum.veri), 2500);
     return () => clearTimeout(z);
   }, [durum.kirli, durum.veri, kaydet]);
 
-  // Kaydedilmemis degisiklikle sayfadan cikma.
+  // Ctrl/Cmd+S ile elle kaydet.
+  useEffect(() => {
+    const tus = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        if (durum.kirli) void kaydet(durum.veri);
+      }
+    };
+    window.addEventListener("keydown", tus);
+    return () => window.removeEventListener("keydown", tus);
+  }, [durum.kirli, durum.veri, kaydet]);
+
   useEffect(() => {
     if (!durum.kirli) return;
     const uyar = (e: BeforeUnloadEvent) => e.preventDefault();
@@ -106,24 +132,58 @@ export default function Duzenleyici({
   const bekleyen = useMemo(() => farkSayisi(durum.veri, yayimlanan), [durum.veri, yayimlanan]);
 
   async function yayimlaTikla() {
-    if (durum.kirli && !(await kaydet(durum.veri))) return;
-    if (bekleyen === 0) {
-      setNot("Yayımlanacak değişiklik yok.");
-      return;
-    }
-    if (!confirm(`${bekleyen} alan değişti. Yayımlansın mı?`)) return;
+    setHata(null);
+    setOnay(false);
 
-    setMesgul(true);
-    const sonuc = await yayimla(slug, surumRef.current);
-    setMesgul(false);
+    // Kaydetme sonucu dogrudan kullaniliyor; state'in guncellenmesini beklemek
+    // yok, dolayisiyla bayat surum de yok.
+    let v = surumRef.current;
+    if (durum.kirli) {
+      const yeni = await kaydet(durum.veri);
+      if (yeni === null) return;
+      v = yeni;
+    }
+
+    setYayimMesgul(true);
+    let sonuc = await yayimla(slug, v);
+
+    // Surum uyusmazliginda kendini onarir: veritabanindaki guncel surumu alip
+    // bir kez daha dener. Tek yazarli bir panelde kullaniciyi "sayfayi
+    // yenileyin" hatasiyla bas basa birakmanin anlami yok.
+    if (!sonuc.ok && sonuc.hata.includes("surum uyusmazligi")) {
+      const taze = await taslakSurumu(slug);
+      if (taze.ok) {
+        surumRef.current = taze.lockVersion;
+        setSurum(taze.lockVersion);
+        sonuc = await yayimla(slug, taze.lockVersion);
+      }
+    }
+
+    setYayimMesgul(false);
+
     if (!sonuc.ok) {
-      setHata(sonuc.hata);
+      setHata(`Yayımlanamadı: ${sonuc.hata}`);
       return;
     }
-    setNot("Yayımlandı. Site birkaç saniye içinde güncellenir.");
-    // published artik taslakla ayni; sayacin sifirlanmasi icin yeniden yukle.
-    setTimeout(() => location.reload(), 1200);
+
+    setKayit("yayimlandi");
+    setZaman(SAAT.format(new Date()));
+    setHata(null);
+    // Sunucu bileseni yeniden calissin: `yayimlanan` prop'u tazelensin ki
+    // bekleyen sayaci sifirlansin.
+    router.refresh();
   }
+
+  const durumYazisi =
+    kayit === "kaydediliyor"
+      ? "kaydediliyor…"
+      : kayit === "bekliyor"
+        ? "kaydedilmemiş değişiklik"
+        : kayit === "kaydedildi"
+          ? `taslak kaydedildi · ${zaman}`
+          : kayit === "yayimlandi"
+            ? `yayımlandı · ${zaman}`
+            : "taslak güncel";
 
   return (
     <>
@@ -132,7 +192,7 @@ export default function Duzenleyici({
           <div className="min-w-0">
             <h1 className="font-serif text-[22px] font-bold tracking-tight text-ink">{baslik}</h1>
             <p className="mt-0.5 text-[12px] text-muted">
-              {durum.kirli ? "kaydedilmemiş değişiklik var" : (not ?? "taslak güncel")}
+              {durumYazisi}
               {bekleyen > 0 && ` · ${bekleyen} alan yayımlanmayı bekliyor`}
             </p>
           </div>
@@ -140,8 +200,9 @@ export default function Duzenleyici({
           <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
-              disabled={mesgul || !durum.kirli}
+              disabled={kayit === "kaydediliyor" || !durum.kirli}
               onClick={() => void kaydet(durum.veri)}
+              title="Ctrl+S"
               className="rounded-full border border-line px-3.5 py-1.5 text-[13px] font-semibold text-ink transition hover:bg-paper-2 disabled:opacity-40"
             >
               Kaydet
@@ -156,17 +217,51 @@ export default function Duzenleyici({
             </form>
             <button
               type="button"
-              disabled={mesgul}
-              onClick={() => void yayimlaTikla()}
+              disabled={yayimMesguL || onay}
+              onClick={() => {
+                setHata(null);
+                if (bekleyen === 0 && !durum.kirli) {
+                  setHata("Yayımlanacak değişiklik yok.");
+                  return;
+                }
+                setOnay(true);
+              }}
               className="rounded-full bg-accent px-4 py-1.5 text-[13px] font-semibold text-white transition hover:opacity-90 disabled:opacity-40"
             >
-              Yayımla
+              {yayimMesguL ? "Yayımlanıyor…" : "Yayımla"}
             </button>
           </div>
         </div>
 
+        {onay && (
+          <div className="mt-2 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-accent/40 bg-accent/10 px-3 py-2">
+            <span className="text-[13px] text-ink">
+              <b>{bekleyen}</b> alan yayımlanacak. Site birkaç saniye içinde güncellenir.
+            </span>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setOnay(false)}
+                className="rounded-full border border-line px-3 py-1 text-[12.5px] font-semibold text-ink transition hover:bg-paper-2"
+              >
+                Vazgeç
+              </button>
+              <button
+                type="button"
+                onClick={() => void yayimlaTikla()}
+                className="rounded-full bg-accent px-3.5 py-1 text-[12.5px] font-semibold text-white transition hover:opacity-90"
+              >
+                Onayla ve yayımla
+              </button>
+            </div>
+          </div>
+        )}
+
         {hata && (
-          <p role="alert" className="mt-2 rounded-lg border border-line bg-paper-2 px-3 py-2 text-[13px] text-ink">
+          <p
+            role="alert"
+            className="mt-2 rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2 text-[13px] font-medium text-ink"
+          >
             {hata}
           </p>
         )}
