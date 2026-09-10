@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const display = Fraunces({ subsets: ["latin", "latin-ext"], variable: "--font-display", axes: ["opsz"] });
 const body = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-body" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://tolguner.me"),
+  metadataBase: new URL(SITE_URL),
   title: "Tolga Olguner",
   alternates: { canonical: "/" },
   description:
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Tolga Olguner",
     description: "Yönetim Bilişim Sistemleri öğrencisi · Işık Üniversitesi",
-    url: "https://tolguner.me",
+    url: SITE_URL,
     siteName: "tolguner.me",
     /* Paylasim kapagi: kaynak/og.html'den headless Chrome ile uretiliyor
        (1200x630, sosyal aglarin bekledigi yatay olcu). */
@@ -64,8 +65,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "@context": "https://schema.org",
               "@type": "Person",
               name: "Tolga Olguner",
-              url: "https://tolguner.me",
-              image: "https://tolguner.me/portre.jpg",
+              url: SITE_URL,
+              image: `${SITE_URL}/portre.jpg`,
               jobTitle: "Yönetim Bilişim Sistemleri Öğrencisi",
               description:
                 "Yönetim Bilişim Sistemleri öğrencisi. Spring Boot ve React ile web uygulamaları; TÜBİTAK 2209-A araştırma projesi yürütücüsü.",

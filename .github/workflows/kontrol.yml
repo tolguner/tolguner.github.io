@@ -1,0 +1,26 @@
+name: Kontrol (tip ve derleme)
+
+# Yayinlama artik Vercel'de. Bu is akisi yalnizca tip hatasi veya bozuk
+# derleme main'e girmesin diye duruyor.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  kontrol:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Tip kontrolu
+        run: npm run typecheck
+      - name: Derleme
+        run: npm run build
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

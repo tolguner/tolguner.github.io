@@ -1,12 +1,15 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL, IS_PRODUCTION } from "@/lib/site";
 
-// output: "export" ile rota statik uretilmeli
-export const dynamic = "force-static";
-
-/** Statik export'ta /robots.txt olarak yazilir. */
 export default function robots(): MetadataRoute.Robots {
+  // Preview deploy'lari herkese acik adreste calisiyor; arama motorlarina
+  // production'in kopyasi olarak indexlenmemeleri icin tamamen kapatiliyor.
+  if (!IS_PRODUCTION) {
+    return { rules: { userAgent: "*", disallow: "/" } };
+  }
+
   return {
-    rules: { userAgent: "*", allow: "/" },
-    sitemap: "https://tolguner.me/sitemap.xml",
+    rules: { userAgent: "*", allow: "/", disallow: ["/admin", "/api"] },
+    sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }
