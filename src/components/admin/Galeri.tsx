@@ -31,6 +31,13 @@ const IZINLI = ["image/jpeg", "image/png", "image/webp", "image/avif"];
 const AZAMI = 10 * 1024 * 1024;
 
 /**
+ * Sutun duzeni: gorsel · TR · EN · durum · olcu · islem.
+ * `lg` altinda tek sutuna dusuyor; alti sutun dar ekranda okunmaz oluyor,
+ * o zaman baslik satiri gizleniyor ve etiketler satir icine geri geliyor.
+ */
+const IZGARA = "lg:grid-cols-[5.5rem_1fr_1fr_auto_auto_auto]";
+
+/**
  * Icerik adresli ad. Ozet ISLENMIS dosyadan aliniyor: ayni kaynaktan ayni
  * kirpma her zaman ayni yola gider, yukleme idempotent olur.
  */
@@ -308,37 +315,45 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
         />
       )}
 
-      <div className="mt-6 space-y-2">
+      {/* Sutun basligi: etiketleri her satirda tekrarlamak yerine bir kez.
+          `lg` altinda basliklar gizlenip satirlar yiginlaniyor ve etiketler
+          satir icine geri geliyor — dar ekranda alti sutun okunmaz oluyor. */}
+      <div className={`mt-6 hidden gap-3 border-b border-line px-3 pb-2 text-[10.5px] font-bold uppercase tracking-[0.12em] text-muted lg:grid ${IZGARA}`}>
+        <span>Görsel</span>
+        <span>Türkçe açıklama</span>
+        <span>İngilizce açıklama</span>
+        <span>Durum</span>
+        <span>Ölçü</span>
+        <span className="text-right">Sıra ve silme</span>
+      </div>
+
+      <div className="mt-2 space-y-2 lg:mt-0 lg:space-y-0">
         {liste.map((f, i) => (
           <div
             key={f.id}
-            className={`flex flex-wrap items-start gap-3 rounded-xl border p-3 ${
-              f.is_published ? "border-line bg-paper-2" : "border-accent/40 bg-accent/5"
+            className={`grid grid-cols-1 items-center gap-3 rounded-xl border p-3 lg:rounded-none lg:border-x-0 lg:border-t-0 ${IZGARA} ${
+              f.is_published ? "border-line bg-paper-2 lg:bg-transparent" : "border-accent/40 bg-accent/5"
             }`}
           >
-            <button
-              type="button"
-              onClick={() => setBuyutecSira(i)}
-              title="Büyüt"
-              className="shrink-0 cursor-zoom-in rounded-lg"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={adres(f.storage_path)}
-                alt={f.caption_tr}
-                className="h-16 w-24 rounded-lg border border-line object-cover transition hover:border-accent"
-                loading="lazy"
-              />
-            </button>
+              <button
+                type="button"
+                onClick={() => setBuyutecSira(i)}
+                title="Büyüt"
+                className="w-fit shrink-0 cursor-zoom-in rounded-lg"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={adres(f.storage_path)}
+                  alt={f.caption_tr}
+                  className="h-14 w-[5.5rem] rounded-lg border border-line object-cover transition hover:border-accent"
+                  loading="lazy"
+                />
+              </button>
 
-            {/* Iki alan ayni fotografin alt basligi: TR ve EN. Onceden yalnizca
-                yer tutucu vardi, o da alan BOSKEN gorundugu icin (dosya adindan
-                otomatik dolduruluyorlar) hangisinin hangi dil oldugu hic
-                gorunmuyordu. */}
-            <div className="flex min-w-[16rem] flex-1 flex-col gap-2 md:flex-row">
               {(["tr", "en"] as const).map((dil) => (
-                <label key={dil} className="flex min-w-0 flex-1 items-center gap-2">
-                  <span className="w-5 shrink-0 text-[10.5px] font-bold uppercase tracking-[0.12em] text-muted">
+                <label key={dil} className="flex min-w-0 items-center gap-2">
+                  {/* Baslik satiri gorunmedigi zaman etiket satir ici doner. */}
+                  <span className="w-5 shrink-0 text-[10.5px] font-bold uppercase tracking-[0.12em] text-muted lg:hidden">
                     {dil}
                   </span>
                   <input
@@ -350,14 +365,12 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
                   />
                 </label>
               ))}
-            </div>
 
-            <div className="flex shrink-0 items-center gap-1">
               <button
                 type="button"
                 onClick={() => void yayimiDegistir(f)}
                 title={f.is_published ? "Yayımdan çıkar" : "Yayıma al"}
-                className={`mr-2 rounded-full border px-2.5 py-0.5 text-[11px] font-semibold transition ${
+                className={`w-fit rounded-full border px-2.5 py-0.5 text-[11px] font-semibold transition ${
                   f.is_published
                     ? "border-line text-muted hover:text-ink"
                     : "border-accent/50 bg-accent/15 text-accent hover:bg-accent/25"
@@ -365,63 +378,65 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
               >
                 {f.is_published ? "yayımda" : "taslak"}
               </button>
-              <span className="mr-2 text-[11.5px] text-muted">
+
+              <span className="text-[11.5px] tabular-nums text-muted">
                 {f.width && f.height ? `${f.width}×${f.height}` : "—"}
               </span>
-              <button
-                type="button"
-                title="Yukarı"
-                disabled={i === 0}
-                onClick={() => void tasi(i, i - 1)}
-                className="rounded-md border border-line px-2 py-1 text-[12px] text-muted transition hover:text-ink disabled:opacity-30"
-              >
-                ↑
-              </button>
-              <button
-                type="button"
-                title="Aşağı"
-                disabled={i === liste.length - 1}
-                onClick={() => void tasi(i, i + 1)}
-                className="rounded-md border border-line px-2 py-1 text-[12px] text-muted transition hover:text-ink disabled:opacity-30"
-              >
-                ↓
-              </button>
-              {silinecek === f.id ? (
-                <span className="flex items-center gap-1">
-                  <button
-                    type="button"
-                    onClick={() => void silOnayla(f)}
-                    disabled={siliniyor === f.id}
-                    className="rounded-md border border-red-500/50 bg-red-500/15 px-2 py-1 text-[11.5px] font-semibold text-red-300 transition hover:bg-red-500/25 disabled:opacity-50"
-                  >
-                    {siliniyor === f.id ? "siliniyor…" : "sil"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSilinecek(null)}
-                    className="rounded-md border border-line px-2 py-1 text-[11.5px] text-muted transition hover:text-ink"
-                  >
-                    vazgeç
-                  </button>
-                </span>
-              ) : (
+
+              <div className="flex items-center justify-end gap-1">
                 <button
                   type="button"
-                  title="Sil"
-                  onClick={() => setSilinecek(f.id)}
-                  className="rounded-md border border-line px-2 py-1 text-[12px] text-muted transition hover:border-red-500/50 hover:text-red-400"
+                  title="Yukarı"
+                  disabled={i === 0}
+                  onClick={() => void tasi(i, i - 1)}
+                  className="rounded-md border border-line px-2 py-1 text-[12px] text-muted transition hover:text-ink disabled:opacity-30"
                 >
-                  ✕
+                  ↑
                 </button>
-              )}
-            </div>
+                <button
+                  type="button"
+                  title="Aşağı"
+                  disabled={i === liste.length - 1}
+                  onClick={() => void tasi(i, i + 1)}
+                  className="rounded-md border border-line px-2 py-1 text-[12px] text-muted transition hover:text-ink disabled:opacity-30"
+                >
+                  ↓
+                </button>
+                {silinecek === f.id ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => void silOnayla(f)}
+                      disabled={siliniyor === f.id}
+                      className="rounded-md border border-red-500/50 bg-red-500/15 px-2 py-1 text-[11.5px] font-semibold text-red-300 transition hover:bg-red-500/25 disabled:opacity-50"
+                    >
+                      {siliniyor === f.id ? "siliniyor…" : "sil"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSilinecek(null)}
+                      className="rounded-md border border-line px-2 py-1 text-[11.5px] text-muted transition hover:text-ink"
+                    >
+                      vazgeç
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    title="Sil"
+                    onClick={() => setSilinecek(f.id)}
+                    className="rounded-md border border-line px-2 py-1 text-[12px] text-muted transition hover:border-red-500/50 hover:text-red-400"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
           </div>
         ))}
       </div>
 
       <p className="mt-6 text-[11.5px] text-muted">
-        <b>TR</b> ve <b>EN</b> alanları aynı fotoğrafın alt başlığıdır; şeritte fotoğrafın altında,
-        sitenin o anki diline göre görünür. Yeni fotoğraflar <b>taslak</b> olarak eklenir; “taslak” rozetine basıp yayıma alana kadar
+        Yeni fotoğraflar <b>taslak</b> olarak eklenir; “taslak” rozetine basıp yayıma alana kadar
         sitede görünmezler. Alt başlık, sıralama ve yayımdan çıkarma yayımdaki fotoğraflarda anında
         uygulanır.
       </p>
