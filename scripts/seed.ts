@@ -20,7 +20,7 @@ import "dotenv/config";
 import { config as dotenvConfig } from "dotenv";
 
 import { getGallery } from "./galeri-kaynak";
-import { content, links } from "../src/content";
+import { content } from "../src/content";
 import { home } from "../src/content-home";
 import { localizeCv, localizeHome } from "../src/lib/content/localize";
 import type { Ceviri, CeviriOgesi, CvDoc, EntryDoc, HomeDoc } from "../src/lib/content/types";
@@ -176,6 +176,11 @@ function anaSayfaDoc(): HomeDoc {
       })),
     },
     footer: { rights: z(t.footer.rights, e.footer.rights), built: z(t.footer.built, e.footer.built) },
+    // Adresler cevrilmiyor; iki tarafta ayni olmalari beklenir.
+    baglantilar: (() => {
+      assert.deepStrictEqual(t.baglantilar, e.baglantilar, "home.baglantilar TR/EN farkli");
+      return { ...t.baglantilar };
+    })(),
   };
 }
 
@@ -259,7 +264,10 @@ function cvDoc(): CvDoc {
     languages: ogeler("languages", "lang", t.languages, e.languages),
     footer: z(t.footer, e.footer),
     updated: z(t.updated, e.updated),
-    links: { ...links },
+    links: (() => {
+      assert.deepStrictEqual(t.links, e.links, "cv.links TR/EN farkli");
+      return { ...t.links };
+    })(),
   };
 }
 

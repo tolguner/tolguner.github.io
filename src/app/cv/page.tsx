@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Site from "@/components/Site";
+import TaslakBandi from "@/components/admin/TaslakBandi";
 import { localizeCv } from "@/lib/content/localize";
 import { getCvDoc, getCvDosyalari } from "@/lib/content/read";
 
@@ -20,10 +21,13 @@ export default async function CvPage() {
   const simdi = new Date();
 
   return (
-    <Site
-      icerik={{ tr: localizeCv(doc, "tr", cvDosyalari), en: localizeCv(doc, "en", cvDosyalari) }}
-      guncellendi={simdi.toISOString().slice(0, 10)}
-      yil={simdi.getUTCFullYear()}
-    />
+    <>
+      <TaslakBandi />
+      <Site
+        icerik={{ tr: localizeCv(doc, "tr", cvDosyalari), en: localizeCv(doc, "en", cvDosyalari) }}
+        guncellendi={simdi.toISOString().slice(0, 10)}
+        yil={simdi.getUTCFullYear()}
+      />
+    </>
   );
 }

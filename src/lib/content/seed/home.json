@@ -1148,5 +1148,15 @@
       "tr": "Next.js · Three.js · GSAP ile yapıldı",
       "en": "Built with Next.js · Three.js · GSAP"
     }
+  },
+  "baglantilar": {
+    "email": "tolgaolguner@gmail.com",
+    "github": "https://github.com/tolguner",
+    "linkedin": "https://www.linkedin.com/in/tolguner/",
+    "githubEtiket": "github.com/tolguner",
+    "linkedinEtiket": "linkedin.com/in/tolguner",
+    "heroProjeler": "#projects",
+    "heroCv": "/cv/",
+    "iletisimCv": "/cv/"
   }
 }

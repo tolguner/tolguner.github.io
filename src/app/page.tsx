@@ -1,4 +1,5 @@
 import Home from "@/components/home/Home";
+import TaslakBandi from "@/components/admin/TaslakBandi";
 import { localizeHome } from "@/lib/content/localize";
 import { getHomeDoc, getPhotos } from "@/lib/content/read";
 import { fetchPublicRepoCount, fetchRepos } from "@/lib/repos";
@@ -17,11 +18,14 @@ export default async function Page() {
   ]);
 
   return (
-    <Home
-      repos={repos}
-      repoCount={repoCount}
-      photos={photos}
-      icerik={{ tr: localizeHome(doc, "tr"), en: localizeHome(doc, "en") }}
-    />
+    <>
+      <TaslakBandi />
+      <Home
+        repos={repos}
+        repoCount={repoCount}
+        photos={photos}
+        icerik={{ tr: localizeHome(doc, "tr"), en: localizeHome(doc, "en") }}
+      />
+    </>
   );
 }

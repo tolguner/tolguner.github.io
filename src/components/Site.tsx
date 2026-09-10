@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { links, type Dict, type Lang } from "@/content";
+import type { Dict, Lang } from "@/content";
 import TemaDugmesi from "@/components/TemaDugmesi";
 import DilDugmesi from "@/components/DilDugmesi";
 
@@ -63,6 +63,7 @@ export default function Site({ icerik, guncellendi, yil }: { icerik: Record<Lang
   }, [menuAcik]);
 
   const t = icerik[lang];
+  const b = t.links;
 
   // Menudeki baglantilar: "Hakkimda" sayfanin en basi, digerleri bolum capasi
   const menuOgeleri: [string, string][] = [
@@ -80,7 +81,7 @@ export default function Site({ icerik, guncellendi, yil }: { icerik: Record<Lang
           secici, tema dugmesi ve birincil buton yerinden oynamiyor. */}
       <header className="sticky top-0 z-30 border-b border-ink/5 bg-paper/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
-          <a href="/" className="font-display shrink-0 whitespace-nowrap text-lg font-semibold text-ink">Tolga Olguner</a>
+          <a href={b.portfolyo} className="font-display shrink-0 whitespace-nowrap text-lg font-semibold text-ink">Tolga Olguner</a>
           <nav className="nav-display hidden gap-3.5 text-[12px] text-ink-soft lg:flex lg:gap-7 lg:text-[13px]">
             <a
               href="#top"
@@ -111,7 +112,7 @@ export default function Site({ icerik, guncellendi, yil }: { icerik: Record<Lang
                 hamburger var, ayni genislikte kalinca dil ve tema dugmesi
                 sayfa degisiminde yerinden oynamiyor. */}
             <a
-              href="/"
+              href={b.portfolyo}
               className="hidden min-w-[92px] justify-center whitespace-nowrap rounded-full bg-accent px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90 lg:inline-flex"
             >
               {t.nav.portfolio}
@@ -157,7 +158,7 @@ export default function Site({ icerik, guncellendi, yil }: { icerik: Record<Lang
           ))}
         </nav>
         <a
-          href="/"
+          href={b.portfolyo}
           tabIndex={menuAcik ? 0 : -1}
           style={{ transitionDelay: menuAcik ? "305ms" : "0ms" }}
           className={`mt-10 rounded-full bg-accent py-3.5 text-center text-[15px] max-[400px]:mt-6 [@media(max-height:700px)]:mt-6 font-semibold text-white transition-[opacity,transform] duration-500 ${menuAcik ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
@@ -175,9 +176,9 @@ export default function Site({ icerik, guncellendi, yil }: { icerik: Record<Lang
           <p className="mt-5 max-w-xl text-[15.5px] leading-relaxed">{t.hero.intro}</p>
           <div className="mt-6 flex flex-wrap gap-2.5 text-[13.5px] font-semibold">
             <a href={t.hero.cvFile} className="rounded-full bg-ink px-4 py-2 text-paper transition hover:opacity-90">{t.hero.cv}</a>
-            <a href={links.github} className="rounded-full border border-line px-4 py-2 text-ink transition hover:bg-paper-2">GitHub</a>
-            <a href={links.linkedin} className="rounded-full border border-line px-4 py-2 text-ink transition hover:bg-paper-2">LinkedIn</a>
-            <a href={`mailto:${links.email}`} className="rounded-full border border-line px-4 py-2 text-ink transition hover:bg-paper-2">{t.hero.email}</a>
+            <a href={b.github} className="rounded-full border border-line px-4 py-2 text-ink transition hover:bg-paper-2">GitHub</a>
+            <a href={b.linkedin} className="rounded-full border border-line px-4 py-2 text-ink transition hover:bg-paper-2">LinkedIn</a>
+            <a href={`mailto:${b.email}`} className="rounded-full border border-line px-4 py-2 text-ink transition hover:bg-paper-2">{t.hero.email}</a>
           </div>
         </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}

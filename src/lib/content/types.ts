@@ -85,6 +85,18 @@ export type HomeDoc = {
   skills: { title: Ceviri; sub: Ceviri; techLabel: Ceviri; humanLabel: Ceviri; groups: SkillGroupDoc[]; human: SoftSkillDoc[] };
   contact: Record<"title" | "text" | "email" | "cv", Ceviri>;
   footer: { rights: Ceviri; built: Ceviri };
+  /** Duz adresler; cevrilmez. Menu capalari (#about vb.) bilerek YOK:
+      isaretlemedeki id'lerle eslesmek zorundalar. */
+  baglantilar: {
+    email: string;
+    github: string;
+    linkedin: string;
+    githubEtiket: string;
+    linkedinEtiket: string;
+    heroProjeler: string;
+    heroCv: string;
+    iletisimCv: string;
+  };
 };
 
 // ---------------------------------------------------------------------- cv
@@ -130,7 +142,7 @@ export type CvDoc = {
   languages: CeviriOgesi[];
   footer: Ceviri;
   updated: Ceviri;
-  links: { email: string; github: string; linkedin: string };
+  links: { email: string; github: string; linkedin: string; portfolyo: string };
 };
 
 /** Galeri fotografi — `gallery_photos` tablosunun okuma sekli. */

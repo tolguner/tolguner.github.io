@@ -6,7 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import type { HomeDict } from "@/content-home";
-import { links, type Lang } from "@/content";
+import type { Lang } from "@/content";
 import type { Repo } from "@/lib/repos";
 import type { Photo } from "@/lib/gallery";
 import PhotoMarquee from "./PhotoMarquee";
@@ -62,6 +62,7 @@ export default function Home({ repos, repoCount, photos = [], icerik }: { repos:
   girisRef.current = giris;
   const isiltiRef = useRef<HTMLDivElement>(null);
   const t = icerik[lang];
+  const b = t.baglantilar;
 
   // Sayfanın en arkasında fareyi izleyen mavi ışıltı — kartların ve metnin
   // gerisinde kalır (kartlar zaten opak arka plana sahip), yalnızca boşluklarda
@@ -481,7 +482,7 @@ export default function Home({ repos, repoCount, photos = [], icerik }: { repos:
               etiket={{ light: t.nav.temaAcik, dark: t.nav.temaKoyu }}
               className="flex h-9 w-9 items-center justify-center rounded-full border border-hero/15 text-hero-2 transition hover:border-hero/40 hover:text-hero"
             />
-            <a href="/cv/" className="hidden min-w-[92px] justify-center rounded-full bg-brand px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90 lg:inline-flex">{t.nav.cv}</a>
+            <a href={b.heroCv} className="hidden min-w-[92px] justify-center rounded-full bg-brand px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90 lg:inline-flex">{t.nav.cv}</a>
             <button
               type="button"
               onClick={() => setMenuAcik((a) => !a)}
@@ -525,7 +526,7 @@ export default function Home({ repos, repoCount, photos = [], icerik }: { repos:
           ))}
         </nav>
         <a
-          href="/cv/"
+          href={b.heroCv}
           tabIndex={menuAcik ? 0 : -1}
           style={{ transitionDelay: menuAcik ? "360ms" : "0ms" }}
           className={`mt-10 rounded-full bg-brand py-3.5 text-center text-[15px] max-[400px]:mt-6 [@media(max-height:700px)]:mt-6 font-semibold text-hero transition-[opacity,transform] duration-500 ${menuAcik ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"}`}
@@ -554,8 +555,8 @@ export default function Home({ repos, repoCount, photos = [], icerik }: { repos:
           </h1>
           <p className="hero-fade mt-7 max-w-xl text-[15.5px] leading-relaxed text-hero-2 sm:text-[17px]">{t.hero.sub}</p>
           <div className="hero-fade mt-9 flex flex-wrap gap-3">
-            <a href="#projects" className="rounded-full bg-hero px-6 py-3 text-[14px] font-semibold text-space transition hover:opacity-90">{t.hero.ctaProjects}</a>
-            <a href="/cv/" className="rounded-full border border-hero/20 px-6 py-3 text-[14px] font-semibold text-hero transition hover:border-hero/50">{t.hero.ctaCv}</a>
+            <a href={b.heroProjeler} className="rounded-full bg-hero px-6 py-3 text-[14px] font-semibold text-space transition hover:opacity-90">{t.hero.ctaProjects}</a>
+            <a href={b.heroCv} className="rounded-full border border-hero/20 px-6 py-3 text-[14px] font-semibold text-hero transition hover:border-hero/50">{t.hero.ctaCv}</a>
           </div>
         </div>
         <div aria-hidden className="hero-fade absolute bottom-10 left-1/2 z-10 -translate-x-1/2">
@@ -829,13 +830,13 @@ export default function Home({ repos, repoCount, photos = [], icerik }: { repos:
           <h2 className="font-display relative text-[clamp(2.4rem,6vw,4.6rem)] font-medium tracking-tight text-hero">{t.contact.title}</h2>
           <p className="relative mt-5 text-[16px] text-hero-2">{t.contact.text}</p>
           <div className="relative mt-9 flex flex-wrap justify-center gap-3">
-            <a href={`mailto:${links.email}`} className="rounded-full bg-hero px-6 py-3 text-[14px] font-semibold text-space transition hover:opacity-90">{t.contact.email}</a>
-            <a href="/cv/" className="rounded-full border border-hero/20 px-6 py-3 text-[14px] font-semibold text-hero transition hover:border-hero/50">{t.contact.cv}</a>
+            <a href={`mailto:${b.email}`} className="rounded-full bg-hero px-6 py-3 text-[14px] font-semibold text-space transition hover:opacity-90">{t.contact.email}</a>
+            <a href={b.iletisimCv} className="rounded-full border border-hero/20 px-6 py-3 text-[14px] font-semibold text-hero transition hover:border-hero/50">{t.contact.cv}</a>
           </div>
           <div className="relative mt-10 flex flex-wrap justify-center gap-x-7 gap-y-2 text-[13.5px] text-hero-3">
-            <a href={`mailto:${links.email}`} className="hover:text-hero">{links.email}</a>
-            <a href={links.linkedin} className="hover:text-hero">linkedin.com/in/tolguner</a>
-            <a href={links.github} className="hover:text-hero">github.com/tolguner</a>
+            <a href={`mailto:${b.email}`} className="hover:text-hero">{b.email}</a>
+            <a href={b.linkedin} className="hover:text-hero">{b.linkedinEtiket}</a>
+            <a href={b.github} className="hover:text-hero">{b.githubEtiket}</a>
           </div>
         </div>
         <footer className="mt-10 flex flex-wrap justify-between gap-2 text-[12px] text-hero-3">
