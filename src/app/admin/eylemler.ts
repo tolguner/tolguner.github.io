@@ -239,7 +239,8 @@ export async function siralamayiKaydet(sira: { id: string; sort_order: number }[
 export async function medyayiGuncelle(key: "cv_tr" | "cv_en", storagePath: string, byteSize: number) {
   const db = await sunucuIstemcisi();
 
-  const { data: eski } = await db.from("media_assets").select("storage_path, version").eq("key", key).maybeSingle();
+  const { data: eski } = await db.from("media_assets").select("version").eq("key", key).maybeSingle();
+  const surum = (eski?.version ?? 0) + 1;
 
   const { error } = await db.from("media_assets").upsert(
     {
@@ -247,7 +248,7 @@ export async function medyayiGuncelle(key: "cv_tr" | "cv_en", storagePath: strin
       storage_path: storagePath,
       mime_type: "application/pdf",
       byte_size: byteSize,
-      version: (eski?.version ?? 0) + 1,
+      version: surum,
       updated_at: new Date().toISOString(),
     },
     { onConflict: "key" },
@@ -255,10 +256,57 @@ export async function medyayiGuncelle(key: "cv_tr" | "cv_en", storagePath: strin
   if (error) return { ok: false as const, hata: error.message };
 
   // Eski dosya BILEREK silinmiyor: kaydedilmis/paylasilmis PDF baglantilari
-  // kirilmasin. Dosyalar icerik adresli, yer kaplamasi onemsiz.
+  // kirilmasin. Dosyalar icerik adresli, yer kaplamasi onemsiz. Yollari burada
+  // tutuldugu icin eski bir surume donulebiliyor.
+  const { error: revHatasi } = await db.from("media_revisions").insert({
+    key,
+    storage_path: storagePath,
+    mime_type: "application/pdf",
+    byte_size: byteSize,
+    version: surum,
+  });
+  if (revHatasi) return { ok: false as const, hata: revHatasi.message };
+
+  medyayiTazele();
+  return { ok: true as const, version: surum };
+}
+
+/** Onceki bir surume doner. Dosya depoda durdugu icin kayip yok. */
+export async function medyayaDon(revisionId: string) {
+  const db = await sunucuIstemcisi();
+
+  const { data: rev, error: okumaHatasi } = await db
+    .from("media_revisions")
+    .select("key, storage_path, mime_type, byte_size")
+    .eq("id", revisionId)
+    .single();
+  if (okumaHatasi) return { ok: false as const, hata: okumaHatasi.message };
+
+  const { data: mevcut } = await db.from("media_assets").select("version").eq("key", rev.key).maybeSingle();
+  const surum = (mevcut?.version ?? 0) + 1;
+
+  const { error } = await db
+    .from("media_assets")
+    .update({ storage_path: rev.storage_path, byte_size: rev.byte_size, version: surum, updated_at: new Date().toISOString() })
+    .eq("key", rev.key);
+  if (error) return { ok: false as const, hata: error.message };
+
+  // Geri donus de bir surumdur: gecmiste kaybolmasin.
+  await db.from("media_revisions").insert({
+    key: rev.key,
+    storage_path: rev.storage_path,
+    mime_type: rev.mime_type,
+    byte_size: rev.byte_size,
+    version: surum,
+  });
+
+  medyayiTazele();
+  return { ok: true as const };
+}
+
+function medyayiTazele() {
   revalidateTag(ETIKET.medya);
   revalidatePath("/cv");
-  return { ok: true as const, oncekiYol: eski?.storage_path ?? null };
 }
 
 function galeriyiTazele() {
