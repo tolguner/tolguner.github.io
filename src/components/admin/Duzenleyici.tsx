@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { AlanCiz, yaz } from "./alanlar";
 import { ALANLAR } from "@/lib/content/alanlar";
+import { farkSayisi } from "@/lib/content/fark";
 import { onizlemeyiAc, taslagiKaydet, taslakSurumu, yayimla } from "@/app/admin/eylemler";
 
 type Slug = "home" | "cv";
@@ -20,26 +21,6 @@ function indirge(durum: Durum, e: Eylem): Durum {
     case "temizlendi":
       return { ...durum, kirli: false };
   }
-}
-
-/** Iki agacta farkli yaprak sayisi — yayimlama onayinda gosterilir. */
-function farkSayisi(a: unknown, b: unknown): number {
-  if (a === b) return 0;
-  if (a === null || b === null || typeof a !== "object" || typeof b !== "object") return 1;
-
-  if (Array.isArray(a) || Array.isArray(b)) {
-    const x = (a as unknown[]) ?? [];
-    const y = (b as unknown[]) ?? [];
-    let n = Math.abs(x.length - y.length);
-    for (let i = 0; i < Math.min(x.length, y.length); i++) n += farkSayisi(x[i], y[i]);
-    return n;
-  }
-
-  const x = a as Record<string, unknown>;
-  const y = b as Record<string, unknown>;
-  let n = 0;
-  for (const k of new Set([...Object.keys(x), ...Object.keys(y)])) n += farkSayisi(x[k], y[k]);
-  return n;
 }
 
 const SAAT = new Intl.DateTimeFormat("tr-TR", { timeStyle: "medium", timeZone: "Europe/Istanbul" });
@@ -198,6 +179,12 @@ export default function Duzenleyici({
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
+            <a
+              href={`/admin/revizyonlar/${slug}`}
+              className="rounded-full border border-line px-3.5 py-1.5 text-[13px] font-semibold text-ink transition hover:bg-paper-2"
+            >
+              Geçmiş
+            </a>
             <button
               type="button"
               disabled={kayit === "kaydediliyor" || !durum.kirli}

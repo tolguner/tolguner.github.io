@@ -80,3 +80,34 @@ export async function taslakSurumu(slug: Slug) {
   if (error) return { ok: false as const, hata: error.message };
   return { ok: true as const, lockVersion: data.lock_version as number };
 }
+
+/**
+ * Bir revizyonu TASLAGA geri yukler.
+ *
+ * Dogrudan yayimlamiyoruz: geri alma da bir icerik degisikligi, once
+ * duzenleyicide gorulmeli. Kullanici bakip "Yayimla"ya basar. Boylece geri
+ * alma da normal yayim akisindan gecer ve kendi revizyon satirini yazar.
+ *
+ * Form action olarak kullanildigi icin deger DONDURMEZ; hata durumunda
+ * gecmis sayfasina hata parametresiyle geri doner.
+ */
+export async function revizyonaDon(slug: Slug, id: string) {
+  const db = await sunucuIstemcisi();
+
+  const { data: rev, error: okumaHatasi } = await db
+    .from("content_revisions")
+    .select("data")
+    .eq("id", id)
+    .eq("slug", slug)
+    .single();
+  if (okumaHatasi) {
+    redirect(`/admin/revizyonlar/${slug}?hata=${encodeURIComponent(okumaHatasi.message)}`);
+  }
+
+  const { error } = await db.from("content_drafts").update({ data: rev.data }).eq("slug", slug);
+  if (error) {
+    redirect(`/admin/revizyonlar/${slug}?hata=${encodeURIComponent(error.message)}`);
+  }
+
+  redirect(`/admin/icerik/${slug}`);
+}

@@ -31,11 +31,8 @@ export default async function Panel() {
           const taslak = taslakBul(d.slug);
           const bekleyen = taslak ? taslak.lock_version !== d.lock_version : false;
           return (
-            <a
-              key={d.slug}
-              href={`/admin/icerik/${d.slug}`}
-              className="rounded-xl border border-line bg-paper-2 p-5 transition hover:border-accent"
-            >
+            <div key={d.slug} className="rounded-xl border border-line bg-paper-2 p-5 transition hover:border-accent">
+              <a href={`/admin/icerik/${d.slug}`} className="block">
               <div className="flex items-baseline justify-between gap-3">
                 <span className="text-[16px] font-bold text-ink">{ADLAR[d.slug] ?? d.slug}</span>
                 {bekleyen && (
@@ -56,7 +53,14 @@ export default async function Panel() {
                   </div>
                 )}
               </dl>
-            </a>
+              </a>
+              <a
+                href={`/admin/revizyonlar/${d.slug}`}
+                className="mt-3 inline-block text-[12.5px] text-accent hover:underline"
+              >
+                geçmiş ve geri alma →
+              </a>
+            </div>
           );
         })}
       </div>

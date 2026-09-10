@@ -40,6 +40,18 @@ export async function middleware(request: NextRequest) {
 
   const { data } = await supabase.auth.getClaims();
 
+  /**
+   * Yonlendirme YENI bir yanit nesnesidir; yukarida `response` uzerine yazilan
+   * tazelenmis oturum cerezleri onda YOKTUR. Kopyalanmazsa Supabase token'i
+   * tazeler, yonlendirme onu atar, eski refresh token da tuketilmis oldugu icin
+   * oturum kalici olarak duser — kullanici durup dururken cikis yapmis olur.
+   */
+  const yonlendir = (url: URL) => {
+    const r = NextResponse.redirect(url);
+    for (const cerez of response.cookies.getAll()) r.cookies.set(cerez);
+    return r;
+  };
+
   // `trailingSlash: true` acik: gercek yol "/admin/login/" seklinde geliyor.
   // Sondaki egik cizgi kirpilmazsa giris sayfasi kendini yonlendirir.
   const yol = request.nextUrl.pathname.replace(/\/+$/, "") || "/";
@@ -49,14 +61,14 @@ export async function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin/login";
     url.searchParams.set("nereden", yol);
-    return NextResponse.redirect(url);
+    return yonlendir(url);
   }
 
   if (data?.claims && girisSayfasi) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin";
     url.search = "";
-    return NextResponse.redirect(url);
+    return yonlendir(url);
   }
 
   return response;
