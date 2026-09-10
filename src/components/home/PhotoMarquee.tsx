@@ -16,6 +16,8 @@ const SURTUNME = 0.94; // bırakınca hızın sönümlenme katsayısı (60 fps b
  */
 export default function PhotoMarquee({ photos, lang, onSec }: { photos: Photo[]; lang: Lang; onSec?: (sira: number) => void }) {
   const trackRef = useRef<HTMLUListElement>(null);
+  const onSecRef = useRef(onSec);
+  onSecRef.current = onSec;
   const offset = useRef(0);
   const hiz = useRef(0); // sürükleme sonrası kalan hız (px/sn)
   const suruklu = useRef(false);
@@ -23,6 +25,13 @@ export default function PhotoMarquee({ photos, lang, onSec }: { photos: Photo[];
   const sonT = useRef(0);
   /** Serit suruklenebilir; tiklama ile surukleme ayirt edilmeli. */
   const toplamKayma = useRef(0);
+  /**
+   * Basilan karenin sirasi. pointerdown aninda okunmak ZORUNDA: serit
+   * setPointerCapture yaptigi icin sonraki olaylar seride yonlendiriliyor ve
+   * tarayici `click`i figure'e degil seride uretiyor — figure'un onClick'i hic
+   * calismiyor.
+   */
+  const basilanSira = useRef<number | null>(null);
 
   const hepsi = photos.length;
 
@@ -65,6 +74,8 @@ export default function PhotoMarquee({ photos, lang, onSec }: { photos: Photo[];
     sonX.current = e.clientX;
     sonT.current = performance.now();
     toplamKayma.current = 0;
+    const kare = (e.target as HTMLElement).closest<HTMLElement>("[data-sira]");
+    basilanSira.current = kare ? Number(kare.dataset.sira) : null;
     try {
       (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
     } catch {
@@ -94,6 +105,13 @@ export default function PhotoMarquee({ photos, lang, onSec }: { photos: Photo[];
     } catch {
       /* yakalama zaten bırakılmış olabilir */
     }
+
+    // 5 pikselden az kayma "tiklama"; fazlasi surukleme sayilir, yoksa serit
+    // her kaydirildiginda buyutec acilirdi.
+    if (toplamKayma.current < 5 && basilanSira.current !== null) {
+      onSecRef.current?.(basilanSira.current);
+    }
+    basilanSira.current = null;
   }, []);
 
   if (!hepsi) return null;
@@ -124,14 +142,10 @@ export default function PhotoMarquee({ photos, lang, onSec }: { photos: Photo[];
               className="group cursor-zoom-in rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-brand"
               // Serit listeyi cogaltiyor; yalnizca ilk kopya odaklanabilir
               // olsun, yoksa sekme sirasi ayni fotograflari iki kez dolasir.
+              data-sira={i % taban.length % hepsi}
               role={onSec ? "button" : undefined}
               tabIndex={onSec && i < taban.length ? 0 : -1}
               aria-label={onSec ? `${(lang === "tr" ? p.tr : p.en) || "Fotoğraf"} — büyüt` : undefined}
-              onClick={() => {
-                // 5 pikselden az kayma "tiklama"; fazlasi surukleme sayilir,
-                // yoksa serit her kaydirildiginda buyutec aciliyordu.
-                if (toplamKayma.current < 5) onSec?.(i % taban.length % hepsi);
-              }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
