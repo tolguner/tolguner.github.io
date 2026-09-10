@@ -69,12 +69,13 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
   const dosyaRef = useRef<HTMLInputElement>(null);
   /** Suruklenen satirin kimligi (gorsel geri bildirim). */
   const [suruklenen, setSuruklenen] = useState<string | null>(null);
-  const suruklenenRef = useRef<string | null>(null);
   /** Olay isleyicileri en guncel listeyi gormeli; state kapanislari bayat kalir. */
   const listeRef = useRef(fotograflar);
   /** FLIP animasyonu icin satir ogeleri ve onceki konumlari. */
   const satirOgeleri = useRef(new Map<string, HTMLElement>());
   const oncekiYerler = useRef(new Map<string, number>());
+  /** Birakma sonrasi FLIP calismasin: satirlar zaten dogru yerde. */
+  const flipAtla = useRef(false);
 
   useEffect(() => {
     setListe(fotograflar);
@@ -98,7 +99,8 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
    * gibi gorunur ve bosuna animasyon tetiklenirdi.
    */
   useLayoutEffect(() => {
-    const azalt = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const azalt = window.matchMedia("(prefers-reduced-motion: reduce)").matches || flipAtla.current;
+    flipAtla.current = false;
     const yeniYerler = new Map<string, number>();
 
     for (const [id, el] of satirOgeleri.current) {
@@ -245,45 +247,143 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
   /**
    * Surukleyerek siralama.
    *
-   * Imlecin altindaki satiri `elementFromPoint` ile buluyoruz; satir
-   * yuksekliklerini onceden olcmeye gore hem daha kisa hem de liste surukleme
-   * sirasinda degistigi icin daha dogru. Liste aninda yeniden diziliyor,
-   * birakinca veritabanina yaziliyor.
+   * Onceki surum her `pointermove`da React state'ini degistiriyordu: liste
+   * yeniden diziliyor, duzen bastan hesaplaniyor ve ucustaki FLIP animasyonu
+   * kesiliyordu — titreme ve sicrama bundandi. Ayrica imlec komsu satira 1
+   * piksel girdiginde takas oluyor, satirlar kayinca imlec eski satirin uzerine
+   * dusuyor ve ileri geri salinim basliyordu.
+   *
+   * Simdi surukleme boyunca HIC yeniden cizim yok. Baslangicta satirlarin
+   * konumlari olculuyor; hareket ederken yalnizca `transform` yaziliyor:
+   * suruklenen satir imleci birebir izliyor, digerleri hedef yuvalarina
+   * gecisle kayiyor. Sira degisimi olcume gore hesaplandigi icin salinim da
+   * olmuyor. Liste yalnizca birakildiginda bir kez guncelleniyor.
    */
-  const surukleHareket = useCallback((e: PointerEvent) => {
-    const kaynakId = suruklenenRef.current;
-    if (!kaynakId) return;
-    const oge = document.elementFromPoint(e.clientX, e.clientY) as HTMLElement | null;
-    const hedefId = oge?.closest<HTMLElement>("[data-foto]")?.dataset.foto;
-    if (!hedefId || hedefId === kaynakId) return;
+  const surukleRef = useRef<{
+    id: string;
+    baslangicY: number;
+    kutular: { id: string; ust: number; yukseklik: number }[];
+    araliklar: number[];
+    ilkIndex: number;
+    sonIndex: number;
+  } | null>(null);
 
-    // Sira DOM'dan degil listeden okunuyor: birden fazla pointermove React
-    // yeniden cizmeden ardarda gelirse DOM'daki index bayat kalir ve
-    // veritabanina ekranda gorunenden FARKLI bir sira yazilir.
-    const liste = listeRef.current;
-    const kaynak = liste.findIndex((f) => f.id === kaynakId);
-    const hedef = liste.findIndex((f) => f.id === hedefId);
-    if (kaynak < 0 || hedef < 0) return;
+  /** Verilen tasimadan sonra her satirin yeni ust konumu. */
+  const yeniKonumlar = useCallback((kutular: { id: string; ust: number; yukseklik: number }[], araliklar: number[], from: number, to: number) => {
+    const sirali = [...kutular];
+    const [tasinan] = sirali.splice(from, 1);
+    sirali.splice(to, 0, tasinan);
 
-    const yeni = [...liste];
-    const [tasinan] = yeni.splice(kaynak, 1);
-    yeni.splice(hedef, 0, tasinan);
-    listeRef.current = yeni;
-    setListe(yeni);
+    const konum = new Map<string, number>();
+    let y = kutular[0].ust;
+    for (let i = 0; i < sirali.length; i++) {
+      konum.set(sirali[i].id, y);
+      y += sirali[i].yukseklik + (araliklar[i] ?? 0);
+    }
+    return konum;
   }, []);
+
+  const surukleHareket = useCallback(
+    (e: PointerEvent) => {
+      const d = surukleRef.current;
+      if (!d) return;
+
+      const dy = e.clientY - d.baslangicY;
+      const kaynakKutu = d.kutular[d.ilkIndex];
+      const merkez = kaynakKutu.ust + kaynakKutu.yukseklik / 2 + dy;
+
+      // Hedef yuva: suruklenen satirin merkezi hangi satirlarin merkezini
+      // gectiyse. Olcume dayali oldugu icin salinim yok.
+      let hedef = 0;
+      for (let i = 0; i < d.kutular.length; i++) {
+        if (i === d.ilkIndex) continue;
+        const k = d.kutular[i];
+        if (merkez > k.ust + k.yukseklik / 2) hedef++;
+      }
+
+      if (hedef !== d.sonIndex) {
+        d.sonIndex = hedef;
+        const konum = yeniKonumlar(d.kutular, d.araliklar, d.ilkIndex, hedef);
+        for (const k of d.kutular) {
+          if (k.id === d.id) continue;
+          const el = satirOgeleri.current.get(k.id);
+          if (!el) continue;
+          el.style.transition = "transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1)";
+          el.style.transform = `translateY(${(konum.get(k.id) ?? k.ust) - k.ust}px)`;
+        }
+      }
+
+      // Suruklenen satir imleci birebir izler: gecis yok, gecikme yok.
+      const el = satirOgeleri.current.get(d.id);
+      if (el) {
+        el.style.transition = "none";
+        el.style.transform = `translateY(${dy}px)`;
+      }
+    },
+    [yeniKonumlar],
+  );
 
   const surukleBitir = useCallback(() => {
     window.removeEventListener("pointermove", surukleHareket);
     document.body.style.userSelect = "";
-    suruklenenRef.current = null;
+
+    const d = surukleRef.current;
+    surukleRef.current = null;
     setSuruklenen(null);
-    void siralamayiYaz();
-  }, [surukleHareket, siralamayiYaz]);
+    if (!d) return;
+
+    const el = satirOgeleri.current.get(d.id);
+    const konum = yeniKonumlar(d.kutular, d.araliklar, d.ilkIndex, d.sonIndex);
+    const hedefKayma = (konum.get(d.id) ?? 0) - d.kutular[d.ilkIndex].ust;
+
+    // Birakilan satir once yuvasina otursun, sonra listeyi guncelleyelim;
+    // aksi halde son bir sicrama gorunuyor.
+    if (el) {
+      el.style.transition = "transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1)";
+      el.style.transform = `translateY(${hedefKayma}px)`;
+    }
+
+    const yeni = [...listeRef.current];
+    const [tasinan] = yeni.splice(d.ilkIndex, 1);
+    yeni.splice(d.sonIndex, 0, tasinan);
+
+    setTimeout(() => {
+      for (const k of d.kutular) {
+        const e2 = satirOgeleri.current.get(k.id);
+        if (!e2) continue;
+        e2.style.transition = "";
+        e2.style.transform = "";
+      }
+      // Yeni duzen zaten gozle gorunen yerde; FLIP burada calisirsa geri
+      // ziplama animasyonu uretir.
+      flipAtla.current = true;
+      listeRef.current = yeni;
+      setListe(yeni);
+      void siralamayiYaz();
+    }, 200);
+  }, [surukleHareket, siralamayiYaz, yeniKonumlar]);
 
   function surukleBasla(e: React.PointerEvent, id: string) {
     // Metin secimini ve dokunmatikte sayfa kaydirmasini engelle.
     e.preventDefault();
-    suruklenenRef.current = id;
+
+    const kutular = listeRef.current
+      .map((f) => {
+        const el = satirOgeleri.current.get(f.id);
+        return el ? { id: f.id, ust: el.offsetTop, yukseklik: el.offsetHeight } : null;
+      })
+      .filter((k): k is { id: string; ust: number; yukseklik: number } => k !== null);
+
+    const index = kutular.findIndex((k) => k.id === id);
+    if (index < 0) return;
+
+    // Yuvalar arasi bosluklar duzene gore degisiyor (lg'de bitisik, altinda
+    // aralikli); olcumden cikariyoruz ki her iki duzende de dogru olsun.
+    const araliklar = kutular.map((k, i) =>
+      i < kutular.length - 1 ? kutular[i + 1].ust - (k.ust + k.yukseklik) : 0,
+    );
+
+    surukleRef.current = { id, baslangicY: e.clientY, kutular, araliklar, ilkIndex: index, sonIndex: index };
     setSuruklenen(id);
     document.body.style.userSelect = "none";
     window.addEventListener("pointermove", surukleHareket);
@@ -444,7 +544,7 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
               f.is_published ? "border-line bg-paper-2 lg:bg-transparent" : "border-accent/40 bg-accent/5"
             } ${
               suruklenen === f.id
-                ? "z-10 border-accent bg-surface shadow-[0_12px_28px_rgba(0,0,0,0.45)] ring-2 ring-accent/60"
+                ? "z-20 cursor-grabbing border-accent bg-surface shadow-[0_14px_32px_rgba(0,0,0,0.5)] ring-2 ring-accent/60"
                 : "lg:rounded-none"
             }`}
           >
