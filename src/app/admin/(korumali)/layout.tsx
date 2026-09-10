@@ -16,6 +16,8 @@ const BAGLANTILAR = [
   { href: "/admin", etiket: "Genel" },
   { href: "/admin/icerik/home", etiket: "Ana sayfa" },
   { href: "/admin/icerik/cv", etiket: "CV" },
+  { href: "/admin/galeri", etiket: "Galeri" },
+  { href: "/admin/dosyalar", etiket: "Dosyalar" },
 ];
 
 /**

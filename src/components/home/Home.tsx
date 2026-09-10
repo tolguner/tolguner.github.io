@@ -10,6 +10,7 @@ import type { Lang } from "@/content";
 import type { Repo } from "@/lib/repos";
 import type { Photo } from "@/lib/gallery";
 import PhotoMarquee from "./PhotoMarquee";
+import Buyutec from "@/components/Buyutec";
 import Intro from "./Intro";
 import TemaDugmesi from "@/components/TemaDugmesi";
 import DilDugmesi from "@/components/DilDugmesi";
@@ -45,6 +46,8 @@ export default function Home({ repos, repoCount, photos = [], icerik }: { repos:
   /** Kure sahnesi yalnizca hero gorunurken ve sekme aktifken calisir. */
   const [sahneAktif, setSahneAktif] = useState(true);
   const [menuAcik, setMenuAcik] = useState(false);
+  /** Buyutecte acik olan fotografin sirasi; null ise kapali. */
+  const [buyutecSira, setBuyutecSira] = useState<number | null>(null);
   /** yok: karar verilmedi · yazi: daktilo · ucus: kürenin yörüngesi · bitti */
   const [giris, setGiris] = useState<"yok" | "yazi" | "ucus" | "bitti">("yok");
   const [perde, setPerde] = useState(true);
@@ -421,13 +424,15 @@ export default function Home({ repos, repoCount, photos = [], icerik }: { repos:
   }, [giris]);
 
   useEffect(() => {
-    if (menuAcik || giris !== "bitti") lenisRef.current?.stop();
+    // Buyutec de listede: `body { overflow: hidden }` tek basina yetmiyor,
+    // Lenis kendi kaydirmasini surdurup arka planda sayfayi kaydiriyor.
+    if (menuAcik || buyutecSira !== null || giris !== "bitti") lenisRef.current?.stop();
     else lenisRef.current?.start();
     const kapat = (e: KeyboardEvent) => { if (e.key === "Escape") setMenuAcik(false); };
     window.addEventListener("keydown", kapat);
     return () => window.removeEventListener("keydown", kapat);
     // lang/mounted: dil degisince Lenis yeniden kuruluyor, menu acikken tekrar durdurulmali
-  }, [menuAcik, giris, lang, mounted]);
+  }, [menuAcik, buyutecSira, giris, lang, mounted]);
 
   const tilt = (e: React.MouseEvent<HTMLElement>) => {
     const el = e.currentTarget;
@@ -444,6 +449,12 @@ export default function Home({ repos, repoCount, photos = [], icerik }: { repos:
 
   return (
     <div ref={root} className="home relative z-0 min-h-screen overflow-x-clip bg-space text-hero-2">
+      <Buyutec
+        fotograflar={photos.map((p) => ({ src: p.src, baslik: lang === "tr" ? p.tr : p.en }))}
+        sira={buyutecSira}
+        onKapat={() => setBuyutecSira(null)}
+        onSira={setBuyutecSira}
+      />
       {/* Fareyi izleyen ışıltı — en arka katman; kartlar ve metin (normal akış,
           bu elemandan sonra çiziliyor) hep önünde kalır. */}
       <div
@@ -684,7 +695,7 @@ export default function Home({ repos, repoCount, photos = [], icerik }: { repos:
                 <span className="text-[10.5px] font-semibold uppercase tracking-[0.22em] text-hero-3">{t.journey.galleryLabel}</span>
                 <span className="h-px flex-1 bg-hero/10" />
               </div>
-              <PhotoMarquee photos={photos} lang={lang} />
+              <PhotoMarquee photos={photos} lang={lang} onSec={setBuyutecSira} />
             </div>
           )}
         </div>
