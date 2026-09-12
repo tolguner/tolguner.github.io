@@ -26,9 +26,9 @@ export const content: Record<Lang, Dict> = {
   tr: {
     nav: { about: "Hakkımda", experience: "Deneyim", research: "Araştırma", projects: "Projeler", skills: "Yetkinlikler", portfolio: "Portfolyo", menu: "Menüyü aç", menuClose: "Menüyü kapat", temaAcik: "Açık temaya geç", temaKoyu: "Koyu temaya geç" },
     hero: {
-      tagline: "Yönetim Bilişim Sistemleri Öğrencisi · Işık Üniversitesi",
+      tagline: "Yönetim Bilişim Sistemleri Öğrencisi",
       intro:
-        "Spring Boot ve React ile web uygulamaları geliştiriyorum; TÜBİTAK 2209-A destekli bir araştırma projesinin yürütücüsüyüm. Üç yıllık kulüp başkanlığı ve kurumsal etkinlik organizasyonu deneyimiyle teknik bilgiyi iletişim, ekip koordinasyonu ve organizasyon becerisiyle birleştiriyorum.",
+        "Işık Üniversitesi Yönetim Bilişim Sistemleri son sınıf öğrencisiyim. Spring Boot ve React ile web uygulamaları geliştiriyorum; TÜBİTAK 2209-A destekli bir araştırma projesinin yürütücüsüyüm. 3 yıllık kulüp başkanlığı ve kurumsal etkinlik organizasyonu deneyimiyle teknik bilgiyi iletişim, ekip koordinasyonu ve organizasyon becerisiyle birleştiriyorum.",
       cv: "CV (PDF)",
       cvFile: "/cv/Tolga_Olguner_CV_TR.pdf",
       email: "E-posta",
@@ -142,9 +142,9 @@ export const content: Record<Lang, Dict> = {
   en: {
     nav: { about: "About", experience: "Experience", research: "Research", projects: "Projects", skills: "Skills", portfolio: "Portfolio", menu: "Open menu", menuClose: "Close menu", temaAcik: "Switch to light theme", temaKoyu: "Switch to dark theme" },
     hero: {
-      tagline: "Management Information Systems Student · Işık University",
+      tagline: "Management Information Systems Student",
       intro:
-        "I build web applications with Spring Boot and React and lead a TÜBİTAK 2209-A funded research project. Three years as a club president and hands-on corporate event organization combine technical skills with communication, team coordination and organizational ability.",
+        "Final-year Management Information Systems student at Işık University (GPA 3.43/4). Builds web applications with Spring Boot and React; project lead of a TÜBİTAK 2209-A funded research project. Three years as a club president and hands-on corporate event organization experience combine technical skills with communication, team coordination and organizational ability.",
       cv: "CV (PDF)",
       cvFile: "/cv/Tolga_Olguner_CV_EN.pdf",
       email: "Email",
@@ -199,7 +199,7 @@ export const content: Record<Lang, Dict> = {
         title: "Işık CampusOS",
         kind: "Capstone Project · 2026",
         tech: "Java · Spring Boot · React · Apache Kafka · PostgreSQL · Docker",
-        note: "Aims to bring the scattered parts of campus life — clubs and events, facility booking, food ordering, ride sharing — into one platform students use with a single account.",
+        note: "Aims to bring the scattered parts of campus life (clubs and events, facility booking, food ordering, ride sharing) into one platform students use with a single account.",
         items: ["Microservice architecture: centralized JWT validation at the API gateway, event-driven service communication via Kafka, database per service"],
         url: "https://github.com/tolguner/IsikCampusOS",
         urlLabel: "github.com/tolguner/IsikCampusOS",

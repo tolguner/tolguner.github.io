@@ -81,12 +81,12 @@
   },
   "hero": {
     "tagline": {
-      "tr": "Yönetim Bilişim Sistemleri Öğrencisi · Işık Üniversitesi",
-      "en": "Management Information Systems Student · Işık University"
+      "tr": "Yönetim Bilişim Sistemleri Öğrencisi",
+      "en": "Management Information Systems Student"
     },
     "intro": {
-      "tr": "Spring Boot ve React ile web uygulamaları geliştiriyorum; TÜBİTAK 2209-A destekli bir araştırma projesinin yürütücüsüyüm. Üç yıllık kulüp başkanlığı ve kurumsal etkinlik organizasyonu deneyimiyle teknik bilgiyi iletişim, ekip koordinasyonu ve organizasyon becerisiyle birleştiriyorum.",
-      "en": "I build web applications with Spring Boot and React and lead a TÜBİTAK 2209-A funded research project. Three years as a club president and hands-on corporate event organization combine technical skills with communication, team coordination and organizational ability."
+      "tr": "Işık Üniversitesi Yönetim Bilişim Sistemleri son sınıf öğrencisiyim. Spring Boot ve React ile web uygulamaları geliştiriyorum; TÜBİTAK 2209-A destekli bir araştırma projesinin yürütücüsüyüm. 3 yıllık kulüp başkanlığı ve kurumsal etkinlik organizasyonu deneyimiyle teknik bilgiyi iletişim, ekip koordinasyonu ve organizasyon becerisiyle birleştiriyorum.",
+      "en": "Final-year Management Information Systems student at Işık University (GPA 3.43/4). Builds web applications with Spring Boot and React; project lead of a TÜBİTAK 2209-A funded research project. Three years as a club president and hands-on corporate event organization experience combine technical skills with communication, team coordination and organizational ability."
     },
     "cv": {
       "tr": "CV (PDF)",
@@ -267,7 +267,7 @@
       },
       "note": {
         "tr": "Kampüs yaşamının dağınık süreçlerini — kulüp ve etkinlikler, tesis rezervasyonu, yemek siparişi, paylaşımlı yolculuk — öğrencinin tek hesapla kullandığı bir platformda birleştirmeyi amaçlar.",
-        "en": "Aims to bring the scattered parts of campus life — clubs and events, facility booking, food ordering, ride sharing — into one platform students use with a single account."
+        "en": "Aims to bring the scattered parts of campus life (clubs and events, facility booking, food ordering, ride sharing) into one platform students use with a single account."
       },
       "items": [
         {
