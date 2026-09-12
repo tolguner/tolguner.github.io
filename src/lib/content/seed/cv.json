@@ -292,12 +292,12 @@
         "en": "Personal Portfolio Site · 2026"
       },
       "tech": {
-        "tr": "Next.js · TypeScript · Three.js · GSAP · Vercel",
-        "en": "Next.js · TypeScript · Three.js · GSAP · Vercel"
+        "tr": "Next.js · TypeScript · PostgreSQL · Supabase · Three.js · Vercel",
+        "en": "Next.js · TypeScript · PostgreSQL · Supabase · Three.js · Vercel"
       },
       "note": {
-        "tr": "Kişisel geçmişimi, projelerimi ve araştırmamı scroll'a bağlı 3B bir deneyimle anlatır; Vercel'de yayınlanır, depo listesi GitHub API'den çekilir.",
-        "en": "Presents my background, projects and research through a scroll-driven 3D experience; deployed on Vercel, with the repository list fetched from the GitHub API."
+        "tr": "Kişisel geçmişimi, projelerimi ve araştırmamı scroll'a bağlı 3B bir deneyimle anlatır. İçerik Postgres'te tutulur ve giriş gerektiren bir panelden düzenlenir; site kod değişmeden güncellenir.",
+        "en": "Presents my background, projects and research through a scroll-driven 3D experience. Content lives in Postgres and is edited through a login-protected admin panel; the site is updated without code changes."
       },
       "items": [
         {
@@ -305,6 +305,13 @@
           "value": {
             "tr": "Three.js tabanlı özel 3B sahne ve GSAP ScrollTrigger ile senaryolu geçiş animasyonları",
             "en": "Custom Three.js scene with GSAP ScrollTrigger-driven transition animations"
+          }
+        },
+        {
+          "id": "proj-2-i-2",
+          "value": {
+            "tr": "Satır düzeyi güvenlik (RLS) ve TOTP iki adımlı doğrulama ile korunan yönetim paneli; taslak → yayımla akışı, revizyon geçmişi ve geri alma",
+            "en": "Admin panel protected by row-level security and TOTP two-factor authentication; draft-to-publish flow, revision history and rollback"
           }
         }
       ]

@@ -91,9 +91,12 @@ export const content: Record<Lang, Dict> = {
       {
         title: "tolguner.me",
         kind: "Kişisel Portfolyo Sitesi · 2026",
-        tech: "Next.js · TypeScript · Three.js · GSAP · Vercel",
-        note: "Kişisel geçmişimi, projelerimi ve araştırmamı scroll'a bağlı 3B bir deneyimle anlatır; Vercel'de yayınlanır, depo listesi GitHub API'den çekilir.",
-        items: ["Three.js tabanlı özel 3B sahne ve GSAP ScrollTrigger ile senaryolu geçiş animasyonları"],
+        tech: "Next.js · TypeScript · PostgreSQL · Supabase · Three.js · Vercel",
+        note: "Kişisel geçmişimi, projelerimi ve araştırmamı scroll'a bağlı 3B bir deneyimle anlatır. İçerik Postgres'te tutulur ve giriş gerektiren bir panelden düzenlenir; site kod değişmeden güncellenir.",
+        items: [
+          "Three.js tabanlı özel 3B sahne ve GSAP ScrollTrigger ile senaryolu geçiş animasyonları",
+          "Satır düzeyi güvenlik (RLS) ve TOTP iki adımlı doğrulama ile korunan yönetim paneli; taslak → yayımla akışı, revizyon geçmişi ve geri alma",
+        ],
         url: "https://github.com/tolguner/tolguner.github.io",
         urlLabel: "github.com/tolguner/tolguner.github.io",
       },
@@ -204,9 +207,12 @@ export const content: Record<Lang, Dict> = {
       {
         title: "tolguner.me",
         kind: "Personal Portfolio Site · 2026",
-        tech: "Next.js · TypeScript · Three.js · GSAP · Vercel",
-        note: "Presents my background, projects and research through a scroll-driven 3D experience; deployed on Vercel, with the repository list fetched from the GitHub API.",
-        items: ["Custom Three.js scene with GSAP ScrollTrigger-driven transition animations"],
+        tech: "Next.js · TypeScript · PostgreSQL · Supabase · Three.js · Vercel",
+        note: "Presents my background, projects and research through a scroll-driven 3D experience. Content lives in Postgres and is edited through a login-protected admin panel; the site is updated without code changes.",
+        items: [
+          "Custom Three.js scene with GSAP ScrollTrigger-driven transition animations",
+          "Admin panel protected by row-level security and TOTP two-factor authentication; draft-to-publish flow, revision history and rollback",
+        ],
         url: "https://github.com/tolguner/tolguner.github.io",
         urlLabel: "github.com/tolguner/tolguner.github.io",
       },
