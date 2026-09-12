@@ -128,7 +128,7 @@ export const content: Record<Lang, Dict> = {
       { label: "Araçlar", items: "Docker · Git ve GitHub · Maven" },
     ],
     personal: ["Ekip liderliği ve koordinasyon", "Etkinlik ve organizasyon yönetimi", "İletişim ve sunum", "Proje planlama"],
-    education: { degree: "Yönetim Bilişim Sistemleri, Lisans", school: "Işık Üniversitesi, İstanbul", date: "2021 – 2026", meta: "Genel not ortalaması 3,43 / 4,00 · %100 burslu" },
+    education: { degree: "Yönetim Bilişim Sistemleri, Lisans", school: "Işık Üniversitesi, İstanbul", date: "2021 – 2026", meta: "Genel Not Ortalaması 3,43 / 4,00 · %100 Burslu" },
     languages: ["Türkçe — anadil", "İngilizce — orta-ileri (B2)", "Almanca — başlangıç (A1)"],
     footer: "İstanbul / Bursa, Türkiye",
     updated: "Son güncelleme",
