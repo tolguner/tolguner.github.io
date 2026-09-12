@@ -25,7 +25,14 @@ function captionFromFilename(file: string): string {
  * içinde dosya adıyla eşleşen bir kayıt yazılarak (özellikle İngilizcesi için)
  * bu değer geçersiz kılınabilir.
  */
-export function getGallery(): Photo[] {
+/**
+ * Donus tipinde `genislik`/`yukseklik` YOK: bu kaynak dosya sisteminden
+ * okuyor ve olcuyu bilmiyor (sharp yalnizca `seed --db` yolunda kullaniliyor).
+ * Yedekten okuyan taraf oraninin 4:3 oldugunu varsayiyor (bkz. read.ts).
+ */
+export type GaleriKaynagi = Omit<Photo, "genislik" | "yukseklik">;
+
+export function getGallery(): GaleriKaynagi[] {
   const dir = path.join(process.cwd(), "public", "galeri");
   if (!fs.existsSync(dir)) return [];
 

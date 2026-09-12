@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { useCallback, useEffect, useRef } from "react";
 import type { Photo } from "@/lib/gallery";
 import type { Lang } from "@/content";
@@ -153,10 +155,19 @@ export default function PhotoMarquee({ photos, lang, onSec }: { photos: Photo[];
                 }
               }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              {/*
+                `sizes` piksel cinsinden sabit: kutu genisligi `vh` ile
+                belirleniyor (17,33vh, 128-216 px) ve `sizes` viewport
+                YUKSEKLIGINI ifade edemiyor. 192px, 2x ekranlarda 384px'lik
+                dosyayi sectiriyor; kaynak 500px oldugu icin Next daha
+                buyugunu uretmiyor.
+              */}
+              <Image
                 src={p.src}
                 alt={(lang === "tr" ? p.tr : p.en) || ""}
+                width={p.genislik}
+                height={p.yukseklik}
+                sizes="192px"
                 loading="lazy"
                 draggable={false}
                 className="h-[clamp(6rem,13vh,10.1rem)] w-full rounded-xl border border-hero/10 object-cover transition group-hover:border-hero/30"

@@ -89,10 +89,18 @@ export async function getPhotos(): Promise<Photo[]> {
       src: depolamaAdresi("gallery", f.storage_path),
       tr: f.caption_tr,
       en: f.caption_en,
+      // Kirpma ekrani her fotografi 4:3'e getiriyor; olcu yoksa oran yine dogru.
+      genislik: f.width ?? 500,
+      yukseklik: f.height ?? 375,
     }));
   } catch (err) {
     uyar("galeri", err);
-    return galeriYedek as Photo[];
+    // Yedek JSON'da olcu yok; oran sabit 4:3.
+    return (galeriYedek as Omit<Photo, "genislik" | "yukseklik">[]).map((f) => ({
+      ...f,
+      genislik: 500,
+      yukseklik: 375,
+    }));
   }
 }
 
