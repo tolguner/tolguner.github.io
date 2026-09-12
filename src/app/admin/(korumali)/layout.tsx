@@ -18,11 +18,12 @@ const BAGLANTILAR = [
   { href: "/admin/icerik/cv", etiket: "CV" },
   { href: "/admin/galeri", etiket: "Galeri" },
   { href: "/admin/dosyalar", etiket: "Dosyalar" },
+  { href: "/admin/guvenlik", etiket: "Güvenlik" },
 ];
 
 /**
  * GERCEK kapi burasi. Middleware yalnizca UX icin yonlendirme yapiyor;
- * yetki iki yerde dogrulaniyor: burada `is_admin()` ve veritabaninda RLS.
+ * yetki iki yerde dogrulaniyor: burada uyelik + ikinci adim, veritabaninda RLS.
  */
 export default async function KorumaliDuzen({ children }: { children: React.ReactNode }) {
   const db = await sunucuIstemcisi();
@@ -33,8 +34,21 @@ export default async function KorumaliDuzen({ children }: { children: React.Reac
   } = await db.auth.getUser();
   if (!user) redirect("/admin/login");
 
+  /**
+   * Ikinci adim zorunlu: hesabin dogrulanmis bir kimlik dogrulayicisi varsa
+   * oturum aal2 olana kadar panel acilmaz. `aal` iddiasi `getClaims()` ile
+   * geliyor — imzasi dogrulanmis JWT'den, cerezden okunan ham degerden degil.
+   */
+  const [{ data: iddialar }, { data: etkenler }] = await Promise.all([
+    db.auth.getClaims(),
+    db.auth.mfa.listFactors(),
+  ]);
+  const aal = (iddialar?.claims as { aal?: string } | undefined)?.aal ?? "aal1";
+  const mfaKurulu = (etkenler?.totp?.length ?? 0) > 0;
+  if (mfaKurulu && aal !== "aal2") redirect("/admin/dogrula");
+
   // Giris yapmis olmak yetmez: yetki `admin_users` uyeligine bagli.
-  const { data: adminMi } = await db.rpc("is_admin");
+  const { data: adminMi } = await db.rpc("admin_uyesi");
   if (!adminMi) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center gap-4 px-5 text-center">
@@ -78,6 +92,16 @@ export default async function KorumaliDuzen({ children }: { children: React.Reac
           </div>
         </div>
       </header>
+      {!mfaKurulu && (
+        <div className="border-b border-amber-500/40 bg-amber-500/10">
+          <p className="mx-auto max-w-5xl px-5 py-2 text-[13px] text-ink">
+            İki adımlı doğrulama kapalı — parolan sızarsa panelin tamamı ele geçer.{" "}
+            <a href="/admin/guvenlik" className="font-semibold text-accent hover:underline">
+              Şimdi kur
+            </a>
+          </p>
+        </div>
+      )}
       <main className="mx-auto max-w-5xl px-5 py-8">{children}</main>
     </div>
   );
