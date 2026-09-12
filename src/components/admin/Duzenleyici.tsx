@@ -171,7 +171,7 @@ export default function Duzenleyici({
       <div className="sticky top-[57px] z-20 -mx-5 mb-2 border-b border-line bg-paper/90 px-5 py-3 backdrop-blur-md">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="min-w-0">
-            <h1 className="font-serif text-[22px] font-bold tracking-tight text-ink">{baslik}</h1>
+            <h1 className="font-display text-[22px] font-bold tracking-tight text-ink">{baslik}</h1>
             <p className="mt-0.5 text-[12px] text-muted">
               {durumYazisi}
               {bekleyen > 0 && ` · ${bekleyen} alan yayımlanmayı bekliyor`}

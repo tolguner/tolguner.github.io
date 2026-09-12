@@ -64,7 +64,7 @@ export default async function RevizyonSayfasi({
   return (
     <>
       <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <h1 className="font-serif text-[24px] font-bold tracking-tight text-ink">
+        <h1 className="font-display text-[24px] font-bold tracking-tight text-ink">
           {ADLAR[slug as Slug]} — geçmiş
         </h1>
         <a href={`/admin/icerik/${slug}`} className="text-[13px] text-accent hover:underline">

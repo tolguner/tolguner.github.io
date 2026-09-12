@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
+import TemaDugmesi from "@/components/TemaDugmesi";
 import { cikisYap } from "../eylemler";
 import { sunucuIstemcisi } from "@/lib/supabase/sunucu";
 
@@ -52,7 +53,7 @@ export default async function KorumaliDuzen({ children }: { children: React.Reac
   if (!adminMi) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center gap-4 px-5 text-center">
-        <h1 className="font-serif text-[26px] font-bold text-ink">Yetkiniz yok</h1>
+        <h1 className="font-display text-[26px] font-bold text-ink">Yetkiniz yok</h1>
         <p className="max-w-md text-[14.5px] text-muted">
           <span className="text-ink">{user.email}</span> hesabı bu panele erişim listesinde değil.
         </p>
@@ -67,25 +68,48 @@ export default async function KorumaliDuzen({ children }: { children: React.Reac
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-30 border-b border-line bg-paper/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-5 py-3">
-          <div className="flex items-center gap-5">
-            <span className="font-display text-[15px] font-semibold text-ink">Yönetim</span>
-            <nav className="flex gap-4 text-[13px] text-ink-soft">
-              {BAGLANTILAR.map((b) => (
-                <a key={b.href} href={b.href} className="transition hover:text-ink">
-                  {b.etiket}
-                </a>
-              ))}
-            </nav>
+      {/*
+        Baslik cubugu SITEDEKININ AYNISI: ayni yukseklik, ayni kenarlik ve
+        bulanik zemin, ayni kap genisligi, ayni hap olculeri. Panelden siteye
+        gecerken cubuk yerinden oynamasin diye olculer birebir kopyalandi
+        (bkz. Site.tsx). Tek fark solda "Yonetim" rozeti ve sagdaki hapin
+        cikisa baglanmasi.
+      */}
+      <header className="sticky top-0 z-30 border-b border-ink/5 bg-paper/70 backdrop-blur-md">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-3.5 sm:px-8">
+          <div className="flex items-center gap-4">
+            <a href="/" className="font-display shrink-0 whitespace-nowrap text-lg font-semibold text-ink">
+              Tolga Olguner
+            </a>
+            <span className="hidden rounded-full border border-line px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-muted sm:inline">
+              Yönetim
+            </span>
           </div>
-          <div className="flex items-center gap-3 text-[12.5px] text-muted">
-            <span className="hidden sm:inline">{user.email}</span>
-            <a href="/" className="transition hover:text-ink">
-              Site
+
+          <nav className="nav-display order-3 flex w-full gap-3.5 overflow-x-auto text-[12px] text-ink-soft lg:order-none lg:w-auto lg:gap-7 lg:overflow-visible lg:text-[13px]">
+            {BAGLANTILAR.map((b) => (
+              <a key={b.href} href={b.href} className="whitespace-nowrap transition hover:text-ink">
+                {b.etiket}
+              </a>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-3">
+            <span className="hidden text-[12.5px] text-muted xl:inline">{user.email}</span>
+            <TemaDugmesi
+              etiket={{ light: "Açık temaya geç", dark: "Koyu temaya geç" }}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink-soft transition hover:text-ink"
+            />
+            <a
+              href="/"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink-soft transition hover:text-ink lg:hidden"
+              aria-label="Siteyi aç"
+            >
+              ↗
             </a>
             <form action={cikisYap}>
-              <button className="rounded-full border border-line px-3 py-1 font-semibold text-ink transition hover:bg-paper-2">
+              {/* Sitedeki birincil hapla ayni olcu: min-w-[92px], px-4 py-1.5, 12.5px */}
+              <button className="min-w-[92px] whitespace-nowrap rounded-full bg-accent px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90">
                 Çıkış
               </button>
             </form>
@@ -94,7 +118,7 @@ export default async function KorumaliDuzen({ children }: { children: React.Reac
       </header>
       {!mfaKurulu && (
         <div className="border-b border-amber-500/40 bg-amber-500/10">
-          <p className="mx-auto max-w-5xl px-5 py-2 text-[13px] text-ink">
+          <p className="mx-auto max-w-6xl px-5 py-2 text-[13px] text-ink sm:px-8">
             İki adımlı doğrulama kapalı — parolan sızarsa panelin tamamı ele geçer.{" "}
             <a href="/admin/guvenlik" className="font-semibold text-accent hover:underline">
               Şimdi kur
@@ -102,7 +126,7 @@ export default async function KorumaliDuzen({ children }: { children: React.Reac
           </p>
         </div>
       )}
-      <main className="mx-auto max-w-5xl px-5 py-8">{children}</main>
+      <main className="mx-auto max-w-6xl px-5 py-8 sm:px-8">{children}</main>
     </div>
   );
 }

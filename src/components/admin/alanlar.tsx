@@ -375,7 +375,7 @@ export function AlanCiz({
 }) {
   if (alan.tur === "grup") {
     return (
-      <section className="mt-5 rounded-xl border border-line bg-paper-2/40 p-4 sm:p-5">
+      <section className="mt-5 rounded-2xl border border-line bg-paper-2/40 p-4 sm:p-5">
         <h2 className="text-[15px] font-bold text-ink">{alan.baslik}</h2>
         {alan.aciklama && <p className="mt-1 text-[12.5px] text-muted">{alan.aciklama}</p>}
         <div className="mt-2 divide-y divide-line/60">

@@ -51,7 +51,13 @@ function GirisFormu() {
 
   return (
     <form onSubmit={gonder} className="w-full max-w-sm">
-      <h1 className="font-serif text-[30px] font-bold tracking-tight text-ink">Yönetim</h1>
+      {/* Site imzasi: panel ayri bir urun gibi durmasin, tolguner.me'nin
+          parcasi oldugu ilk bakista anlasilsin (baslik cubugundaki markanin
+          aynisi). */}
+      <a href="/" className="font-display text-lg font-semibold text-ink transition hover:text-accent">
+        Tolga Olguner
+      </a>
+      <h1 className="font-display mt-6 text-[30px] font-bold tracking-tight text-ink">Yönetim</h1>
       <p className="mt-1.5 text-[14px] text-muted">tolguner.me içerik paneli</p>
 
       <label className="mt-8 block text-[13px] font-semibold text-ink-soft" htmlFor="eposta">
