@@ -1,0 +1,11 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <title>Tolga Olguner</title>
+  <rect width="64" height="64" rx="14" fill="#0b1524"/>
+  <!-- Serif "T." — scripts/ikon-uret.py tarafindan uretildi, elle duzenlemeyin. -->
+  <rect x="9" y="17" width="36" height="4.5" fill="#e9eef7"/>
+  <rect x="9" y="17" width="3.2" height="9.5" fill="#e9eef7"/>
+  <rect x="41.8" y="17" width="3.2" height="9.5" fill="#e9eef7"/>
+  <rect x="22.4" y="21.5" width="9.2" height="27.8" fill="#e9eef7"/>
+  <rect x="18.4" y="49.3" width="17.2" height="2.7" fill="#e9eef7"/>
+  <circle cx="51" cy="48.7" r="3.3" fill="#2f5ce0"/>
+</svg>
