@@ -160,4 +160,15 @@ export type PhotoRow = {
 export type AssetKey = "cv_tr" | "cv_en";
 
 /** Sayfada gorunen galeri fotografi. */
-export type Photo = { src: string; tr: string; en: string };
+/**
+ * `en` Ingilizce alt baslik oldugu icin boyutlar `genislik`/`yukseklik`.
+ * `next/image` bunlari yalnizca en-boy orani icin kullaniyor; gorunen olcu
+ * CSS'ten geliyor.
+ */
+export type Photo = {
+  src: string;
+  tr: string;
+  en: string;
+  genislik: number;
+  yukseklik: number;
+};
