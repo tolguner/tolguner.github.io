@@ -22,7 +22,8 @@ function GirisFormu() {
     setHata(null);
     setBekliyor(true);
 
-    const { error } = await tarayiciIstemcisi().auth.signInWithPassword({ email: eposta, password: parola });
+    const db = tarayiciIstemcisi();
+    const { error } = await db.auth.signInWithPassword({ email: eposta, password: parola });
 
     if (error) {
       // Supabase yanlis parola ile olmayan hesabi ayni mesajla dondurur;
@@ -32,8 +33,19 @@ function GirisFormu() {
       return;
     }
 
+    const hedef = nereden.startsWith("/admin") ? nereden : "/admin";
+
+    // Parola yalnizca ilk adim. Hesapta dogrulanmis bir kimlik dogrulayici
+    // varsa `nextLevel` aal2 doner; korumali duzen de zaten oraya yonlendirirdi
+    // ama once panel iskeletini cizip geri atmasi goze carpiyor.
+    const { data: seviye } = await db.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (seviye?.nextLevel === "aal2" && seviye.currentLevel !== "aal2") {
+      router.replace(`/admin/dogrula?nereden=${encodeURIComponent(hedef)}`);
+      return;
+    }
+
     // Sunucu bileseni yeniden calissin: oturum cerezi artik yazili.
-    router.replace(nereden.startsWith("/admin") ? nereden : "/admin");
+    router.replace(hedef);
     router.refresh();
   }
 
