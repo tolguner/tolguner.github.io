@@ -131,7 +131,7 @@ export default function Guvenlik({
 
   return (
     <>
-      <h1 className="font-serif text-[24px] font-bold tracking-tight text-ink">Güvenlik</h1>
+      <h1 className="font-display text-[24px] font-bold tracking-tight text-ink">Güvenlik</h1>
       <p className="mt-1.5 max-w-2xl text-[13.5px] text-muted">
         Bu panel siteyi tümüyle yönetebiliyor ve tek bir hesaba bağlı. İki adımlı doğrulama açıkken
         parolan sızsa bile telefonundaki kod olmadan giriş yapılamaz.
@@ -144,7 +144,7 @@ export default function Guvenlik({
       )}
       {not && <p className="mt-4 rounded-lg border border-line bg-paper-2 px-3 py-2 text-[13px] text-muted">{not}</p>}
 
-      <div className="mt-6 rounded-xl border border-line bg-paper-2 p-4">
+      <div className="mt-6 rounded-2xl border border-line bg-paper-2 p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <div className="text-[15px] font-bold text-ink">İki adımlı doğrulama</div>

@@ -440,7 +440,7 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
     <>
       <div className="flex flex-wrap items-baseline justify-between gap-3">
         <div>
-          <h1 className="font-serif text-[24px] font-bold tracking-tight text-ink">Galeri</h1>
+          <h1 className="font-display text-[24px] font-bold tracking-tight text-ink">Galeri</h1>
           <p className="mt-1 text-[13px] text-muted">
             {yayimdaSayisi} fotoğraf yayımda
             {taslakSayisi > 0 && ` · ${taslakSayisi} taslakta`} · ana sayfada Yolculuk bölümünün

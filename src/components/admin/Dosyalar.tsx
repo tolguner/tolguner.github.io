@@ -110,7 +110,7 @@ export default function Dosyalar({
 
   return (
     <>
-      <h1 className="font-serif text-[24px] font-bold tracking-tight text-ink">Dosyalar</h1>
+      <h1 className="font-display text-[24px] font-bold tracking-tight text-ink">Dosyalar</h1>
       <p className="mt-1.5 max-w-2xl text-[13.5px] text-muted">
         CV sayfasındaki “CV (PDF)” düğmesi buradaki dosyayı gösterir. Yeni dosya yüklendiğinde eskisi{" "}
         <b>silinmez</b>: daha önce paylaştığın bağlantılar çalışmaya devam etsin diye. Dosya adları
@@ -132,7 +132,7 @@ export default function Dosyalar({
           const acik = acikGecmis === key;
 
           return (
-            <div key={key} className="rounded-xl border border-line bg-paper-2 p-4">
+            <div key={key} className="rounded-2xl border border-line bg-paper-2 p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="min-w-0">
                   <div className="text-[15px] font-bold text-ink">{ADLAR[key]}</div>
