@@ -28,7 +28,7 @@ export const content: Record<Lang, Dict> = {
     hero: {
       tagline: "Yönetim Bilişim Sistemleri Öğrencisi",
       intro:
-        "Işık Üniversitesi Yönetim Bilişim Sistemleri son sınıf öğrencisiyim. Spring Boot ve React ile web uygulamaları geliştiriyorum; TÜBİTAK 2209-A destekli bir araştırma projesinin yürütücüsüyüm. 3 yıllık kulüp başkanlığı ve kurumsal etkinlik organizasyonu deneyimiyle teknik bilgiyi iletişim, ekip koordinasyonu ve organizasyon becerisiyle birleştiriyorum.",
+        "Işık Üniversitesi Yönetim Bilişim Sistemleri son sınıf öğrencisiyim; ders yükümlülüklerimi tamamladım, mezuniyetime yalnızca toplam 40 iş günlük iki zorunlu staj kaldı. Staj sürecimin ardından mezun olmaya hak kazanacağım. Spring Boot ve React ile web uygulamaları geliştiriyorum; TÜBİTAK 2209-A destekli bir araştırma projesinin yürütücüsüyüm. 3 yıllık kulüp başkanlığı ve kurumsal etkinlik organizasyonu deneyimiyle teknik bilgiyi iletişim, ekip koordinasyonu ve organizasyon becerisiyle birleştiriyorum.",
       cv: "CV (PDF)",
       cvFile: "/cv/Tolga_Olguner_CV_TR.pdf",
       email: "E-posta",
@@ -46,7 +46,7 @@ export const content: Record<Lang, Dict> = {
     },
     experience: [
       {
-        title: "Çalışma Burslu Öğrenci",
+        title: "Öğrenci Asistanı",
         org: "Kurumsal İletişim Daire Başkanlığı, Işık Üniversitesi",
         date: "May 2025 – Ağu 2026",
         items: [
@@ -144,7 +144,7 @@ export const content: Record<Lang, Dict> = {
     hero: {
       tagline: "Management Information Systems Student",
       intro:
-        "Final-year Management Information Systems student at Işık University (GPA 3.43/4). Builds web applications with Spring Boot and React; project lead of a TÜBİTAK 2209-A funded research project. Three years as a club president and hands-on corporate event organization experience combine technical skills with communication, team coordination and organizational ability.",
+        "Final-year Management Information Systems student at Işık University (GPA 3.43/4). All coursework completed; only two mandatory internships (40 working days in total) remain, after which eligible to graduate. Builds web applications with Spring Boot and React; project lead of a TÜBİTAK 2209-A funded research project. Three years as a club president and hands-on corporate event organization experience combine technical skills with communication, team coordination and organizational ability.",
       cv: "CV (PDF)",
       cvFile: "/cv/Tolga_Olguner_CV_EN.pdf",
       email: "Email",
@@ -162,7 +162,7 @@ export const content: Record<Lang, Dict> = {
     },
     experience: [
       {
-        title: "Work-Study Student",
+        title: "Student Assistant",
         org: "Corporate Communications Directorate, Işık University",
         date: "May 2025 – Aug 2026",
         items: [

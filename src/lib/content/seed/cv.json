@@ -85,8 +85,8 @@
       "en": "Management Information Systems Student"
     },
     "intro": {
-      "tr": "Işık Üniversitesi Yönetim Bilişim Sistemleri son sınıf öğrencisiyim. Spring Boot ve React ile web uygulamaları geliştiriyorum; TÜBİTAK 2209-A destekli bir araştırma projesinin yürütücüsüyüm. 3 yıllık kulüp başkanlığı ve kurumsal etkinlik organizasyonu deneyimiyle teknik bilgiyi iletişim, ekip koordinasyonu ve organizasyon becerisiyle birleştiriyorum.",
-      "en": "Final-year Management Information Systems student at Işık University (GPA 3.43/4). Builds web applications with Spring Boot and React; project lead of a TÜBİTAK 2209-A funded research project. Three years as a club president and hands-on corporate event organization experience combine technical skills with communication, team coordination and organizational ability."
+      "tr": "Işık Üniversitesi Yönetim Bilişim Sistemleri son sınıf öğrencisiyim; ders yükümlülüklerimi tamamladım, mezuniyetime yalnızca toplam 40 iş günlük iki zorunlu staj kaldı. Staj sürecimin ardından mezun olmaya hak kazanacağım. Spring Boot ve React ile web uygulamaları geliştiriyorum; TÜBİTAK 2209-A destekli bir araştırma projesinin yürütücüsüyüm. 3 yıllık kulüp başkanlığı ve kurumsal etkinlik organizasyonu deneyimiyle teknik bilgiyi iletişim, ekip koordinasyonu ve organizasyon becerisiyle birleştiriyorum.",
+      "en": "Final-year Management Information Systems student at Işık University (GPA 3.43/4). All coursework completed; only two mandatory internships (40 working days in total) remain, after which eligible to graduate. Builds web applications with Spring Boot and React; project lead of a TÜBİTAK 2209-A funded research project. Three years as a club president and hands-on corporate event organization experience combine technical skills with communication, team coordination and organizational ability."
     },
     "cv": {
       "tr": "CV (PDF)",
@@ -101,8 +101,8 @@
     {
       "id": "exp-1",
       "title": {
-        "tr": "Çalışma Burslu Öğrenci",
-        "en": "Work-Study Student"
+        "tr": "Öğrenci Asistanı",
+        "en": "Student Assistant"
       },
       "org": {
         "tr": "Kurumsal İletişim Daire Başkanlığı, Işık Üniversitesi",
