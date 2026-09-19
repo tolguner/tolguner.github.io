@@ -59,7 +59,7 @@ export const home: Record<Lang, HomeDict> = {
         { k: "Eğitim", v: "Işık Üniversitesi · YBS (2021–2026)" },
         { k: "Şu an", v: "TÜBİTAK 2209-A projesi ve staj dönemi" },
         { k: "Konum", v: "İstanbul / Bursa, Türkiye" },
-        { k: "Diller", v: "Türkçe · İngilizce (B2) · Almanca (A1)" },
+        { k: "Diller", v: "Türkçe · İngilizce (B1) · Almanca (A1)" },
       ],
       badges: [
         { k: "TÜBİTAK 2209-A", v: "Proje Yürütücüsü" },
@@ -173,7 +173,7 @@ export const home: Record<Lang, HomeDict> = {
         { k: "Education", v: "Işık University · MIS (2021–2026)" },
         { k: "Now", v: "TÜBİTAK 2209-A project and internships" },
         { k: "Location", v: "Istanbul / Bursa, Turkey" },
-        { k: "Languages", v: "Turkish · English (B2) · German (A1)" },
+        { k: "Languages", v: "Turkish · English (B1) · German (A1)" },
       ],
       badges: [
         { k: "TÜBİTAK 2209-A", v: "Project Lead" },
