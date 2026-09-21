@@ -8,21 +8,90 @@ const TARIH = new Intl.DateTimeFormat("tr-TR", {
 
 const ADLAR: Record<string, string> = { home: "Ana sayfa", cv: "CV" };
 
-/** Baslik + kart izgarasi her bolumde ayni; tekrarlamamak icin tek yerde. */
-function Bolum({ baslik, children }: { baslik: string; children: React.ReactNode }) {
+/** Kart yuzeyi tek yerde: kenarlik, zemin ve hover yukselisi her yerde ayni. */
+const YUZEY =
+  "group relative overflow-hidden rounded-2xl border border-line bg-paper-2 transition duration-200 hover:-translate-y-0.5 hover:border-accent/60 hover:shadow-xl hover:shadow-accent/10";
+
+/** 24x24 cizgi ikonlar; kutuphane yerine birkac satir yol. */
+const IKON = {
+  galeri: (
+    <>
+      <rect x="3" y="4" width="18" height="16" rx="2.5" />
+      <circle cx="8.5" cy="9.5" r="1.6" />
+      <path d="M3.5 17.5 9 12l4 4 2.5-2.5 5 5" />
+    </>
+  ),
+  dosya: (
+    <>
+      <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+      <path d="M14 3v5h5M9 13h6M9 17h4" />
+    </>
+  ),
+  basvuru: (
+    <>
+      <rect x="3" y="7" width="18" height="13" rx="2.5" />
+      <path d="M9 7V5.5A1.5 1.5 0 0 1 10.5 4h3A1.5 1.5 0 0 1 15 5.5V7M3 12h18" />
+    </>
+  ),
+} as const;
+
+function Ikon({ ad }: { ad: keyof typeof IKON }) {
   return (
-    <section className="mt-8">
-      <h2 className="text-[12px] font-semibold uppercase tracking-wide text-muted">{baslik}</h2>
-      <div className="mt-2.5 grid gap-4 sm:grid-cols-2">{children}</div>
-    </section>
+    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10 text-accent transition group-hover:bg-accent group-hover:text-white">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="h-[18px] w-[18px]"
+        aria-hidden
+      >
+        {IKON[ad]}
+      </svg>
+    </span>
   );
 }
 
-function Kart({ href, baslik, aciklama }: { href: string; baslik: string; aciklama: string }) {
+function Baslik({ children }: { children: React.ReactNode }) {
   return (
-    <a href={href} className="rounded-2xl border border-line bg-paper-2 p-5 transition hover:border-accent">
-      <div className="text-[16px] font-bold text-ink">{baslik}</div>
-      <p className="mt-1 text-[12.5px] text-muted">{aciklama}</p>
+    <h2 className="mt-9 flex items-center gap-3 text-[11.5px] font-semibold uppercase tracking-[0.14em] text-muted">
+      {children}
+      <span className="h-px flex-1 bg-line" />
+    </h2>
+  );
+}
+
+function AracKarti({
+  href,
+  ikon,
+  baslik,
+  deger,
+  aciklama,
+}: {
+  href: string;
+  ikon: keyof typeof IKON;
+  baslik: string;
+  deger: string;
+  aciklama: string;
+}) {
+  return (
+    <a href={href} className={`${YUZEY} flex items-start gap-3.5 p-5`}>
+      <Ikon ad={ikon} />
+      <span className="min-w-0 flex-1">
+        <span className="flex items-baseline justify-between gap-2">
+          <span className="text-[15.5px] font-bold text-ink">{baslik}</span>
+          <span className="text-[12px] font-semibold text-accent">{deger}</span>
+        </span>
+        <span className="mt-1 block text-[12.5px] leading-relaxed text-muted">{aciklama}</span>
+      </span>
+      <span
+        aria-hidden
+        className="mt-0.5 text-[13px] text-muted transition group-hover:translate-x-0.5 group-hover:text-accent"
+      >
+        &rarr;
+      </span>
     </a>
   );
 }
@@ -30,88 +99,162 @@ function Kart({ href, baslik, aciklama }: { href: string; baslik: string; acikla
 export default async function Panel() {
   const db = await sunucuIstemcisi();
 
-  const [{ data: dokumanlar }, { data: taslaklar }, { count: fotoSayisi }, { count: basvuruSayisi }, { data: etkenler }] =
+  const [{ data: dokumanlar }, { data: taslaklar }, { count: fotoSayisi }, { count: basvuruSayisi }] =
     await Promise.all([
       db.from("content_documents").select("slug, published_at, lock_version"),
       db.from("content_drafts").select("slug, updated_at, lock_version"),
       db.from("gallery_photos").select("id", { count: "exact", head: true }).eq("is_published", true),
       db.from("job_applications").select("id", { count: "exact", head: true }),
-      db.auth.mfa.listFactors(),
     ]);
 
   const taslakBul = (slug: string) => taslaklar?.find((t) => t.slug === slug);
-  const mfaAcik = (etkenler?.totp?.length ?? 0) > 0;
+  const bekleyenler = (dokumanlar ?? []).filter((d) => {
+    const taslak = taslakBul(d.slug);
+    return taslak ? taslak.lock_version !== d.lock_version : false;
+  });
+
+  // "Site en son ne zaman degisti" panelin en sik sorulan sorusu; tepede dursun.
+  const sonYayim = (dokumanlar ?? [])
+    .map((d) => new Date(d.published_at).getTime())
+    .sort((a, b) => b - a)[0];
 
   return (
     <>
-      <h1 className="font-display text-[28px] font-bold tracking-tight text-ink">Genel</h1>
-      <p className="mt-1.5 text-[14px] text-muted">
-        İçerikte taslak üzerinde çalışırsın; yayımlayana kadar site değişmez.
-      </p>
+      {/* Ust serit: durum cumlesi + siteye gecis. Degrade tek yerde duruyor,
+          sayfanin geri kalani sakin kalsin diye. */}
+      <section className="overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-accent/12 via-paper-2 to-paper-2 p-6 sm:p-7">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="text-[11.5px] font-semibold uppercase tracking-[0.14em] text-accent">Yönetim</p>
+            <h1 className="font-display mt-1.5 text-[30px] font-bold leading-tight tracking-tight text-ink">
+              Genel
+            </h1>
+            <p className="mt-2 max-w-xl text-[13.5px] leading-relaxed text-muted">
+              {bekleyenler.length ? (
+                <>
+                  <span className="font-semibold text-ink">
+                    {bekleyenler.map((d) => ADLAR[d.slug] ?? d.slug).join(" ve ")}
+                  </span>{" "}
+                  belgesinde yayımlanmamış değişiklik var. Taslak üzerinde çalışırsın; yayımlayana
+                  kadar site değişmez.
+                </>
+              ) : (
+                <>
+                  Taslak üzerinde çalışırsın; yayımlayana kadar site değişmez. Şu an bekleyen
+                  değişiklik yok.
+                </>
+              )}
+            </p>
+          </div>
 
-      <Bolum baslik="İçerik">
+          <div className="flex items-center gap-3">
+            {sonYayim && (
+              <div className="text-right">
+                <div className="text-[11px] uppercase tracking-wide text-muted">Son yayım</div>
+                <div className="text-[12.5px] font-semibold text-ink-soft">
+                  {TARIH.format(new Date(sonYayim))}
+                </div>
+              </div>
+            )}
+            <a
+              href="/"
+              target="_blank"
+              rel="noreferrer"
+              className="whitespace-nowrap rounded-full bg-accent px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90"
+            >
+              Siteyi aç &#8599;
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <Baslik>İçerik</Baslik>
+      <div className="mt-3 grid gap-4 sm:grid-cols-2">
         {(dokumanlar ?? []).map((d) => {
           const taslak = taslakBul(d.slug);
           const bekleyen = taslak ? taslak.lock_version !== d.lock_version : false;
           return (
-            <div key={d.slug} className="rounded-2xl border border-line bg-paper-2 p-5 transition hover:border-accent">
+            <div key={d.slug} className={`${YUZEY} p-5`}>
+              {/* Bekleyen degisikligi once bu serit anlatiyor: kartin tamamini
+                  boyamadan izgara gozle taranabilir oluyor. */}
+              <span
+                aria-hidden
+                className={`absolute inset-y-0 left-0 w-1 ${bekleyen ? "bg-accent" : "bg-transparent"}`}
+              />
               <a href={`/admin/icerik/${d.slug}`} className="block">
-                <div className="flex items-baseline justify-between gap-3">
-                  <span className="text-[16px] font-bold text-ink">{ADLAR[d.slug] ?? d.slug}</span>
-                  {bekleyen && (
-                    <span className="rounded-full bg-accent/10 px-2 py-0.5 text-[11px] font-semibold text-accent">
-                      yayımlanmamış değişiklik
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-display text-[19px] font-bold tracking-tight text-ink">
+                    {ADLAR[d.slug] ?? d.slug}
+                  </span>
+                  {bekleyen ? (
+                    <span className="flex items-center gap-1.5 rounded-full bg-accent/10 px-2.5 py-1 text-[11px] font-semibold text-accent">
+                      <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                      taslak bekliyor
+                    </span>
+                  ) : (
+                    <span className="rounded-full border border-line px-2.5 py-1 text-[11px] text-muted">
+                      yayında
                     </span>
                   )}
                 </div>
-                <dl className="mt-3 space-y-1 text-[12.5px] text-muted">
+
+                <dl className="mt-4 space-y-1.5 border-t border-line pt-3 text-[12.5px]">
                   <div className="flex justify-between gap-3">
-                    <dt>Son yayım</dt>
+                    <dt className="text-muted">Son yayım</dt>
                     <dd className="text-ink-soft">{TARIH.format(new Date(d.published_at))}</dd>
                   </div>
                   {taslak && (
                     <div className="flex justify-between gap-3">
-                      <dt>Taslak</dt>
+                      <dt className="text-muted">Taslak</dt>
                       <dd className="text-ink-soft">{TARIH.format(new Date(taslak.updated_at))}</dd>
                     </div>
                   )}
                 </dl>
               </a>
-              <a
-                href={`/admin/revizyonlar/${d.slug}`}
-                className="mt-3 inline-block text-[12.5px] text-accent hover:underline"
-              >
-                geçmiş ve geri alma →
-              </a>
+
+              <div className="mt-4 flex items-center gap-2">
+                <a
+                  href={`/admin/icerik/${d.slug}`}
+                  className="rounded-full bg-accent px-3.5 py-1.5 text-[12px] font-semibold text-white transition hover:opacity-90"
+                >
+                  Düzenle
+                </a>
+                <a
+                  href={`/admin/revizyonlar/${d.slug}`}
+                  className="rounded-full border border-line px-3.5 py-1.5 text-[12px] font-semibold text-ink transition hover:bg-paper"
+                >
+                  Geçmiş
+                </a>
+              </div>
             </div>
           );
         })}
-      </Bolum>
+      </div>
 
-      <Bolum baslik="Medya">
-        <Kart
+      <Baslik>Araçlar</Baslik>
+      <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <AracKarti
           href="/admin/galeri"
+          ikon="galeri"
           baslik="Galeri"
-          aciklama={`${fotoSayisi ?? 0} yayımlanan fotoğraf · yükle, sırala, alt başlık yaz`}
+          deger={`${fotoSayisi ?? 0} fotoğraf`}
+          aciklama="Yükle, sırala, alt başlık yaz"
         />
-        <Kart href="/admin/dosyalar" baslik="Dosyalar" aciklama="CV PDF’lerini değiştir" />
-      </Bolum>
-
-      {/* Guvenlik ust cubuktaki hesap menusune tasindi; kaybolmasin diye
-          kisayolu burada da duruyor. */}
-      <Bolum baslik="Takip ve hesap">
-        <Kart
+        <AracKarti
+          href="/admin/dosyalar"
+          ikon="dosya"
+          baslik="Dosyalar"
+          deger="CV"
+          aciklama="PDF sürümlerini değiştir, eski sürüme dön"
+        />
+        <AracKarti
           href="/admin/basvurular"
+          ikon="basvuru"
           baslik="Başvurular"
-          aciklama={`${basvuruSayisi ?? 0} kayıt · LinkedIn, Kariyer.net, Youthall ve elle eklenenler`}
+          deger={`${basvuruSayisi ?? 0} kayıt`}
+          aciklama="LinkedIn, Kariyer.net, Youthall ve elle eklenenler"
         />
-        <Kart
-          href="/admin/guvenlik"
-          baslik="Güvenlik"
-          aciklama={`İki adımlı doğrulama ${mfaAcik ? "açık" : "kapalı"} · kimlik doğrulayıcıları yönet`}
-        />
-        <Kart href="/admin/profil" baslik="Profil" aciklama="Hesap bilgileri ve parola değiştirme" />
-      </Bolum>
+      </div>
     </>
   );
 }
