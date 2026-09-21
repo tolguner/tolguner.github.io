@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
+import HesapMenusu from "@/components/admin/HesapMenusu";
 import TemaDugmesi from "@/components/TemaDugmesi";
 import { cikisYap } from "../eylemler";
 import { sunucuIstemcisi } from "@/lib/supabase/sunucu";
@@ -20,7 +21,6 @@ const BAGLANTILAR = [
   { href: "/admin/galeri", etiket: "Galeri" },
   { href: "/admin/dosyalar", etiket: "Dosyalar" },
   { href: "/admin/basvurular", etiket: "Başvurular" },
-  { href: "/admin/guvenlik", etiket: "Güvenlik" },
 ];
 
 /**
@@ -74,7 +74,7 @@ export default async function KorumaliDuzen({ children }: { children: React.Reac
         bulanik zemin, ayni kap genisligi, ayni hap olculeri. Panelden siteye
         gecerken cubuk yerinden oynamasin diye olculer birebir kopyalandi
         (bkz. Site.tsx). Tek fark solda "Yonetim" rozeti ve sagdaki hapin
-        cikisa baglanmasi.
+        hesap menusunu acmasi.
       */}
       <header className="sticky top-0 z-30 border-b border-ink/5 bg-paper/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-3.5 sm:px-8">
@@ -96,7 +96,6 @@ export default async function KorumaliDuzen({ children }: { children: React.Reac
           </nav>
 
           <div className="flex items-center gap-3">
-            <span className="hidden text-[12.5px] text-muted xl:inline">{user.email}</span>
             <TemaDugmesi
               etiket={{ light: "Açık temaya geç", dark: "Koyu temaya geç" }}
               className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink-soft transition hover:text-ink"
@@ -108,12 +107,9 @@ export default async function KorumaliDuzen({ children }: { children: React.Reac
             >
               ↗
             </a>
-            <form action={cikisYap}>
-              {/* Sitedeki birincil hapla ayni olcu: min-w-[92px], px-4 py-1.5, 12.5px */}
-              <button className="min-w-[92px] whitespace-nowrap rounded-full bg-accent px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90">
-                Çıkış
-              </button>
-            </form>
+            {/* E-posta adresi cubuktan menunun icine tasindi: her ekranda
+                yer kapliyordu ve gezinme haplarini daraltiyordu. */}
+            <HesapMenusu eposta={user.email} />
           </div>
         </div>
       </header>
