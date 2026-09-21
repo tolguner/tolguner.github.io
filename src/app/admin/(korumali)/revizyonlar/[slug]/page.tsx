@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { revizyonaDon } from "../../../eylemler";
+import { SayfaBasligi } from "@/components/admin/duzen";
 import { farkSayisi } from "@/lib/content/fark";
 import { sunucuIstemcisi } from "@/lib/supabase/sunucu";
 
@@ -63,18 +64,24 @@ export default async function RevizyonSayfasi({
 
   return (
     <>
-      <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <h1 className="font-display text-[24px] font-bold tracking-tight text-ink">
-          {ADLAR[slug as Slug]} — geçmiş
-        </h1>
-        <a href={`/admin/icerik/${slug}`} className="text-[13px] text-accent hover:underline">
-          düzenleyiciye dön
-        </a>
-      </div>
-      <p className="mt-1.5 max-w-2xl text-[13.5px] text-muted">
-        Her yayımda o anın tam kopyası saklanır. Bir sürüme dönmek onu <b>taslağa</b> yükler; site
-        değişmeden önce düzenleyicide görüp yayımlarsın.
-      </p>
+      <SayfaBasligi
+        etiket="İçerik"
+        baslik={`${ADLAR[slug as Slug]} — geçmiş`}
+        aciklama={
+          <>
+            Her yayımda o anın tam kopyası saklanır. Bir sürüme dönmek onu <b>taslağa</b> yükler;
+            site değişmeden önce düzenleyicide görüp yayımlarsın.
+          </>
+        }
+        eylem={
+          <a
+            href={`/admin/icerik/${slug}`}
+            className="whitespace-nowrap rounded-full border border-line px-4 py-1.5 text-[12.5px] font-semibold text-ink transition hover:border-accent hover:text-accent"
+          >
+            Düzenleyiciye dön
+          </a>
+        }
+      />
 
       {hata && (
         <p role="alert" className="mt-4 rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2 text-[13px] text-ink">

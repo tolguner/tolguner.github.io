@@ -11,6 +11,7 @@ import {
   siralamayiKaydet,
   yayimDurumu,
 } from "@/app/admin/eylemler";
+import { SayfaBasligi } from "@/components/admin/duzen";
 import { tarayiciIstemcisi } from "@/lib/supabase/tarayici";
 import Kirpici from "./Kirpici";
 import Buyutec from "@/components/Buyutec";
@@ -438,16 +439,18 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
 
   return (
     <>
-      <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <div>
-          <h1 className="font-display text-[24px] font-bold tracking-tight text-ink">Galeri</h1>
-          <p className="mt-1 text-[13px] text-muted">
+      <SayfaBasligi
+        etiket="Medya"
+        baslik="Galeri"
+        aciklama={
+          <>
             {yayimdaSayisi} fotoğraf yayımda
             {taslakSayisi > 0 && ` · ${taslakSayisi} taslakta`} · ana sayfada Yolculuk bölümünün
             altındaki şeritte akar
-          </p>
-        </div>
-        <label className="cursor-pointer rounded-full bg-accent px-4 py-2 text-[13px] font-semibold text-white transition hover:opacity-90">
+          </>
+        }
+        eylem={
+        <label className="cursor-pointer whitespace-nowrap rounded-full bg-accent px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90">
           {yukleniyor ? `Yükleniyor: ${yukleniyor}` : "Fotoğraf ekle"}
           <input
             ref={dosyaRef}
@@ -458,7 +461,8 @@ export default function Galeri({ fotograflar, depoKoku }: { fotograflar: Foto[];
             onChange={(e) => kuyrugaAl(e.target.files)}
           />
         </label>
-      </div>
+        }
+      />
 
       {taslakSayisi > 0 && (
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-accent/40 bg-accent/10 px-3 py-2">

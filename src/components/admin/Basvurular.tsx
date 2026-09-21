@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { SayfaBasligi } from "@/components/admin/duzen";
 import { basvuruEkle, basvuruGuncelle, basvuruSil, type BasvuruGirdi } from "@/app/admin/eylemler";
 
 export type Basvuru = {
@@ -147,22 +148,25 @@ export default function Basvurular({ kayitlar }: { kayitlar: Basvuru[] }) {
 
   return (
     <>
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h1 className="font-display text-[24px] font-bold tracking-tight text-ink">Başvurular</h1>
-          <p className="mt-1.5 max-w-2xl text-[13.5px] text-muted">
+      <SayfaBasligi
+        etiket="Takip"
+        baslik="Başvurular"
+        aciklama={
+          <>
             LinkedIn, Kariyer.net ve Youthall listeleri tarayıcı üzerinden senkronlanır. Firmaların
             kendi kariyer sayfalarından yaptıkların “Diğer” olarak elle eklenir.
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={() => setEkleAcik((a) => !a)}
-          className="rounded-full bg-accent px-4 py-1.5 text-[13px] font-semibold text-white transition hover:opacity-90"
-        >
-          {ekleAcik ? "Vazgeç" : "Başvuru ekle"}
-        </button>
-      </div>
+          </>
+        }
+        eylem={
+          <button
+            type="button"
+            onClick={() => setEkleAcik((a) => !a)}
+            className="whitespace-nowrap rounded-full bg-accent px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90"
+          >
+            {ekleAcik ? "Vazgeç" : "Başvuru ekle"}
+          </button>
+        }
+      />
 
       {hata && (
         <p role="alert" className="mt-4 rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2 text-[13px] text-ink">

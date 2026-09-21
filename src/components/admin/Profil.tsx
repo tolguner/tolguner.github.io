@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 
+import { SayfaBasligi } from "@/components/admin/duzen";
 import { tarayiciIstemcisi } from "@/lib/supabase/tarayici";
 
 const TARIH = new Intl.DateTimeFormat("tr-TR", {
@@ -94,15 +95,20 @@ export default function Profil({
 
   return (
     <>
-      <h1 className="font-display text-[24px] font-bold tracking-tight text-ink">Profil</h1>
-      <p className="mt-1.5 max-w-2xl text-[13.5px] text-muted">
-        Panel tek bir hesaba bağlı; burada o hesabın bilgileri ve parolası var. İki adımlı
-        doğrulama ayrı sayfada:{" "}
-        <a href="/admin/guvenlik" className="text-accent hover:underline">
-          Güvenlik
-        </a>
-        .
-      </p>
+      <SayfaBasligi
+        etiket="Hesap"
+        baslik="Profil"
+        aciklama={
+          <>
+            Panel tek bir hesaba bağlı; burada o hesabın bilgileri ve parolası var. İki adımlı
+            doğrulama ayrı sayfada:{" "}
+            <a href="/admin/guvenlik" className="font-semibold text-accent hover:underline">
+              Güvenlik
+            </a>
+            .
+          </>
+        }
+      />
 
       <div className="mt-6 rounded-2xl border border-line bg-paper-2 p-4">
         <div className="text-[15px] font-bold text-ink">Hesap</div>

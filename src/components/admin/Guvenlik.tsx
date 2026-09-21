@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { SayfaBasligi } from "@/components/admin/duzen";
 import { tarayiciIstemcisi } from "@/lib/supabase/tarayici";
 
 export type Etken = {
@@ -131,11 +132,11 @@ export default function Guvenlik({
 
   return (
     <>
-      <h1 className="font-display text-[24px] font-bold tracking-tight text-ink">Güvenlik</h1>
-      <p className="mt-1.5 max-w-2xl text-[13.5px] text-muted">
-        Bu panel siteyi tümüyle yönetebiliyor ve tek bir hesaba bağlı. İki adımlı doğrulama açıkken
-        parolan sızsa bile telefonundaki kod olmadan giriş yapılamaz.
-      </p>
+      <SayfaBasligi
+        etiket="Hesap"
+        baslik="Güvenlik"
+        aciklama="Bu panel siteyi tümüyle yönetebiliyor ve tek bir hesaba bağlı. İki adımlı doğrulama açıkken parolan sızsa bile telefonundaki kod olmadan giriş yapılamaz."
+      />
 
       {hata && (
         <p role="alert" className="mt-4 rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2 text-[13px] text-ink">

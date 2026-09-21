@@ -14,8 +14,8 @@ export const metadata: Metadata = {
 // Oturum her istekte dogrulanmali; onbellege alinmis bir admin sayfasi olmaz.
 export const dynamic = "force-dynamic";
 
+// "Genel" burada yok: marka yazisi zaten oraya gotururuyor.
 const BAGLANTILAR = [
-  { href: "/admin", etiket: "Genel" },
   { href: "/admin/icerik/home", etiket: "Ana sayfa" },
   { href: "/admin/icerik/cv", etiket: "CV" },
   { href: "/admin/galeri", etiket: "Galeri" },
@@ -79,7 +79,12 @@ export default async function KorumaliDuzen({ children }: { children: React.Reac
       <header className="sticky top-0 z-30 border-b border-ink/5 bg-paper/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-3.5 sm:px-8">
           <div className="flex items-center gap-4">
-            <a href="/" className="font-display shrink-0 whitespace-nowrap text-lg font-semibold text-ink">
+            {/* Panelde marka yazisi siteye degil panelin ana sayfasina
+                gider; siteye gecis sagdaki ok dugmesinde. */}
+            <a
+              href="/admin"
+              className="font-display shrink-0 whitespace-nowrap text-lg font-semibold text-ink transition hover:text-accent"
+            >
               Tolga Olguner
             </a>
             <span className="hidden rounded-full border border-line px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-muted sm:inline">
@@ -102,7 +107,10 @@ export default async function KorumaliDuzen({ children }: { children: React.Reac
             />
             <a
               href="/"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink-soft transition hover:text-ink lg:hidden"
+              target="_blank"
+              rel="noreferrer"
+              title="Siteyi aç"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink-soft transition hover:border-accent hover:text-accent"
               aria-label="Siteyi aç"
             >
               ↗

@@ -1,3 +1,4 @@
+import { BolumBasligi, SayfaBasligi, YUZEY } from "@/components/admin/duzen";
 import { sunucuIstemcisi } from "@/lib/supabase/sunucu";
 
 const TARIH = new Intl.DateTimeFormat("tr-TR", {
@@ -7,10 +8,6 @@ const TARIH = new Intl.DateTimeFormat("tr-TR", {
 });
 
 const ADLAR: Record<string, string> = { home: "Ana sayfa", cv: "CV" };
-
-/** Kart yuzeyi tek yerde: kenarlik, zemin ve hover yukselisi her yerde ayni. */
-const YUZEY =
-  "group relative overflow-hidden rounded-2xl border border-line bg-paper-2 transition duration-200 hover:-translate-y-0.5 hover:border-accent/60 hover:shadow-xl hover:shadow-accent/10";
 
 /** 24x24 cizgi ikonlar; kutuphane yerine birkac satir yol. */
 const IKON = {
@@ -51,15 +48,6 @@ function Ikon({ ad }: { ad: keyof typeof IKON }) {
         {IKON[ad]}
       </svg>
     </span>
-  );
-}
-
-function Baslik({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="mt-9 flex items-center gap-3 text-[11.5px] font-semibold uppercase tracking-[0.14em] text-muted">
-      {children}
-      <span className="h-px flex-1 bg-line" />
-    </h2>
   );
 }
 
@@ -120,55 +108,38 @@ export default async function Panel() {
 
   return (
     <>
-      {/* Ust serit: durum cumlesi + siteye gecis. Degrade tek yerde duruyor,
-          sayfanin geri kalani sakin kalsin diye. */}
-      <section className="overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-accent/12 via-paper-2 to-paper-2 p-6 sm:p-7">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="text-[11.5px] font-semibold uppercase tracking-[0.14em] text-accent">Yönetim</p>
-            <h1 className="font-display mt-1.5 text-[30px] font-bold leading-tight tracking-tight text-ink">
-              Genel
-            </h1>
-            <p className="mt-2 max-w-xl text-[13.5px] leading-relaxed text-muted">
-              {bekleyenler.length ? (
-                <>
-                  <span className="font-semibold text-ink">
-                    {bekleyenler.map((d) => ADLAR[d.slug] ?? d.slug).join(" ve ")}
-                  </span>{" "}
-                  belgesinde yayımlanmamış değişiklik var. Taslak üzerinde çalışırsın; yayımlayana
-                  kadar site değişmez.
-                </>
-              ) : (
-                <>
-                  Taslak üzerinde çalışırsın; yayımlayana kadar site değişmez. Şu an bekleyen
-                  değişiklik yok.
-                </>
-              )}
-            </p>
-          </div>
-
-          <div className="flex items-center gap-3">
-            {sonYayim && (
-              <div className="text-right">
-                <div className="text-[11px] uppercase tracking-wide text-muted">Son yayım</div>
-                <div className="text-[12.5px] font-semibold text-ink-soft">
-                  {TARIH.format(new Date(sonYayim))}
-                </div>
+      <SayfaBasligi
+        etiket="Yönetim"
+        baslik="Genel"
+        aciklama={
+          bekleyenler.length ? (
+            <>
+              <span className="font-semibold text-ink">
+                {bekleyenler.map((d) => ADLAR[d.slug] ?? d.slug).join(" ve ")}
+              </span>{" "}
+              belgesinde yayımlanmamış değişiklik var. Taslak üzerinde çalışırsın; yayımlayana
+              kadar site değişmez.
+            </>
+          ) : (
+            <>
+              Taslak üzerinde çalışırsın; yayımlayana kadar site değişmez. Şu an bekleyen
+              değişiklik yok.
+            </>
+          )
+        }
+        eylem={
+          sonYayim ? (
+            <div className="text-right">
+              <div className="text-[11px] uppercase tracking-wide text-muted">Son yayım</div>
+              <div className="text-[12.5px] font-semibold text-ink-soft">
+                {TARIH.format(new Date(sonYayim))}
               </div>
-            )}
-            <a
-              href="/"
-              target="_blank"
-              rel="noreferrer"
-              className="whitespace-nowrap rounded-full bg-accent px-4 py-1.5 text-[12.5px] font-semibold text-white transition hover:opacity-90"
-            >
-              Siteyi aç &#8599;
-            </a>
-          </div>
-        </div>
-      </section>
+            </div>
+          ) : null
+        }
+      />
 
-      <Baslik>İçerik</Baslik>
+      <BolumBasligi>İçerik</BolumBasligi>
       <div className="mt-3 grid gap-4 sm:grid-cols-2">
         {(dokumanlar ?? []).map((d) => {
           const bekleyen = d.bekleyen_var;
@@ -232,7 +203,7 @@ export default async function Panel() {
         })}
       </div>
 
-      <Baslik>Araçlar</Baslik>
+      <BolumBasligi>Araçlar</BolumBasligi>
       <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <AracKarti
           href="/admin/galeri"

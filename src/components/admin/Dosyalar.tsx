@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { medyayaDon, medyayiGuncelle } from "@/app/admin/eylemler";
+import { SayfaBasligi } from "@/components/admin/duzen";
 import { tarayiciIstemcisi } from "@/lib/supabase/tarayici";
 
 export type Medya = {
@@ -110,13 +111,18 @@ export default function Dosyalar({
 
   return (
     <>
-      <h1 className="font-display text-[24px] font-bold tracking-tight text-ink">Dosyalar</h1>
-      <p className="mt-1.5 max-w-2xl text-[13.5px] text-muted">
-        CV sayfasındaki “CV (PDF)” düğmesi buradaki dosyayı gösterir. Yeni dosya yüklendiğinde eskisi{" "}
-        <b>silinmez</b>: daha önce paylaştığın bağlantılar çalışmaya devam etsin diye. Dosya adları
-        içeriğe göre üretildiği için bayat önbellek sorunu da oluşmaz — ve eski sürümler durduğu için
-        istediğin an geri dönebilirsin.
-      </p>
+      <SayfaBasligi
+        etiket="Medya"
+        baslik="Dosyalar"
+        aciklama={
+          <>
+            CV sayfasındaki “CV (PDF)” düğmesi buradaki dosyayı gösterir. Yeni dosya yüklendiğinde
+            eskisi <b>silinmez</b>: daha önce paylaştığın bağlantılar çalışmaya devam etsin diye.
+            Dosya adları içeriğe göre üretildiği için bayat önbellek sorunu da oluşmaz — ve eski
+            sürümler durduğu için istediğin an geri dönebilirsin.
+          </>
+        }
+      />
 
       {hata && (
         <p role="alert" className="mt-4 rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2 text-[13px] text-ink">
