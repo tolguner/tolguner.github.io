@@ -57,6 +57,8 @@ npm run dev                  # http://localhost:3000
 | `python scripts/ikon-uret.py` | Site ikonunu üretir (SVG + PNG + ICO, tek geometriden) |
 | `python scripts/basvuru-senkron.py <json> <platform>` | Tarayıcıdan çıkarılan iş başvurularını panele yazar |
 
+Başvuru senkronunun platform bazında tarifi ve tuzakları: [`docs/basvuru-senkronu.md`](docs/basvuru-senkronu.md).
+
 `GH_TOKEN` verilmezse GitHub API saatte 60 istekle sınırlıdır ve aşılırsa "Diğer Depolar"
 bölümü **sessizce boşalır**; derleme hata vermez, bu yüzden `repos.ts` uyarı log'u basar.
 
