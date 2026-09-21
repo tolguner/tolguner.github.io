@@ -313,3 +313,55 @@ function galeriyiTazele() {
   revalidateTag(ETIKET.galeri);
   revalidatePath("/");
 }
+
+// ------------------------------------------------------------- basvurular
+
+export type BasvuruGirdi = {
+  platform: "linkedin" | "kariyernet" | "youthall" | "diger";
+  company: string;
+  position: string;
+  location?: string | null;
+  work_mode?: "is_yerinde" | "hibrit" | "uzaktan" | null;
+  job_url?: string | null;
+  applied_at?: string | null;
+  status?: "devam_ediyor" | "basvuruldu" | "goruntulendi" | "mulakat" | "teklif" | "olumsuz" | "geri_cekildi";
+  posting_status?: "acik" | "kapali" | "bilinmiyor";
+  notes?: string | null;
+};
+
+/**
+ * Elle basvuru ekleme — firmalarin kendi kariyer sayfalarindan yapilanlar
+ * icin. `external_id` platformdan gelmedigi zaman uretiliyor; tabloda
+ * (platform, external_id) tekil oldugu icin bos birakilamaz.
+ */
+export async function basvuruEkle(girdi: BasvuruGirdi) {
+  const db = await sunucuIstemcisi();
+  const { error } = await db.from("job_applications").insert({
+    ...girdi,
+    external_id: `elle-${crypto.randomUUID()}`,
+    source: "elle",
+  });
+  if (error) return { ok: false as const, hata: error.message };
+  basvurulariTazele();
+  return { ok: true as const };
+}
+
+export async function basvuruGuncelle(id: string, alanlar: Partial<BasvuruGirdi>) {
+  const db = await sunucuIstemcisi();
+  const { error } = await db.from("job_applications").update(alanlar).eq("id", id);
+  if (error) return { ok: false as const, hata: error.message };
+  basvurulariTazele();
+  return { ok: true as const };
+}
+
+export async function basvuruSil(id: string) {
+  const db = await sunucuIstemcisi();
+  const { error } = await db.from("job_applications").delete().eq("id", id);
+  if (error) return { ok: false as const, hata: error.message };
+  basvurulariTazele();
+  return { ok: true as const };
+}
+
+function basvurulariTazele() {
+  revalidatePath("/admin/basvurular");
+}
