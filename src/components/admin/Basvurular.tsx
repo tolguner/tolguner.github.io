@@ -267,8 +267,12 @@ export default function Basvurular({ kayitlar }: { kayitlar: Basvuru[] }) {
           const bekleme = gecenGun(k.applied_at);
           return (
             <div key={k.id} className="rounded-2xl border border-line bg-paper-2 p-3.5">
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div className="min-w-0">
+              {/* Uzun basliklar (bazi ilan adlari 80+ karakter) sagdaki
+                  denetimleri alt satira itiyordu; metin sutunu `flex-1
+                  min-w-0` ile kendi icinde sarmaliyor, denetimler sabit
+                  kaliyor. */}
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-[14.5px] font-bold text-ink">{k.position}</span>
                     <span className={`rounded-full border px-2 py-0.5 text-[11px] font-semibold ${DURUM_RENGI[k.status]}`}>
@@ -293,7 +297,7 @@ export default function Basvurular({ kayitlar }: { kayitlar: Basvuru[] }) {
                   {k.notes && <p className="mt-1.5 text-[12.5px] text-ink-soft">{k.notes}</p>}
                 </div>
 
-                <div className="flex shrink-0 flex-wrap items-center gap-2">
+                <div className="flex shrink-0 flex-wrap items-center gap-2 sm:justify-end">
                   <select
                     value={k.status}
                     onChange={(e) => void durumDegistir(k.id, e.target.value as Basvuru["status"])}
