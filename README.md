@@ -55,6 +55,7 @@ npm run dev                  # http://localhost:3000
 | `npm run seed` | `src/content*.ts` literal'lerinden JSON yedeğini üretir ve doğrular |
 | `npm run seed -- --db` | Ayrıca veritabanına yazar (`SUPABASE_SECRET_KEY` ister, yalnızca yerel) |
 | `python scripts/ikon-uret.py` | Site ikonunu üretir (SVG + PNG + ICO, tek geometriden) |
+| `python scripts/basvuru-senkron.py <json> <platform>` | Tarayıcıdan çıkarılan iş başvurularını panele yazar |
 
 `GH_TOKEN` verilmezse GitHub API saatte 60 istekle sınırlıdır ve aşılırsa "Diğer Depolar"
 bölümü **sessizce boşalır**; derleme hata vermez, bu yüzden `repos.ts` uyarı log'u basar.
