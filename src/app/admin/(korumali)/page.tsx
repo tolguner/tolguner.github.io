@@ -99,19 +99,19 @@ function AracKarti({
 export default async function Panel() {
   const db = await sunucuIstemcisi();
 
-  const [{ data: dokumanlar }, { data: taslaklar }, { count: fotoSayisi }, { count: basvuruSayisi }] =
-    await Promise.all([
-      db.from("content_documents").select("slug, published_at, lock_version"),
-      db.from("content_drafts").select("slug, updated_at, lock_version"),
-      db.from("gallery_photos").select("id", { count: "exact", head: true }).eq("is_published", true),
-      db.from("job_applications").select("id", { count: "exact", head: true }),
-    ]);
+  /**
+   * `content_status` gorunumu bekleyen degisikligi ICERIK karsilastirarak
+   * soyluyor. Once iki tablonun `lock_version` alanlari karsilastiriliyordu;
+   * o sayaclar farkli seyleri saydigi icin (taslak kayitlari / yayimlar)
+   * rozet kalici olarak yaniyordu.
+   */
+  const [{ data: dokumanlar }, { count: fotoSayisi }, { count: basvuruSayisi }] = await Promise.all([
+    db.from("content_status").select("slug, published_at, draft_updated_at, bekleyen_var"),
+    db.from("gallery_photos").select("id", { count: "exact", head: true }).eq("is_published", true),
+    db.from("job_applications").select("id", { count: "exact", head: true }),
+  ]);
 
-  const taslakBul = (slug: string) => taslaklar?.find((t) => t.slug === slug);
-  const bekleyenler = (dokumanlar ?? []).filter((d) => {
-    const taslak = taslakBul(d.slug);
-    return taslak ? taslak.lock_version !== d.lock_version : false;
-  });
+  const bekleyenler = (dokumanlar ?? []).filter((d) => d.bekleyen_var);
 
   // "Site en son ne zaman degisti" panelin en sik sorulan sorusu; tepede dursun.
   const sonYayim = (dokumanlar ?? [])
@@ -171,8 +171,7 @@ export default async function Panel() {
       <Baslik>İçerik</Baslik>
       <div className="mt-3 grid gap-4 sm:grid-cols-2">
         {(dokumanlar ?? []).map((d) => {
-          const taslak = taslakBul(d.slug);
-          const bekleyen = taslak ? taslak.lock_version !== d.lock_version : false;
+          const bekleyen = d.bekleyen_var;
           return (
             <div key={d.slug} className={`${YUZEY} p-5`}>
               {/* Bekleyen degisikligi once bu serit anlatiyor: kartin tamamini
@@ -203,10 +202,12 @@ export default async function Panel() {
                     <dt className="text-muted">Son yayım</dt>
                     <dd className="text-ink-soft">{TARIH.format(new Date(d.published_at))}</dd>
                   </div>
-                  {taslak && (
+                  {/* Taslak satiri yalnizca yayimdan farkli oldugunda
+                      anlamli; ayni oldugunda "yayinda" rozetiyle celisiyordu. */}
+                  {bekleyen && d.draft_updated_at && (
                     <div className="flex justify-between gap-3">
                       <dt className="text-muted">Taslak</dt>
-                      <dd className="text-ink-soft">{TARIH.format(new Date(taslak.updated_at))}</dd>
+                      <dd className="text-ink-soft">{TARIH.format(new Date(d.draft_updated_at))}</dd>
                     </div>
                   )}
                 </dl>
