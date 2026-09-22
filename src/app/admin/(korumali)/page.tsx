@@ -96,7 +96,7 @@ export default async function Panel() {
   const [{ data: dokumanlar }, { count: fotoSayisi }, { count: basvuruSayisi }] = await Promise.all([
     db.from("content_status").select("slug, published_at, draft_updated_at, bekleyen_var"),
     db.from("gallery_photos").select("id", { count: "exact", head: true }).eq("is_published", true),
-    db.from("job_applications").select("id", { count: "exact", head: true }),
+    db.from("job_applications").select("id", { count: "exact", head: true }).eq("ignored", false),
   ]);
 
   const bekleyenler = (dokumanlar ?? []).filter((d) => d.bekleyen_var);

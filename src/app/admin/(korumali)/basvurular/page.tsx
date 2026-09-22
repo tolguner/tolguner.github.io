@@ -9,6 +9,7 @@ export default async function BasvurularSayfasi() {
   const { data, error } = await db
     .from("job_applications")
     .select("id, platform, company, position, location, work_mode, job_url, applied_at, status, posting_status, notes, source, synced_at")
+    .eq("ignored", false)
     .order("applied_at", { ascending: false, nullsFirst: false })
     .order("created_at", { ascending: false });
 

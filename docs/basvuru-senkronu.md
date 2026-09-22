@@ -18,8 +18,17 @@ python scripts/basvuru-senkron.py <kayitlar.json> <platform> [status] [posting_s
 ```
 
 Dosya biçimi: `[external_id, job_url, position, company, location, work_mode, applied_at]`.
-`on_conflict=platform,external_id` sayesinde tekrar çalıştırmak güvenli — aynı ilan
-ikinci kez eklenmez, mevcut satır güncellenir.
+Tekrar çalıştırmak güvenli — aynı ilan ikinci kez eklenmez. Betik **panelde verilen
+kararları ezmez**:
+
+- **Takip dışı** (`ignored`) kayıtlara hiç dokunmaz. Paneldeki ✕ düğmesi senkron
+  kayıtlarında silmek yerine bunu yapıyor; silinen kayıt platform listesinde durduğu için
+  ertesi sabah geri gelirdi.
+- `status` yalnızca platformun gösterdiği aşamalarda ve yalnızca **ileri** gider
+  (`devam_ediyor → basvuruldu → goruntulendi`). Panelde elle verilen mülakat / teklif /
+  olumsuz / geri çekildi durumları korunur.
+- Boş gelen `applied_at` eski tarihi silmez; `posting_status` ancak argüman olarak
+  verildiyse değişir.
 
 `javascript_tool` çıktısı ~1200 karakterde kesiliyor; kayıtları 5–7'lik parçalar hâlinde al.
 

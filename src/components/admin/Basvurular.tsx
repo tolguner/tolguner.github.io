@@ -4,7 +4,13 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { SayfaBasligi } from "@/components/admin/duzen";
-import { basvuruEkle, basvuruGuncelle, basvuruSil, type BasvuruGirdi } from "@/app/admin/eylemler";
+import {
+  basvuruEkle,
+  basvuruGuncelle,
+  basvuruSil,
+  basvuruTakiptenCikar,
+  type BasvuruGirdi,
+} from "@/app/admin/eylemler";
 
 export type Basvuru = {
   id: string;
@@ -137,9 +143,13 @@ export default function Basvurular({ kayitlar }: { kayitlar: Basvuru[] }) {
     router.refresh();
   }
 
-  async function sil(id: string) {
+  /**
+   * Elle eklenen kayit gercekten silinir. Senkron kaydi ise takipten
+   * cikarilir: silinse ertesi sabahki senkron onu geri eklerdi.
+   */
+  async function sil(k: Basvuru) {
     setMesgul(true);
-    const sonuc = await basvuruSil(id);
+    const sonuc = k.source === "elle" ? await basvuruSil(k.id) : await basvuruTakiptenCikar(k.id);
     setMesgul(false);
     setSilinecek(null);
     if (!sonuc.ok) return setHata(sonuc.hata);
@@ -325,10 +335,10 @@ export default function Basvurular({ kayitlar }: { kayitlar: Basvuru[] }) {
                     <>
                       <button
                         type="button"
-                        onClick={() => void sil(k.id)}
+                        onClick={() => void sil(k)}
                         className="rounded-full border border-red-500/50 px-3 py-1 text-[12px] font-semibold text-red-600 transition hover:bg-red-500/10 dark:text-red-400"
                       >
-                        Sil
+                        {k.source === "elle" ? "Sil" : "Takipten çıkar"}
                       </button>
                       <button type="button" onClick={() => setSilinecek(null)} className="text-[12px] text-muted hover:text-ink">
                         vazgeç
@@ -338,7 +348,8 @@ export default function Basvurular({ kayitlar }: { kayitlar: Basvuru[] }) {
                     <button
                       type="button"
                       onClick={() => setSilinecek(k.id)}
-                      aria-label="Sil"
+                      aria-label={k.source === "elle" ? "Sil" : "Takipten çıkar"}
+                      title={k.source === "elle" ? "Sil" : "Takipten çıkar — senkron bir daha eklemez"}
                       className="rounded-full border border-line px-2.5 py-1 text-[12px] text-muted transition hover:text-ink"
                     >
                       ✕

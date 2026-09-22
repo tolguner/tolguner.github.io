@@ -362,6 +362,20 @@ export async function basvuruSil(id: string) {
   return { ok: true as const };
 }
 
+/**
+ * Senkron kaydini takipten cikarir. Silmek ise yaramiyor: ilan platformun
+ * listesinde durdugu icin ertesi gunku senkron onu geri ekliyordu. Satir
+ * kaliyor, `ignored` ile isaretleniyor; panel gostermiyor, senkron dokunmuyor.
+ */
+export async function basvuruTakiptenCikar(id: string) {
+  const db = await sunucuIstemcisi();
+  const { error } = await db.from("job_applications").update({ ignored: true }).eq("id", id);
+  if (error) return { ok: false as const, hata: error.message };
+  basvurulariTazele();
+  revalidatePath("/admin");
+  return { ok: true as const };
+}
+
 function basvurulariTazele() {
   revalidatePath("/admin/basvurular");
 }
