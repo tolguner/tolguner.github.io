@@ -261,7 +261,8 @@ Bazı ilanlarda bu adres firmanın kendi sitesine yönlendiriyor (Commencis → 
 **Kariyer.net** — "Başvur" `/basvuru-tamamlama/<ilan>`'a gider: Özgeçmiş → Ön yazı →
 Şirket soruları → "Başvurunu Tamamla". Adımlar sırayla açılıyor. **Ön yazı düzenleyicisine
 otomasyonla girilen metin kaydedilmedi** ("Ön yazı eklerken bir hata oluştu", yalnızca
-`OPTIONS /coverletters` görünüyor): ön yazıyı Tolga elle ekliyor.
+`OPTIONS /coverletters` görünüyor). Aynı metni Tolga elle ekleyince **kaydedildi** — sorun içerik
+değil, otomasyon algılaması. Ön yazıyı Tolga elle ekler; şirket sorularından devam edilir.
 
 **Lever** (`jobs.lever.co`) — hesap yok. CV yüklenince ad/e-posta/telefon/konum/şirket
 CV'den doluyor; kontrol et. **hCaptcha** var → gönderimi Tolga yapar.
