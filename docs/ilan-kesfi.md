@@ -123,20 +123,41 @@ profiline göre geliyordu (komi, servis) — onlar puanlamada zaten elenir.
 
 ## Puanlama
 
+**22.09.2026'da Tolga'nın onayıyla değişti** (career-ops modelinin uyarlaması). Eski 0–100
+puan, ağırlık tablosu (30/20/30/10/10), "konum şartı → en fazla 45" ve "kalıp ilan → −20"
+kuralları **kaldırıldı**; bu kurallar Tolga'ya onaylatılmadan eklenmişti. Bu bölümdeki bir
+kuralı değiştirmek (yeni ceza, tavan, eşik, eleme) **Tolga'nın açık onayını ister**; turdan
+çıkan "ders" belgeye doğrudan girmez, raporda öneri olarak sunulur.
+
 İki aşamalı, sayfa yükünü düşük tutmak için:
 
 1. **Ön eleme (yalnızca liste kartı):** başlık + şirket + konum. Açıkça dışarıda kalanları
-   hiç açma: satış danışmanı, muhasebe, hukuk, makine/elektrik/inşaat mühendisliği, İK,
-   pazarlama/sosyal medya, "3+ yıl deneyim", İstanbul ve Bursa dışında iş yerinde.
-2. **Ayrıntı (ilan sayfası):** kalanların metnini okuyup 0–100 puan ver.
+   hiç açma (liste 22.09.2026'da Tolga onayladı): satış, muhasebe, hukuk, İK · makine /
+   elektrik / inşaat mühendisliği · pazarlama / sosyal medya · "3+ yıl deneyim" · İstanbul
+   ve Bursa dışında iş yerinde.
+2. **Ayrıntı (ilan sayfası):** kalanların metnini oku; aşağıdaki alanları doldur.
 
-| Ölçüt | Puan | Not |
-| --- | --- | --- |
-| Alan uyumu | 0–30 | Dört hedef alandan birine net giriyor mu |
-| Tür uyumu | 0–20 | Uzun dönem / zorunlu staj ya da yeni mezun / MT → tam; kısa dönem yaz stajı → düşük |
-| Yetkinlik uyumu | 0–30 | İlanın istedikleri CV'de var mı (aşağıda) |
-| Konum / çalışma | 0–10 | İstanbul, Bursa ya da uzaktan → tam |
-| Dil | 0–10 | İngilizce **B1**. "İleri / akıcı İngilizce şart" → düşür; Almanca şartı → düşük |
+### Genel puan — `fit` (1–5, tek ondalık)
+
+Formül **yok**: iki boyuta ve kırmızı bayraklara bakarak bütünsel ver. 72 ile 68 arasındaki
+farkı kanıt taşımıyordu; 1–5 ölçeği bu yüzden seçildi.
+
+| `fit` | Anlamı |
+| --- | --- |
+| 4,5 ve üstü | Güçlü uyum — hemen başvurmaya değer |
+| 4,0–4,4 | İyi uyum — başvurmaya değer |
+| 3,5–3,9 | Orta — ancak özel bir sebep varsa |
+| 3,5 altı | Önerilmez |
+
+### Boyutlar (1–5 tam sayı)
+
+**`fit_cv` — CV uyumu:** ilanın istediği yetkinlik ve deneyim CV'de ne kadar karşılanıyor.
+5 = temel şartların hepsi CV'de kanıtlı · 3 = yaklaşık yarısı · 1 = neredeyse hiçbiri.
+
+**`fit_goal` — hedef uyumu:** alan (dört hedef alan), tür (uzun dönem / zorunlu staj ya da yeni
+mezun / MT) ve müsaitlik. 5 = hedef alanın tam içinde, uzun dönem staj ya da MT · 3 = alan
+komşu ya da tür belirsiz · 1 = hedef dışı (kısa dönem yaz stajı, part-time). Konum bu
+boyuta girmez; konumla ilgili sorunlar aşağıda uyarıdır.
 
 **CV'deki yetkinlikler (veritabanındaki CV'den, 22.09.2026):** Java, TypeScript, Python ·
 Spring Boot, REST API, JWT, Kafka · React, Next.js, Tailwind CSS · pandas, Jupyter ·
@@ -144,23 +165,58 @@ PostgreSQL, MySQL, MSSQL · Docker, Git/GitHub, Maven. Değişmiş olabilir; ş�
 `content_documents` → `cv` → `skills`'i oku. **Listede olmayan bir beceriyi Tolga'da varmış
 gibi sayma** (ör. Power BI, SAP, Tableau) — CV bilinçli olarak abartısız tutuluyor.
 
-İlk turdan iki düzeltme:
+### Kırmızı bayraklar — `red_flags` (genel puanı düşürür)
 
-- **Konum şartı karşılanmıyorsa puan en fazla 45.** Türk Tuborg ilanı Kariyer.net'te
-  "İstanbul" görünüyordu ama metinde İzmir'de ikamet şartı vardı; tablo tek başına ona 66
-  veriyordu. Platformun konum alanına güvenme, metindeki ikamet / çalışma yeri şartını oku.
-- **Kalıp / toplu ilan şüphesi → −20.** Software Persona, Sca Social ve Arch of Sigma
-  kelimesi kelimesine aynı metni kullanıyordu ("Balkan veya Avrupa'da kariyer hedeflemek"
-  dahil). Aynı metni birden fazla firmada görürsen gerekçeye yaz.
+Yalnızca **ilanın açıkça yazdığı** ve Tolga'nın karşılamadığı bir şart: "ileri / akıcı
+İngilizce şart" (CV'de B1), Almanca şartı, belirli bölüm / diploma şartı, 1–2 yıl deneyim
+şartı, uymayan mezuniyet tarihi şartı. Her madde somut: "Akıcı İngilizce şart; CV'de B1".
+Tahmine dayalı bir şey ("muhtemelen deneyimli aday isterler") kırmızı bayrak **olamaz**.
+
+### Uyarılar — `warnings` (puanı ETKİLEMEZ, Tolga'ya gösterilir)
+
+- **Konum / ikamet şartı karşılanmıyor.** Platformun konum alanına güvenme, metindeki ikamet /
+  çalışma yeri şartını oku. Örnek: Türk Tuborg Kariyer.net'te "İstanbul" görünüyordu, metinde
+  İzmir'de ikamet şartı vardı → `"İzmir'de ikamet şartı"`.
+- **Kalıp / toplu ilan şüphesi.** Aynı metin birden fazla firmada çıkıyorsa firmaları yaz:
+  `"Aynı metin 3 firmada (Software Persona, Sca Social, Arch of Sigma)"`. Meşru açıklaması
+  olabilir (aynı grup, ajans); karar Tolga'nın.
+- **Eski ilan.** Yayın tarihi 60 günden eskiyse: `"63 gündür yayında"`.
 
 Aynı ilan birden fazla platformda çıkarsa (Toyota programı hem LinkedIn'de hem Youthall'da)
 tek kayıt tut; son başvuru tarihini hangi platform veriyorsa oradan al.
 
 `score_reasons` 2–3 madde, somut ve dürüst:
-"İlan SQL ve Python istiyor, ikisi de CV'de" · "Uzun dönem staj, haftada 3 gün" ·
-"İleri İngilizce şart; CV'de B1". Genel övgü yazma.
+"İlan SQL ve Python istiyor, ikisi de CV'de" · "Uzun dönem staj, haftada 3 gün". Genel övgü
+yazma; kırmızı bayrak ve uyarıyı burada tekrarlama.
 
 Son başvuru tarihi geçmiş ilanı yazma.
+
+### Şart tablosu — `requirements` (yalnızca `listede` ilanlarda)
+
+Keşif görevi **yazmaz**. Tolga bir ilanı "Listeye al" dedikten sonra, sohbette istenince ya da
+ön yazıdan / başvurudan önce çıkarılır; ilan metninin tamamı okunur ve `fit` gerekirse tazelenir.
+
+Her satır: `sart` · `onem` · `kaynak` · `alinti` · `eslesme` · `not`.
+
+| `onem` | Anlamı |
+| --- | --- |
+| `kritik` | Açık şart, başlıkta geçiyor ya da her gün yapılacak temel iş |
+| `yuksek` | Merkezi şart, mülakatta sorulması muhtemel |
+| `anlamli` | Gerçek şart ama belirleyici değil |
+| `tercih` | "Tercih sebebi", "artı" |
+| `dusuk` | Kalıp, sinyal taşımayan ifade |
+
+| `kaynak` | Anlamı | Gerektirir |
+| --- | --- | --- |
+| `acik` | İlan açıkça şart diyor ("aranan nitelikler", "zorunlu", başlık) | `alinti`: ilandan **birebir** |
+| `yapisal` | Şart denmemiş ama ilanın yapısı ağırlık veriyor (hangi başlık altında, tekrar) | ilan metninden denetlenebilir olmalı |
+| `tahmin` | Bu tür rollerin nasıl elendiğine dair bilgi | — |
+
+**Kapı:** `tahmin` kaynaklı bir satır `kritik` ya da `yuksek` **olamaz** (betik reddeder).
+Şişirilmiş önem "başvurma" sonucu üretir; bu, yapılması gereken bir başvuruyu kaybettirir.
+`eslesme`: `var` / `kismi` / `yok` — yalnızca CV'ye ve cevap bankasının onaylı cevaplarına
+dayanır. `kritik` ya da `yuksek` olup `var` olmayan her satırın `not`'unda **mülakat riski +
+karşı hamle** yazılır (ör. "Power BI sorulabilir → pandas ile yaptığın raporlamayı anlat").
 
 ## Yazma
 
@@ -168,6 +224,7 @@ Son başvuru tarihi geçmiş ilanı yazma.
 python scripts/ilan-kesif.py yaz ilanlar.json --kuru   # önce kuru
 python scripts/ilan-kesif.py yaz ilanlar.json
 python scripts/ilan-kesif.py esle                      # başvuru senkronundan sonra
+python scripts/ilan-kesif.py sartlar sartlar.json      # yalnızca listede ilanlar, sohbette
 ```
 
 Betik başvurulmuş ilanı yazmaz, Tolga'nın karar verdiği ilana (`listede`,

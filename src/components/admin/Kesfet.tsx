@@ -18,7 +18,14 @@ export type Ilan = {
   easy_apply: boolean | null;
   deadline: string | null;
   summary: string | null;
+  /** Eski 0-100 puan; yalnizca 22.09.2026 oncesi kayitlarda dolu. */
   score: number | null;
+  fit: number | null;
+  fit_cv: number | null;
+  fit_goal: number | null;
+  red_flags: string[];
+  warnings: string[];
+  requirements: Sart[] | null;
   score_reasons: string[];
   areas: string[];
   decision: "yeni" | "listede" | "ilgilenmiyorum" | "basvuruldu";
@@ -27,6 +34,25 @@ export type Ilan = {
   cover_letter_lang: "tr" | "en" | null;
   cover_letter_confirmed: boolean;
 };
+
+export type Sart = {
+  sart: string;
+  onem: "kritik" | "yuksek" | "anlamli" | "tercih" | "dusuk";
+  kaynak: "acik" | "yapisal" | "tahmin";
+  alinti?: string;
+  eslesme: "var" | "kismi" | "yok";
+  not?: string;
+};
+
+const ONEM: Record<Sart["onem"], string> = {
+  kritik: "Kritik",
+  yuksek: "Yüksek",
+  anlamli: "Anlamlı",
+  tercih: "Tercih",
+  dusuk: "Düşük sinyal",
+};
+const KAYNAK: Record<Sart["kaynak"], string> = { acik: "İlan açıkça", yapisal: "İlanın yapısı", tahmin: "Tahmin" };
+const ESLESME: Record<Sart["eslesme"], string> = { var: "✓ Var", kismi: "~ Kısmi", yok: "✗ Yok" };
 
 const PLATFORM: Record<Ilan["platform"], string> = {
   linkedin: "LinkedIn",
@@ -58,27 +84,81 @@ function kalanGun(tarih: string | null) {
   return Math.round((new Date(tarih).getTime() - bugun) / GUN);
 }
 
+const ONDALIK = new Intl.NumberFormat("tr-TR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
 /**
- * Puan rozeti. Renk bantlari bilincli olarak kaba: 70+ "guclu aday",
- * 50-69 "bakmaya deger", alti "zayif". Ince ayar puanin kendisinde.
+ * Puan rozeti, 1-5 butunsel puan (career-ops bantlari): 4,0+ basvurmaya deger,
+ * 3,5-3,9 ancak ozel bir sebep varsa, alti onerilmez. 22.09.2026 oncesi
+ * kayitlarda yalnizca eski 0-100 puan var; o soluk ve "eski" etiketiyle gorunur.
  */
-function Puan({ deger }: { deger: number | null }) {
+function Puan({ ilan }: { ilan: Ilan }) {
+  const { fit, score } = ilan;
   const renk =
-    deger === null
+    fit === null
       ? "border-line text-muted"
-      : deger >= 70
+      : fit >= 4
         ? "border-accent bg-accent text-white"
-        : deger >= 50
+        : fit >= 3.5
           ? "border-amber-500/60 bg-amber-500/10 text-amber-700 dark:text-amber-300"
           : "border-line text-muted";
+  const eski = fit === null && score !== null;
   return (
     <span
-      title="CV'ne göre uygunluk puanı (0–100)"
+      title={eski ? "Eski 0–100 puan; yeni modelle puanlanmadı" : "Genel uyum puanı (1–5)"}
       className={`flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-2xl border text-center ${renk}`}
     >
-      <span className="text-[17px] font-bold leading-none">{deger ?? "–"}</span>
-      <span className="mt-0.5 text-[9px] font-semibold uppercase tracking-wide opacity-80">puan</span>
+      <span className={`font-bold leading-none ${eski ? "text-[14px] opacity-60" : "text-[17px]"}`}>
+        {fit !== null ? ONDALIK.format(fit) : (score ?? "–")}
+      </span>
+      <span className="mt-0.5 text-[9px] font-semibold uppercase tracking-wide opacity-80">
+        {eski ? "eski" : "/ 5"}
+      </span>
     </span>
+  );
+}
+
+/** Sart tablosu: yalnizca "Listeye al" denen ilanlarda, basvurudan once doldurulur. */
+function Sartlar({ satirlar }: { satirlar: Sart[] }) {
+  const eksik = satirlar.filter((s) => s.eslesme !== "var" && (s.onem === "kritik" || s.onem === "yuksek")).length;
+  return (
+    <details className="mt-3 rounded-xl border border-line bg-paper px-3 py-2">
+      <summary className="cursor-pointer text-[12.5px] font-semibold text-ink">
+        Şart tablosu · {satirlar.length} şart
+        {eksik > 0 && <span className="text-red-600 dark:text-red-400"> · {eksik} kritik/yüksek eksik</span>}
+      </summary>
+      <div className="mt-2 overflow-x-auto">
+        <table className="w-full min-w-[34rem] text-left text-[12px]">
+          <thead className="text-muted">
+            <tr>
+              <th className="py-1 pr-3 font-semibold">Şart</th>
+              <th className="py-1 pr-3 font-semibold">Önem</th>
+              <th className="py-1 pr-3 font-semibold">Dayanak</th>
+              <th className="py-1 font-semibold">Sende</th>
+            </tr>
+          </thead>
+          <tbody className="text-ink-soft">
+            {satirlar.map((s, n) => (
+              <tr key={n} className="border-t border-line align-top">
+                <td className="py-1.5 pr-3">
+                  <div className="text-ink">{s.sart}</div>
+                  {s.alinti && <div className="mt-0.5 italic text-muted">&ldquo;{s.alinti}&rdquo;</div>}
+                  {s.not && <div className="mt-0.5">{s.not}</div>}
+                </td>
+                <td className="whitespace-nowrap py-1.5 pr-3">{ONEM[s.onem]}</td>
+                <td className="whitespace-nowrap py-1.5 pr-3">{KAYNAK[s.kaynak]}</td>
+                <td
+                  className={`whitespace-nowrap py-1.5 font-semibold ${
+                    s.eslesme === "var" ? "text-accent" : s.eslesme === "yok" ? "text-red-600 dark:text-red-400" : ""
+                  }`}
+                >
+                  {ESLESME[s.eslesme]}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </details>
   );
 }
 
@@ -200,7 +280,7 @@ export default function Kesfet({ ilanlar }: { ilanlar: Ilan[] }) {
     return {
       yeni: ilanlar.filter((i) => i.decision === "yeni").length,
       listede: ilanlar.filter((i) => i.decision === "listede").length,
-      guclu: ilanlar.filter((i) => i.decision === "yeni" && (i.score ?? 0) >= 70).length,
+      guclu: ilanlar.filter((i) => i.decision === "yeni" && (i.fit ?? 0) >= 4).length,
       bugun: ilanlar.filter((i) => new Date(i.found_at).getTime() > dun).length,
       acil: ilanlar.filter((i) => {
         const k = kalanGun(i.deadline);
@@ -216,7 +296,7 @@ export default function Kesfet({ ilanlar }: { ilanlar: Ilan[] }) {
         .filter((i) => !platform || i.platform === platform)
         .filter((i) => !alan || i.areas.includes(alan))
         .filter((i) => !tur || i.kind === tur)
-        .sort((a, b) => (b.score ?? -1) - (a.score ?? -1)),
+        .sort((a, b) => (b.fit ?? 0) - (a.fit ?? 0) || (b.score ?? -1) - (a.score ?? -1)),
     [ilanlar, sekme, platform, alan, tur],
   );
 
@@ -239,8 +319,8 @@ export default function Kesfet({ ilanlar }: { ilanlar: Ilan[] }) {
         baslik="Keşfet"
         aciklama={
           <>
-            Günlük keşif görevinin bulduğu, henüz başvurmadığın ilanlar. Puan CV&apos;ndeki
-            yetkinliklere, hedeflediğin alanlara ve pozisyon türüne göre veriliyor.{" "}
+            Günlük keşif görevinin bulduğu, henüz başvurmadığın ilanlar. Puan 1–5: 4,0 ve üstü
+            başvurmaya değer, 3,5–3,9 ancak özel bir sebep varsa. Uyarılar puanı etkilemez.{" "}
             <b className="text-ink-soft">Hiçbir başvuru senin sohbette verdiğin onay olmadan gönderilmez.</b>
           </>
         }
@@ -258,7 +338,7 @@ export default function Kesfet({ ilanlar }: { ilanlar: Ilan[] }) {
         {(
           [
             ["Karar bekleyen", ozet.yeni],
-            ["Güçlü aday (70+)", ozet.guclu],
+            ["Güçlü aday (4,0+)", ozet.guclu],
             ["Başvuru listem", ozet.listede],
             ["Son 24 saatte", ozet.bugun],
             ["Son tarihi ≤ 7 gün", ozet.acil],
@@ -329,7 +409,7 @@ export default function Kesfet({ ilanlar }: { ilanlar: Ilan[] }) {
           return (
             <article key={i.id} className={`${YUZEY_SAKIN} p-4 transition hover:border-accent/50`}>
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
-                <Puan deger={i.score} />
+                <Puan ilan={i} />
 
                 <div className="min-w-0 flex-1">
                   <h2 className="text-[15px] font-bold leading-snug text-ink">{i.position}</h2>
@@ -354,6 +434,52 @@ export default function Kesfet({ ilanlar }: { ilanlar: Ilan[] }) {
                     )}
                   </div>
 
+                  {i.warnings.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {i.warnings.map((u) => (
+                        <span
+                          key={u}
+                          className="rounded-full border border-amber-500/50 bg-amber-500/10 px-2 py-0.5 text-[11px] font-semibold text-amber-700 dark:text-amber-300"
+                        >
+                          ⚠ {u}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {(i.fit_cv !== null || i.fit_goal !== null) && (
+                    <p className="mt-2 text-[12px] text-muted">
+                      {i.fit_cv !== null && (
+                        <>
+                          CV uyumu <b className="text-ink-soft">{i.fit_cv}/5</b>
+                        </>
+                      )}
+                      {i.fit_cv !== null && i.fit_goal !== null && " · "}
+                      {i.fit_goal !== null && (
+                        <>
+                          Hedef uyumu <b className="text-ink-soft">{i.fit_goal}/5</b>
+                        </>
+                      )}
+                      {" · "}
+                      {i.red_flags.length ? (
+                        <span className="text-red-600 dark:text-red-400">{i.red_flags.length} kırmızı bayrak</span>
+                      ) : (
+                        "kırmızı bayrak yok"
+                      )}
+                    </p>
+                  )}
+
+                  {i.red_flags.length > 0 && (
+                    <ul className="mt-1 space-y-0.5 text-[12.5px] leading-relaxed text-red-600 dark:text-red-400">
+                      {i.red_flags.map((b) => (
+                        <li key={b} className="flex gap-2">
+                          <span aria-hidden>✗</span>
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
                   {i.score_reasons.length > 0 && (
                     <ul className="mt-2.5 space-y-0.5 text-[12.5px] leading-relaxed text-ink-soft">
                       {i.score_reasons.map((n) => (
@@ -369,6 +495,10 @@ export default function Kesfet({ ilanlar }: { ilanlar: Ilan[] }) {
 
                   {i.summary && (
                     <p className="mt-2 line-clamp-2 text-[12px] leading-relaxed text-muted">{i.summary}</p>
+                  )}
+
+                  {sekme === "listede" && i.requirements && i.requirements.length > 0 && (
+                    <Sartlar satirlar={i.requirements} />
                   )}
 
                   {sekme === "listede" && (

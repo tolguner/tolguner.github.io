@@ -5,6 +5,7 @@ Kullanim:
     python scripts/ilan-kesif.py yaz <ilanlar.json> [--kuru]
     python scripts/ilan-kesif.py esle
     python scripts/ilan-kesif.py onyazi <onyazilar.json> [--uzerine-yaz]
+    python scripts/ilan-kesif.py sartlar <sartlar.json>
 
 `bilinen`  Platformda zaten gorulmus ilan kimliklerini basar: hem kesif tablosundakiler
            hem basvurulmuslar. Ilan ayrintisini acmadan once bunlari ele; ayni ilani
@@ -15,12 +16,21 @@ Kullanim:
 `onyazi`   On yazi TASLAGI yazar (onaysiz). Girdi:
            [{"platform": "...", "external_id": "...", "lang": "tr|en", "metin": "..."}]
            Tolga'nin onayladigi on yaziya dokunmaz; `--uzerine-yaz` verilmedikce.
+`sartlar`  Listedeki (`listede`) ilana sart tablosu yazar; puan da ilan metnine gore
+           tazelenebilir. Girdi:
+           [{"platform": "...", "external_id": "...", "requirements": [...],
+             "fit": 3.8, "fit_cv": 4, "fit_goal": 4, "red_flags": [], "warnings": []}]
+           requirements satiri: {"sart", "onem", "kaynak", "alinti", "eslesme", "not"}
 
 ilanlar.json - nesne listesi:
     {"platform": "linkedin", "external_id": "4467781261", "company": "...", "position": "...",
      "location": "...", "work_mode": "is_yerinde", "job_url": "https://...",
      "kind": "staj", "easy_apply": true, "deadline": "2026-10-18", "summary": "...",
-     "score": 72, "score_reasons": ["...", "..."], "areas": ["veri"], "source": "arama"}
+     "fit": 3.8, "fit_cv": 4, "fit_goal": 4, "red_flags": [], "warnings": ["..."],
+     "score_reasons": ["...", "..."], "areas": ["veri"], "source": "arama"}
+
+Puan (docs/ilan-kesfi.md > Puanlama): fit 1-5 butunsel genel puan, tek ondalik;
+fit_cv ve fit_goal 1-5 tam sayi. red_flags genel puani dusurur, warnings dusurmez.
 
 Kurallar:
 - Zaten basvurulmus ilan (job_applications'ta ayni platform + kimlik, takip disi
@@ -38,6 +48,10 @@ from supabase_rest import Tablo, in_listesi, utf8_cikti
 
 ALANLAR = {"veri", "urun", "yazilim", "erp"}
 ZORUNLU = ("platform", "external_id", "company", "position", "job_url", "source")
+LISTELER = ("score_reasons", "areas", "red_flags", "warnings")
+ONEM = {"kritik", "yuksek", "anlamli", "tercih", "dusuk"}
+KAYNAK = {"acik", "yapisal", "tahmin"}
+ESLESME = {"var", "kismi", "yok"}
 
 
 def bilinen(platform):
@@ -52,11 +66,24 @@ def dogrula(i):
     eksik = [a for a in ZORUNLU if not i.get(a)]
     if eksik:
         return "eksik alan: " + ", ".join(eksik)
-    if i.get("score") is not None and not 0 <= i["score"] <= 100:
-        return "puan 0-100 disinda"
     yabanci = set(i.get("areas") or []) - ALANLAR
     if yabanci:
         return "bilinmeyen alan: " + ", ".join(sorted(yabanci))
+    return puan_hatasi(i)
+
+
+def puan_hatasi(i):
+    if "score" in i:
+        return "eski 0-100 `score` kullanma; fit / fit_cv / fit_goal ver"
+    fit = i.get("fit")
+    if fit is not None and not (isinstance(fit, (int, float)) and 1 <= fit <= 5 and round(fit, 1) == fit):
+        return "fit 1-5 arasi, tek ondalik olmali"
+    for a in ("fit_cv", "fit_goal"):
+        if i.get(a) is not None and i[a] not in (1, 2, 3, 4, 5):
+            return "%s 1-5 arasi tam sayi olmali" % a
+    for a in ("red_flags", "warnings"):
+        if not isinstance(i.get(a, []), list):
+            return "%s liste olmali" % a
     return None
 
 
@@ -88,7 +115,7 @@ def yaz(ilanlar, kuru):
         eski = mevcut.get(anahtar)
         if eski is None:
             yeni.append({**i, "decision": "yeni"})
-            print("YENI     %3s  %s / %s" % (i.get("score", "-"), i["company"], i["position"]))
+            print("YENI     %3s  %s / %s" % (i.get("fit", "-"), i["company"], i["position"]))
             continue
         if eski["decision"] != "yeni":
             atlanan += 1
@@ -103,8 +130,8 @@ def yaz(ilanlar, kuru):
         anahtarlar = set().union(*(y.keys() for y in yeni))
         yeni = [{a: y.get(a) for a in anahtarlar} for y in yeni]
         for y in yeni:
-            y["score_reasons"] = y["score_reasons"] or []
-            y["areas"] = y["areas"] or []
+            for a in LISTELER:
+                y[a] = y[a] or []
         postings.istek("POST", "", yeni, prefer="return=minimal")
     print("yeni: %d  tazelenen: %d  atlanan: %d%s" % (len(yeni), tazelenen, atlanan, "  (KURU)" if kuru else ""))
 
@@ -158,6 +185,54 @@ def onyazi(girdiler, uzerine_yaz):
         print("TASLAK   %s  (%s, %d kelime)" % (s["company"], g["lang"], len(g["metin"].split())))
 
 
+def sart_hatasi(satir):
+    if not (satir.get("sart") or "").strip():
+        return "sart bos"
+    if satir.get("onem") not in ONEM:
+        return "onem: " + "/".join(sorted(ONEM))
+    if satir.get("kaynak") not in KAYNAK:
+        return "kaynak: " + "/".join(sorted(KAYNAK))
+    if satir.get("eslesme") not in ESLESME:
+        return "eslesme: " + "/".join(sorted(ESLESME))
+    # career-ops kapisi: tahmine dayali sart kritik/yuksek olamaz; yoksa rapor kendi
+    # spekulasyonundan "basvurma" sonucu uretir.
+    if satir["kaynak"] == "tahmin" and satir["onem"] in ("kritik", "yuksek"):
+        return "tahmine dayali sart kritik/yuksek olamaz"
+    if satir["kaynak"] == "acik" and not (satir.get("alinti") or "").strip():
+        return "acik sart ilandan birebir alinti ister"
+    return None
+
+
+def sartlar(girdiler):
+    postings = Tablo("job_postings")
+    for g in girdiler:
+        tablo = g.get("requirements")
+        if not isinstance(tablo, list) or not tablo:
+            print("ATLANDI (requirements bos): %s" % g.get("external_id"))
+            continue
+        hatalar = [(n, h) for n, h in ((n, sart_hatasi(r)) for n, r in enumerate(tablo, 1)) if h]
+        hata = hatalar and "satir %d: %s" % hatalar[0] or puan_hatasi(g)
+        if hata:
+            print("ATLANDI (%s): %s" % (hata, g.get("external_id")))
+            continue
+        bulunan = postings.istek(
+            "GET",
+            "?select=id,company,decision&platform=eq.%s&external_id=eq.%s"
+            % (g["platform"], in_listesi([g["external_id"]]).strip('"')),
+        )
+        if not bulunan:
+            print("ATLANDI (ilan yok): %s" % g["external_id"])
+            continue
+        s = bulunan[0]
+        if s["decision"] != "listede":
+            print("ATLANDI (karar: %s): %s" % (s["decision"], s["company"]))
+            continue
+        alanlar = {"requirements": tablo}
+        alanlar.update({a: g[a] for a in ("fit", "fit_cv", "fit_goal", "red_flags", "warnings") if a in g})
+        postings.istek("PATCH", "?id=eq.%s" % s["id"], alanlar)
+        print("SARTLAR  %s  (%d satir, fit %s)" % (s["company"], len(tablo), g.get("fit", "-")))
+
+
 def main():
     utf8_cikti()
     if len(sys.argv) < 2:
@@ -171,6 +246,8 @@ def main():
         esle()
     elif komut == "onyazi" and len(sys.argv) >= 3:
         onyazi(json.load(io.open(sys.argv[2], encoding="utf-8")), "--uzerine-yaz" in sys.argv)
+    elif komut == "sartlar" and len(sys.argv) >= 3:
+        sartlar(json.load(io.open(sys.argv[2], encoding="utf-8")))
     else:
         sys.exit(__doc__)
 
