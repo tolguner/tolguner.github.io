@@ -127,7 +127,7 @@ profiline göre geliyordu (komi, servis) — onlar puanlamada zaten elenir.
 
 1. **Ön eleme (yalnızca liste kartı):** başlık + şirket + konum. Açıkça dışarıda kalanları
    hiç açma: satış danışmanı, muhasebe, hukuk, makine/elektrik/inşaat mühendisliği, İK,
-   pazarlama/sosyal medya, "3+ yıl deneyim", İstanbul dışında iş yerinde.
+   pazarlama/sosyal medya, "3+ yıl deneyim", İstanbul ve Bursa dışında iş yerinde.
 2. **Ayrıntı (ilan sayfası):** kalanların metnini okuyup 0–100 puan ver.
 
 | Ölçüt | Puan | Not |
@@ -182,8 +182,13 @@ Tolga sohbette "listemdeki ilanlara başvuralım" dediğinde:
 2. Her ilan için Chrome'da platformun **kendi** formunu aç. Hesap açtıran firma sistemleri
    (Workday, SuccessFactors...) için form doldurulmaz: hesap açmak ve şifre girmek yasak.
    Onlarda ön yazı + cevapları hazırla, gönderimi Tolga yapar.
-3. Formu doldur. Kişisel veri girmeden önce hangi bilgilerin gireceğini söyle.
-   Tarama sorularında **uydurma**: onaylı cevap bankasında yoksa dur ve sor.
+3. Formu **cevap bankasından** doldur (`application_answers`, panelde `/admin/cevaplar`):
+   - Yalnızca `confirmed = true` cevaplar kullanılır. Bankada olmayan, boş ya da onaysız
+     soru gelirse **dur ve sor**; aldığın cevabı panele kaydetmesini öner, sen uydurma.
+   - `sensitive = true` alanları (telefon, ikamet, askerlik, doğum yılı, referans) onaylı
+     olsa bile yazmadan önce "şunu giriyorum" diye söyle.
+   - İngilizce ilanda `answer_en`; boşsa Türkçesini çevirme, sor.
+   - Referans iletişim bilgisi hocaların onayı alınmadan hiçbir forma girilmez.
 4. **LinkedIn:** son adımda dur; "Gönder"e Tolga basar (22.09.2026 kararı).
    **Diğerleri:** formun özetini göster, açık "evet" gelince gönder.
 5. Gönderilen ilan ertesi günkü başvuru senkronuyla `job_applications`'a düşer;
