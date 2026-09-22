@@ -22,7 +22,9 @@ tablosuna yazar. Tolga panelde her ilan için **Listeye al** ya da **İlgilenmiy
   (`areas`: `veri`, `urun`, `yazilim`, `erp`)
 - **Tür:** zorunlu **uzun dönem** staj (mezuniyet için 2 staj / 40 iş günü kaldı) ve
   **yeni mezun / MT** programları. Part-time ve kısa dönem yaz stajı hedef değil.
-- **Konum:** İstanbul; ya da her yerden uzaktan / hibrit.
+- **Konum:** İstanbul veya Bursa; ya da her yerden uzaktan / hibrit. İş yerinde, hibrit ve
+  uzaktan üçü de kabul (22.09.2026, cevap bankasında onaylı). Başka şehre taşınmıyor.
+- **Müsaitlik:** haftada 5 gün, 6 ay ve üzeri — uzun dönem programların hepsine uygun.
 
 ## Kaynaklar ve sorgular
 
@@ -47,6 +49,7 @@ https://www.linkedin.com/jobs/search/?keywords=<SORGU>&location=Istanbul%2C%20T%
 | urun | `(product OR project OR ürün OR proje OR "management trainee" OR MT)` |
 | yazilim | `(software OR yazılım OR developer OR backend OR "full stack" OR QA)` |
 | erp | `(ERP OR SAP OR "business analyst" OR "iş analisti" OR süreç)` |
+| Bursa (tek sorgu) | `(intern OR stajyer OR "management trainee" OR "yeni mezun")`, `location=Bursa%2C%20T%C3%BCrkiye` |
 
 **Sorgular gevşek eşleşiyor.** 22.09.2026 ilk turunda "veri" sorgusunun 25 sonucunun çoğu
 pazarlama ve satıştı; `AND (intern OR stajyer OR junior)` eklenen yazılım sorgusu çok daha
@@ -90,6 +93,7 @@ https://www.kariyer.net/is-ilanlari/istanbul?kw=<SORGU>
 
 Şehir yol ile veriliyor (`/istanbul` → `ct=34,82`'ye yönleniyor). Arama boolean değil, kısa
 sorgular kullan: `uzun dönem stajyer`, `yeni mezun`, `management trainee`. Sayfa ~50 ilan.
+Bursa için ayrıca `/is-ilanlari/bursa?kw=uzun%20dönem%20stajyer` (tek sorgu).
 Kartlar `a[href*="/is-ilani/"]`; satırlar `Pozisyon / Şirket / Konum / Çalışma şekli`.
 "Sponsorlu İlan" satırını ve logo yerine basılan **tek harfli** satırları ("C", "B") atla.
 Başvuruların senkronunda olduğu gibi kartın Vue prop'ları da okunabilir
@@ -131,7 +135,7 @@ profiline göre geliyordu (komi, servis) — onlar puanlamada zaten elenir.
 | Alan uyumu | 0–30 | Dört hedef alandan birine net giriyor mu |
 | Tür uyumu | 0–20 | Uzun dönem / zorunlu staj ya da yeni mezun / MT → tam; kısa dönem yaz stajı → düşük |
 | Yetkinlik uyumu | 0–30 | İlanın istedikleri CV'de var mı (aşağıda) |
-| Konum / çalışma | 0–10 | İstanbul ya da uzaktan / hibrit → tam |
+| Konum / çalışma | 0–10 | İstanbul, Bursa ya da uzaktan → tam |
 | Dil | 0–10 | İngilizce **B1**. "İleri / akıcı İngilizce şart" → düşür; Almanca şartı → düşük |
 
 **CV'deki yetkinlikler (veritabanındaki CV'den, 22.09.2026):** Java, TypeScript, Python ·
