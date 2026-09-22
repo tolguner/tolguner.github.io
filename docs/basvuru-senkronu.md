@@ -122,19 +122,53 @@ kariyer sitesindeki başvuru, İK'ya doğrudan e-postayla yapılan Ensight başv
 Talentfy CEO'sunun "formu doldur" isteği. Bu yüzden dar arama (`from: linkedin`) değil,
 son 2 günün **tüm** gelen ve gönderilen postası taranır.
 
-| Kutu | Araç | Kota | Ne geliyor |
+| Kutu | Birincil yol | Yedek | Ne geliyor |
 | --- | --- | --- | --- |
-| `tolgaolguner@gmail.com` | Gmail bağlayıcısı | yok | Youthall onayları, firma yazışmaları |
-| `tolgaolguner1@gmail.com` | mailbox MCP | **24 saatte 5 çağrı** | LinkedIn onayları |
+| `tolgaolguner@gmail.com` | Gmail bağlayıcısı (kotasız) | Chrome | Youthall onayları, firma yazışmaları |
+| `tolgaolguner1@gmail.com` | **Chrome** (kotasız) | mailbox MCP (24 saatte 5 çağrı) | LinkedIn onayları |
 
-Gönderilen klasörü (mailbox MCP): `[Gmail]/Sent Mail` — ilk çalıştırmada doğrulanacak.
+### Chrome üzerinden Gmail
+
+İki hesap da Chrome profilinde açık (22.09.2026): `mail/u/0` = `tolgaolguner1`,
+`mail/u/1` = `tolgaolguner`. Oturum sırası çıkış/giriş yapılınca değişebilir, bu yüzden
+**sayfa başlığında adresi doğrula** (`"... - tolgaolguner1@gmail.com - Gmail"`); tutmuyorsa
+`u/0`–`u/3` arasını dene. Adresi yola yazmak (`/mail/u/<adres>/`) "Temporary Error" veriyor.
+
+Arama doğrudan URL ile, Gmail sözdizimi aynen çalışıyor:
+
+```
+https://mail.google.com/mail/u/0/#search/newer_than%3A2d+-category%3Apromotions+-category%3Asocial
+https://mail.google.com/mail/u/0/#search/in%3Asent+newer_than%3A2d
+```
+
+Sonuç satırları (sayfa yüklendikten ~5 sn sonra):
+
+```js
+[...document.querySelectorAll("tr.zA")].filter(r => r.offsetParent).map(r => ({
+  gonderen: r.querySelector(".yX span[email]")?.getAttribute("email"),
+  konu: r.querySelector(".bog")?.innerText,
+  ozet: (r.querySelector(".y2")?.innerText || "").replace(/\s+/g, " ").replace(/^ - /, ""),
+  tarih: r.querySelector(".xW span[title]")?.getAttribute("title"),
+  okunmamis: r.classList.contains("zE"),
+}));
+```
+
+Üç günde ~26 satır geliyor; `javascript_tool` çıktısı ~1200 karakterde kesildiği için
+5–6'lık parçalarla al.
+
+**E-postayı Chrome'da AÇMA.** Gmail web arayüzünde açılan posta otomatik olarak okundu
+işaretleniyor; Tolga bir mülakat davetini okunmuş görüp kaçırabilir. Konu + özet (`.y2`)
+sınıflandırmaya çoğu zaman yetiyor. Yetmiyorsa kaydı değiştirme, postayı raporda
+"şuna bak" diye Tolga'ya göster. (Gmail bağlayıcısının `get_thread`'i ve mailbox MCP'nin
+`read_email`'i okundu işareti koymuyor; tam metin gerekiyorsa o yollar kullanılır.)
+
+mailbox MCP yalnızca Chrome açılamazsa yedek: tek `search_emails` (`since` = dün,
+`mailboxes` = `["INBOX", "[Gmail]/Sent Mail"]`), en fazla 2 `read_email`.
 
 - **Kariyer.net başvuru onayı e-postası göndermiyor** (hepsi pazarlama). O platform için
   tek kaynak tarayıcı senkronu.
 - LinkedIn yalnızca "Kolay Başvuru" ilanlarında onay atıyor; e-posta listesi tarayıcı
   listesinin alt kümesi.
-- mailbox MCP'de çalıştırma başına **tek** `search_emails` (gelen + gönderilen aynı çağrıda,
-  `since` = dün) ve en fazla 2 `read_email`. Özet satırındaki `preview` çoğu zaman yeterli.
 
 ### Yazma: `scripts/basvuru-eposta.py`
 
