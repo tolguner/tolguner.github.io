@@ -228,3 +228,48 @@ Tolga sohbette "listemdeki ilanlara başvuralım" dediğinde:
    **Diğerleri:** formun özetini göster, açık "evet" gelince gönder.
 5. Gönderilen ilan ertesi günkü başvuru senkronuyla `job_applications`'a düşer;
    `ilan-kesif.py esle` onu burada `basvuruldu` yapar.
+
+### Platform notları (22.09.2026 ilk başvuru turu, 7 ilan)
+
+**Genel**
+- Chrome sekmesi **görünür** olmalı. Arka plandaki sekmede (`visibilityState: hidden`)
+  düğmeye `ref` ile basmak çalışıyor ama koordinatlı tıklama ve yazma boşa gidiyor;
+  açılır pencereler kapanıyor. Yazmaya başlamadan önce Tolga'dan sekmeyi öne almasını iste.
+- Metin alanlarında `ctrl+a` kullanma: bazı formlar (Kula) seçmek yerine "a" yazıyor.
+  Seçmek için `triple_click`.
+- İlanın bulunduğu platform ile başvurunun yapıldığı yer farklı olabilir (LinkedIn
+  ilanı → Youthall / Kula / Lever / firma sitesi). O zaman `ilan-kesif.py esle`
+  eşleştiremez: `job_applications` kaydını gerçek başvuru yerine göre elle ekle ve ilanı
+  `basvuruldu` yap.
+- Onaylı ön yazı çoğu formda **kullanılmıyor** (Youthall, Lever, LinkedIn Kolay Başvuru
+  alan vermiyor). Kula dosya olarak istiyor: onaylı metni `python-docx` ile .docx yap.
+
+**LinkedIn Kolay Başvuru** — pencere kapalı bir gölge DOM içinde; `querySelector` göremiyor,
+ekran görüntüsü + koordinatla çalış. Dosya yükleme yerel dosya seçici açıyor, **yapılamaz**;
+kayıtlı CV'lerden seçilir. E-posta açılır listesi yalnızca LinkedIn hesabındaki adresler
+(`tolgaolguner1`, okul adresi). Sayısal tanımlı sorular düz metin görünür ama yalnızca
+rakam kabul eder ("Ocak 2027" → "Geçersiz giriş", "2027" geçer). Son "Gönder"e Tolga basar.
+
+**LinkedIn dış başvuru** — "Başvur" bağlantısının `url` parametresinden hedefi oku,
+tıklamadan: Toyota → Youthall, Massive Bio → `careers.kula.ai`, Şişecam →
+`careers.sisecam.com` (SAP SuccessFactors).
+
+**Youthall** — "Hemen Başvur" `/tr/internship/<n>/apply/`'a gider; `checkCVStatus` yalnızca
+profil eksiklerine bakar, göndermez. Sayfada firma soruları + **"Cevapları Gönder"**.
+Bazı ilanlarda bu adres firmanın kendi sitesine yönlendiriyor (Commencis → Lever).
+
+**Kariyer.net** — "Başvur" `/basvuru-tamamlama/<ilan>`'a gider: Özgeçmiş → Ön yazı →
+Şirket soruları → "Başvurunu Tamamla". Adımlar sırayla açılıyor. **Ön yazı düzenleyicisine
+otomasyonla girilen metin kaydedilmedi** ("Ön yazı eklerken bir hata oluştu", yalnızca
+`OPTIONS /coverletters` görünüyor): ön yazıyı Tolga elle ekliyor.
+
+**Lever** (`jobs.lever.co`) — hesap yok. CV yüklenince ad/e-posta/telefon/konum/şirket
+CV'den doluyor; kontrol et. **hCaptcha** var → gönderimi Tolga yapar.
+
+**Kula** (`careers.kula.ai`) — hesap yok, dosya girişleri erişilebilir (`file_upload`
+çalışıyor). Telefonun ülke seçicisi ayrı: yalnızca rakam yaz, "+90" yazma. Üstteki
+"Autofill from resume" kutusu adres gibi alanları kendiliğinden dolduruyor. **reCAPTCHA**
+var. Chrome'un sayfa çevirisi açılıp kapanınca sayfa yenilenip form boşaldı.
+
+**SAP SuccessFactors** (Şişecam) — aday hesabı istiyor. **Hesap açılmaz, şifre girilmez**;
+Tolga girişi yapar, sonra form doldurulabilir.
