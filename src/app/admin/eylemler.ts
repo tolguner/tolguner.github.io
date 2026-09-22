@@ -379,3 +379,24 @@ export async function basvuruTakiptenCikar(id: string) {
 function basvurulariTazele() {
   revalidatePath("/admin/basvurular");
 }
+
+// ------------------------------------------------------------------ ilan kesfi
+
+export type IlanKarari = "yeni" | "listede" | "ilgilenmiyorum";
+
+/**
+ * Kesfedilen ilan icin Tolga'nin karari. `basvuruldu` burada verilmiyor:
+ * o, basvuru gercekten yapilip senkronla `job_applications`'a dustugunde
+ * `ilan-kesif.py esle` tarafindan isaretleniyor.
+ *
+ * Bu karar hicbir seyi GONDERMEZ. "Listede" yalnizca "buna basvurmak
+ * istiyorum" demek; gonderim sohbette verilen acik onayla yapiliyor.
+ */
+export async function ilanKarari(id: string, karar: IlanKarari) {
+  const db = await sunucuIstemcisi();
+  const { error } = await db.from("job_postings").update({ decision: karar }).eq("id", id);
+  if (error) return { ok: false as const, hata: error.message };
+  revalidatePath("/admin/kesfet");
+  revalidatePath("/admin");
+  return { ok: true as const };
+}

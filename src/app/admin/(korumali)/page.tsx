@@ -24,6 +24,12 @@ const IKON = {
       <path d="M14 3v5h5M9 13h6M9 17h4" />
     </>
   ),
+  kesif: (
+    <>
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-3.5-3.5M11 8v6M8 11h6" />
+    </>
+  ),
   basvuru: (
     <>
       <rect x="3" y="7" width="18" height="13" rx="2.5" />
@@ -93,11 +99,13 @@ export default async function Panel() {
    * o sayaclar farkli seyleri saydigi icin (taslak kayitlari / yayimlar)
    * rozet kalici olarak yaniyordu.
    */
-  const [{ data: dokumanlar }, { count: fotoSayisi }, { count: basvuruSayisi }] = await Promise.all([
-    db.from("content_status").select("slug, published_at, draft_updated_at, bekleyen_var"),
-    db.from("gallery_photos").select("id", { count: "exact", head: true }).eq("is_published", true),
-    db.from("job_applications").select("id", { count: "exact", head: true }).eq("ignored", false),
-  ]);
+  const [{ data: dokumanlar }, { count: fotoSayisi }, { count: basvuruSayisi }, { count: ilanSayisi }] =
+    await Promise.all([
+      db.from("content_status").select("slug, published_at, draft_updated_at, bekleyen_var"),
+      db.from("gallery_photos").select("id", { count: "exact", head: true }).eq("is_published", true),
+      db.from("job_applications").select("id", { count: "exact", head: true }).eq("ignored", false),
+      db.from("job_postings").select("id", { count: "exact", head: true }).eq("decision", "yeni"),
+    ]);
 
   const bekleyenler = (dokumanlar ?? []).filter((d) => d.bekleyen_var);
 
@@ -204,7 +212,7 @@ export default async function Panel() {
       </div>
 
       <BolumBasligi>Araçlar</BolumBasligi>
-      <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <AracKarti
           href="/admin/galeri"
           ikon="galeri"
@@ -218,6 +226,13 @@ export default async function Panel() {
           baslik="Dosyalar"
           deger="CV"
           aciklama="PDF sürümlerini değiştir, eski sürüme dön"
+        />
+        <AracKarti
+          href="/admin/kesfet"
+          ikon="kesif"
+          baslik="Keşfet"
+          deger={`${ilanSayisi ?? 0} yeni`}
+          aciklama="Sana uygun, henüz başvurmadığın ilanlar"
         />
         <AracKarti
           href="/admin/basvurular"
