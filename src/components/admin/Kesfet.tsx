@@ -147,6 +147,14 @@ export default function Kesfet({ ilanlar }: { ilanlar: Ilan[] }) {
             <b className="text-ink-soft">Hiçbir başvuru senin sohbette verdiğin onay olmadan gönderilmez.</b>
           </>
         }
+        eylem={
+          <a
+            href="/admin/cevaplar"
+            className="whitespace-nowrap rounded-full border border-line px-4 py-1.5 text-[12.5px] font-semibold text-ink transition hover:border-accent hover:text-accent"
+          >
+            Cevap bankası →
+          </a>
+        }
       />
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">

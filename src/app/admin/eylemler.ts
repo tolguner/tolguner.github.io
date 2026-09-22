@@ -400,3 +400,34 @@ export async function ilanKarari(id: string, karar: IlanKarari) {
   revalidatePath("/admin");
   return { ok: true as const };
 }
+
+// --------------------------------------------------------------- cevap bankasi
+
+/**
+ * Cevabi kaydeder. Tolga'nin kendi yazdigi cevap onayli sayilir: kaydetmek,
+ * "bu dogru" demek. Bos kaydedilen cevap onaysiz olur ve basvuruda kullanilmaz.
+ */
+export async function cevapKaydet(key: string, answer: string, answerEn: string) {
+  const db = await sunucuIstemcisi();
+  const tr = answer.trim() || null;
+  const { error } = await db
+    .from("application_answers")
+    .update({ answer: tr, answer_en: answerEn.trim() || null, confirmed: tr !== null })
+    .eq("key", key);
+  if (error) return { ok: false as const, hata: error.message };
+  revalidatePath("/admin/cevaplar");
+  return { ok: true as const };
+}
+
+/** CV'den doldurulmus oneriyi degistirmeden onaylar. Bos cevap onaylanamaz. */
+export async function cevapOnayla(key: string) {
+  const db = await sunucuIstemcisi();
+  const { error } = await db
+    .from("application_answers")
+    .update({ confirmed: true })
+    .eq("key", key)
+    .not("answer", "is", null);
+  if (error) return { ok: false as const, hata: error.message };
+  revalidatePath("/admin/cevaplar");
+  return { ok: true as const };
+}
