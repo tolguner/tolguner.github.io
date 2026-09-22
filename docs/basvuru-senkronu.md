@@ -104,3 +104,22 @@ Supabase MCP'nin `list_projects` çıktısı bu projeyi **göstermiyor**, ama pr
 (`ecspngpnvotpmvyotnsw`) doğrudan verilince `execute_sql` / `apply_migration` çalışıyor.
 Yazma için `scripts/basvuru-senkron.py` yeterli; o `.env.local` içindeki
 `SUPABASE_SECRET_KEY` ile REST üzerinden gidiyor (anahtar Vercel'e konmaz).
+
+## E-posta kaynakları
+
+22.09.2026'da iki kutu da ölçüldü; dağılım tesadüfi değil, hesaplar farklı adreslerle açılmış:
+
+| Kutu | Bağlayıcı | Ne geliyor |
+| --- | --- | --- |
+| `tolgaolguner1@gmail.com` | mailbox MCP | LinkedIn başvuru onayları |
+| `tolgaolguner@gmail.com` | Gmail bağlayıcısı | Youthall başvuru onayları |
+
+- **Kariyer.net başvuru onayı e-postası göndermiyor.** 30 e-postanın tamamı pazarlama,
+  giriş bildirimi veya "özgeçmişin görüntülendi" duyurusu. O platform için tek kaynak
+  tarayıcı senkronu.
+- **mailbox MCP ücretsiz planda 24 saatte 5 çağrı** ile sınırlı. Senkronda orada tek arama
+  yapılır (`from: linkedin`, son 3 gün) ve `read_email` çağrılmaz: arama sonucundaki
+  `preview` alanı şirket, pozisyon, konum ve ilan bağlantısını zaten taşıyor.
+- LinkedIn yalnızca "Kolay Başvuru" ilanlarında onay e-postası atıyor; şirketin kendi
+  sitesine yönlendiren başvurular için e-posta gelmiyor. Yani e-posta listesi tarayıcı
+  listesinin **alt kümesi** — tarayıcı senkronu yine de şart.
