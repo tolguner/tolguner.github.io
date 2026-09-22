@@ -48,7 +48,12 @@ https://www.linkedin.com/jobs/search/?keywords=<SORGU>&location=Istanbul%2C%20T%
 | yazilim | `(software OR yazılım OR developer OR backend OR "full stack" OR QA)` |
 | erp | `(ERP OR SAP OR "business analyst" OR "iş analisti" OR süreç)` |
 
-Liste tembel yükleniyor; sonuç kabını kaydırıp kartları oku (sayfa ~25 ilan):
+**Sorgular gevşek eşleşiyor.** 22.09.2026 ilk turunda "veri" sorgusunun 25 sonucunun çoğu
+pazarlama ve satıştı; `AND (intern OR stajyer OR junior)` eklenen yazılım sorgusu çok daha
+isabetliydi. Ön eleme bu gürültüyü atıyor, ama sorguya bu eki koymak sayfa yükünü azaltır.
+
+Liste tembel yükleniyor; sonuç kabını kaydırıp kartları oku (sayfa ~25 ilan). Sayfa
+değişince `window` sıfırlanıyor, çıkarıcıyı her sayfada yeniden tanımla:
 
 ```js
 window.__li = () => {
@@ -57,9 +62,11 @@ window.__li = () => {
     const id = k.getAttribute("data-job-id");
     if (!id || gorulen.has(id)) continue;
     gorulen.add(id);
-    const s = (k.innerText || "").split("\n").map(x => x.trim()).filter(Boolean);
+    const s = (k.innerText || "").split("\n").map(x => x.trim()).filter(Boolean)
+      .filter(x => !/ logosu$|^Gizli$/.test(x));   // gizli firmalarda ilk satır "Gizli logosu"
     if (!s.length) continue;
-    const i = s[1] === s[0] ? 2 : 1;               // başlık bazen iki kez basılıyor
+    // Başlık ikinci kez basılıyor; doğrulanmış ilanlarda "... with verification" ekiyle.
+    const i = s[1] && s[1].startsWith(s[0]) ? 2 : 1;
     const konum = s[i + 1] || "";
     const mod = (konum.match(/\((İş yerinde|Hibrit|Uzaktan)\)/) || [])[1] || null;
     out.push({ id, pozisyon: s[0], sirket: s[i], konum: konum.replace(/\s*\([^)]*\)\s*$/, ""),
@@ -100,6 +107,7 @@ https://www.youthall.com/tr/is-ilanlari/tam-zamanli/
 (`tchibo/e-ticaret-stajyeri_124`) — `_n` eki firma bazında tekrar ediyor. Kart metni:
 `Pozisyon | kısa tanıtım | tür | son başvuru (GG.AA.YYYY) | şehir`. Son başvuru tarihini
 `deadline` alanına yaz. `?page=2` boş döndü (22.09.2026); ilk sayfa yetiyor.
+Tam zamanlı sayfası 22.09.2026'da yalnızca MYO / meslek lisesi ilanları içeriyordu.
 
 ### İlan uyarısı e-postaları
 
@@ -131,6 +139,18 @@ Spring Boot, REST API, JWT, Kafka · React, Next.js, Tailwind CSS · pandas, Jup
 PostgreSQL, MySQL, MSSQL · Docker, Git/GitHub, Maven. Değişmiş olabilir; şüphede
 `content_documents` → `cv` → `skills`'i oku. **Listede olmayan bir beceriyi Tolga'da varmış
 gibi sayma** (ör. Power BI, SAP, Tableau) — CV bilinçli olarak abartısız tutuluyor.
+
+İlk turdan iki düzeltme:
+
+- **Konum şartı karşılanmıyorsa puan en fazla 45.** Türk Tuborg ilanı Kariyer.net'te
+  "İstanbul" görünüyordu ama metinde İzmir'de ikamet şartı vardı; tablo tek başına ona 66
+  veriyordu. Platformun konum alanına güvenme, metindeki ikamet / çalışma yeri şartını oku.
+- **Kalıp / toplu ilan şüphesi → −20.** Software Persona, Sca Social ve Arch of Sigma
+  kelimesi kelimesine aynı metni kullanıyordu ("Balkan veya Avrupa'da kariyer hedeflemek"
+  dahil). Aynı metni birden fazla firmada görürsen gerekçeye yaz.
+
+Aynı ilan birden fazla platformda çıkarsa (Toyota programı hem LinkedIn'de hem Youthall'da)
+tek kayıt tut; son başvuru tarihini hangi platform veriyorsa oradan al.
 
 `score_reasons` 2–3 madde, somut ve dürüst:
 "İlan SQL ve Python istiyor, ikisi de CV'de" · "Uzun dönem staj, haftada 3 gün" ·

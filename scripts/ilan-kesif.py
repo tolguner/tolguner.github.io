@@ -95,6 +95,12 @@ def yaz(ilanlar, kuru):
         tazelenen += 1
 
     if yeni and not kuru:
+        # PostgREST toplu eklemede butun nesnelerin ayni anahtarlari tasimasini istiyor.
+        anahtarlar = set().union(*(y.keys() for y in yeni))
+        yeni = [{a: y.get(a) for a in anahtarlar} for y in yeni]
+        for y in yeni:
+            y["score_reasons"] = y["score_reasons"] or []
+            y["areas"] = y["areas"] or []
         postings.istek("POST", "", yeni, prefer="return=minimal")
     print("yeni: %d  tazelenen: %d  atlanan: %d%s" % (len(yeni), tazelenen, atlanan, "  (KURU)" if kuru else ""))
 

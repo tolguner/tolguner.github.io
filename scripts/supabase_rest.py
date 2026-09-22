@@ -8,6 +8,7 @@ import io
 import json
 import os
 import sys
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -42,9 +43,13 @@ class Tablo:
             basliklar["Prefer"] = prefer
         veri = json.dumps(govde).encode("utf-8") if govde is not None else None
         r = urllib.request.Request(self.taban + sorgu, data=veri, method=yontem, headers=basliklar)
-        with urllib.request.urlopen(r, timeout=60) as yanit:
-            icerik = yanit.read().decode("utf-8")
-            return json.loads(icerik) if icerik else None
+        try:
+            with urllib.request.urlopen(r, timeout=60) as yanit:
+                icerik = yanit.read().decode("utf-8")
+                return json.loads(icerik) if icerik else None
+        except urllib.error.HTTPError as h:
+            # PostgREST hatanin nedenini govdede veriyor; onsuz "400 Bad Request" hicbir sey soylemiyor.
+            raise RuntimeError("%s %s: %s" % (yontem, h.code, h.read().decode("utf-8", "replace")[:400])) from None
 
 
 def in_listesi(degerler):
