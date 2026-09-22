@@ -174,12 +174,47 @@ Betik başvurulmuş ilanı yazmaz, Tolga'nın karar verdiği ilana (`listede`,
 `ilgilenmiyorum`, `basvuruldu`) dokunmaz; `ilgilenmiyorum` bir daha öne çıkmaz.
 Alan listesi dışındaki `areas` değerlerini reddeder.
 
+## Ön yazı
+
+Başvuru listesindeki (`decision = 'listede'`) ilanlar için taslak, sohbette "ön yazıları
+hazırla" denince yazılır; zamanlanmış görev yazmaz.
+
+```bash
+python scripts/ilan-kesif.py onyazi onyazilar.json   # [{platform, external_id, lang, metin}]
+```
+
+Taslak onaysız kaydedilir; Tolga Keşfet › Başvuru listem'de okur, düzenler, onaylar.
+Betik **onaylı** ön yazının üzerine yazmaz (`--uzerine-yaz` verilmedikçe).
+
+Yazım kuralları:
+
+- **Kaynak yalnızca:** veritabanındaki CV (`content_documents` › `cv` › `projects`,
+  `experience`, `research`, `communities`) + cevap bankasındaki **onaylı** cevaplar + ilanın
+  kendi metni. Önce ilanı oku; okumadan yazma.
+- **İlanın istediği ama CV'de olmayan şeyi yazma** (Excel pivot, HubSpot, "otomotiv
+  tutkusu", "FPS oyuncusuyum", ileri İngilizce). Duygu ve ilgi iddialarını en aza indir;
+  kalanları Tolga'ya ayrıca göster, onları o doğrular.
+- **Eksikliği savunma da yapma:** B1 İngilizce ya da bilinmeyen teknoloji için özür
+  cümlesi kurma. Tek istisna: programın özü o teknolojiyi öğretmekse (Commencis .NET)
+  "henüz kullanmadım, bu yüzden istiyorum" dürüst ve güçlü bir cümle.
+- **Dil ilanın dili:** İngilizce ilana İngilizce, Türkçe ilana Türkçe.
+- **120–190 kelime,** üç paragraf: (1) hangi pozisyon + müsaitlik (son sınıf, dersler
+  bitti, zorunlu staj, hemen başlar, haftada 5 gün, 6 ay+ — ilanın istediği gün/süreyi
+  karşıladığını açıkça söyle), (2) ilanın gereksinimine denk gelen 1–2 somut kanıt,
+  (3) tek cümlelik, ilana özgü kapanış. Selamlama + "Saygılarımla / Kind regards,
+  Tolga Olguner"; iletişim bilgisi yazma (form zaten istiyor).
+- İlan bir **eğitim programıysa** (staj değilse) mektup buna göre yazılır ve Tolga'ya
+  zorunlu stajın yerine geçmediği hatırlatılır.
+- **Çelişki varsa yazma, sor:** ilanın şartı cevap bankasıyla çelişiyorsa (Türk Tuborg:
+  İzmir'de ikamet ↔ taşınma: hayır) taslak yazılmaz.
+
 ## Başvuru (Faz 3 — etkileşimli oturum, zamanlanmış görev DEĞİL)
 
 Tolga sohbette "listemdeki ilanlara başvuralım" dediğinde:
 
 1. `decision = 'listede'` ilanları ona göster.
-2. Her ilan için Chrome'da platformun **kendi** formunu aç. Hesap açtıran firma sistemleri
+2. Yalnızca **onaylı ön yazısı olan** ilanlara geç (ön yazı alanı yoksa da onaylı olmalı —
+   Tolga'nın ilanı gözden geçirdiğinin işareti). Her ilan için Chrome'da platformun **kendi** formunu aç. Hesap açtıran firma sistemleri
    (Workday, SuccessFactors...) için form doldurulmaz: hesap açmak ve şifre girmek yasak.
    Onlarda ön yazı + cevapları hazırla, gönderimi Tolga yapar.
 3. Formu **cevap bankasından** doldur (`application_answers`, panelde `/admin/cevaplar`):

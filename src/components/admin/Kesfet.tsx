@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { SayfaBasligi, YUZEY_SAKIN } from "@/components/admin/duzen";
-import { ilanKarari, type IlanKarari } from "@/app/admin/eylemler";
+import { ilanKarari, onYaziKaydet, onYaziOnayla, type IlanKarari } from "@/app/admin/eylemler";
 
 export type Ilan = {
   id: string;
@@ -23,6 +23,9 @@ export type Ilan = {
   areas: string[];
   decision: "yeni" | "listede" | "ilgilenmiyorum" | "basvuruldu";
   found_at: string;
+  cover_letter: string | null;
+  cover_letter_lang: "tr" | "en" | null;
+  cover_letter_confirmed: boolean;
 };
 
 const PLATFORM: Record<Ilan["platform"], string> = {
@@ -87,6 +90,100 @@ function Rozet({ children, vurgu }: { children: React.ReactNode; vurgu?: "accent
         ? "border-red-500/40 bg-red-500/10 text-red-600 dark:text-red-400"
         : "border-line text-muted";
   return <span className={`rounded-full border px-2 py-0.5 text-[11px] font-semibold ${renk}`}>{children}</span>;
+}
+
+/**
+ * On yazi. Taslak Claude'dan gelir (onaysiz); Tolga okur, duzenler, onaylar.
+ * Basvuruda yalnizca onayli metin kullanilir. Kartlar uzamasin diye kapali baslar.
+ */
+function OnYazi({ ilan }: { ilan: Ilan }) {
+  const router = useRouter();
+  const [acik, setAcik] = useState(false);
+  const [metin, setMetin] = useState(ilan.cover_letter ?? "");
+  const [mesgul, setMesgul] = useState(false);
+  const [hata, setHata] = useState<string | null>(null);
+
+  const kirli = metin !== (ilan.cover_letter ?? "");
+  const kelime = metin.trim() ? metin.trim().split(/\s+/).length : 0;
+
+  async function calistir(is: () => Promise<{ ok: true } | { ok: false; hata: string }>) {
+    setHata(null);
+    setMesgul(true);
+    const s = await is();
+    setMesgul(false);
+    if (!s.ok) return setHata(s.hata);
+    router.refresh();
+  }
+
+  if (!ilan.cover_letter) {
+    return (
+      <p className="mt-3 rounded-xl border border-dashed border-line px-3 py-2 text-[12px] text-muted">
+        Ön yazı taslağı yok. Sohbette <b className="text-ink-soft">&quot;ön yazıları hazırla&quot;</b> de.
+      </p>
+    );
+  }
+
+  return (
+    <div className="mt-3 rounded-xl border border-line bg-paper">
+      <button
+        type="button"
+        onClick={() => setAcik((a) => !a)}
+        className="flex w-full items-center justify-between gap-3 px-3 py-2 text-left"
+      >
+        <span className="flex items-center gap-2 text-[12.5px] font-semibold text-ink">
+          Ön yazı
+          <span className="rounded-full border border-line px-1.5 py-px text-[10px] uppercase text-muted">
+            {ilan.cover_letter_lang ?? "?"}
+          </span>
+          {ilan.cover_letter_confirmed ? (
+            <span className="text-[11.5px] font-semibold text-accent">✓ Onaylı</span>
+          ) : (
+            <span className="text-[11.5px] font-semibold text-amber-700 dark:text-amber-300">Taslak — onayını bekliyor</span>
+          )}
+        </span>
+        <span aria-hidden className={`text-[10px] text-muted transition ${acik ? "rotate-180" : ""}`}>▼</span>
+      </button>
+
+      {acik && (
+        <div className="border-t border-line px-3 pb-3 pt-2">
+          <textarea
+            value={metin}
+            onChange={(e) => setMetin(e.target.value)}
+            rows={10}
+            className="w-full resize-y rounded-lg border border-line bg-paper-2 px-3 py-2 text-[13px] leading-relaxed text-ink outline-none transition focus:border-accent"
+          />
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            {kirli ? (
+              <button
+                type="button"
+                disabled={mesgul}
+                onClick={() => void calistir(() => onYaziKaydet(ilan.id, metin))}
+                className="rounded-full bg-accent px-3.5 py-1 text-[12px] font-semibold text-white transition hover:opacity-90 disabled:opacity-40"
+              >
+                Kaydet ve onayla
+              </button>
+            ) : !ilan.cover_letter_confirmed ? (
+              <button
+                type="button"
+                disabled={mesgul}
+                onClick={() => void calistir(() => onYaziOnayla(ilan.id))}
+                className="rounded-full border border-accent/60 px-3.5 py-1 text-[12px] font-semibold text-accent transition hover:bg-accent hover:text-white disabled:opacity-40"
+              >
+                Olduğu gibi onayla
+              </button>
+            ) : null}
+            {kirli && (
+              <button type="button" onClick={() => setMetin(ilan.cover_letter ?? "")} className="text-[12px] text-muted hover:text-ink">
+                değişikliği geri al
+              </button>
+            )}
+            <span className="ml-auto text-[11.5px] text-muted">{kelime} kelime</span>
+            {hata && <span className="w-full text-[12px] text-red-600 dark:text-red-400">{hata}</span>}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default function Kesfet({ ilanlar }: { ilanlar: Ilan[] }) {
@@ -272,6 +369,11 @@ export default function Kesfet({ ilanlar }: { ilanlar: Ilan[] }) {
 
                   {i.summary && (
                     <p className="mt-2 line-clamp-2 text-[12px] leading-relaxed text-muted">{i.summary}</p>
+                  )}
+
+                  {sekme === "listede" && (
+                    // key: kayittan sonra sunucudan gelen metin yerel taslagi sifirlasin.
+                    <OnYazi key={`${i.cover_letter ?? ""}:${i.cover_letter_confirmed}`} ilan={i} />
                   )}
                 </div>
 

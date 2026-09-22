@@ -9,7 +9,7 @@ export default async function KesfetSayfasi() {
   const { data, error } = await db
     .from("job_postings")
     .select(
-      "id, platform, company, position, location, work_mode, job_url, kind, easy_apply, deadline, summary, score, score_reasons, areas, decision, found_at",
+      "id, platform, company, position, location, work_mode, job_url, kind, easy_apply, deadline, summary, score, score_reasons, areas, decision, found_at, cover_letter, cover_letter_lang, cover_letter_confirmed",
     )
     // Basvurulmus ilanlar Basvurular sayfasinda; burada yalnizca karar asamasindakiler.
     .neq("decision", "basvuruldu")

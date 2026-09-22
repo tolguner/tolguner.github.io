@@ -4,6 +4,7 @@ Kullanim:
     python scripts/ilan-kesif.py bilinen <platform>
     python scripts/ilan-kesif.py yaz <ilanlar.json> [--kuru]
     python scripts/ilan-kesif.py esle
+    python scripts/ilan-kesif.py onyazi <onyazilar.json> [--uzerine-yaz]
 
 `bilinen`  Platformda zaten gorulmus ilan kimliklerini basar: hem kesif tablosundakiler
            hem basvurulmuslar. Ilan ayrintisini acmadan once bunlari ele; ayni ilani
@@ -11,6 +12,9 @@ Kullanim:
 `yaz`      Aday ilanlari yazar (asagidaki kurallarla).
 `esle`     Basvuru yapilmis ilanlari kesif listesinde `basvuruldu` yapar. Basvuru
            senkronundan SONRA calistir.
+`onyazi`   On yazi TASLAGI yazar (onaysiz). Girdi:
+           [{"platform": "...", "external_id": "...", "lang": "tr|en", "metin": "..."}]
+           Tolga'nin onayladigi on yaziya dokunmaz; `--uzerine-yaz` verilmedikce.
 
 ilanlar.json - nesne listesi:
     {"platform": "linkedin", "external_id": "4467781261", "company": "...", "position": "...",
@@ -121,6 +125,39 @@ def esle():
     print("eslenen: %d" % esleyen)
 
 
+def onyazi(girdiler, uzerine_yaz):
+    postings = Tablo("job_postings")
+    from datetime import datetime, timezone
+
+    simdi = datetime.now(timezone.utc).isoformat()
+    for g in girdiler:
+        if g.get("lang") not in ("tr", "en") or not (g.get("metin") or "").strip():
+            print("ATLANDI (lang ya da metin eksik): %s" % g.get("external_id"))
+            continue
+        bulunan = postings.istek(
+            "GET",
+            "?select=id,company,decision,cover_letter_confirmed&platform=eq.%s&external_id=eq.%s"
+            % (g["platform"], in_listesi([g["external_id"]]).strip('"')),
+        )
+        if not bulunan:
+            print("ATLANDI (ilan yok): %s" % g["external_id"])
+            continue
+        s = bulunan[0]
+        if s["decision"] not in ("yeni", "listede"):
+            print("ATLANDI (karar: %s): %s" % (s["decision"], s["company"]))
+            continue
+        if s["cover_letter_confirmed"] and not uzerine_yaz:
+            print("KORUNDU  onayli on yazi var: %s" % s["company"])
+            continue
+        postings.istek("PATCH", "?id=eq.%s" % s["id"], {
+            "cover_letter": g["metin"].strip(),
+            "cover_letter_lang": g["lang"],
+            "cover_letter_confirmed": False,
+            "cover_letter_updated_at": simdi,
+        })
+        print("TASLAK   %s  (%s, %d kelime)" % (s["company"], g["lang"], len(g["metin"].split())))
+
+
 def main():
     utf8_cikti()
     if len(sys.argv) < 2:
@@ -132,6 +169,8 @@ def main():
         yaz(json.load(io.open(sys.argv[2], encoding="utf-8")), "--kuru" in sys.argv)
     elif komut == "esle":
         esle()
+    elif komut == "onyazi" and len(sys.argv) >= 3:
+        onyazi(json.load(io.open(sys.argv[2], encoding="utf-8")), "--uzerine-yaz" in sys.argv)
     else:
         sys.exit(__doc__)
 

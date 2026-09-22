@@ -431,3 +431,35 @@ export async function cevapOnayla(key: string) {
   revalidatePath("/admin/cevaplar");
   return { ok: true as const };
 }
+
+// ------------------------------------------------------------------ on yazi
+
+/** Tolga'nin duzenledigi on yazi. Kaydetmek onaylamak demek; bos metin onaysiz. */
+export async function onYaziKaydet(id: string, metin: string) {
+  const db = await sunucuIstemcisi();
+  const temiz = metin.trim() || null;
+  const { error } = await db
+    .from("job_postings")
+    .update({
+      cover_letter: temiz,
+      cover_letter_confirmed: temiz !== null,
+      cover_letter_updated_at: new Date().toISOString(),
+    })
+    .eq("id", id);
+  if (error) return { ok: false as const, hata: error.message };
+  revalidatePath("/admin/kesfet");
+  return { ok: true as const };
+}
+
+/** Taslagi degistirmeden onaylar. */
+export async function onYaziOnayla(id: string) {
+  const db = await sunucuIstemcisi();
+  const { error } = await db
+    .from("job_postings")
+    .update({ cover_letter_confirmed: true })
+    .eq("id", id)
+    .not("cover_letter", "is", null);
+  if (error) return { ok: false as const, hata: error.message };
+  revalidatePath("/admin/kesfet");
+  return { ok: true as const };
+}
