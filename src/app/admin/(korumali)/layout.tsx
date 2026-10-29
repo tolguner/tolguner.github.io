@@ -22,6 +22,7 @@ const BAGLANTILAR = [
   { href: "/admin/dosyalar", etiket: "Dosyalar" },
   { href: "/admin/kesfet", etiket: "Keşfet" },
   { href: "/admin/basvurular", etiket: "Başvurular" },
+  { href: "/admin/is-portali", etiket: "İş Portalı" },
 ];
 
 /**

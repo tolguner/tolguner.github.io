@@ -463,3 +463,63 @@ export async function onYaziOnayla(id: string) {
   revalidatePath("/admin/kesfet");
   return { ok: true as const };
 }
+
+// ---------------------------------------------------------------- is portali
+
+export type PortalKategori = "genel" | "sistem" | "surec" | "ag" | "sozluk" | "soru";
+const PORTAL_KATEGORILER: PortalKategori[] = ["genel", "sistem", "surec", "ag", "sozluk", "soru"];
+
+export type PortalSayfaGirdi = {
+  category: PortalKategori;
+  title: string;
+  summary: string | null;
+  body_md: string;
+  sort: number;
+  verified: boolean;
+};
+
+function portalGirdisiHatasi(g: PortalSayfaGirdi) {
+  if (!PORTAL_KATEGORILER.includes(g.category)) return "Bilinmeyen kategori.";
+  if (!g.title.trim()) return "Başlık boş olamaz.";
+  if (!Number.isInteger(g.sort) || g.sort < -32768 || g.sort > 32767) return "Sıra bir tam sayı olmalı.";
+  return null;
+}
+
+function portaliTazele() {
+  revalidatePath("/admin/is-portali");
+}
+
+/** Yeni sayfa. Slug sayfanin kalici adresi; sonradan degistirilmez. */
+export async function portalSayfaEkle(slug: string, g: PortalSayfaGirdi) {
+  if (!/^[a-z0-9-]+$/.test(slug)) return { ok: false as const, hata: "Slug yalnızca küçük harf, rakam ve tire içerebilir." };
+  const hata = portalGirdisiHatasi(g);
+  if (hata) return { ok: false as const, hata };
+  const db = await sunucuIstemcisi();
+  const { error } = await db.from("work_portal_pages").insert({ slug, ...g, title: g.title.trim() });
+  if (error) {
+    return { ok: false as const, hata: error.code === "23505" ? "Bu slug ile bir sayfa zaten var." : error.message };
+  }
+  portaliTazele();
+  return { ok: true as const };
+}
+
+export async function portalSayfaGuncelle(slug: string, g: PortalSayfaGirdi) {
+  const hata = portalGirdisiHatasi(g);
+  if (hata) return { ok: false as const, hata };
+  const db = await sunucuIstemcisi();
+  const { error } = await db
+    .from("work_portal_pages")
+    .update({ ...g, title: g.title.trim() })
+    .eq("slug", slug);
+  if (error) return { ok: false as const, hata: error.message };
+  portaliTazele();
+  return { ok: true as const };
+}
+
+export async function portalSayfaSil(slug: string) {
+  const db = await sunucuIstemcisi();
+  const { error } = await db.from("work_portal_pages").delete().eq("slug", slug);
+  if (error) return { ok: false as const, hata: error.message };
+  portaliTazele();
+  return { ok: true as const };
+}
